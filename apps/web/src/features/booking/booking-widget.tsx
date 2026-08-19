@@ -55,7 +55,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
       guestName || "Calon Tamu"
     }%0A- No. WhatsApp: ${
       guestPhone || "-"
-    }%0A- Check-In: ${checkInDate} (Fleksibel 24 Jam)%0A- Durasi: ${totalNights} Malam%0A- Total Biaya: ${formatRupiah(
+    }%0A- Check-In: ${checkInDate} (Fleksibel 07:00 - 21:00 WIT)%0A- Durasi: ${totalNights} Malam%0A- Total Biaya: ${formatRupiah(
       totalAmount,
     )}%0A- DP 50% (Transfer): ${formatRupiah(
       dpAmount,

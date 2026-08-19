@@ -109,8 +109,8 @@ export default function HomePage() {
       a: "Sangat dekat, hanya berjarak 750 meter dari terminal keberangkatan/kedatangan bandara. Perjalanan hanya butuh waktu 2–3 menit dengan ojek atau taksi.",
     },
     {
-      q: "Apakah jam check-in fleksibel untuk penumpang pesawat subuh / pagi?",
-      a: "Ya! Kami melayani check-in fleksibel 24 jam. Jika unit kamar sudah siap (Ready), Anda bisa langsung beristirahat tanpa harus menunggu jam 14:00 siang.",
+      q: "Apakah jam check-in fleksibel untuk penumpang pesawat pagi / siang?",
+      a: "Ya! Kami beroperasi pukul 07:00 – 21:00 WIT dengan check-in fleksibel. Jika unit kamar sudah siap (Ready), Anda bisa langsung beristirahat tanpa harus menunggu jam 14:00 siang.",
     },
     {
       q: "Bagaimana cara memesan dan sistem pembayaran kamar?",
@@ -225,10 +225,10 @@ export default function HomePage() {
               <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                 <Clock className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Check-in Fleksibel 24 Jam</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Check-in Fleksibel</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Tiba pagi jam 09.00 WIT? Anda bisa langsung masuk kamar jika unit telah siap
-                (*Ready*), tanpa perlu menunggu sore hari.
+                Operasional pukul 07:00 – 21:00 WIT. Mendarat pagi jam 09.00 WIT? Anda bisa langsung
+                masuk kamar jika unit telah siap (*Ready*).
               </p>
             </Card>
 
@@ -257,8 +257,8 @@ export default function HomePage() {
               <p className="text-xs text-slate-500 font-medium mt-1">4 AC &amp; 4 Kipas</p>
             </div>
             <div>
-              <p className="text-3xl sm:text-4xl font-black text-purple-700">24 Jam</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">Layanan Check-in</p>
+              <p className="text-3xl sm:text-4xl font-black text-purple-700">07–21</p>
+              <p className="text-xs text-slate-500 font-medium mt-1">Jam Operasional (WIT)</p>
             </div>
             <div>
               <p className="text-3xl sm:text-4xl font-black text-purple-700">100%</p>
@@ -523,7 +523,7 @@ export default function HomePage() {
                 <div className="flex items-start gap-2.5">
                   <Phone className="w-5 h-5 text-purple-400 shrink-0 mt-0.5" />
                   <span>
-                    <strong>WhatsApp Resmi:</strong> +62 812-4216-3116 (Respon Cepat 24 Jam)
+                    <strong>WhatsApp Resmi:</strong> +62 812-4216-3116 (07:00 – 21:00 WIT)
                   </span>
                 </div>
               </div>
