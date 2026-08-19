@@ -1,6 +1,6 @@
-import express, { type Request, type Response } from "express";
-import cors from "cors";
 import { apiReference } from "@scalar/express-api-reference";
+import cors from "cors";
+import express, { type Request, type Response } from "express";
 import pino from "pino";
 import pinoHttp from "pino-http";
 
@@ -65,5 +65,5 @@ app.use(
     },
     theme: "purple",
     pageTitle: "Penginapan Annisa — API Reference",
-  })
+  }),
 );

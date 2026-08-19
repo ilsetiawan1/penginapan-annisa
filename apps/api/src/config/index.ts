@@ -1,12 +1,12 @@
+import path from "node:path";
 import dotenv from "dotenv";
-import path from "path";
 
 // Load root .env or local .env
 dotenv.config({ path: path.resolve(process.cwd(), "../../.env") });
 dotenv.config();
 
 export const config = {
-  port: process.env.PORT ? parseInt(process.env.PORT, 10) : 4000,
+  port: process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4000,
   nodeEnv: process.env.NODE_ENV || "development",
   jwt: {
     secret: process.env.JWT_SECRET || "annisa_jwt_default_secret_key_2026",

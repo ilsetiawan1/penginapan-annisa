@@ -1,5 +1,5 @@
+import { Bed, Clock, MapPin, Phone, ShieldCheck, Sparkles, Utensils, Wifi } from "lucide-react";
 import Link from "next/link";
-import { Bed, MapPin, Phone, ShieldCheck, Sparkles, Utensils, Wifi, Clock } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -19,7 +19,9 @@ export default function HomePage() {
             </div>
             <div>
               <h1 className="font-bold text-lg leading-none text-slate-900">Penginapan Annisa</h1>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">Transit Homestay Pattimura</p>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
+                Transit Homestay Pattimura
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -42,7 +44,8 @@ export default function HomePage() {
           <span>Check-in Fleksibel 24 Jam • Bebas Ketinggalan Pesawat</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight max-w-3xl mx-auto">
-          Istirahat Nyaman & Tenang Dekat <span className="text-emerald-600">Bandara Pattimura</span> Ambon
+          Istirahat Nyaman & Tenang Dekat{" "}
+          <span className="text-emerald-600">Bandara Pattimura</span> Ambon
         </h2>
         <p className="text-slate-600 mt-4 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
           Pilihan terbaik untuk penumpang transit, penerbangan subuh/pagi, atau perjalanan dinas.

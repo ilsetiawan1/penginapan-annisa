@@ -172,7 +172,8 @@ async function main() {
       name: "Minyak Kayu Putih Asli Namlea 100ml",
       categoryId: herbalCategory.id,
       price: 65000,
-      description: "Minyak kayu putih murni penyulingan asli Pulau Buru / Namlea, hangat alami dan berkhasiat tinggi.",
+      description:
+        "Minyak kayu putih murni penyulingan asli Pulau Buru / Namlea, hangat alami dan berkhasiat tinggi.",
     },
     {
       name: "Minyak Kayu Putih Namlea Super 250ml",
@@ -184,7 +185,8 @@ async function main() {
       name: "Kue Sagu Bagea Kenari Ambon (Isi 10)",
       categoryId: snackCategory.id,
       price: 35000,
-      description: "Camilan renyah gurih khas Ambon berbahan dasar sagu pilihan dan taburan kenari melimpah.",
+      description:
+        "Camilan renyah gurih khas Ambon berbahan dasar sagu pilihan dan taburan kenari melimpah.",
     },
     {
       name: "Roti Kenari Khas Maluku (1 Kotak)",
@@ -202,7 +204,8 @@ async function main() {
       name: "Kopi Rarobang Rempah Ambon 200g",
       categoryId: drinkCategory.id,
       price: 40000,
-      description: "Kopi khas Ambon yang diracik bersama jahe merah, cengkih, kayu manis, dan taburan kenari.",
+      description:
+        "Kopi khas Ambon yang diracik bersama jahe merah, cengkih, kayu manis, dan taburan kenari.",
     },
   ];
 
@@ -237,8 +240,10 @@ async function main() {
       authorId: adminUser.id,
       title: "Tips Transit Nyaman dan Bebas Ketinggalan Pesawat di Bandara Pattimura Ambon",
       slug: "tips-transit-nyaman-di-bandara-pattimura-ambon",
-      summary: "Punya jeda penerbangan beberapa jam atau flight subuh di Bandara Pattimura? Simak tips istirahat nyaman hanya 750 meter dari terminal bandara.",
-      content: "Bandara Internasional Pattimura Ambon merupakan pintu gerbang utama ke kepulauan Maluku...",
+      summary:
+        "Punya jeda penerbangan beberapa jam atau flight subuh di Bandara Pattimura? Simak tips istirahat nyaman hanya 750 meter dari terminal bandara.",
+      content:
+        "Bandara Internasional Pattimura Ambon merupakan pintu gerbang utama ke kepulauan Maluku...",
       isPublished: true,
     },
   });
