@@ -67,11 +67,11 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
   };
 
   return (
-    <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-900/5 p-6 sm:p-8 max-w-4xl mx-auto">
-      <div className="flex items-center justify-between pb-5 border-b border-slate-100 mb-6">
+    <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-purple-100 shadow-xl shadow-purple-900/5 p-6 sm:p-8 max-w-4xl mx-auto">
+      <div className="flex items-center justify-between pb-5 border-b border-purple-50 mb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-1">
-            <Sparkles className="w-3.5 h-3.5 text-brand-500" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-bold mb-1">
+            <Sparkles className="w-3.5 h-3.5 text-purple-500" />
             <span>Kalkulator &amp; Cek Ketersediaan Cepat</span>
           </div>
           <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
@@ -80,7 +80,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
         </div>
         <div className="text-right hidden sm:block">
           <span className="text-xs text-slate-500 font-medium block">Lokasi Dekat Bandara</span>
-          <span className="text-sm font-bold text-emerald-600">750m dari Pattimura</span>
+          <span className="text-sm font-bold text-purple-700">750m dari Pattimura</span>
         </div>
       </div>
 
@@ -100,8 +100,8 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               }}
               className={`p-4 rounded-2xl border text-left transition-all flex items-start justify-between cursor-pointer ${
                 roomType === "ac"
-                  ? "border-brand-600 bg-brand-50/50 ring-2 ring-brand-500/20 shadow-xs"
-                  : "border-slate-200 hover:border-slate-300 bg-slate-50/50"
+                  ? "border-purple-600 bg-purple-50/60 ring-2 ring-purple-500/20 shadow-xs"
+                  : "border-slate-200 hover:border-purple-200 bg-white"
               }`}
             >
               <div>
@@ -111,7 +111,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
                 </span>
               </div>
               <div className="text-right">
-                <span className="font-extrabold text-brand-700 text-base block">Rp 275.000</span>
+                <span className="font-extrabold text-purple-700 text-base block">Rp 275.000</span>
                 <span className="text-[10px] text-slate-400">/ malam</span>
               </div>
             </button>
@@ -125,8 +125,8 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               }}
               className={`p-4 rounded-2xl border text-left transition-all flex items-start justify-between cursor-pointer ${
                 roomType === "kipas"
-                  ? "border-brand-600 bg-brand-50/50 ring-2 ring-brand-500/20 shadow-xs"
-                  : "border-slate-200 hover:border-slate-300 bg-slate-50/50"
+                  ? "border-purple-600 bg-purple-50/60 ring-2 ring-purple-500/20 shadow-xs"
+                  : "border-slate-200 hover:border-purple-200 bg-white"
               }`}
             >
               <div>
@@ -158,7 +158,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               value={checkInDate}
               min={today}
               onChange={(e) => setCheckInDate(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
             />
           </div>
@@ -176,7 +176,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               value={checkOutDate}
               min={checkInDate || today}
               onChange={(e) => setCheckOutDate(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
             />
           </div>
@@ -192,7 +192,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               id="guestCount"
               value={guestCount}
               onChange={(e) => setGuestCount(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="1">1 Orang Dewasa</option>
               <option value="2">2 Orang Dewasa</option>
@@ -216,7 +216,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               placeholder="Contoh: Budi Santoso"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
             />
           </div>
@@ -234,14 +234,14 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               placeholder="Contoh: 081234567890"
               value={guestPhone}
               onChange={(e) => setGuestPhone(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
             />
           </div>
         </div>
 
         {/* Breakdown Biaya & DP 50% */}
-        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-purple-50/40 rounded-2xl p-4 border border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <span className="text-xs text-slate-500 font-medium block">
               Perhitungan {totalNights} Malam ({guestCount} Orang):
@@ -250,7 +250,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               <span className="text-xl sm:text-2xl font-black text-slate-900">
                 {formatRupiah(totalAmount)}
               </span>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+              <span className="text-xs font-bold text-purple-800 bg-purple-100 border border-purple-200 px-2.5 py-0.5 rounded-full">
                 DP 50%: {formatRupiah(dpAmount)}
               </span>
             </div>
@@ -261,9 +261,9 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
 
           <Button
             type="submit"
-            variant="emerald"
+            variant="primary"
             size="lg"
-            className="w-full sm:w-auto px-8 gap-2 shadow-emerald-600/30 text-sm sm:text-base font-bold"
+            className="w-full sm:w-auto px-8 gap-2 shadow-purple-600/30 text-sm sm:text-base font-bold bg-purple-600 hover:bg-purple-700"
           >
             <Phone className="w-4 h-4" />
             <span>Kirim Booking via WA</span>

@@ -318,18 +318,18 @@ export default function DashboardPage() {
             onClick={() => setActiveFilter(activeFilter === "ready" ? "all" : "ready")}
             className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
               activeFilter === "ready"
-                ? "bg-emerald-50 border-emerald-300 ring-2 ring-emerald-500/20 shadow-xs"
-                : "bg-white border-slate-200 hover:border-slate-300"
+                ? "bg-purple-50 border-purple-300 ring-2 ring-purple-500/20 shadow-xs"
+                : "bg-white border-slate-200 hover:border-purple-200"
             }`}
           >
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">
+              <span className="text-xs font-bold text-purple-800 uppercase tracking-wider">
                 Siap Pakai
               </span>
-              <span className="w-3 h-3 rounded-full bg-emerald-500" />
+              <span className="w-3 h-3 rounded-full bg-purple-500" />
             </div>
-            <p className="text-2xl sm:text-3xl font-black text-emerald-700">{readyCount}</p>
-            <p className="text-[11px] text-slate-500 mt-0.5">Kamar Kosong & Bersih</p>
+            <p className="text-2xl sm:text-3xl font-black text-purple-700">{readyCount}</p>
+            <p className="text-[11px] text-slate-500 mt-0.5">Kamar Kosong &amp; Bersih</p>
           </button>
 
           {/* Occupied */}
@@ -419,8 +419,8 @@ export default function DashboardPage() {
               onClick={() => setActiveFilter("ready")}
               className={`px-3 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
                 activeFilter === "ready"
-                  ? "bg-emerald-600 text-white"
-                  : "bg-white text-emerald-700 hover:bg-emerald-50 border border-emerald-200"
+                  ? "bg-purple-600 text-white"
+                  : "bg-white text-purple-700 hover:bg-purple-50 border border-purple-200"
               }`}
             >
               Siap Pakai ({readyCount})
@@ -463,7 +463,7 @@ export default function DashboardPage() {
                 key={room.number}
                 className={`p-5 rounded-3xl border transition-all duration-200 flex flex-col justify-between ${
                   isReady
-                    ? "bg-white border-emerald-200/90 hover:border-emerald-400 hover:shadow-md"
+                    ? "bg-white border-purple-200 hover:border-purple-400 hover:shadow-md"
                     : isOccupied
                       ? "bg-white border-blue-200/90 hover:border-blue-400 hover:shadow-md"
                       : isDirty
@@ -481,7 +481,7 @@ export default function DashboardPage() {
                         </span>
                         <Badge
                           variant={
-                            isReady ? "emerald" : isOccupied ? "blue" : isDirty ? "amber" : "danger"
+                            isReady ? "purple" : isOccupied ? "blue" : isDirty ? "amber" : "danger"
                           }
                           className="text-[10px] py-0 px-2 font-bold uppercase"
                         >
@@ -506,10 +506,10 @@ export default function DashboardPage() {
 
                   {/* Body Content based on Status */}
                   {isReady && (
-                    <div className="py-4 my-2 rounded-2xl bg-emerald-50/50 border border-emerald-100/80 text-center">
-                      <CheckCircle2 className="w-6 h-6 text-emerald-600 mx-auto mb-1" />
-                      <p className="text-xs font-bold text-emerald-900">Kamar Kosong & Bersih</p>
-                      <p className="text-[11px] text-emerald-700">Siap menerima tamu transit</p>
+                    <div className="py-4 my-2 rounded-2xl bg-purple-50/70 border border-purple-100 text-center">
+                      <CheckCircle2 className="w-6 h-6 text-purple-600 mx-auto mb-1" />
+                      <p className="text-xs font-bold text-purple-900">Kamar Kosong &amp; Bersih</p>
+                      <p className="text-[11px] text-purple-700">Siap menerima tamu transit</p>
                     </div>
                   )}
 
@@ -553,9 +553,9 @@ export default function DashboardPage() {
                   {isReady && (
                     <Button
                       onClick={() => handleOpenWalkIn(room)}
-                      variant="emerald"
+                      variant="primary"
                       size="sm"
-                      className="w-full gap-1 font-bold text-xs rounded-xl"
+                      className="w-full gap-1 font-bold text-xs rounded-xl bg-purple-600 hover:bg-purple-700 shadow-purple-600/20"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>Check-In Tamu</span>
@@ -577,9 +577,9 @@ export default function DashboardPage() {
                         onClick={() => handleOpenReceipt(room)}
                         variant="outline"
                         size="sm"
-                        className="text-xs rounded-xl text-emerald-700 border-emerald-200 hover:bg-emerald-50 font-bold"
+                        className="text-xs rounded-xl text-purple-700 border-purple-200 hover:bg-purple-50 font-bold"
                       >
-                        <Send className="w-3 h-3 text-emerald-600" />
+                        <Send className="w-3 h-3 text-purple-600" />
                         <span>Nota WA</span>
                       </Button>
                     </div>
@@ -618,7 +618,7 @@ export default function DashboardPage() {
       <Dialog open={isWalkInOpen} onOpenChange={setIsWalkInOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold w-fit mb-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 text-xs font-bold w-fit mb-1">
               <Zap className="w-3.5 h-3.5" />
               <span>Input Tamu Kilat &lt; 1 Menit</span>
             </div>
@@ -640,7 +640,7 @@ export default function DashboardPage() {
                 id="walkInRoomSelect"
                 value={walkInRoomNumber}
                 onChange={(e) => setWalkInRoomNumber(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-brand-500"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-purple-500"
               >
                 {rooms.map((r) => (
                   <option key={r.number} value={r.number} disabled={r.status !== "ready"}>
@@ -665,7 +665,7 @@ export default function DashboardPage() {
                   placeholder="Nama Lengkap"
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
@@ -683,7 +683,7 @@ export default function DashboardPage() {
                   placeholder="0812xxxx"
                   value={guestPhone}
                   onChange={(e) => setGuestPhone(e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
@@ -701,7 +701,7 @@ export default function DashboardPage() {
                   id="walkInTotalNights"
                   value={totalNights}
                   onChange={(e) => setTotalNights(Number(e.target.value))}
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm font-medium focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm font-medium focus:ring-2 focus:ring-purple-500"
                 >
                   <option value={1}>1 Malam</option>
                   <option value={2}>2 Malam</option>
@@ -721,7 +721,7 @@ export default function DashboardPage() {
                   id="walkInPaymentMethod"
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm font-medium focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm font-medium focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="cash">Tunai (Cash)</option>
                   <option value="transfer">Transfer Bank</option>
@@ -731,13 +731,13 @@ export default function DashboardPage() {
             </div>
 
             {/* Toggle Full / DP */}
-            <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between text-xs">
+            <div className="p-3 bg-purple-50/50 rounded-2xl border border-purple-100 flex items-center justify-between text-xs">
               <span className="font-semibold text-slate-700">Langsung Bayar Lunas di Muka?</span>
               <button
                 type="button"
                 onClick={() => setIsFullPayment(!isFullPayment)}
                 className={`px-3 py-1 rounded-full font-bold transition cursor-pointer ${
-                  isFullPayment ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-700"
+                  isFullPayment ? "bg-purple-600 text-white" : "bg-slate-200 text-slate-700"
                 }`}
               >
                 {isFullPayment ? "✓ LUNAS" : "DP 50% DULU"}
@@ -755,8 +755,8 @@ export default function DashboardPage() {
               </Button>
               <Button
                 type="submit"
-                variant="emerald"
-                className="rounded-xl font-bold gap-1.5 shadow-emerald-600/20"
+                variant="primary"
+                className="rounded-xl font-bold gap-1.5 bg-purple-600 hover:bg-purple-700 shadow-purple-600/20"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Simpan &amp; Check-In</span>
@@ -770,7 +770,7 @@ export default function DashboardPage() {
       <Dialog open={isReceiptOpen} onOpenChange={setIsReceiptOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold w-fit mb-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 text-xs font-bold w-fit mb-1">
               <Send className="w-3.5 h-3.5" />
               <span>Nota Digital Resmi</span>
             </div>
@@ -783,11 +783,11 @@ export default function DashboardPage() {
           {receiptRoom && (
             <div className="space-y-4 pt-2">
               <div className="p-4 rounded-2xl bg-slate-900 text-slate-100 font-mono text-xs leading-relaxed space-y-1 overflow-x-auto select-all">
-                <p className="font-bold text-brand-300">━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+                <p className="font-bold text-purple-300">━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
                 <p className="font-bold text-center text-white">
                   🏨 BUKTI PEMBAYARAN PENGINAPAN ANNISA
                 </p>
-                <p className="font-bold text-brand-300">━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+                <p className="font-bold text-purple-300">━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
                 <p>
                   No. Kamar : #{receiptRoom.number} ({receiptRoom.typeName})
                 </p>
@@ -796,10 +796,10 @@ export default function DashboardPage() {
                 <p>Durasi : {receiptRoom.totalNights} Malam</p>
                 <p>Total Biaya : {formatRupiah(receiptRoom.totalAmount || 0)}</p>
                 <p>DP Dibayar : {formatRupiah(receiptRoom.dpPaid || 0)}</p>
-                <p className="font-bold text-emerald-400">
+                <p className="font-bold text-purple-300">
                   Sisa Tagihan: {formatRupiah(receiptRoom.remainingAmount || 0)}
                 </p>
-                <p className="font-bold text-brand-300">━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+                <p className="font-bold text-purple-300">━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
                 <p className="text-[10px] text-slate-400 text-center">
                   Jl. Bandara Pattimura (750m dari Terminal), Ambon.
                   <br />
@@ -818,8 +818,8 @@ export default function DashboardPage() {
                 </Button>
                 <Button
                   asChild
-                  variant="emerald"
-                  className="rounded-xl font-bold gap-1.5 shadow-emerald-600/20"
+                  variant="primary"
+                  className="rounded-xl font-bold gap-1.5 bg-purple-600 hover:bg-purple-700 shadow-purple-600/20"
                 >
                   <a
                     href={`https://wa.me/${

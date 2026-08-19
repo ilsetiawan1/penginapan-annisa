@@ -65,9 +65,9 @@ export function Navbar() {
 
           <Button
             asChild
-            variant="emerald"
+            variant="primary"
             size="sm"
-            className="rounded-full px-4 text-xs font-semibold shadow-emerald-600/20"
+            className="rounded-full px-4 text-xs font-semibold shadow-brand-600/25"
           >
             <a
               href="https://wa.me/6281242163116?text=Halo%20Penginapan%20Annisa,%20saya%20ingin%20tanya%20ketersediaan%20kamar%20transit"
