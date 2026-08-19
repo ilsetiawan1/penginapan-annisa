@@ -127,7 +127,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section with Dataluz Atmospheric Glow */}
-      <section className="relative pt-28 pb-20 px-4 overflow-hidden">
+      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-3 sm:px-4 overflow-hidden">
         {/* Soft Lavender Background Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-purple-300/40 via-purple-200/30 to-transparent blur-3xl -z-10 rounded-full pointer-events-none" />
         <div className="absolute top-20 right-10 w-72 h-72 bg-purple-400/20 blur-3xl -z-10 rounded-full pointer-events-none" />
@@ -135,14 +135,14 @@ export default function HomePage() {
 
         <div className="max-w-5xl mx-auto text-center">
           {/* Pill Badge (Reference Style) */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-purple-200/80 text-purple-900 text-xs sm:text-sm font-semibold mb-6 shadow-xs backdrop-blur-md">
-            <span className="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse" />
-            <MapPin className="w-3.5 h-3.5 text-purple-600" />
-            <span>750 Meter dari Bandara Internasional Pattimura Ambon</span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-purple-200/80 text-purple-900 text-[11px] sm:text-xs font-semibold mb-2.5 sm:mb-4 shadow-2xs backdrop-blur-md">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-purple-600 animate-pulse" />
+            <MapPin className="w-3 h-3 text-purple-600" />
+            <span>750m dari Bandara Internasional Pattimura Ambon</span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-6xl font-black text-slate-950 tracking-tight leading-[1.12] max-w-4xl mx-auto">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.15] max-w-4xl mx-auto">
             Penginapan Transit Nyaman &amp; Tenang Dekat{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700">
               Bandara Pattimura
@@ -150,46 +150,46 @@ export default function HomePage() {
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-5 text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Solusi istirahat ideal untuk penumpang transit penerbangan pagi, dinas, dan wisata.
-            Kamar bersih, WiFi kencang, dan <strong>bebas risiko ketinggalan pesawat</strong>.
+          <p className="mt-2 sm:mt-3 text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Solusi istirahat ideal untuk penerbangan pagi, dinas, dan wisata. Kamar bersih, WiFi
+            kencang, dan <strong>bebas risiko ketinggalan pesawat</strong>.
           </p>
 
           {/* Category Quick Filter Pills (Reference Style) */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-7">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-5">
             <Link
               href="/kamar"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-xs transition duration-200"
+              className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition duration-200"
             >
-              <Bed className="w-3.5 h-3.5" />
+              <Bed className="w-3 h-3" />
               <span>Semua Kamar (8 Unit)</span>
             </Link>
             <Link
               href="/kamar"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-xs transition duration-200"
+              className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition duration-200"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Kamar AC Superior (Rp 275rb)</span>
+              <Sparkles className="w-3 h-3" />
+              <span>Kamar AC (Rp 275rb)</span>
             </Link>
             <Link
               href="/kamar"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-xs transition duration-200"
+              className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition duration-200"
             >
-              <Wind className="w-3.5 h-3.5" />
-              <span>Kamar Kipas Standar (Rp 200rb)</span>
+              <Wind className="w-3 h-3" />
+              <span>Kamar Kipas (Rp 200rb)</span>
             </Link>
             <Link
               href="/oleh-oleh"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-xs transition duration-200"
+              className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition duration-200"
             >
-              <Gift className="w-3.5 h-3.5" />
-              <span>Oleh-oleh Khas Ambon</span>
+              <Gift className="w-3 h-3" />
+              <span>Oleh-oleh Maluku</span>
             </Link>
           </div>
         </div>
 
-        {/* Interactive Availability & Booking Calculator */}
-        <div className="mt-10">
+        {/* Interactive Availability & Booking Calculator (Integrated Directly into Hero) */}
+        <div className="mt-4 sm:mt-6">
           <BookingWidget />
         </div>
       </section>
@@ -549,7 +549,7 @@ export default function HomePage() {
             <div className="bg-slate-900 p-6 sm:p-8 rounded-3xl border border-purple-900/50">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="font-bold text-lg text-white">Rute Kilat Bandara ➔ Annisa</h3>
+                  <h3 className="font-bold text-lg text-white">Rute Kilat Bandara ke Annisa</h3>
                   <p className="text-xs text-slate-400 mt-0.5">Estimasi Waktu Tempuh: 2–3 Menit</p>
                 </div>
                 <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold">
@@ -558,15 +558,24 @@ export default function HomePage() {
               </div>
               <div className="space-y-3 text-xs text-slate-300">
                 <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                  <span>🛫 Terminal Keberangkatan / Kedatangan</span>
+                  <div className="flex items-center gap-2">
+                    <Plane className="w-4 h-4 text-purple-400" />
+                    <span>Terminal Bandara Pattimura</span>
+                  </div>
                   <span className="font-bold text-white">0 km</span>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                  <span>🚗 Jalan Utama Bandara Pattimura</span>
+                  <div className="flex items-center gap-2">
+                    <Navigation className="w-4 h-4 text-purple-400" />
+                    <span>Jalan Utama Bandara</span>
+                  </div>
                   <span className="font-bold text-slate-400">~ 400 m</span>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-purple-950 border border-purple-600/50 flex items-center justify-between text-purple-300 font-bold">
-                  <span>🏨 Penginapan Annisa</span>
+                  <div className="flex items-center gap-2">
+                    <Bed className="w-4 h-4 text-purple-300" />
+                    <span>Penginapan Annisa</span>
+                  </div>
                   <span>750 m (Tiba)</span>
                 </div>
               </div>

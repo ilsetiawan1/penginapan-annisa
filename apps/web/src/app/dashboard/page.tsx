@@ -645,7 +645,7 @@ export default function DashboardPage() {
                 {rooms.map((r) => (
                   <option key={r.number} value={r.number} disabled={r.status !== "ready"}>
                     Kamar #{r.number} — {r.typeName} ({formatRupiah(r.price)}/mlm){" "}
-                    {r.status !== "ready" ? `[Status: ${r.status.toUpperCase()}]` : "✓ SIAP"}
+                    {r.status !== "ready" ? `[${r.status.toUpperCase()}]` : "[SIAP]"}
                   </option>
                 ))}
               </select>
@@ -740,7 +740,7 @@ export default function DashboardPage() {
                   isFullPayment ? "bg-purple-600 text-white" : "bg-slate-200 text-slate-700"
                 }`}
               >
-                {isFullPayment ? "✓ LUNAS" : "DP 50% DULU"}
+                {isFullPayment ? "LUNAS" : "DP 50%"}
               </button>
             </div>
 
@@ -785,7 +785,7 @@ export default function DashboardPage() {
               <div className="p-4 rounded-2xl bg-slate-900 text-slate-100 font-mono text-xs leading-relaxed space-y-1 overflow-x-auto select-all">
                 <p className="font-bold text-purple-300">━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
                 <p className="font-bold text-center text-white">
-                  🏨 BUKTI PEMBAYARAN PENGINAPAN ANNISA
+                  BUKTI PEMBAYARAN PENGINAPAN ANNISA
                 </p>
                 <p className="font-bold text-purple-300">━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
                 <p>
