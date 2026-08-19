@@ -11,9 +11,9 @@ export function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Beranda", icon: Home },
-    { href: "/#kamar", label: "Tipe Kamar", icon: Bed },
-    { href: "/#oleh-oleh", label: "Oleh-oleh", icon: Gift },
-    { href: "/#artikel", label: "Artikel", icon: BookOpen },
+    { href: "/kamar", label: "Tipe Kamar", icon: Bed },
+    { href: "/oleh-oleh", label: "Oleh-oleh", icon: Gift },
+    { href: "/artikel", label: "Artikel", icon: BookOpen },
   ];
 
   return (
