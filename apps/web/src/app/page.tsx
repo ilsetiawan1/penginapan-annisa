@@ -431,13 +431,13 @@ export default function HomePage() {
       </section>
 
       {/* Travel Guide Articles Section */}
-      <section id="panduan" className="py-20 px-4 max-w-6xl mx-auto">
+      <section id="artikel" className="py-20 px-4 max-w-6xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <Badge variant="blue" className="mb-3">
-            Portal Wisata & Tips
+          <Badge variant="purple" className="mb-3">
+            Artikel & Informasi
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Panduan Transit & Wisata Ambon
+            Artikel Wisata & Panduan Transit Ambon
           </h2>
           <p className="text-slate-600 mt-3 text-base">
             Informasi berguna seputar bandara, kuliner lokal, dan destinasi wisata di Ambon Manise.
@@ -569,8 +569,8 @@ export default function HomePage() {
             <Link href="/#oleh-oleh" className="hover:text-white transition">
               Oleh-oleh Maluku
             </Link>
-            <Link href="/#panduan" className="hover:text-white transition">
-              Panduan Wisata
+            <Link href="/#artikel" className="hover:text-white transition">
+              Artikel
             </Link>
             <Link
               href="/dashboard"

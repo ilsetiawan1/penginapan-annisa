@@ -13,8 +13,7 @@ export function Navbar() {
     { href: "/", label: "Beranda", icon: Home },
     { href: "/#kamar", label: "Tipe Kamar", icon: Bed },
     { href: "/#oleh-oleh", label: "Oleh-oleh", icon: Gift },
-    { href: "/#panduan", label: "Panduan Wisata", icon: BookOpen },
-    { href: "/#lokasi", label: "Lokasi (750m)", icon: MapPin },
+    { href: "/#artikel", label: "Artikel", icon: BookOpen },
   ];
 
   return (
