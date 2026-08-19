@@ -68,13 +68,13 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      {/* Mobile-First Booking Capsule */}
+      {/* Clean Glassmorphic Booking Capsule */}
       <form
         onSubmit={handleSendWhatsapp}
-        className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-purple-100/90 shadow-xl shadow-purple-950/5 p-3.5 sm:p-5 transition-all"
+        className="bg-white/70 backdrop-blur-2xl rounded-2xl sm:rounded-3xl border border-white/90 shadow-2xl shadow-purple-950/10 p-3.5 sm:p-5 transition-all"
       >
-        {/* Segmented Room Selector on Top (Ultra Compact High-Contrast) */}
-        <div className="grid grid-cols-2 gap-2 p-1.5 bg-purple-50/80 rounded-xl sm:rounded-2xl mb-3 sm:mb-4 border border-purple-100">
+        {/* Segmented Room Selector on Top (Glass High-Contrast) */}
+        <div className="grid grid-cols-2 gap-2 p-1.5 bg-white/50 backdrop-blur-md rounded-xl sm:rounded-2xl mb-3 sm:mb-4 border border-white/80 shadow-2xs">
           {/* AC Superior */}
           <button
             type="button"
@@ -85,7 +85,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
             className={`p-2.5 rounded-lg sm:rounded-xl text-left transition-all relative flex flex-col justify-between cursor-pointer ${
               roomType === "ac"
                 ? "bg-purple-700 text-white shadow-md shadow-purple-950/20 ring-2 ring-purple-600"
-                : "bg-white text-slate-700 hover:bg-purple-50/70 border border-purple-100"
+                : "bg-white/80 backdrop-blur-sm text-slate-700 hover:bg-white border border-white/80 shadow-2xs"
             }`}
           >
             <div className="flex items-center justify-between w-full mb-1">
@@ -108,12 +108,16 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
             </div>
             <div>
               <span
-                className={`text-xs sm:text-sm font-black block leading-tight ${roomType === "ac" ? "text-white" : "text-slate-900"}`}
+                className={`text-xs sm:text-sm font-black block leading-tight ${
+                  roomType === "ac" ? "text-white" : "text-slate-900"
+                }`}
               >
                 AC Superior
               </span>
               <span
-                className={`text-[11px] font-bold block leading-none mt-0.5 ${roomType === "ac" ? "text-purple-200" : "text-purple-700"}`}
+                className={`text-[11px] font-bold block leading-none mt-0.5 ${
+                  roomType === "ac" ? "text-purple-200" : "text-purple-700"
+                }`}
               >
                 Rp 275.000 / mlm
               </span>
@@ -130,7 +134,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
             className={`p-2.5 rounded-lg sm:rounded-xl text-left transition-all relative flex flex-col justify-between cursor-pointer ${
               roomType === "kipas"
                 ? "bg-purple-700 text-white shadow-md shadow-purple-950/20 ring-2 ring-purple-600"
-                : "bg-white text-slate-700 hover:bg-purple-50/70 border border-purple-100"
+                : "bg-white/80 backdrop-blur-sm text-slate-700 hover:bg-white border border-white/80 shadow-2xs"
             }`}
           >
             <div className="flex items-center justify-between w-full mb-1">
@@ -153,12 +157,16 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
             </div>
             <div>
               <span
-                className={`text-xs sm:text-sm font-black block leading-tight ${roomType === "kipas" ? "text-white" : "text-slate-900"}`}
+                className={`text-xs sm:text-sm font-black block leading-tight ${
+                  roomType === "kipas" ? "text-white" : "text-slate-900"
+                }`}
               >
                 Kipas Standar
               </span>
               <span
-                className={`text-[11px] font-bold block leading-none mt-0.5 ${roomType === "kipas" ? "text-purple-200" : "text-purple-700"}`}
+                className={`text-[11px] font-bold block leading-none mt-0.5 ${
+                  roomType === "kipas" ? "text-purple-200" : "text-purple-700"
+                }`}
               >
                 Rp 200.000 / mlm
               </span>
@@ -166,10 +174,10 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
           </button>
         </div>
 
-        {/* Input Fields Row (Horizontal on Desktop, Clean Stack on Mobile) */}
+        {/* Input Fields Row (Glass Inputs) */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-3">
           {/* Check-In Date */}
-          <div className="bg-purple-50/40 hover:bg-purple-50/70 p-2.5 rounded-xl border border-purple-100 transition">
+          <div className="bg-white/60 backdrop-blur-md hover:bg-white/90 p-2.5 rounded-xl border border-white/80 shadow-2xs transition">
             <label
               htmlFor="checkInDate"
               className="text-[10px] uppercase font-bold text-slate-500 block mb-1 flex items-center gap-1"
@@ -189,7 +197,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
           </div>
 
           {/* Durasi Menginap */}
-          <div className="bg-purple-50/40 hover:bg-purple-50/70 p-2.5 rounded-xl border border-purple-100 transition">
+          <div className="bg-white/60 backdrop-blur-md hover:bg-white/90 p-2.5 rounded-xl border border-white/80 shadow-2xs transition">
             <label
               htmlFor="durasiMalam"
               className="text-[10px] uppercase font-bold text-slate-500 block mb-1 flex items-center gap-1"
@@ -211,7 +219,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
           </div>
 
           {/* Nama Tamu */}
-          <div className="bg-purple-50/40 hover:bg-purple-50/70 p-2.5 rounded-xl border border-purple-100 transition">
+          <div className="bg-white/60 backdrop-blur-md hover:bg-white/90 p-2.5 rounded-xl border border-white/80 shadow-2xs transition">
             <label
               htmlFor="guestName"
               className="text-[10px] uppercase font-bold text-slate-500 block mb-1 flex items-center gap-1"
@@ -231,7 +239,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
           </div>
 
           {/* No. WhatsApp */}
-          <div className="bg-purple-50/40 hover:bg-purple-50/70 p-2.5 rounded-xl border border-purple-100 transition">
+          <div className="bg-white/60 backdrop-blur-md hover:bg-white/90 p-2.5 rounded-xl border border-white/80 shadow-2xs transition">
             <label
               htmlFor="guestPhone"
               className="text-[10px] uppercase font-bold text-slate-500 block mb-1 flex items-center gap-1"
@@ -252,7 +260,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
         </div>
 
         {/* Bottom Bar: DP 50% Price Summary + WhatsApp CTA */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-purple-50">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-white/80">
           <div className="flex items-center justify-between sm:justify-start gap-2">
             <div>
               <span className="text-[10px] text-slate-500 font-medium block leading-none">
@@ -262,7 +270,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
                 {formatRupiah(totalAmount)}
               </span>
             </div>
-            <span className="text-[11px] font-bold text-purple-900 bg-purple-100 border border-purple-200 px-2.5 py-0.5 rounded-full">
+            <span className="text-[11px] font-bold text-purple-900 bg-white/80 backdrop-blur-md border border-white/90 px-2.5 py-0.5 rounded-full shadow-2xs">
               DP 50%: {formatRupiah(dpAmount)}
             </span>
           </div>
@@ -271,7 +279,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
             type="submit"
             variant="primary"
             size="md"
-            className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm gap-2 bg-purple-600 hover:bg-purple-700 shadow-purple-600/25"
+            className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm gap-2 bg-purple-600 hover:bg-purple-700 shadow-purple-600/30"
           >
             <Phone className="w-4 h-4" />
             <span>Pesan via WhatsApp</span>

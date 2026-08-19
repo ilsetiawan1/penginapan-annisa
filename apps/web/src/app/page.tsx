@@ -103,6 +103,23 @@ export default function HomePage() {
     },
   ];
 
+  const previewArticles = [
+    {
+      title: "Tips Transit Nyaman dan Bebas Ketinggalan Pesawat di Bandara Pattimura",
+      slug: "tips-transit-bandara-pattimura",
+      category: "Panduan Transit",
+      readTime: "3 Menit",
+      desc: "Punya jeda penerbangan beberapa jam atau flight subuh di Ambon? Simak tips istirahat nyaman hanya 750 meter dari terminal.",
+    },
+    {
+      title: "5 Destinasi Wisata Eksotis di Sekitar Ambon yang Bisa Dikunjungi Singkat",
+      slug: "wisata-singkat-ambon",
+      category: "Wisata Maluku",
+      readTime: "4 Menit",
+      desc: "Dari Pantai Liang hingga Pintu Kota, jelajahi pesona alam Ambon Manise di sela-sela jadwal transit penerbangan Anda.",
+    },
+  ];
+
   const faqs = [
     {
       q: "Berapa jarak dari Penginapan Annisa ke Bandara Internasional Pattimura?",
@@ -123,19 +140,19 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f9f7fd] text-[#1e1035] selection:bg-purple-200 selection:text-purple-900">
+    <div className="min-h-screen bg-[#f8f5fc] text-[#1e1035] selection:bg-purple-200 selection:text-purple-900 relative overflow-hidden">
+      {/* Ambient Glassmorphism Background Glow Orbs */}
+      <div className="fixed top-0 left-1/4 w-96 h-96 bg-purple-300/40 rounded-full blur-[120px] -z-10 pointer-events-none" />
+      <div className="fixed top-1/3 right-10 w-[500px] h-[500px] bg-pink-200/30 rounded-full blur-[140px] -z-10 pointer-events-none" />
+      <div className="fixed bottom-10 left-10 w-[450px] h-[450px] bg-indigo-200/35 rounded-full blur-[130px] -z-10 pointer-events-none" />
+
       <Navbar />
 
-      {/* Hero Section with Dataluz Atmospheric Glow */}
-      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-3 sm:px-4 overflow-hidden">
-        {/* Soft Lavender Background Glows */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-purple-300/40 via-purple-200/30 to-transparent blur-3xl -z-10 rounded-full pointer-events-none" />
-        <div className="absolute top-20 right-10 w-72 h-72 bg-purple-400/20 blur-3xl -z-10 rounded-full pointer-events-none" />
-        <div className="absolute top-40 left-10 w-72 h-72 bg-indigo-300/20 blur-3xl -z-10 rounded-full pointer-events-none" />
-
+      {/* Hero Section */}
+      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-3 sm:px-4">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Pill Badge (Reference Style) */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-purple-200/80 text-purple-900 text-[11px] sm:text-xs font-semibold mb-2.5 sm:mb-4 shadow-2xs backdrop-blur-md">
+          {/* Frosted Glass Pill Badge */}
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-xl border border-white/90 text-purple-950 text-[11px] sm:text-xs font-bold mb-2.5 sm:mb-4 shadow-sm">
             <span className="flex h-1.5 w-1.5 rounded-full bg-purple-600 animate-pulse" />
             <MapPin className="w-3 h-3 text-purple-600" />
             <span>750m dari Bandara Internasional Pattimura Ambon</span>
@@ -149,38 +166,38 @@ export default function HomePage() {
             </span>
           </h1>
 
-          {/* Subtitle (Hidden on mobile to save viewport space) */}
+          {/* Subtitle (Hidden on mobile for above-the-fold space) */}
           <p className="hidden sm:block mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Solusi istirahat ideal untuk penerbangan pagi, dinas, dan wisata. Kamar bersih, WiFi
             kencang, dan <strong>bebas risiko ketinggalan pesawat</strong>.
           </p>
 
-          {/* Category Quick Filter Pills (Reference Style) */}
+          {/* Category Quick Filter Pills (Frosted Glass) */}
           <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-5">
             <Link
               href="/kamar"
-              className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition duration-200"
+              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/70 backdrop-blur-md border border-white/80 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition-all duration-200"
             >
               <Bed className="w-3 h-3" />
               <span>Semua Kamar (8 Unit)</span>
             </Link>
             <Link
               href="/kamar"
-              className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition duration-200"
+              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/70 backdrop-blur-md border border-white/80 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition-all duration-200"
             >
               <Sparkles className="w-3 h-3" />
               <span>Kamar AC (Rp 275rb)</span>
             </Link>
             <Link
               href="/kamar"
-              className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition duration-200"
+              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/70 backdrop-blur-md border border-white/80 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition-all duration-200"
             >
               <Wind className="w-3 h-3" />
               <span>Kamar Kipas (Rp 200rb)</span>
             </Link>
             <Link
               href="/oleh-oleh"
-              className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white border border-purple-200 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition duration-200"
+              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/70 backdrop-blur-md border border-white/80 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition-all duration-200"
             >
               <Gift className="w-3 h-3" />
               <span>Oleh-oleh Maluku</span>
@@ -188,16 +205,16 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Interactive Availability & Booking Calculator (Integrated Directly into Hero) */}
+        {/* Integrated Clean Glass Booking Widget */}
         <div className="mt-4 sm:mt-6">
           <BookingWidget />
         </div>
       </section>
 
-      {/* Mengapa Memilih Penginapan Annisa */}
-      <section className="py-20 px-4 bg-white/70 border-y border-purple-100/80">
+      {/* Mengapa Memilih Penginapan Annisa (Glass Cards) */}
+      <section className="py-16 sm:py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
             <Badge variant="purple" className="mb-2">
               Keunggulan Utama
             </Badge>
@@ -210,8 +227,8 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-8 bg-white rounded-3xl border border-purple-100 hover:border-purple-300 hover:shadow-xl shadow-purple-900/5 transition-all group">
-              <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <Card className="p-8 bg-white/70 backdrop-blur-xl border border-white/90 hover:bg-white/90 hover:border-purple-200/80 shadow-xl shadow-purple-950/5 group">
+              <div className="w-12 h-12 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                 <Plane className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Hanya 750m ke Bandara</h3>
@@ -221,8 +238,8 @@ export default function HomePage() {
               </p>
             </Card>
 
-            <Card className="p-8 bg-white rounded-3xl border border-purple-100 hover:border-purple-300 hover:shadow-xl shadow-purple-900/5 transition-all group">
-              <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <Card className="p-8 bg-white/70 backdrop-blur-xl border border-white/90 hover:bg-white/90 hover:border-purple-200/80 shadow-xl shadow-purple-950/5 group">
+              <div className="w-12 h-12 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                 <Clock className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Check-in Fleksibel</h3>
@@ -232,8 +249,8 @@ export default function HomePage() {
               </p>
             </Card>
 
-            <Card className="p-8 bg-white rounded-3xl border border-purple-100 hover:border-purple-300 hover:shadow-xl shadow-purple-900/5 transition-all group">
-              <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <Card className="p-8 bg-white/70 backdrop-blur-xl border border-white/90 hover:bg-white/90 hover:border-purple-200/80 shadow-xl shadow-purple-950/5 group">
+              <div className="w-12 h-12 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                 <HeartHandshake className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">
@@ -246,30 +263,30 @@ export default function HomePage() {
             </Card>
           </div>
 
-          {/* Stats Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10 bg-white rounded-3xl p-6 border border-purple-100 shadow-xs text-center">
+          {/* Frosted Glass Stats Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10 bg-white/70 backdrop-blur-xl rounded-3xl p-6 border border-white/90 shadow-lg shadow-purple-950/5 text-center">
             <div>
               <p className="text-3xl sm:text-4xl font-black text-purple-700">750m</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">Jarak ke Bandara</p>
+              <p className="text-xs text-slate-500 font-semibold mt-1">Jarak ke Bandara</p>
             </div>
             <div>
               <p className="text-3xl sm:text-4xl font-black text-slate-900">8 Kamar</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">4 AC &amp; 4 Kipas</p>
+              <p className="text-xs text-slate-500 font-semibold mt-1">4 AC &amp; 4 Kipas</p>
             </div>
             <div>
               <p className="text-3xl sm:text-4xl font-black text-purple-700">07–21</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">Jam Operasional (WIT)</p>
+              <p className="text-xs text-slate-500 font-semibold mt-1">Jam Operasional (WIT)</p>
             </div>
             <div>
               <p className="text-3xl sm:text-4xl font-black text-purple-700">100%</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">Kamar Mandi Dalam</p>
+              <p className="text-xs text-slate-500 font-semibold mt-1">Kamar Mandi Dalam</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Ringkasan Pilihan Kamar (Dataluz Card Style) */}
-      <section className="py-20 px-4 max-w-6xl mx-auto">
+      {/* Ringkasan Pilihan Kamar (Glassmorphic Cards) */}
+      <section className="py-16 sm:py-20 px-4 max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
           <div>
             <Badge variant="purple" className="mb-2">
@@ -285,7 +302,7 @@ export default function HomePage() {
           <Button
             asChild
             variant="outline"
-            className="rounded-2xl border-purple-200 text-purple-900 hover:bg-purple-50 font-bold gap-2 self-start sm:self-auto shrink-0 shadow-2xs"
+            className="rounded-2xl border-white/90 bg-white/70 backdrop-blur-md text-purple-900 hover:bg-white font-bold gap-2 self-start sm:self-auto shrink-0 shadow-sm"
           >
             <Link href="/kamar">
               <span>Lihat Semua 8 Kamar</span>
@@ -298,7 +315,7 @@ export default function HomePage() {
           {previewRooms.map((room) => (
             <Card
               key={room.id}
-              className="overflow-hidden p-0 rounded-3xl border border-purple-100 hover:border-purple-300 hover:shadow-2xl shadow-purple-900/5 transition-all flex flex-col justify-between bg-white"
+              className="overflow-hidden p-0 rounded-3xl border border-white/90 bg-white/75 backdrop-blur-xl hover:bg-white/90 hover:border-purple-200/90 hover:shadow-2xl shadow-purple-950/10 transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="relative h-56 w-full bg-purple-50 overflow-hidden">
@@ -309,11 +326,11 @@ export default function HomePage() {
                     className="object-cover transition-transform duration-500 hover:scale-105"
                   />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-purple-900/90 backdrop-blur text-white px-3 py-1 rounded-full text-xs font-bold shadow-xs">
+                    <span className="bg-purple-950/85 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold shadow-xs">
                       {room.badge}
                     </span>
                   </div>
-                  <div className="absolute bottom-4 right-4 bg-slate-950/80 backdrop-blur text-white px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+                  <div className="absolute bottom-4 right-4 bg-slate-950/80 backdrop-blur-md text-white px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
                     <Users className="w-3.5 h-3.5 text-purple-300" />
                     <span>{room.capacity}</span>
                   </div>
@@ -323,19 +340,19 @@ export default function HomePage() {
                   <h3 className="text-2xl font-black text-slate-900 mb-1">{room.name}</h3>
                   <p className="text-xs text-purple-700 font-semibold mb-4">{room.bed}</p>
 
-                  <div className="mb-6 p-4 rounded-2xl bg-purple-50/60 border border-purple-100">
+                  <div className="mb-6 p-4 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 shadow-2xs">
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-3xl font-black text-purple-800">Rp {room.price}</span>
                       <span className="text-xs text-slate-500 font-medium">/ malam</span>
                     </div>
-                    <span className="inline-block mt-1 text-xs font-bold text-purple-900 bg-purple-200/80 px-2.5 py-0.5 rounded-full">
+                    <span className="inline-block mt-1 text-xs font-bold text-purple-900 bg-purple-100/90 border border-purple-200/60 px-2.5 py-0.5 rounded-full">
                       DP 50%: Rp {room.dp}
                     </span>
                   </div>
 
                   <p className="text-xs text-slate-600 mb-5 leading-relaxed">{room.desc}</p>
 
-                  <div className="space-y-2.5 pt-4 border-t border-purple-50">
+                  <div className="space-y-2.5 pt-4 border-t border-purple-100/50">
                     <span className="block text-[11px] font-bold text-slate-900 uppercase tracking-wider">
                       Fasilitas Termasuk:
                     </span>
@@ -377,8 +394,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ringkasan Oleh-oleh Khas Ambon */}
-      <section className="py-20 px-4 bg-white/70 border-t border-purple-100">
+      {/* Ringkasan Oleh-oleh (Glass Cards) */}
+      <section className="py-16 sm:py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
             <div>
@@ -396,7 +413,7 @@ export default function HomePage() {
             <Button
               asChild
               variant="outline"
-              className="rounded-2xl border-purple-200 text-purple-900 hover:bg-purple-50 font-bold gap-2 self-start sm:self-auto shrink-0 shadow-2xs"
+              className="rounded-2xl border-white/90 bg-white/70 backdrop-blur-md text-purple-900 hover:bg-white font-bold gap-2 self-start sm:self-auto shrink-0 shadow-sm"
             >
               <Link href="/oleh-oleh">
                 <span>Lihat Semua Oleh-oleh</span>
@@ -409,7 +426,7 @@ export default function HomePage() {
             {previewSouvenirs.map((item) => (
               <Card
                 key={item.name}
-                className="overflow-hidden p-0 rounded-3xl bg-white hover:shadow-xl shadow-purple-900/5 transition-all border border-purple-100 flex flex-col justify-between"
+                className="overflow-hidden p-0 rounded-3xl bg-white/75 backdrop-blur-xl hover:bg-white/90 hover:shadow-2xl shadow-purple-950/5 transition-all border border-white/90 flex flex-col justify-between"
               >
                 <div>
                   <div className="relative h-48 w-full bg-purple-50 overflow-hidden">
@@ -438,7 +455,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="p-6 pt-0">
-                  <div className="py-2.5 px-3 rounded-2xl bg-purple-50/70 border border-purple-100 text-center text-xs font-bold text-purple-900">
+                  <div className="py-2.5 px-3 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 text-center text-xs font-bold text-purple-900 shadow-2xs">
                     Tersedia di Resepsionis
                   </div>
                 </div>
@@ -448,8 +465,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FAQ Section (Matching Dataluz Accordion Design) */}
-      <section className="py-20 px-4 max-w-5xl mx-auto">
+      {/* FAQ Section (Glass Accordion) */}
+      <section className="py-16 sm:py-20 px-4 max-w-5xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <Badge variant="purple" className="mb-2">
             Pusat Informasi
@@ -468,7 +485,7 @@ export default function HomePage() {
             return (
               <div
                 key={faq.q}
-                className="rounded-2xl bg-white border border-purple-100 overflow-hidden shadow-2xs transition-all"
+                className="rounded-2xl bg-white/70 backdrop-blur-xl border border-white/90 overflow-hidden shadow-sm transition-all hover:bg-white/90"
               >
                 <button
                   type="button"
@@ -477,7 +494,7 @@ export default function HomePage() {
                 >
                   <span>{faq.q}</span>
                   <span
-                    className={`w-7 h-7 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 transition-transform ${
+                    className={`w-7 h-7 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 transition-transform ${
                       isOpen ? "rotate-45 bg-purple-600 text-white" : ""
                     }`}
                   >
@@ -485,7 +502,7 @@ export default function HomePage() {
                   </span>
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-purple-50 pt-3">
+                  <div className="px-5 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-purple-50/60 pt-3">
                     {faq.a}
                   </div>
                 )}
@@ -495,12 +512,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Location & Directions */}
-      <section className="py-16 px-4 bg-slate-950 text-white">
+      {/* Location & Directions (Glass Container on Dark Slate) */}
+      <section className="py-16 px-4 bg-slate-950/90 text-white backdrop-blur-xl relative">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-950 border border-purple-700 text-purple-300 text-xs font-bold mb-4">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-950/80 border border-purple-700/80 text-purple-300 text-xs font-bold mb-4">
                 <MapPin className="w-3.5 h-3.5" />
                 <span>Titik Lokasi Strategis</span>
               </div>
@@ -545,9 +562,9 @@ export default function HomePage() {
               </Button>
             </div>
 
-            {/* Visual Route & Google Maps Card */}
+            {/* Visual Route & Embedded Google Maps */}
             <div className="space-y-4">
-              <div className="bg-slate-900 p-5 sm:p-6 rounded-3xl border border-purple-900/50">
+              <div className="bg-slate-900/80 backdrop-blur-xl p-5 sm:p-6 rounded-3xl border border-purple-900/50">
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <h3 className="font-bold text-base text-white">Rute Kilat Bandara ke Annisa</h3>
@@ -558,14 +575,14 @@ export default function HomePage() {
                   </span>
                 </div>
                 <div className="space-y-2 text-xs text-slate-300">
-                  <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                  <div className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Plane className="w-3.5 h-3.5 text-purple-400" />
                       <span>Terminal Bandara Pattimura</span>
                     </div>
                     <span className="font-bold text-white">0 km</span>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-purple-950 border border-purple-600/50 flex items-center justify-between text-purple-300 font-bold">
+                  <div className="p-2.5 rounded-xl bg-purple-950/70 border border-purple-600/50 flex items-center justify-between text-purple-300 font-bold">
                     <div className="flex items-center gap-2">
                       <Bed className="w-3.5 h-3.5 text-purple-300" />
                       <span>Penginapan Annisa</span>
