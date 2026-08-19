@@ -149,8 +149,8 @@ export default function HomePage() {
             </span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="mt-2 sm:mt-3 text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          {/* Subtitle (Hidden on mobile to save viewport space) */}
+          <p className="hidden sm:block mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Solusi istirahat ideal untuk penerbangan pagi, dinas, dan wisata. Kamar bersih, WiFi
             kencang, dan <strong>bebas risiko ketinggalan pesawat</strong>.
           </p>
@@ -545,39 +545,48 @@ export default function HomePage() {
               </Button>
             </div>
 
-            {/* Visual Route Card */}
-            <div className="bg-slate-900 p-6 sm:p-8 rounded-3xl border border-purple-900/50">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="font-bold text-lg text-white">Rute Kilat Bandara ke Annisa</h3>
-                  <p className="text-xs text-slate-400 mt-0.5">Estimasi Waktu Tempuh: 2–3 Menit</p>
+            {/* Visual Route & Google Maps Card */}
+            <div className="space-y-4">
+              <div className="bg-slate-900 p-5 sm:p-6 rounded-3xl border border-purple-900/50">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <h3 className="font-bold text-base text-white">Rute Kilat Bandara ke Annisa</h3>
+                    <p className="text-xs text-slate-400">Estimasi Waktu: 2–3 Menit (750m)</p>
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[11px] font-bold">
+                    Sangat Dekat
+                  </span>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold">
-                  Sangat Dekat
-                </span>
+                <div className="space-y-2 text-xs text-slate-300">
+                  <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Plane className="w-3.5 h-3.5 text-purple-400" />
+                      <span>Terminal Bandara Pattimura</span>
+                    </div>
+                    <span className="font-bold text-white">0 km</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-purple-950 border border-purple-600/50 flex items-center justify-between text-purple-300 font-bold">
+                    <div className="flex items-center gap-2">
+                      <Bed className="w-3.5 h-3.5 text-purple-300" />
+                      <span>Penginapan Annisa</span>
+                    </div>
+                    <span>750 m (Tiba)</span>
+                  </div>
+                </div>
               </div>
-              <div className="space-y-3 text-xs text-slate-300">
-                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Plane className="w-4 h-4 text-purple-400" />
-                    <span>Terminal Bandara Pattimura</span>
-                  </div>
-                  <span className="font-bold text-white">0 km</span>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Navigation className="w-4 h-4 text-purple-400" />
-                    <span>Jalan Utama Bandara</span>
-                  </div>
-                  <span className="font-bold text-slate-400">~ 400 m</span>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-purple-950 border border-purple-600/50 flex items-center justify-between text-purple-300 font-bold">
-                  <div className="flex items-center gap-2">
-                    <Bed className="w-4 h-4 text-purple-300" />
-                    <span>Penginapan Annisa</span>
-                  </div>
-                  <span>750 m (Tiba)</span>
-                </div>
+
+              {/* Embedded Google Maps */}
+              <div className="w-full h-64 rounded-3xl overflow-hidden border border-purple-900/60 shadow-xl">
+                <iframe
+                  title="Google Maps Lokasi Penginapan Annisa"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1990.7403357162448!2d128.08762133246853!3d-3.7047467933343032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce7a259d48e1b%3A0x304cec63773e589e!2sPenginapan%20Annisa!5e0!3m2!1sid!2sid!4v1787149833837!5m2!1sid!2sid"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
               </div>
             </div>
           </div>
@@ -608,6 +617,9 @@ export default function HomePage() {
             </Link>
             <Link href="/artikel" className="hover:text-white transition">
               Artikel
+            </Link>
+            <Link href="/contact" className="hover:text-white transition">
+              Kontak &amp; Peta
             </Link>
             <Link
               href="/dashboard"

@@ -73,57 +73,95 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
         onSubmit={handleSendWhatsapp}
         className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-purple-100/90 shadow-xl shadow-purple-950/5 p-3.5 sm:p-5 transition-all"
       >
-        {/* Segmented Room Selector on Top (Ultra Compact) */}
-        <div className="grid grid-cols-2 gap-1.5 p-1 bg-purple-50/70 rounded-xl sm:rounded-2xl mb-3 sm:mb-4 border border-purple-100/60">
+        {/* Segmented Room Selector on Top (Ultra Compact High-Contrast) */}
+        <div className="grid grid-cols-2 gap-2 p-1.5 bg-purple-50/80 rounded-xl sm:rounded-2xl mb-3 sm:mb-4 border border-purple-100">
+          {/* AC Superior */}
           <button
             type="button"
             onClick={() => {
               setRoomType("ac");
               onSelectRoomType?.("kamar-ac");
             }}
-            className={`py-2 px-2.5 rounded-lg sm:rounded-xl text-left transition-all flex items-center justify-between cursor-pointer ${
+            className={`p-2.5 rounded-lg sm:rounded-xl text-left transition-all relative flex flex-col justify-between cursor-pointer ${
               roomType === "ac"
-                ? "bg-white text-purple-950 shadow-xs border border-purple-200/80 font-bold"
-                : "text-slate-600 hover:text-purple-900 font-medium"
+                ? "bg-purple-700 text-white shadow-md shadow-purple-950/20 ring-2 ring-purple-600"
+                : "bg-white text-slate-700 hover:bg-purple-50/70 border border-purple-100"
             }`}
           >
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span className="w-6 h-6 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+            <div className="flex items-center justify-between w-full mb-1">
+              <span
+                className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
+                  roomType === "ac" ? "bg-white/20 text-white" : "bg-purple-100 text-purple-700"
+                }`}
+              >
                 <Sparkles className="w-3.5 h-3.5" />
               </span>
-              <div className="truncate">
-                <span className="text-xs sm:text-sm block leading-tight truncate">AC Superior</span>
-                <span className="text-[10px] text-purple-700 block font-bold leading-none">
-                  Rp 275rb
+              {roomType === "ac" ? (
+                <span className="text-[9px] font-extrabold uppercase tracking-wider bg-white/25 text-white px-2 py-0.5 rounded-full">
+                  Dipilih ✓
                 </span>
-              </div>
+              ) : (
+                <span className="text-[9px] font-bold text-purple-700 bg-purple-100 px-1.5 py-0.5 rounded-full">
+                  Pilih
+                </span>
+              )}
+            </div>
+            <div>
+              <span
+                className={`text-xs sm:text-sm font-black block leading-tight ${roomType === "ac" ? "text-white" : "text-slate-900"}`}
+              >
+                AC Superior
+              </span>
+              <span
+                className={`text-[11px] font-bold block leading-none mt-0.5 ${roomType === "ac" ? "text-purple-200" : "text-purple-700"}`}
+              >
+                Rp 275.000 / mlm
+              </span>
             </div>
           </button>
 
+          {/* Kipas Standar */}
           <button
             type="button"
             onClick={() => {
               setRoomType("kipas");
               onSelectRoomType?.("kamar-kipas");
             }}
-            className={`py-2 px-2.5 rounded-lg sm:rounded-xl text-left transition-all flex items-center justify-between cursor-pointer ${
+            className={`p-2.5 rounded-lg sm:rounded-xl text-left transition-all relative flex flex-col justify-between cursor-pointer ${
               roomType === "kipas"
-                ? "bg-white text-purple-950 shadow-xs border border-purple-200/80 font-bold"
-                : "text-slate-600 hover:text-purple-900 font-medium"
+                ? "bg-purple-700 text-white shadow-md shadow-purple-950/20 ring-2 ring-purple-600"
+                : "bg-white text-slate-700 hover:bg-purple-50/70 border border-purple-100"
             }`}
           >
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span className="w-6 h-6 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+            <div className="flex items-center justify-between w-full mb-1">
+              <span
+                className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
+                  roomType === "kipas" ? "bg-white/20 text-white" : "bg-purple-100 text-purple-700"
+                }`}
+              >
                 <Wind className="w-3.5 h-3.5" />
               </span>
-              <div className="truncate">
-                <span className="text-xs sm:text-sm block leading-tight truncate">
-                  Kipas Standar
+              {roomType === "kipas" ? (
+                <span className="text-[9px] font-extrabold uppercase tracking-wider bg-white/25 text-white px-2 py-0.5 rounded-full">
+                  Dipilih ✓
                 </span>
-                <span className="text-[10px] text-purple-700 block font-bold leading-none">
-                  Rp 200rb
+              ) : (
+                <span className="text-[9px] font-bold text-purple-700 bg-purple-100 px-1.5 py-0.5 rounded-full">
+                  Pilih
                 </span>
-              </div>
+              )}
+            </div>
+            <div>
+              <span
+                className={`text-xs sm:text-sm font-black block leading-tight ${roomType === "kipas" ? "text-white" : "text-slate-900"}`}
+              >
+                Kipas Standar
+              </span>
+              <span
+                className={`text-[11px] font-bold block leading-none mt-0.5 ${roomType === "kipas" ? "text-purple-200" : "text-purple-700"}`}
+              >
+                Rp 200.000 / mlm
+              </span>
             </div>
           </button>
         </div>
