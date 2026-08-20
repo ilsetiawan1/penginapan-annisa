@@ -71,11 +71,42 @@ Penginapan Annisa memiliki **8 unit kamar** yang terbagi rata di 2 bangunan berd
 
 ## 3. 👥 User Persona & Hak Akses (RBAC)
 
+### 3.1. Deskripsi Peran Pengguna (*User Roles*)
+
 | Peran (Role) | Deskripsi | Hak Akses Utama |
 | :--- | :--- | :--- |
 | **Pengunjung / Tamu Transit** | Calon penumpang pesawat / wisatawan yang membutuhkan kamar transit. | Melihat katalog kamar & fasilitas, cek ketersediaan tanggal, kirim request booking ke WhatsApp, melihat etalase oleh-oleh, dan membaca artikel wisata Ambon. |
 | **Staf Resepsionis & Housekeeping** | Staf operasional yang menerima tamu di lokasi dan menjaga kebersihan kamar. | Input tamu *walk-in* cepat, konfirmasi bukti DP 50%, ubah status *Check-in/Check-out*, update kebersihan kamar (*Ready $\leftrightarrow$ Dirty*), dan kirim nota digital ke WhatsApp tamu. |
 | **Owner / Pengelola Utama (Admin)** | Pemilik penginapan dengan akses manajerial penuh. | Semua akses staf + manajemen kamar & tarif, manajemen foto Cloudinary, manajemen etalase oleh-oleh & CMS artikel, serta rekapitulasi laporan reservasi/keuangan. |
+
+---
+
+### 3.2. Matriks Hak Akses (*RBAC Permission Matrix*)
+
+| Modul & Fitur Sistem | 👤 Tamu Publik | 🧑‍💼 Staf Resepsionis | 👑 Owner / Admin |
+| :--- | :---: | :---: | :---: |
+| **🌐 PORTAL PUBLIK** | | | |
+| Melihat Katalog 8 Kamar, Tarif & Fasilitas | ✅ Full | ✅ Full | ✅ Full |
+| Cek Ketersediaan Tanggal & Booking WA | ✅ Full | ✅ Full | ✅ Full |
+| Melihat Etalase Oleh-oleh Khas Ambon | ✅ Full | ✅ Full | ✅ Full |
+| Membaca Artikel & Panduan Wisata | ✅ Full | ✅ Full | ✅ Full |
+| **🏨 OPERASIONAL PMS & RESERVASI** | | | |
+| Akses Dashboard Matriks 8 Kamar (4 Warna) | ❌ No | ✅ Full | ✅ Full |
+| Input Tamu *Fast-Track Walk-in* (< 1 Menit) | ❌ No | ✅ Full | ✅ Full |
+| Konfirmasi Bukti Transfer DP 50% | ❌ No | ✅ Full | ✅ Full |
+| Check-in / Check-out & Ubah Status Kamar | ❌ No | ✅ Full | ✅ Full |
+| Generate & Kirim Nota WhatsApp 1-Klik | ❌ No | ✅ Full | ✅ Full |
+| Melihat Direktori Riwayat Tamu | ❌ No | 👁️ Read-Only | ✅ Full (Export) |
+| **🛠️ MASTER DATA & CMS KONTEN** | | | |
+| Ubah Tarif & Deskripsi Kamar | ❌ No | ❌ No | ✅ Full |
+| Upload & Ganti Foto Kamar (Cloudinary) | ❌ No | ❌ No | ✅ Full |
+| CRUD Produk & Harga Oleh-oleh | ❌ No | ❌ No | ✅ Full |
+| Tulis, Edit, & Publikasi Artikel Wisata | ❌ No | ❌ No | ✅ Full |
+| **📊 KEUANGAN, LAPORAN & USER MANAGEMENT** | | | |
+| Melihat Statistik Okupansi Kamar Harian | ❌ No | 👁️ Read-Only | ✅ Full |
+| Melihat Laporan Pendapatan & Omzet Bulanan | ❌ No | ❌ No | ✅ Full |
+| Ekspor Laporan ke Spreadsheet Excel | ❌ No | ❌ No | ✅ Full |
+| Manajemen Akun Staf (Tambah / Nonaktifkan User) | ❌ No | ❌ No | ✅ Full |
 
 ---
 
