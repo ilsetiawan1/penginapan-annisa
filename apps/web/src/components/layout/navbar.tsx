@@ -33,12 +33,12 @@ export function Navbar() {
 
   return (
     <div className="fixed top-3 sm:top-5 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-4 pointer-events-none">
-      {/* Floating Capsule Header (Dynamic Top vs Scrolled Appearance) */}
+      {/* Floating Capsule Header: Transparent Putih Blur (Top) -> Transparent Black Blur (Scrolled) */}
       <header
         className={`w-full max-w-5xl rounded-full px-3 sm:px-5 py-2 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
           isScrolled
-            ? "bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xl text-slate-900"
-            : "bg-black/30 backdrop-blur-xl border border-white/25 shadow-lg text-white"
+            ? "bg-slate-950/80 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/25 text-white"
+            : "bg-white/20 backdrop-blur-xl border border-white/30 shadow-lg text-white"
         }`}
       >
         {/* Brand Logo & Name */}
@@ -47,13 +47,7 @@ export function Navbar() {
           onClick={() => setIsMobileMenuOpen(false)}
           className="flex items-center gap-2 group shrink-0"
         >
-          <div
-            className={`relative w-8 h-8 rounded-full overflow-hidden flex items-center justify-center shrink-0 shadow-2xs border transition-colors ${
-              isScrolled
-                ? "bg-purple-50 border-purple-200"
-                : "bg-white/20 border-white/30"
-            }`}
-          >
+          <div className="relative w-8 h-8 rounded-full overflow-hidden bg-white/20 border border-white/30 flex items-center justify-center shrink-0 shadow-2xs">
             <Image
               src="/logo-penginapan-annisa.png"
               alt="Logo Penginapan Annisa"
@@ -63,20 +57,10 @@ export function Navbar() {
             />
           </div>
           <div>
-            <span
-              className={`font-extrabold text-xs sm:text-sm tracking-tight block leading-tight transition-colors ${
-                isScrolled
-                  ? "text-slate-900 group-hover:text-purple-700"
-                  : "text-white group-hover:text-purple-200"
-              }`}
-            >
+            <span className="font-extrabold text-xs sm:text-sm text-white tracking-tight block leading-tight group-hover:text-purple-200 transition">
               Penginapan Annisa
             </span>
-            <span
-              className={`text-[10px] font-semibold block leading-none transition-colors ${
-                isScrolled ? "text-purple-700" : "text-purple-200"
-              }`}
-            >
+            <span className="text-[10px] text-purple-200 font-semibold block leading-none">
               750m Bandara Pattimura
             </span>
           </div>
@@ -86,7 +70,7 @@ export function Navbar() {
         <nav
           className={`hidden md:flex items-center gap-1 p-1 rounded-full border backdrop-blur-md transition-colors ${
             isScrolled
-              ? "bg-slate-100/90 border-slate-200/70"
+              ? "bg-white/10 border-white/15"
               : "bg-white/15 border-white/20"
           }`}
         >
@@ -99,10 +83,8 @@ export function Navbar() {
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   isActive
                     ? isScrolled
-                      ? "bg-white text-purple-950 shadow-xs"
+                      ? "bg-purple-700 text-white shadow-xs"
                       : "bg-white text-purple-950 shadow-xs"
-                    : isScrolled
-                    ? "text-slate-600 hover:text-slate-950 hover:bg-white/70"
                     : "text-white/90 hover:text-white hover:bg-white/20"
                 }`}
               >
@@ -119,7 +101,7 @@ export function Navbar() {
             asChild
             variant="primary"
             size="sm"
-            className="rounded-full w-8 h-8 sm:w-auto sm:h-auto p-0 sm:px-4 sm:py-1.5 text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs flex items-center justify-center shrink-0 transition"
+            className="rounded-full w-8 h-8 sm:w-auto sm:h-auto p-0 sm:px-4 sm:py-1.5 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-xs flex items-center justify-center shrink-0 transition"
             title="Chat WhatsApp Resmi"
           >
             <a
@@ -136,15 +118,11 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden w-8 h-8 rounded-full flex items-center justify-center border transition-colors cursor-pointer ${
-              isScrolled
-                ? "bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-200"
-                : "bg-white/20 hover:bg-white/30 text-white border-white/30"
-            }`}
+            className="md:hidden w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center border border-white/30 transition-colors cursor-pointer"
             aria-label="Toggle Menu"
           >
             {isMobileMenuOpen ? (
-              <X className={`w-4 h-4 ${isScrolled ? "text-purple-700" : "text-white"}`} />
+              <X className="w-4 h-4 text-white" />
             ) : (
               <Menu className="w-4 h-4" />
             )}
