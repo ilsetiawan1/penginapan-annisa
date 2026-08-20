@@ -133,14 +133,14 @@ export function Navbar() {
       {/* Mobile Dropdown Navigation Drawer & Backdrop */}
       {isMobileMenuOpen && (
         <>
-          {/* Backdrop Blur Overlay */}
+          {/* Backdrop Overlay */}
           <div
             onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 bg-slate-950/20 backdrop-blur-md z-[-1] pointer-events-auto animate-in fade-in duration-200"
+            className="fixed inset-0 bg-black/45 backdrop-blur-xs z-[-1] pointer-events-auto animate-in fade-in duration-200"
           />
 
-          {/* Solid Pure White Drawer Card */}
-          <div className="w-full max-w-sm mt-2 p-3.5 bg-white border border-slate-200 shadow-2xl rounded-2xl pointer-events-auto transition-all animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+          {/* Frosted Transparent Slate-950/20 Modal Card */}
+          <div className="w-full max-w-sm mt-2 p-3.5 bg-slate-950/20 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl pointer-events-auto transition-all animate-in fade-in slide-in-from-top-2 duration-200 z-50 text-white">
             <div className="space-y-1.5">
               {navLinks.map((link) => {
                 const Icon = link.icon;
@@ -153,12 +153,12 @@ export function Navbar() {
                     className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                       isActive
                         ? "bg-purple-700 text-white shadow-xs"
-                        : "bg-slate-50 text-slate-900 hover:bg-purple-50 hover:text-purple-900 border border-slate-100/80"
+                        : "bg-white/10 text-white hover:bg-white/20 border border-white/15 backdrop-blur-md"
                     }`}
                   >
                     <Icon
                       className={`w-4 h-4 ${
-                        isActive ? "text-white" : "text-purple-700"
+                        isActive ? "text-white" : "text-purple-300"
                       }`}
                     />
                     <span>{link.label}</span>
@@ -167,9 +167,9 @@ export function Navbar() {
               })}
             </div>
 
-            <div className="mt-3 pt-2.5 border-t border-slate-100 px-2 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+            <div className="mt-3 pt-2.5 border-t border-white/15 px-2 flex items-center justify-between text-[11px] text-slate-200 font-semibold">
               <span>Buka 06:00 – 22:00 WIT</span>
-              <span className="text-purple-700 font-extrabold">750m Bandara</span>
+              <span className="text-purple-300 font-extrabold">750m Bandara</span>
             </div>
           </div>
         </>
