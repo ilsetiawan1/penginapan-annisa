@@ -44,8 +44,7 @@ export default function KamarPage() {
         "WiFi Gratis Kencang",
         "Handuk Bersih & Air Mineral",
       ],
-      image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-ac-101.jpg",
     },
     {
       number: "102",
@@ -64,8 +63,7 @@ export default function KamarPage() {
         "WiFi Gratis Kencang",
         "Handuk Bersih & Air Mineral",
       ],
-      image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-ac-102.jpg",
     },
     {
       number: "103",
@@ -84,8 +82,7 @@ export default function KamarPage() {
         "WiFi Gratis Kencang",
         "Handuk Bersih & Air Mineral",
       ],
-      image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-ac-101.jpg",
     },
     {
       number: "104",
@@ -104,8 +101,7 @@ export default function KamarPage() {
         "WiFi Gratis Kencang",
         "Handuk Bersih & Air Mineral",
       ],
-      image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-ac-102.jpg",
     },
     {
       number: "201",
@@ -124,8 +120,7 @@ export default function KamarPage() {
         "WiFi Gratis Kencang",
         "Handuk Bersih & Air Mineral",
       ],
-      image:
-        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-kipas-201.jpg",
     },
     {
       number: "202",
@@ -144,8 +139,7 @@ export default function KamarPage() {
         "WiFi Gratis Kencang",
         "Handuk Bersih & Air Mineral",
       ],
-      image:
-        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-kipas-202.jpg",
     },
     {
       number: "203",
@@ -164,8 +158,7 @@ export default function KamarPage() {
         "WiFi Gratis Kencang",
         "Handuk Bersih & Air Mineral",
       ],
-      image:
-        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-kipas-201.jpg",
     },
     {
       number: "204",
@@ -184,8 +177,7 @@ export default function KamarPage() {
         "WiFi Gratis Kencang",
         "Handuk Bersih & Air Mineral",
       ],
-      image:
-        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-kipas-202.jpg",
     },
   ];
 

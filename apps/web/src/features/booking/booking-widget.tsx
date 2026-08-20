@@ -39,16 +39,14 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
     ac: {
       name: "Tipe AC",
       price: 275000,
-      image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-ac-101.jpg",
       badge: "Paling Populer",
       features: "1 Kasur Besar (2–3 Org) • AC Dingin • KM Dalam • TV • WiFi",
     },
     kipas: {
       name: "Tipe Kipas",
       price: 200000,
-      image:
-        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-kipas-201.jpg",
       badge: "Hemat & Nyaman",
       features: "1 Kasur Besar (2–3 Org) • Kipas Angin • KM Dalam • TV • WiFi",
     },

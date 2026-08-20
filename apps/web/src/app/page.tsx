@@ -54,8 +54,7 @@ export default function HomePage() {
       bed: "1 Kasur Besar (Muat 2–3 Org)",
       capacity: "2–3 Orang",
       highlights: ["AC Dingin", "KM Dalam", "TV", "WiFi"],
-      image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-ac-101.jpg",
     },
     {
       id: "102",
@@ -67,8 +66,7 @@ export default function HomePage() {
       bed: "1 Kasur Besar (Muat 2–3 Org)",
       capacity: "2–3 Orang",
       highlights: ["AC Dingin", "KM Dalam", "TV", "WiFi"],
-      image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-ac-102.jpg",
     },
     {
       id: "201",
@@ -80,8 +78,7 @@ export default function HomePage() {
       bed: "1 Kasur Besar (Muat 2–3 Org)",
       capacity: "2–3 Orang",
       highlights: ["Kipas Angin", "KM Dalam", "TV", "WiFi"],
-      image:
-        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-kipas-201.jpg",
     },
     {
       id: "202",
@@ -93,8 +90,7 @@ export default function HomePage() {
       bed: "1 Kasur Besar (Muat 2–3 Org)",
       capacity: "2–3 Orang",
       highlights: ["Kipas Angin", "KM Dalam", "TV", "WiFi"],
-      image:
-        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800&auto=format&fit=crop",
+      image: "/rooms/room-kipas-202.jpg",
     },
   ];
 
