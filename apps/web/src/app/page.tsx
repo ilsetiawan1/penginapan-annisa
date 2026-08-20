@@ -249,11 +249,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Kenapa Memilih Penginapan Annisa? (Swipeable on Mobile) */}
-      <section className="py-5 sm:py-8 px-4 max-w-6xl mx-auto">
-        <div className="mb-4 sm:mb-6 flex items-center justify-between gap-2">
+      {/* Kenapa Memilih Penginapan Annisa? (Semua 3 Kartu Ditampilkan Langsung) */}
+      <section className="py-4 sm:py-8 px-4 max-w-6xl mx-auto">
+        <div className="mb-3 sm:mb-6 flex items-center justify-between gap-2">
           <div>
-            <Badge variant="purple" className="mb-1">
+            <Badge variant="purple" className="mb-1 text-[10px]">
               Nilai Utama
             </Badge>
             <h2 className="text-lg sm:text-2xl font-extrabold text-slate-950 tracking-tight">
@@ -262,27 +262,27 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 2-Card Glance on Mobile View */}
-        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-5 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 no-scrollbar">
+        {/* 3 Cards Direct Display (Stack on Mobile, Grid 3-Cols on Desktop) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-5">
           {whyChooseUs.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="snap-center min-w-[70vw] sm:min-w-[280px] md:min-w-0 bg-white/95 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all flex flex-col justify-between flex-shrink-0 md:flex-shrink"
+                className="bg-white/95 backdrop-blur-md p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all flex items-start gap-3 sm:flex-col sm:justify-between"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <span className="text-[9px] font-bold text-purple-700 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs shrink-0 mt-0.5 sm:mt-0 sm:mb-2.5">
+                  <Icon className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <h3 className="text-xs sm:text-base font-bold text-slate-900 leading-snug">
+                      {item.title}
+                    </h3>
+                    <span className="hidden sm:inline-block text-[9px] font-bold text-purple-700 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full shrink-0">
                       {item.tag}
                     </span>
                   </div>
-                  <h3 className="text-xs sm:text-base font-bold text-slate-900 mb-1 leading-snug">
-                    {item.title}
-                  </h3>
                   <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
                     {item.desc}
                   </p>
