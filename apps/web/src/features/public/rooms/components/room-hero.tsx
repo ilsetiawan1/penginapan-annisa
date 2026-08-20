@@ -15,6 +15,8 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
         alt="Jembatan Merah Putih Ambon"
         fill
         className="object-cover"
+        priority
+      />
       {/* Top dark overlay for text contrast */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/40 to-transparent" />
       {/* Smooth Bottom White Fade Transition */}
