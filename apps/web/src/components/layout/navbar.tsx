@@ -106,36 +106,49 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Dropdown Navigation Drawer */}
+      {/* Mobile Dropdown Navigation Drawer & Backdrop */}
       {isMobileMenuOpen && (
-        <div className="w-full max-w-sm mt-2 p-3 bg-white/98 backdrop-blur-xl border border-slate-200/90 shadow-xl rounded-2xl pointer-events-auto transition-all animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="space-y-1">
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                    isActive
-                      ? "bg-purple-50 text-purple-800 border border-purple-100"
-                      : "text-slate-700 hover:bg-slate-50"
-                  }`}
-                >
-                  <Icon className={`w-4 h-4 ${isActive ? "text-purple-700" : "text-slate-500"}`} />
-                  <span>{link.label}</span>
-                </Link>
-              );
-            })}
-          </div>
+        <>
+          {/* Backdrop Blur Overlay */}
+          <div
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/45 backdrop-blur-xs z-[-1] pointer-events-auto animate-in fade-in duration-200"
+          />
 
-          <div className="mt-2.5 pt-2.5 border-t border-slate-100 px-3 flex items-center justify-between text-[11px] text-slate-500 font-medium">
-            <span>Buka 07:00 – 21:00 WIT</span>
-            <span className="text-purple-700 font-bold">750m Bandara</span>
+          {/* Solid Pure White Drawer Card (No Blur Bleed-through) */}
+          <div className="w-full max-w-sm mt-2 p-3.5 bg-white border border-slate-200 shadow-2xl rounded-2xl pointer-events-auto transition-all animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+            <div className="space-y-1.5">
+              {navLinks.map((link) => {
+                const Icon = link.icon;
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                      isActive
+                        ? "bg-purple-700 text-white shadow-xs"
+                        : "bg-slate-50 text-slate-900 hover:bg-purple-50 hover:text-purple-900 border border-slate-100/80"
+                    }`}
+                  >
+                    <Icon
+                      className={`w-4 h-4 ${
+                        isActive ? "text-white" : "text-purple-700"
+                      }`}
+                    />
+                    <span>{link.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-slate-100 px-2 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+              <span>Buka 07:00 – 21:00 WIT</span>
+              <span className="text-purple-700 font-extrabold">750m Bandara</span>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
