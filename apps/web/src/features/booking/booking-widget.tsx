@@ -37,20 +37,20 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
 
   const roomDetails = {
     ac: {
-      name: "Kamar AC Superior",
+      name: "Tipe AC",
       price: 275000,
       image:
         "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop",
       badge: "Paling Populer",
-      features: "1 King Bed • AC Dingin • Kamar Mandi Dalam • WiFi",
+      features: "1 Kasur Besar (2–3 Org) • AC Dingin • KM Dalam • TV • WiFi",
     },
     kipas: {
-      name: "Kamar Kipas Standar",
+      name: "Tipe Kipas",
       price: 200000,
       image:
         "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop",
       badge: "Hemat & Nyaman",
-      features: "1 Double/2 Single • Kipas Angin • Kamar Mandi Dalam • WiFi",
+      features: "1 Kasur Besar (2–3 Org) • Kipas Angin • KM Dalam • TV • WiFi",
     },
   };
 
@@ -72,8 +72,8 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
     e.preventDefault();
     const roomName =
       roomType === "ac"
-        ? "Kamar AC Superior (Rp 275.000/malam)"
-        : "Kamar Kipas Standar (Rp 200.000/malam)";
+        ? "Tipe AC (Rp 275.000/malam)"
+        : "Tipe Kipas (Rp 200.000/malam)";
 
     const message = `Halo Penginapan Annisa, saya ingin reservasi kamar transit:%0A- Tipe Kamar: ${roomName}%0A- Nama Tamu: ${
       guestName || "Calon Tamu"
@@ -134,7 +134,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
         <div className="p-4 sm:p-5">
           {/* Clean Segmented Room Selector */}
           <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-xl mb-4">
-            {/* AC Superior */}
+            {/* Tipe AC */}
             <button
               type="button"
               onClick={() => {
@@ -148,7 +148,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               }`}
             >
               <div>
-                <span className="text-xs font-bold block leading-tight">AC Superior</span>
+                <span className="text-xs font-bold block leading-tight">Tipe AC</span>
                 <span className="text-[10px] text-purple-700 font-semibold block mt-0.5">
                   Rp 275rb/mlm
                 </span>
@@ -160,7 +160,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               )}
             </button>
 
-            {/* Kipas Standar */}
+            {/* Tipe Kipas */}
             <button
               type="button"
               onClick={() => {
@@ -174,7 +174,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               }`}
             >
               <div>
-                <span className="text-xs font-bold block leading-tight">Kipas Standar</span>
+                <span className="text-xs font-bold block leading-tight">Tipe Kipas</span>
                 <span className="text-[10px] text-purple-700 font-semibold block mt-0.5">
                   Rp 200rb/mlm
                 </span>
