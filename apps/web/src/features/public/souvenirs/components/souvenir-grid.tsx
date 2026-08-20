@@ -10,9 +10,9 @@ interface SouvenirGridProps {
 export function SouvenirGrid({ items, searchQuery, onReset }: SouvenirGridProps) {
   return (
     <section className="max-w-6xl mx-auto px-4 pt-2 pb-16 sm:pb-20">
-      <div className="flex items-center justify-between mb-5 sm:mb-6">
+      <div className="flex items-center justify-between mt-10 mb-5 sm:mb-6">
         <h2 className="text-lg sm:text-2xl font-black text-slate-950 tracking-tight">
-          Daftar Produk Oleh-oleh ({items.length})
+          Daftar Produk Oleh-oleh
         </h2>
         <span className="text-xs text-slate-500 font-medium hidden sm:inline-block">
           Tersedia langsung di Resepsionis Annisa

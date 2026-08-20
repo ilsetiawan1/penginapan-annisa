@@ -32,8 +32,8 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
           Oleh-oleh Khas Ambon &amp; Maluku
         </h1>
 
-        <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
-          Dapatkan produk cinderamata, minyak kayu putih Namlea murni, dan camilan khas otentik langsung di resepsionis Penginapan Annisa.
+        <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
+          Minyak kayu putih, minyak cengkeh, dan aneka camilan khas Maluku di resepsionis.
         </p>
 
         {/* Floating Search Bar */}

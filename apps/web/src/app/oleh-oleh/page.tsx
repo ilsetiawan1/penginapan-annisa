@@ -5,7 +5,6 @@ import { Navbar } from "../../components/layout/navbar";
 import { Footer } from "../../components/layout/footer";
 import { SouvenirHero } from "../../features/public/souvenirs/components/souvenir-hero";
 import { SouvenirFilter } from "../../features/public/souvenirs/components/souvenir-filter";
-import { SouvenirGuideCard } from "../../features/public/souvenirs/components/souvenir-guide-card";
 import { SouvenirGrid } from "../../features/public/souvenirs/components/souvenir-grid";
 import type { SouvenirItem } from "../../features/public/souvenirs/components/souvenir-card";
 
@@ -95,7 +94,6 @@ export default function OlehOlehPage() {
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
-      <SouvenirGuideCard />
       <SouvenirGrid
         items={filteredSouvenirs}
         searchQuery={searchQuery}
