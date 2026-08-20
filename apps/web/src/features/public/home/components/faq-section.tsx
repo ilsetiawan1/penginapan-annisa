@@ -26,7 +26,7 @@ export function FaqSection() {
         <span className="text-[10px] font-extrabold text-purple-700 tracking-wider uppercase block">
           TANYA JAWAB UMUM
         </span>
-        <h2 className="text-xs sm:text-base font-extrabold text-slate-900 leading-tight">
+        <h2 className="text-xs sm:text-base text-slate-900 leading-tight">
           Informasi Penting Sebelum Menginap
         </h2>
       </div>

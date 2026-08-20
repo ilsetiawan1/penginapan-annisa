@@ -54,9 +54,9 @@ export function HomeRoomsPreview() {
       <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
         <div className="text-left">
           <span className="text-[10px] font-extrabold text-purple-700 tracking-wider uppercase block">
-            PILIHAN UNIT TRANSIT
+            PILIHAN KAMAR
           </span>
-          <h2 className="text-xs sm:text-base font-extrabold text-slate-900 leading-tight">
+          <h2 className="text-xs sm:text-base  text-slate-900 leading-tight">
             Unit Kamar Bersih &amp; Terawat
           </h2>
         </div>

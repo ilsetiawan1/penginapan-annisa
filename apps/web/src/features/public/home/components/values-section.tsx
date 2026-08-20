@@ -35,7 +35,7 @@ export function ValuesSection() {
         <span className="text-[10px] font-extrabold text-purple-700 tracking-wider uppercase block">
           KEUNGGULAN
         </span>
-        <h2 className="text-xs sm:text-base font-extrabold text-slate-900 leading-tight">
+        <h2 className="text-xs sm:text-base text-slate-900 leading-tight">
           Kenapa Memilih Penginapan Annisa?
         </h2>
       </div>
