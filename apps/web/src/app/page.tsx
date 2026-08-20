@@ -176,15 +176,20 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
           {/* Kolom Kiri: Value, Headline & Trust Badges */}
           <div className="lg:col-span-6 flex flex-col justify-center text-left">
-            {/* Editorial Location Header (Authentic & Professional) */}
-            <div className="flex items-center gap-2 mb-3 sm:mb-4 flex-wrap">
-              <span className="text-[11px] uppercase font-black tracking-wider text-purple-700 flex items-center gap-1.5 bg-purple-50/80 px-2.5 py-1 rounded-lg border border-purple-100">
-                <MapPin className="w-3.5 h-3.5 text-purple-700" />
-                <span>Ambon, Maluku</span>
+            {/* Interactive Google Maps Route Button (Direct & Actionable) */}
+            <a
+              href="https://maps.app.goo.gl/Dzvo8bawqgoMmova9"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200/90 hover:border-purple-300 hover:bg-purple-50/60 text-slate-800 hover:text-purple-950 text-xs font-bold transition-all shadow-2xs group mb-3 sm:mb-4 w-fit"
+              title="Lihat rute Google Maps Penginapan Annisa ke Bandara Pattimura"
+            >
+              <span className="w-5 h-5 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 group-hover:bg-purple-700 group-hover:text-white transition-colors">
+                <MapPin className="w-3 h-3" />
               </span>
-              <span className="text-slate-300 hidden sm:inline">•</span>
-              <span className="text-xs font-bold text-slate-700">750m dari Bandara Pattimura</span>
-            </div>
+              <span>Lihat Rute ke Bandara di Google Maps</span>
+              <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 group-hover:translate-x-0.5 transition-all" />
+            </a>
 
             {/* Crisp Headline */}
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.16]">
@@ -555,11 +560,11 @@ export default function HomePage() {
                 className="w-full sm:w-auto rounded-xl gap-1.5 font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs text-xs"
               >
                 <a
-                  href="https://maps.app.goo.gl/PskXAUZuGD7NeMoL7"
+                  href="https://maps.app.goo.gl/Dzvo8bawqgoMmova9"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <MapPin className="w-3 h-3" />
+                  <MapPin className="w-3.5 h-3.5" />
                   <span>Petunjuk Arah Google Maps</span>
                 </a>
               </Button>
