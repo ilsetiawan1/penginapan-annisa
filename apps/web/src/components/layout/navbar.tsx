@@ -1,6 +1,6 @@
 "use client";
 
-import { Bed, BookOpen, Gift, Home, MapPin, Menu, Phone, X } from "lucide-react";
+import { Bed, BookOpen, Gift, Home, MapPin, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -23,15 +23,15 @@ export function Navbar() {
 
   return (
     <div className="fixed top-3 sm:top-5 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-4 pointer-events-none">
-      {/* Floating Capsule Header (Frosted Glassmorphism) */}
-      <header className="w-full max-w-5xl bg-white/80 backdrop-blur-xl border border-white/70 shadow-lg shadow-purple-950/5 rounded-full px-3 sm:px-5 py-2 flex items-center justify-between pointer-events-auto transition-all">
+      {/* Floating Capsule Header (Frosted White Glassmorphism) */}
+      <header className="w-full max-w-5xl rounded-full px-3 sm:px-5 py-2 flex items-center justify-between pointer-events-auto bg-white/80 backdrop-blur-xl border border-white/70 shadow-lg shadow-purple-950/5 transition-all duration-300">
         {/* Brand Logo & Name */}
         <Link
           href="/"
           onClick={() => setIsMobileMenuOpen(false)}
           className="flex items-center gap-2 group shrink-0"
         >
-          <div className="relative w-8 h-8 rounded-full overflow-hidden bg-purple-50 border border-purple-100 flex items-center justify-center shrink-0">
+          <div className="relative w-8 h-8 rounded-full overflow-hidden bg-purple-50 border border-purple-100 flex items-center justify-center shrink-0 shadow-2xs">
             <Image
               src="/logo-penginapan-annisa.png"
               alt="Logo Penginapan Annisa"
@@ -51,17 +51,17 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Center Navigation */}
-        <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-full border border-slate-200/50">
+        <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-full border border-slate-200/50 backdrop-blur-xs">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   isActive
                     ? "bg-white text-purple-950 shadow-xs"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
+                    : "text-slate-600 hover:text-slate-950 hover:bg-white/60"
                 }`}
               >
                 {link.label}
@@ -72,12 +72,12 @@ export function Navbar() {
 
         {/* Right Action Buttons */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* WA Button: FaWhatsapp on Mobile, Icon + Text on Desktop */}
+          {/* WA Button */}
           <Button
             asChild
             variant="primary"
             size="sm"
-            className="rounded-full w-8 h-8 sm:w-auto sm:h-auto p-0 sm:px-4 sm:py-1.5 text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs flex items-center justify-center shrink-0"
+            className="rounded-full w-8 h-8 sm:w-auto sm:h-auto p-0 sm:px-4 sm:py-1.5 text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs flex items-center justify-center shrink-0 transition"
             title="Chat WhatsApp Resmi"
           >
             <a
@@ -94,7 +94,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center border border-slate-200 transition-colors"
+            className="md:hidden w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center border border-slate-200/80 transition-colors cursor-pointer"
             aria-label="Toggle Menu"
           >
             {isMobileMenuOpen ? (
@@ -112,10 +112,10 @@ export function Navbar() {
           {/* Backdrop Blur Overlay */}
           <div
             onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 bg-black/45 backdrop-blur-xs z-[-1] pointer-events-auto animate-in fade-in duration-200"
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-[-1] pointer-events-auto animate-in fade-in duration-200"
           />
 
-          {/* Solid Pure White Drawer Card (No Blur Bleed-through) */}
+          {/* Solid Pure White Drawer Card */}
           <div className="w-full max-w-sm mt-2 p-3.5 bg-white border border-slate-200 shadow-2xl rounded-2xl pointer-events-auto transition-all animate-in fade-in slide-in-from-top-2 duration-200 z-50">
             <div className="space-y-1.5">
               {navLinks.map((link) => {

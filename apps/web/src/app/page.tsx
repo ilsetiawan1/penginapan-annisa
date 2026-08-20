@@ -1,7 +1,6 @@
 import { Navbar } from "../components/layout/navbar";
 import { Footer } from "../components/layout/footer";
 import { HeroSection } from "../features/public/home/components/hero-section";
-import { ValuesSection } from "../features/public/home/components/values-section";
 import { HomeRoomsPreview } from "../features/public/home/components/home-rooms-preview";
 import { HomeSouvenirsPreview } from "../features/public/home/components/home-souvenirs-preview";
 import { FaqSection } from "../features/public/home/components/faq-section";
@@ -19,12 +18,11 @@ export default function HomePage() {
         <HeroSection />
 
         {/* ====================================================
-            BLOCK 2: KEUNGGULAN + PILIHAN UNIT (100vh on Desktop Large)
+            BLOCK 2: PILIHAN UNIT KAMAR (100vh on Desktop Large)
             Background: Soft Purple Atmosphere with Gradient Blur
             ==================================================== */}
         <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-15% via-[#f1eaff] via-85% to-[#faf9fc] py-10 sm:py-14 xl:min-h-screen xl:h-screen xl:py-0 flex flex-col justify-center px-4">
           <div className="max-w-6xl mx-auto w-full">
-            <ValuesSection />
             <HomeRoomsPreview />
           </div>
         </section>
