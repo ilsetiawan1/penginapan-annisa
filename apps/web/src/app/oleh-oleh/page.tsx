@@ -2,7 +2,6 @@
 
 import { CheckCircle2, Gift, Phone, ShoppingBag, Sparkles } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { Navbar } from "../../components/layout/navbar";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
@@ -61,24 +60,20 @@ export default function OlehOlehPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8f5fc] text-[#1e1035] selection:bg-purple-200 selection:text-purple-900 pb-20 relative overflow-hidden">
-      {/* Ambient Glass Glow Orbs */}
-      <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-purple-300/35 rounded-full blur-[140px] -z-10 pointer-events-none" />
-      <div className="fixed bottom-10 right-10 w-[450px] h-[450px] bg-pink-200/30 rounded-full blur-[130px] -z-10 pointer-events-none" />
-
+    <div className="min-h-screen bg-[#faf9fc] text-slate-900 pb-20">
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 pt-28">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <Badge variant="purple" className="mb-3">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <Badge variant="purple" className="mb-2">
             Etalase Oleh-oleh Otentik
           </Badge>
           <h1 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight leading-tight">
             Oleh-oleh Khas Ambon &amp; Maluku
           </h1>
-          <p className="text-slate-600 mt-3 text-sm sm:text-base">
+          <p className="text-slate-600 mt-2 text-sm sm:text-base">
             Dapatkan produk cinderamata dan kuliner khas otentik langsung di resepsionis Penginapan
-            Annisa. Praktis, siap dibawa terbang tanpa repot belanja keliling kota.
+            Annisa.
           </p>
         </div>
 
@@ -86,10 +81,10 @@ export default function OlehOlehPage() {
           {souvenirs.map((item) => (
             <Card
               key={item.name}
-              className="overflow-hidden p-0 rounded-3xl bg-white/75 backdrop-blur-xl border border-white/90 hover:bg-white/90 hover:border-purple-200/90 hover:shadow-2xl shadow-purple-950/5 transition-all flex flex-col justify-between"
+              className="overflow-hidden p-0 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
-                <div className="relative h-52 w-full bg-purple-50 overflow-hidden">
+                <div className="relative h-52 w-full bg-slate-100 overflow-hidden">
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -97,18 +92,18 @@ export default function OlehOlehPage() {
                     className="object-cover hover:scale-105 transition duration-300"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="bg-purple-950/85 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white">
+                    <span className="bg-slate-900/90 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white">
                       {item.category}
                     </span>
                   </div>
                 </div>
 
                 <div className="p-6">
-                  <h2 className="font-bold text-lg text-slate-900 mb-1 leading-snug">
+                  <h2 className="font-bold text-base text-slate-900 mb-1 leading-snug">
                     {item.name}
                   </h2>
-                  <p className="text-2xl font-black text-purple-700 mb-3">{item.price}</p>
-                  <p className="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
+                  <p className="text-xl font-black text-purple-700 mb-2">{item.price}</p>
+                  <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
 
@@ -117,7 +112,7 @@ export default function OlehOlehPage() {
                   asChild
                   variant="primary"
                   size="sm"
-                  className="w-full justify-center gap-2 rounded-2xl font-bold text-xs bg-purple-600 hover:bg-purple-700 shadow-purple-600/30"
+                  className="w-full justify-center gap-2 rounded-xl font-bold text-xs bg-purple-700 hover:bg-purple-800 text-white shadow-xs"
                 >
                   <a
                     href={`https://wa.me/6281242163116?text=Halo%20Penginapan%20Annisa,%20saya%20tertarik%20membeli%20oleh-oleh%20${encodeURIComponent(

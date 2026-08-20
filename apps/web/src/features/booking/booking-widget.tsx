@@ -49,7 +49,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
       price: 200000,
       image:
         "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop",
-      badge: "Paling Hemat",
+      badge: "Hemat & Nyaman",
       features: "1 Double/2 Single • Kipas Angin • Kamar Mandi Dalam • WiFi",
     },
   };
@@ -92,55 +92,48 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
 
   return (
     <div className="w-full max-w-xl mx-auto">
-      {/* Clean Glassmorphic Booking Card with Dynamic Room Photo */}
+      {/* Clean Minimalist Booking Card */}
       <form
         onSubmit={handleSendWhatsapp}
-        className="bg-white/80 backdrop-blur-2xl rounded-3xl border border-white/90 shadow-2xl shadow-purple-950/10 overflow-hidden transition-all duration-300"
+        className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-md overflow-hidden transition-all duration-200"
       >
-        {/* Dynamic Visual Room Photo Header */}
-        <div className="relative h-44 sm:h-52 w-full bg-purple-100 overflow-hidden group">
+        {/* Crisp Visual Room Photo Header */}
+        <div className="relative h-44 sm:h-52 w-full bg-slate-100 overflow-hidden">
           <Image
             src={selectedRoomInfo.image}
             alt={selectedRoomInfo.name}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-cover"
             priority
           />
-          {/* Top Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
+          {/* Subtle Top & Bottom Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20" />
 
-          <div className="absolute top-3 left-3 flex items-center gap-2">
-            <span className="bg-purple-950/80 backdrop-blur-md text-white text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/20 shadow-xs">
+          <div className="absolute top-3 left-3">
+            <span className="bg-slate-900/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
               {selectedRoomInfo.badge}
             </span>
           </div>
 
           <div className="absolute top-3 right-3">
-            <span className="bg-white/90 backdrop-blur-md text-purple-950 text-xs font-black px-3 py-1 rounded-full shadow-xs">
+            <span className="bg-white text-slate-900 text-xs font-extrabold px-3 py-1 rounded-full shadow-xs">
               {formatRupiah(selectedRoomInfo.price)}
-              <span className="text-[10px] font-semibold text-slate-600"> / mlm</span>
+              <span className="text-[10px] font-normal text-slate-500"> / mlm</span>
             </span>
           </div>
 
-          {/* Bottom Photo Caption */}
-          <div className="absolute bottom-3 left-3 right-3 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-extrabold text-base sm:text-lg leading-tight">
-                  {selectedRoomInfo.name}
-                </h3>
-                <p className="text-[11px] text-purple-200 font-medium mt-0.5 flex items-center gap-1.5">
-                  <Sparkles className="w-3 h-3 text-purple-300 shrink-0" />
-                  <span>{selectedRoomInfo.features}</span>
-                </p>
-              </div>
-            </div>
+          {/* Photo Caption */}
+          <div className="absolute bottom-3 left-3.5 right-3.5 text-white">
+            <h3 className="font-bold text-base sm:text-lg leading-tight">
+              {selectedRoomInfo.name}
+            </h3>
+            <p className="text-[11px] text-slate-200 mt-0.5">{selectedRoomInfo.features}</p>
           </div>
         </div>
 
         <div className="p-4 sm:p-5">
-          {/* Segmented Room Selector */}
-          <div className="grid grid-cols-2 gap-2 p-1 bg-purple-50/70 rounded-2xl mb-4 border border-purple-100/80">
+          {/* Clean Segmented Room Selector */}
+          <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-xl mb-4">
             {/* AC Superior */}
             <button
               type="button"
@@ -148,39 +141,20 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
                 setRoomType("ac");
                 onSelectRoomType?.("kamar-ac");
               }}
-              className={`p-2 sm:p-2.5 rounded-xl text-left transition-all relative flex items-center justify-between cursor-pointer ${
+              className={`p-2.5 rounded-lg text-left transition-all relative flex items-center justify-between cursor-pointer ${
                 roomType === "ac"
-                  ? "bg-purple-700 text-white shadow-md shadow-purple-950/20"
-                  : "bg-white/80 text-slate-700 hover:bg-white hover:text-purple-950"
+                  ? "bg-white text-slate-900 shadow-xs border border-slate-200/80"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              <div className="flex items-center gap-2">
-                <span
-                  className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
-                    roomType === "ac" ? "bg-white/20 text-white" : "bg-purple-100 text-purple-700"
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
+              <div>
+                <span className="text-xs font-bold block leading-tight">AC Superior</span>
+                <span className="text-[10px] text-purple-700 font-semibold block mt-0.5">
+                  Rp 275rb/mlm
                 </span>
-                <div>
-                  <span
-                    className={`text-xs font-black block leading-tight ${
-                      roomType === "ac" ? "text-white" : "text-slate-900"
-                    }`}
-                  >
-                    AC Superior
-                  </span>
-                  <span
-                    className={`text-[10px] font-bold block leading-none mt-0.5 ${
-                      roomType === "ac" ? "text-purple-200" : "text-purple-700"
-                    }`}
-                  >
-                    Rp 275rb/mlm
-                  </span>
-                </div>
               </div>
               {roomType === "ac" && (
-                <span className="text-[9px] font-extrabold bg-white/25 text-white px-1.5 py-0.5 rounded-md">
+                <span className="w-4 h-4 rounded-full bg-purple-700 text-white flex items-center justify-center text-[10px] font-bold">
                   ✓
                 </span>
               )}
@@ -193,56 +167,35 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
                 setRoomType("kipas");
                 onSelectRoomType?.("kamar-kipas");
               }}
-              className={`p-2 sm:p-2.5 rounded-xl text-left transition-all relative flex items-center justify-between cursor-pointer ${
+              className={`p-2.5 rounded-lg text-left transition-all relative flex items-center justify-between cursor-pointer ${
                 roomType === "kipas"
-                  ? "bg-purple-700 text-white shadow-md shadow-purple-950/20"
-                  : "bg-white/80 text-slate-700 hover:bg-white hover:text-purple-950"
+                  ? "bg-white text-slate-900 shadow-xs border border-slate-200/80"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              <div className="flex items-center gap-2">
-                <span
-                  className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
-                    roomType === "kipas"
-                      ? "bg-white/20 text-white"
-                      : "bg-purple-100 text-purple-700"
-                  }`}
-                >
-                  <Wind className="w-3.5 h-3.5" />
+              <div>
+                <span className="text-xs font-bold block leading-tight">Kipas Standar</span>
+                <span className="text-[10px] text-purple-700 font-semibold block mt-0.5">
+                  Rp 200rb/mlm
                 </span>
-                <div>
-                  <span
-                    className={`text-xs font-black block leading-tight ${
-                      roomType === "kipas" ? "text-white" : "text-slate-900"
-                    }`}
-                  >
-                    Kipas Standar
-                  </span>
-                  <span
-                    className={`text-[10px] font-bold block leading-none mt-0.5 ${
-                      roomType === "kipas" ? "text-purple-200" : "text-purple-700"
-                    }`}
-                  >
-                    Rp 200rb/mlm
-                  </span>
-                </div>
               </div>
               {roomType === "kipas" && (
-                <span className="text-[9px] font-extrabold bg-white/25 text-white px-1.5 py-0.5 rounded-md">
+                <span className="w-4 h-4 rounded-full bg-purple-700 text-white flex items-center justify-center text-[10px] font-bold">
                   ✓
                 </span>
               )}
             </button>
           </div>
 
-          {/* Form Input Fields */}
+          {/* Form Input Fields (Clean Hairline Borders) */}
           <div className="grid grid-cols-2 gap-2 sm:gap-2.5 mb-3.5">
             {/* Check-In Date */}
-            <div className="bg-purple-50/40 hover:bg-purple-50/70 p-2.5 rounded-xl border border-purple-100/80 transition">
+            <div className="bg-slate-50 hover:bg-slate-100/80 p-2.5 rounded-xl border border-slate-200/80 transition">
               <label
                 htmlFor="checkInDate"
                 className="text-[10px] uppercase font-bold text-slate-500 block mb-1 flex items-center gap-1"
               >
-                <Calendar className="w-3 h-3 text-purple-600" />
+                <Calendar className="w-3 h-3 text-purple-700" />
                 <span>Tgl Check-In</span>
               </label>
               <input
@@ -257,12 +210,12 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
             </div>
 
             {/* Durasi Menginap */}
-            <div className="bg-purple-50/40 hover:bg-purple-50/70 p-2.5 rounded-xl border border-purple-100/80 transition">
+            <div className="bg-slate-50 hover:bg-slate-100/80 p-2.5 rounded-xl border border-slate-200/80 transition">
               <label
                 htmlFor="durasiMalam"
                 className="text-[10px] uppercase font-bold text-slate-500 block mb-1 flex items-center gap-1"
               >
-                <Moon className="w-3 h-3 text-purple-600" />
+                <Moon className="w-3 h-3 text-purple-700" />
                 <span>Lama Menginap</span>
               </label>
               <select
@@ -279,12 +232,12 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
             </div>
 
             {/* Nama Tamu */}
-            <div className="bg-purple-50/40 hover:bg-purple-50/70 p-2.5 rounded-xl border border-purple-100/80 transition">
+            <div className="bg-slate-50 hover:bg-slate-100/80 p-2.5 rounded-xl border border-slate-200/80 transition">
               <label
                 htmlFor="guestName"
                 className="text-[10px] uppercase font-bold text-slate-500 block mb-1 flex items-center gap-1"
               >
-                <Users className="w-3 h-3 text-purple-600" />
+                <Users className="w-3 h-3 text-purple-700" />
                 <span>Nama Pemesan</span>
               </label>
               <input
@@ -299,12 +252,12 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
             </div>
 
             {/* No. WhatsApp */}
-            <div className="bg-purple-50/40 hover:bg-purple-50/70 p-2.5 rounded-xl border border-purple-100/80 transition">
+            <div className="bg-slate-50 hover:bg-slate-100/80 p-2.5 rounded-xl border border-slate-200/80 transition">
               <label
                 htmlFor="guestPhone"
                 className="text-[10px] uppercase font-bold text-slate-500 block mb-1 flex items-center gap-1"
               >
-                <Phone className="w-3 h-3 text-purple-600" />
+                <Phone className="w-3 h-3 text-purple-700" />
                 <span>No. WhatsApp</span>
               </label>
               <input
@@ -320,7 +273,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
           </div>
 
           {/* Bottom Bar: DP 50% Price Summary + WhatsApp CTA */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-purple-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
             <div>
               <div className="flex items-baseline gap-1.5">
                 <span className="text-[10px] text-slate-500 font-medium">
@@ -330,8 +283,9 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
                   {formatRupiah(totalAmount)}
                 </span>
               </div>
-              <div className="text-[11px] font-extrabold text-purple-900 mt-0.5">
-                DP 50% Transfer: <span className="text-purple-700">{formatRupiah(dpAmount)}</span>
+              <div className="text-[11px] font-bold text-slate-700 mt-0.5">
+                DP 50% Transfer:{" "}
+                <span className="text-purple-700 font-black">{formatRupiah(dpAmount)}</span>
               </div>
             </div>
 
@@ -339,7 +293,7 @@ export function BookingWidget({ onSelectRoomType }: BookingWidgetProps) {
               type="submit"
               variant="primary"
               size="md"
-              className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm gap-2 bg-purple-600 hover:bg-purple-700 shadow-purple-600/30"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm gap-2 bg-purple-700 hover:bg-purple-800 text-white shadow-xs"
             >
               <Phone className="w-4 h-4" />
               <span>Pesan via WhatsApp</span>

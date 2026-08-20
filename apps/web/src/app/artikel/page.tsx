@@ -43,22 +43,18 @@ export default function ArtikelPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8f5fc] text-[#1e1035] selection:bg-purple-200 selection:text-purple-900 pb-20 relative overflow-hidden">
-      {/* Ambient Glass Glow Orbs */}
-      <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-purple-300/35 rounded-full blur-[140px] -z-10 pointer-events-none" />
-      <div className="fixed bottom-10 right-10 w-[450px] h-[450px] bg-pink-200/30 rounded-full blur-[130px] -z-10 pointer-events-none" />
-
+    <div className="min-h-screen bg-[#faf9fc] text-slate-900 pb-20">
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 pt-28">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <Badge variant="purple" className="mb-3">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <Badge variant="purple" className="mb-2">
             Artikel &amp; Panduan
           </Badge>
           <h1 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight leading-tight">
-            Artikel Wisata &amp; Informasi Transit
+            Artikel Wisata &amp; Transit
           </h1>
-          <p className="text-slate-600 mt-3 text-sm sm:text-base">
+          <p className="text-slate-600 mt-2 text-sm sm:text-base">
             Kumpulan panduan praktis penerbangan, wisata kuliner khas Maluku, dan tips transit
             bandara Ambon.
           </p>
@@ -68,11 +64,11 @@ export default function ArtikelPage() {
           {articles.map((art) => (
             <Card
               key={art.slug}
-              className="p-6 rounded-3xl bg-white/75 backdrop-blur-xl border border-white/90 hover:bg-white/90 hover:border-purple-200/90 hover:shadow-2xl shadow-purple-950/5 transition-all flex flex-col justify-between"
+              className="p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between text-xs text-slate-400 mb-3 font-medium">
-                  <span className="text-purple-900 font-bold bg-white/80 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/90 shadow-2xs">
+                  <span className="text-purple-700 font-bold bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-100">
                     {art.category}
                   </span>
                   <div className="flex items-center gap-1 text-slate-500">
@@ -81,14 +77,14 @@ export default function ArtikelPage() {
                   </div>
                 </div>
 
-                <h2 className="font-bold text-xl text-slate-900 hover:text-purple-700 transition leading-snug mb-3">
+                <h2 className="font-bold text-lg text-slate-900 hover:text-purple-700 transition leading-snug mb-2">
                   {art.title}
                 </h2>
                 <p className="text-sm text-slate-600 leading-relaxed mb-4">{art.desc}</p>
               </div>
 
-              <div className="pt-4 border-t border-purple-100/50 flex items-center justify-between text-xs font-semibold text-purple-700">
-                <span>{art.date}</span>
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-purple-700">
+                <span className="text-slate-500 font-normal">{art.date}</span>
                 <span className="hover:underline flex items-center gap-1 font-bold">
                   Baca Selengkapnya ➔
                 </span>
