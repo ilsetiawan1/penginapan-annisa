@@ -8,7 +8,7 @@ export function HeroSection() {
     <section className="relative w-full pt-24 sm:pt-28 pb-10 sm:pb-14 xl:min-h-screen xl:h-screen xl:pt-16 xl:pb-0 flex flex-col justify-center px-4 overflow-hidden">
       {/* Background Image Pattimura */}
       <Image
-        src="/home/bg-bandara-pattimura-ambon.jpg"
+        src="/home/bg-pattimura-airport.jpg"
         alt="Bandara Internasional Pattimura Ambon"
         fill
         className="object-cover object-center"
