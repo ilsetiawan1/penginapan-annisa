@@ -35,7 +35,7 @@ export function RoomGuideCard() {
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  <strong className="text-slate-900">Check-In Fleksibel 24 Jam</strong>, bisa langsung masuk jika unit telah siap.
+                  <strong className="text-slate-900">Check-In Fleksibel (06:00 – 22:00 WIT)</strong>, bisa langsung masuk istirahat jika kamar telah selesai dibersihkan.
                 </span>
               </li>
               <li className="flex items-start gap-2">

@@ -16,7 +16,7 @@ export function RoomFilter({ activeFilter, onFilterChange }: RoomFilterProps) {
               : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/60"
           }`}
         >
-          Semua Kamar (8)
+          Semua Kamar
         </button>
         <button
           type="button"
@@ -27,7 +27,7 @@ export function RoomFilter({ activeFilter, onFilterChange }: RoomFilterProps) {
               : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/60"
           }`}
         >
-          Tipe AC (4)
+          Tipe AC
         </button>
         <button
           type="button"
@@ -38,7 +38,7 @@ export function RoomFilter({ activeFilter, onFilterChange }: RoomFilterProps) {
               : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/60"
           }`}
         >
-          Tipe Kipas (4)
+          Tipe Kipas
         </button>
         <button
           type="button"
