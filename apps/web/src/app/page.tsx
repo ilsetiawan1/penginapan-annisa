@@ -8,6 +8,7 @@ import {
   ChevronDown,
   Clock,
   Gift,
+  HeartHandshake,
   HelpCircle,
   MapPin,
   Navigation,
@@ -32,6 +33,27 @@ import { BookingWidget } from "../features/booking/booking-widget";
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  const whyChooseUs = [
+    {
+      icon: Plane,
+      title: "Bebas Risiko Ketinggalan Pesawat",
+      desc: "Hanya 750m (2–3 menit) dari gerbang terminal Bandara Pattimura. Solusi ideal untuk flight subuh dan transit tanpa takut macet.",
+      tag: "Lokasi Strategis",
+    },
+    {
+      icon: Clock,
+      title: "Check-In Fleksibel 07:00–21:00 WIT",
+      desc: "Mendarat pagi jam 09.00 WIT? Langsung masuk kamar jika unit telah siap (*Ready*), tanpa perlu menunggu waktu check-in sore.",
+      tag: "Tanpa Ribet",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Privasi & Kenyamanan Terjamin",
+      desc: "100% dari 8 kamar memiliki kamar mandi pribadi di dalam, kasur higienis, WiFi kencang, dan etalase oleh-oleh khas Maluku di resepsionis.",
+      tag: "Fasilitas Lengkap",
+    },
+  ];
+
   const previewRooms = [
     {
       id: "ac",
@@ -39,17 +61,10 @@ export default function HomePage() {
       badge: "Paling Populer",
       price: "275.000",
       dp: "137.500",
+      bed: "1 King Bed",
       capacity: "2–3 Orang",
-      bed: "1 Double Bed (King Size)",
-      desc: "Kamar sejuk dan tenang dengan AC dingin, kamar mandi pribadi di dalam, TV, dan WiFi kencang.",
-      facilities: [
-        "AC Dingin & Nyaman",
-        "Kamar Mandi Dalam Pribadi",
-        "WiFi Gratis High-Speed",
-        "TV LED Layar Datar",
-        "Handuk & Perlengkapan Mandi",
-        "Air Mineral Gratis",
-      ],
+      desc: "Sejuk & nyaman dengan AC dingin, kamar mandi dalam, TV LED, dan WiFi kencang.",
+      highlights: ["AC Dingin", "KM Dalam", "WiFi Kencang", "TV LED"],
       image:
         "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop",
     },
@@ -59,17 +74,10 @@ export default function HomePage() {
       badge: "Hemat & Nyaman",
       price: "200.000",
       dp: "100.000",
+      bed: "1 Double / 2 Single",
       capacity: "2–3 Orang",
-      bed: "1 Double / 2 Single Bed",
-      desc: "Pilihan hemat dan bersih dengan sirkulasi udara segar, kamar mandi pribadi di dalam, dan WiFi.",
-      facilities: [
-        "Kipas Angin Dinding",
-        "Kamar Mandi Dalam Pribadi",
-        "WiFi Gratis High-Speed",
-        "TV Layar Datar",
-        "Handuk Bersih",
-        "Air Mineral Gratis",
-      ],
+      desc: "Pilihan hemat & bersih dengan sirkulasi udara segar, kamar mandi dalam, dan WiFi.",
+      highlights: ["Kipas Dinding", "KM Dalam", "WiFi Kencang", "Handuk Bersih"],
       image:
         "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop",
     },
@@ -77,10 +85,10 @@ export default function HomePage() {
 
   const previewSouvenirs = [
     {
-      name: "Minyak Kayu Putih Asli Namlea (100ml)",
-      category: "Herbal Alami",
+      name: "Minyak Kayu Putih Namlea (100ml)",
+      category: "Herbal Asli",
       price: "Rp 65.000",
-      desc: "Penyulingan murni asli Pulau Buru Namlea. Hangat alami dan aroma menenangkan.",
+      desc: "Penyulingan murni Pulau Buru Namlea. Hangat alami dan aroma menenangkan.",
       image:
         "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop",
     },
@@ -88,15 +96,15 @@ export default function HomePage() {
       name: "Kue Sagu Bagea Kenari Ambon",
       category: "Camilan Khas",
       price: "Rp 35.000",
-      desc: "Kue sagu renyah gurih berpadu dengan cacahan biji kenari melimpah khas kepulauan Maluku.",
+      desc: "Kue sagu renyah gurih dengan cacahan biji kenari melimpah khas Maluku.",
       image:
         "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600&auto=format&fit=crop",
     },
     {
-      name: "Roti Kenari Khas Maluku (1 Kotak)",
+      name: "Roti Kenari Khas Maluku",
       category: "Pastry Kering",
       price: "Rp 45.000",
-      desc: "Roti panggang kering renyah dengan taburan gula manis dan kenari gurih harum.",
+      desc: "Roti panggang kering renyah dengan taburan gula manis dan kenari harum.",
       image:
         "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop",
     },
@@ -109,15 +117,15 @@ export default function HomePage() {
     },
     {
       q: "Apakah jam check-in fleksibel untuk penumpang pesawat pagi / siang?",
-      a: "Ya, kami beroperasi pukul 07:00 – 21:00 WIT dengan check-in fleksibel. Jika unit kamar sudah siap (Ready), Anda bisa langsung beristirahat tanpa harus menunggu jam 14:00 siang.",
+      a: "Ya! Kami beroperasi pukul 07:00 – 21:00 WIT dengan check-in fleksibel. Jika kamar sudah siap (Ready), Anda bisa langsung beristirahat tanpa menunggu sore.",
     },
     {
       q: "Bagaimana cara memesan dan sistem pembayaran kamar?",
-      a: "Pemesanan dilakukan via WhatsApp dengan transfer DP 50% untuk mengunci unit kamar. Sisa pembayaran dilunasi saat tiba di lokasi (bisa Tunai, Transfer, atau QRIS).",
+      a: "Pemesanan dilakukan via WhatsApp dengan transfer DP 50% untuk mengunci kamar. Sisa pembayaran dilunasi saat tiba di lokasi (Tunai, Transfer, atau QRIS).",
     },
     {
       q: "Apakah semua kamar memiliki kamar mandi pribadi di dalam?",
-      a: "Benar, 100% dari 8 kamar kami (baik 4 Kamar AC maupun 4 Kamar Kipas) memiliki kamar mandi pribadi di dalam kamar lengkap dengan handuk bersih dan air mineral.",
+      a: "Benar, 100% dari 8 kamar kami (4 Kamar AC dan 4 Kamar Kipas) memiliki kamar mandi pribadi di dalam lengkap dengan handuk bersih dan air mineral.",
     },
   ];
 
@@ -125,34 +133,34 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#faf9fc] text-slate-900 selection:bg-purple-200 selection:text-purple-900">
       <Navbar />
 
-      {/* Hero Section: Clean Minimalist Split Screen */}
-      <section className="relative pt-24 sm:pt-32 pb-8 sm:pb-16 px-4 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Kolom Kiri: Value, Headline & Trust Chips */}
+      {/* Hero Section: Clean Acrylic Split Screen */}
+      <section className="relative pt-24 sm:pt-32 pb-8 sm:pb-12 px-4 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* Kolom Kiri: Value, Headline & Trust Badges */}
           <div className="lg:col-span-6 flex flex-col justify-center text-left">
             {/* Minimalist Location Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-200/70 text-purple-800 text-xs font-semibold mb-4 w-fit">
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-600" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-200/80 text-purple-800 text-xs font-semibold mb-3 sm:mb-4 w-fit shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
               <span>750m dari Bandara Pattimura Ambon</span>
             </div>
 
-            {/* Clean Crisp Headline */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.15]">
+            {/* Crisp Headline */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.16]">
               Penginapan Transit Nyaman Dekat{" "}
               <span className="text-purple-700">Bandara Pattimura</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="mt-3.5 text-sm sm:text-base text-slate-600 leading-relaxed max-w-lg">
+            <p className="mt-3.5 text-xs sm:text-base text-slate-600 leading-relaxed max-w-lg">
               Solusi istirahat ideal untuk penerbangan subuh, transit dinas, dan wisata di Ambon.
               Kamar bersih, WiFi kencang, dan <strong>bebas risiko terlambat pesawat</strong>.
             </p>
 
             {/* 4 Minimalist Highlights Grid */}
-            <div className="grid grid-cols-2 gap-2.5 mt-6 max-w-lg">
-              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white border border-slate-200/80 shadow-xs">
-                <span className="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
-                  <Plane className="w-3.5 h-3.5" />
+            <div className="grid grid-cols-2 gap-2 sm:gap-2.5 mt-5 sm:mt-6 max-w-lg">
+              <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-2xs">
+                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                  <Plane className="w-4 h-4" />
                 </span>
                 <div className="text-xs">
                   <span className="font-bold text-slate-900 block leading-tight">
@@ -162,9 +170,9 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white border border-slate-200/80 shadow-xs">
-                <span className="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
-                  <Bed className="w-3.5 h-3.5" />
+              <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-2xs">
+                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                  <Bed className="w-4 h-4" />
                 </span>
                 <div className="text-xs">
                   <span className="font-bold text-slate-900 block leading-tight">8 Unit Kamar</span>
@@ -172,9 +180,9 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white border border-slate-200/80 shadow-xs">
-                <span className="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+              <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-2xs">
+                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-4 h-4" />
                 </span>
                 <div className="text-xs">
                   <span className="font-bold text-slate-900 block leading-tight">KM Dalam</span>
@@ -182,9 +190,9 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white border border-slate-200/80 shadow-xs">
-                <span className="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
-                  <Clock className="w-3.5 h-3.5" />
+              <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-2xs">
+                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                  <Clock className="w-4 h-4" />
                 </span>
                 <div className="text-xs">
                   <span className="font-bold text-slate-900 block leading-tight">
@@ -196,272 +204,262 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Kolom Kanan: Clean Minimalist Booking Card */}
+          {/* Kolom Kanan: Card Foto Kamar Cantik & Booking Widget */}
           <div className="lg:col-span-6">
             <BookingWidget />
           </div>
         </div>
       </section>
 
-      {/* Clean Minimalist Stat Card Bar */}
-      <section className="py-4 sm:py-8 px-4 max-w-6xl mx-auto">
-        <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-xs grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-100 text-center">
-          <div className="flex flex-col items-center justify-center p-2">
-            <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-1.5">
-              <Plane className="w-4 h-4" />
-            </div>
-            <p className="text-2xl sm:text-3xl font-black text-purple-700">750 Meter</p>
-            <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">Jarak ke Bandara</p>
-            <p className="text-[11px] text-slate-500">2–3 Menit dari Terminal</p>
+      {/* Kenapa Memilih Penginapan Annisa? (Frosted Glass Acrylic Cards) */}
+      <section className="py-6 sm:py-10 px-4 max-w-6xl mx-auto">
+        <div className="mb-6 sm:mb-8 text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+          <div>
+            <Badge variant="purple" className="mb-1.5">
+              Nilai Utama
+            </Badge>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 tracking-tight">
+              Kenapa Memilih Penginapan Annisa?
+            </h2>
           </div>
+          <p className="text-xs sm:text-sm text-slate-500 max-w-md">
+            Dirancang khusus untuk kenyamanan transit penerbangan dan istirahat berkualitas di
+            Ambon.
+          </p>
+        </div>
 
-          <div className="flex flex-col items-center justify-center p-2 pt-4 sm:pt-2">
-            <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-1.5">
-              <Bed className="w-4 h-4" />
-            </div>
-            <p className="text-2xl sm:text-3xl font-black text-slate-900">8 Kamar</p>
-            <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">Pilihan Lengkap</p>
-            <p className="text-[11px] text-slate-500">4 AC &amp; 4 Kipas Standar</p>
-          </div>
-
-          <div className="flex flex-col items-center justify-center p-2 pt-4 sm:pt-2">
-            <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-1.5">
-              <Clock className="w-4 h-4" />
-            </div>
-            <p className="text-2xl sm:text-3xl font-black text-purple-700">07:00–21:00</p>
-            <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">Jam Buka (WIT)</p>
-            <p className="text-[11px] text-slate-500">Check-in Fleksibel</p>
-          </div>
-
-          <div className="flex flex-col items-center justify-center p-2 pt-4 sm:pt-2">
-            <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-1.5">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
-            <p className="text-2xl sm:text-3xl font-black text-purple-700">100%</p>
-            <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">KM Pribadi</p>
-            <p className="text-[11px] text-slate-500">Kamar Mandi Dalam</p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          {whyChooseUs.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.title}
+                className="bg-white/95 backdrop-blur-md p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-xs hover:border-purple-300 hover:shadow-md transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3.5">
+                    <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-bold text-purple-700 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full">
+                      {item.tag}
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-1.5 leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* Ringkasan Pilihan Kamar (Clean Minimalist Cards) */}
-      <section className="py-10 sm:py-16 px-4 max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-3 sm:gap-4">
+      {/* Ringkasan Tipe Kamar (Compact Mobile Swipe / Desktop Grid) */}
+      <section className="py-6 sm:py-10 px-4 max-w-6xl mx-auto">
+        <div className="flex items-center justify-between mb-5 sm:mb-8 gap-3">
           <div>
-            <Badge variant="purple" className="mb-2">
-              Pilihan Kamar Transit
+            <Badge variant="purple" className="mb-1">
+              Pilihan Kamar
             </Badge>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
+            <h2 className="text-xl sm:text-3xl font-extrabold text-slate-950 tracking-tight">
               Tipe Kamar Penginapan Annisa
             </h2>
-            <p className="text-slate-600 mt-1.5 text-xs sm:text-base">
-              Tersedia 4 Kamar AC Superior dan 4 Kamar Kipas Standar dengan DP transparan 50%.
-            </p>
           </div>
           <Button
             asChild
             variant="outline"
-            className="rounded-xl border-slate-300 text-slate-800 hover:bg-slate-50 font-bold gap-2 self-start sm:self-auto shrink-0 text-xs sm:text-sm"
+            size="sm"
+            className="rounded-full border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-xs gap-1.5 shrink-0"
           >
             <Link href="/kamar">
-              <span>Lihat Semua 8 Kamar</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Semua 8 Kamar</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+        {/* Compact Room Cards (Swipeable on Mobile) */}
+        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-3 sm:gap-6 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-2 no-scrollbar">
           {previewRooms.map((room) => (
-            <Card
+            <div
               key={room.id}
-              className="overflow-hidden p-0 rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white hover:border-purple-300 hover:shadow-md transition-all flex flex-col justify-between"
+              className="snap-center min-w-[85vw] sm:min-w-[340px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-xs hover:border-purple-300 hover:shadow-md transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
             >
               <div>
-                <div className="relative h-48 sm:h-56 w-full bg-slate-100 overflow-hidden">
-                  <Image
-                    src={room.image}
-                    alt={room.name}
-                    fill
-                    className="object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-slate-900/90 text-white px-3 py-1 rounded-full text-xs font-bold shadow-xs">
+                <div className="relative h-40 sm:h-52 w-full bg-slate-100 overflow-hidden">
+                  <Image src={room.image} alt={room.name} fill className="object-cover" />
+                  <div className="absolute top-2.5 left-2.5">
+                    <span className="bg-slate-900/90 text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold">
                       {room.badge}
                     </span>
                   </div>
-                  <div className="absolute bottom-3 right-3 bg-slate-900/80 text-white px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-purple-300" />
+                  <div className="absolute bottom-2.5 right-2.5 bg-slate-900/80 text-white px-2.5 py-1 rounded-lg text-[10px] font-semibold flex items-center gap-1">
+                    <Users className="w-3 h-3 text-purple-300" />
                     <span>{room.capacity}</span>
                   </div>
                 </div>
 
-                <div className="p-5 sm:p-7">
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 mb-1">
-                    {room.name}
-                  </h3>
-                  <p className="text-xs text-purple-700 font-semibold mb-3">{room.bed}</p>
-
-                  <div className="mb-4 sm:mb-6 p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl sm:text-3xl font-black text-purple-700">
+                <div className="p-4 sm:p-5">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <div>
+                      <h3 className="font-extrabold text-base sm:text-xl text-slate-900 leading-tight">
+                        {room.name}
+                      </h3>
+                      <p className="text-[11px] text-purple-700 font-semibold mt-0.5">{room.bed}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-lg sm:text-2xl font-black text-purple-700">
                         Rp {room.price}
+                      </p>
+                      <span className="text-[9px] text-slate-500 font-medium">/ malam</span>
+                    </div>
+                  </div>
+
+                  {/* Highlights Pills */}
+                  <div className="flex flex-wrap gap-1.5 my-3">
+                    {room.highlights.map((h) => (
+                      <span
+                        key={h}
+                        className="text-[10px] font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md"
+                      >
+                        ✓ {h}
                       </span>
-                      <span className="text-xs text-slate-500 font-medium">/ malam</span>
-                    </div>
-                    <span className="inline-block mt-1 text-[11px] sm:text-xs font-bold text-purple-900 bg-purple-100/80 border border-purple-200/60 px-2.5 py-0.5 rounded-full">
-                      DP 50%: Rp {room.dp}
-                    </span>
+                    ))}
                   </div>
 
-                  <p className="text-xs text-slate-600 mb-4 sm:mb-5 leading-relaxed">{room.desc}</p>
-
-                  <div className="space-y-2 pt-3 sm:pt-4 border-t border-slate-100">
-                    <span className="block text-[10px] sm:text-[11px] font-bold text-slate-900 uppercase tracking-wider">
-                      Fasilitas Termasuk:
-                    </span>
-                    <div className="space-y-1.5 text-xs text-slate-700">
-                      {room.facilities.map((fac) => (
-                        <div key={fac} className="flex items-center gap-2">
-                          <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
-                            <Check className="w-3 h-3" />
-                          </span>
-                          <span>{fac}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <p className="text-[11px] sm:text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                    {room.desc}
+                  </p>
                 </div>
               </div>
 
-              <div className="p-5 sm:p-7 pt-0">
+              <div className="p-4 sm:p-5 pt-0 flex items-center justify-between gap-3 border-t border-slate-100 mt-2">
+                <span className="text-[11px] font-bold text-slate-800">
+                  DP 50%: <span className="text-purple-700">Rp {room.dp}</span>
+                </span>
                 <Button
                   asChild
                   variant="primary"
-                  size="lg"
-                  className="w-full justify-center gap-2 rounded-xl shadow-xs font-bold text-xs sm:text-sm bg-purple-700 hover:bg-purple-800 text-white py-3"
+                  size="sm"
+                  className="rounded-xl font-bold text-xs bg-purple-700 hover:bg-purple-800 text-white px-4 py-1.5 shadow-xs"
                 >
                   <a
                     href={`https://wa.me/6281242163116?text=Halo%20Penginapan%20Annisa,%20saya%20tertarik%20reservasi%20${encodeURIComponent(
                       room.name,
-                    )}%20(Rp%20${room.price}/mlm).%20Apakah%20masih%20tersedia?`}
+                    )}%20(Rp%20${room.price}/mlm).%20Apakah%20unit%20tersedia?`}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <Phone className="w-4 h-4" />
-                    <span>Pesan {room.name} via WA</span>
+                    <Phone className="w-3 h-3" />
+                    <span>Pesan via WA</span>
                   </a>
                 </Button>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Ringkasan Oleh-oleh (Clean Minimalist Grid / Mobile Scroll) */}
-      <section className="py-10 sm:py-16 px-4 max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-3 sm:gap-4">
+      {/* Ringkasan Oleh-oleh (Compact Mobile Swipe / Desktop Grid) */}
+      <section className="py-6 sm:py-10 px-4 max-w-6xl mx-auto">
+        <div className="flex items-center justify-between mb-5 sm:mb-8 gap-3">
           <div>
-            <Badge variant="purple" className="mb-2">
-              Etalase Produk Lokal
+            <Badge variant="purple" className="mb-1">
+              Etalase Lokal
             </Badge>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
-              Oleh-oleh Khas Ambon &amp; Maluku
+            <h2 className="text-xl sm:text-3xl font-extrabold text-slate-950 tracking-tight">
+              Oleh-oleh Khas Maluku
             </h2>
-            <p className="text-slate-600 mt-1.5 text-xs sm:text-base">
-              Cinderamata dan kuliner khas otentik tersedia langsung di resepsionis Penginapan
-              Annisa.
-            </p>
           </div>
           <Button
             asChild
             variant="outline"
-            className="rounded-xl border-slate-300 text-slate-800 hover:bg-slate-50 font-bold gap-2 self-start sm:self-auto shrink-0 text-xs sm:text-sm"
+            size="sm"
+            className="rounded-full border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-xs gap-1.5 shrink-0"
           >
             <Link href="/oleh-oleh">
-              <span>Lihat Semua Oleh-oleh</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Lihat Semua</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </Button>
         </div>
 
-        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-3 sm:gap-4 pb-3 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 no-scrollbar">
+        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-3 sm:gap-6 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 no-scrollbar">
           {previewSouvenirs.map((item) => (
-            <Card
+            <div
               key={item.name}
-              className="snap-center min-w-[75vw] sm:min-w-[280px] md:min-w-0 overflow-hidden p-0 rounded-2xl sm:rounded-3xl bg-white hover:border-purple-300 hover:shadow-md transition-all border border-slate-200/90 flex flex-col justify-between flex-shrink-0 md:flex-shrink"
+              className="snap-center min-w-[72vw] sm:min-w-[260px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-xs hover:border-purple-300 hover:shadow-md transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
             >
               <div>
-                <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover hover:scale-105 transition duration-300"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-slate-900/90 px-3 py-1 rounded-full text-[10px] font-bold text-white">
+                <div className="relative h-36 sm:h-44 w-full bg-slate-100 overflow-hidden">
+                  <Image src={item.image} alt={item.name} fill className="object-cover" />
+                  <div className="absolute top-2.5 left-2.5">
+                    <span className="bg-slate-900/90 px-2 py-0.5 rounded-full text-[9px] font-bold text-white">
                       {item.category}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-5 sm:p-6">
-                  <h3 className="font-bold text-sm sm:text-base text-slate-900 line-clamp-1 mb-1">
+                <div className="p-4 sm:p-5">
+                  <h3 className="font-bold text-xs sm:text-sm text-slate-900 line-clamp-1 mb-1">
                     {item.name}
                   </h3>
-                  <p className="text-lg sm:text-xl font-black text-purple-700 mb-2">{item.price}</p>
-                  <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">{item.desc}</p>
+                  <p className="text-base sm:text-lg font-black text-purple-700 mb-1">
+                    {item.price}
+                  </p>
+                  <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
 
-              <div className="p-5 sm:p-6 pt-0">
-                <div className="py-2.5 px-3 rounded-xl bg-slate-50 border border-slate-200/80 text-center text-xs font-bold text-purple-900">
+              <div className="p-4 sm:p-5 pt-0">
+                <div className="py-1.5 px-2.5 rounded-lg bg-slate-50 border border-slate-200/80 text-center text-[10px] font-bold text-purple-900">
                   Tersedia di Resepsionis
                 </div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* FAQ Section (Clean Minimalist Accordion) */}
-      <section className="py-10 sm:py-16 px-4 max-w-5xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-          <Badge variant="purple" className="mb-2">
-            Pusat Informasi
+      {/* FAQ Section (Clean Acrylic Accordion) */}
+      <section className="py-6 sm:py-10 px-4 max-w-4xl mx-auto">
+        <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
+          <Badge variant="purple" className="mb-1">
+            FAQ
           </Badge>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
+          <h2 className="text-xl sm:text-3xl font-extrabold text-slate-950 tracking-tight">
             Pertanyaan yang Sering Diajukan
           </h2>
-          <p className="text-slate-600 mt-1.5 text-xs sm:text-base">
-            Jawaban lengkap seputar fasilitas, lokasi, dan reservasi di Penginapan Annisa.
-          </p>
         </div>
 
-        <div className="space-y-2.5 sm:space-y-3 max-w-3xl mx-auto">
+        <div className="space-y-2 max-w-3xl mx-auto">
           {faqs.map((faq, idx) => {
             const isOpen = openFaq === idx;
             return (
               <div
                 key={faq.q}
-                className="rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 overflow-hidden shadow-xs transition-all hover:border-purple-300"
+                className="rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/90 overflow-hidden shadow-2xs transition-all hover:border-purple-300"
               >
                 <button
                   type="button"
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-base text-slate-900 hover:text-purple-700 transition cursor-pointer"
+                  className="w-full p-4 text-left flex items-center justify-between gap-3 font-bold text-xs sm:text-sm text-slate-900 hover:text-purple-700 transition cursor-pointer"
                 >
                   <span>{faq.q}</span>
                   <span
-                    className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 transition-transform ${
+                    className={`w-5 h-5 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 transition-transform ${
                       isOpen ? "rotate-45 bg-purple-700 text-white" : ""
                     }`}
                   >
-                    <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <Plus className="w-3 h-3" />
                   </span>
                 </button>
                 {isOpen && (
-                  <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                  <div className="px-4 pb-4 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-2.5">
                     {faq.a}
                   </div>
                 )}
@@ -472,34 +470,33 @@ export default function HomePage() {
       </section>
 
       {/* Location & Directions (Clean Dark Container) */}
-      <section className="py-12 sm:py-16 px-4 bg-slate-950 text-white">
+      <section className="py-10 sm:py-14 px-4 bg-slate-950 text-white">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-center">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-purple-300 text-xs font-semibold mb-3 sm:mb-4">
-                <MapPin className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/10 border border-white/20 text-purple-300 text-[11px] font-semibold mb-2.5">
+                <MapPin className="w-3 h-3" />
                 <span>Titik Lokasi Strategis</span>
               </div>
-              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3 sm:mb-4">
+              <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight mb-2.5">
                 Hanya 750m dari Bandara Pattimura
               </h2>
-              <p className="text-slate-300 text-xs sm:text-base leading-relaxed mb-5 sm:mb-6">
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
                 Penginapan Annisa beralamat dekat dengan akses jalan utama Bandara Internasional
-                Pattimura Ambon. Sangat mudah dijangkau dalam waktu kurang dari 3 menit.
+                Pattimura Ambon. Sangat mudah dijangkau dalam waktu 2–3 menit.
               </p>
 
-              <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-300 mb-6 sm:mb-8">
-                <div className="flex items-start gap-2.5">
-                  <Navigation className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 shrink-0 mt-0.5" />
+              <div className="space-y-2 text-xs text-slate-300 mb-5">
+                <div className="flex items-start gap-2">
+                  <Navigation className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                   <span>
-                    <strong>Alamat:</strong> Jl. Bandara Pattimura (750m dari Terminal), Ambon,
-                    Maluku.
+                    <strong>Alamat:</strong> Jl. Bandara Pattimura (750m dari Terminal), Ambon.
                   </span>
                 </div>
-                <div className="flex items-start gap-2.5">
-                  <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2">
+                  <Phone className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                   <span>
-                    <strong>WhatsApp Resmi:</strong> +62 812-4216-3116 (07:00 – 21:00 WIT)
+                    <strong>WhatsApp:</strong> +62 812-4216-3116 (07:00 – 21:00 WIT)
                   </span>
                 </div>
               </div>
@@ -507,101 +504,65 @@ export default function HomePage() {
               <Button
                 asChild
                 variant="primary"
-                size="lg"
-                className="w-full sm:w-auto rounded-xl gap-2 font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs text-xs sm:text-sm"
+                size="sm"
+                className="w-full sm:w-auto rounded-xl gap-2 font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs text-xs"
               >
                 <a
                   href="https://maps.app.goo.gl/PskXAUZuGD7NeMoL7"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <MapPin className="w-4 h-4" />
-                  <span>Buka Petunjuk Arah di Google Maps</span>
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>Petunjuk Arah di Google Maps</span>
                 </a>
               </Button>
             </div>
 
-            {/* Visual Route & Embedded Google Maps */}
-            <div className="space-y-4">
-              <div className="bg-slate-900 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-800">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <h3 className="font-bold text-sm sm:text-base text-white">
-                      Rute Kilat Bandara ke Annisa
-                    </h3>
-                    <p className="text-[11px] sm:text-xs text-slate-400">
-                      Estimasi Waktu: 2–3 Menit (750m)
-                    </p>
-                  </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-purple-900/50 text-purple-300 text-[10px] sm:text-[11px] font-bold border border-purple-700/50">
-                    Sangat Dekat
-                  </span>
-                </div>
-                <div className="space-y-2 text-xs text-slate-300">
-                  <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Plane className="w-3.5 h-3.5 text-purple-400" />
-                      <span>Terminal Bandara Pattimura</span>
-                    </div>
-                    <span className="font-bold text-white">0 km</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-purple-950/50 border border-purple-700/50 flex items-center justify-between text-purple-300 font-bold">
-                    <div className="flex items-center gap-2">
-                      <Bed className="w-3.5 h-3.5 text-purple-300" />
-                      <span>Penginapan Annisa</span>
-                    </div>
-                    <span>750 m (Tiba)</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Embedded Google Maps */}
-              <div className="w-full h-56 sm:h-64 rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-800 shadow-lg">
-                <iframe
-                  title="Google Maps Lokasi Penginapan Annisa"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1990.7403357162448!2d128.08762133246853!3d-3.7047467933343032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce7a259d48e1b%3A0x304cec63773e589e!2sPenginapan%20Annisa!5e0!3m2!1sid!2sid!4v1787149833837!5m2!1sid!2sid"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                />
-              </div>
+            {/* Embedded Google Maps */}
+            <div className="w-full h-48 sm:h-60 rounded-2xl overflow-hidden border border-slate-800 shadow-lg">
+              <iframe
+                title="Google Maps Lokasi Penginapan Annisa"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1990.7403357162448!2d128.08762133246853!3d-3.7047467933343032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce7a259d48e1b%3A0x304cec63773e589e!2sPenginapan%20Annisa!5e0!3m2!1sid!2sid!4v1787149833837!5m2!1sid!2sid"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-slate-950 text-slate-400 py-10 sm:py-12 px-4 border-t border-slate-900 text-xs sm:text-sm">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-white/10 p-0.5">
+      {/* Compact Minimalist Footer */}
+      <footer className="bg-slate-950 text-slate-400 py-6 px-4 border-t border-slate-900 text-xs">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <div className="relative w-6 h-6 rounded-full overflow-hidden bg-white/10 p-0.5">
               <Image src="/logo-penginapan-annisa.png" alt="Logo" fill className="object-contain" />
             </div>
-            <div>
-              <p className="font-bold text-white text-sm">Penginapan Annisa Ambon</p>
-              <p className="text-[11px] text-slate-500">
-                © 2026 Penginapan Annisa. All rights reserved.
-              </p>
-            </div>
+            <p className="font-bold text-white text-xs">Penginapan Annisa Ambon</p>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-medium">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-[11px]">
             <Link href="/kamar" className="hover:text-white transition">
               Tipe Kamar
             </Link>
             <Link href="/oleh-oleh" className="hover:text-white transition">
-              Oleh-oleh Maluku
+              Oleh-oleh
             </Link>
             <Link href="/artikel" className="hover:text-white transition">
               Artikel
             </Link>
             <Link href="/contact" className="hover:text-white transition">
-              Kontak &amp; Peta
+              Kontak
             </Link>
           </div>
+
+          <p className="text-[10px] text-slate-500 text-center sm:text-right">
+            © 2026 Penginapan Annisa. 750m Bandara Pattimura.
+          </p>
         </div>
       </footer>
     </div>
