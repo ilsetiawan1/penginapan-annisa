@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Gift, Phone } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import { getSouvenirOrderWhatsAppUrl } from "../../../../lib/whatsapp";
 
@@ -42,13 +42,14 @@ export function HomeSouvenirsPreview() {
 
   return (
     <div>
+      {/* Header with 2-3 words title */}
       <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
         <div className="text-left">
           <span className="text-[10px] font-extrabold text-purple-700 tracking-wider uppercase block">
-            ETALASE OLEH-OLEH KHAS MALUKU
+            OLEH-OLEH KHAS
           </span>
           <h2 className="text-xs sm:text-base text-slate-900 leading-tight">
-            Tersedia Langsung di Resepsionis
+            Katalog di Resepsionis
           </h2>
         </div>
         <Button
@@ -63,11 +64,12 @@ export function HomeSouvenirsPreview() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
+      {/* 1-Line Horizontal Swipe on Mobile / 4-Col Grid on Desktop */}
+      <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-3.5 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
         {previewSouvenirs.map((item) => (
           <div
             key={item.name}
-            className="bg-white/95 backdrop-blur-md rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between"
+            className="snap-center min-w-[65vw] sm:min-w-[240px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
           >
             <div>
               <div className="relative h-24 sm:h-28 w-full bg-slate-100 overflow-hidden">
@@ -99,7 +101,7 @@ export function HomeSouvenirsPreview() {
                   rel="noreferrer"
                 >
                   <Phone className="w-3 h-3" />
-                  <span>Pesan</span>
+                  <span>Tanya Stok</span>
                 </a>
               </Button>
             </div>
