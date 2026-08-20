@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
+import { FaWhatsapp } from "react-icons/fa6";
+
 export function Navbar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -70,7 +72,7 @@ export function Navbar() {
 
         {/* Right Action Buttons */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* WA Button: Icon Only on Mobile, Icon + Text on Desktop */}
+          {/* WA Button: FaWhatsapp on Mobile, Icon + Text on Desktop */}
           <Button
             asChild
             variant="primary"
@@ -83,7 +85,7 @@ export function Navbar() {
               target="_blank"
               rel="noreferrer"
             >
-              <Phone className="w-3.5 h-3.5" />
+              <FaWhatsapp className="w-4 h-4" />
               <span className="hidden sm:inline sm:ml-1.5">WhatsApp</span>
             </a>
           </Button>

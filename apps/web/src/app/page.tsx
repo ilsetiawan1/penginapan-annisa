@@ -56,7 +56,8 @@ export default function HomePage() {
 
   const previewRooms = [
     {
-      id: "ac",
+      id: "101",
+      number: "101",
       name: "Kamar AC Superior",
       badge: "Paling Populer",
       price: "275.000",
@@ -69,17 +70,46 @@ export default function HomePage() {
         "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop",
     },
     {
-      id: "kipas",
+      id: "102",
+      number: "102",
+      name: "Kamar AC Superior",
+      badge: "Lantai 1",
+      price: "275.000",
+      dp: "137.500",
+      bed: "1 King Bed",
+      capacity: "2–3 Orang",
+      desc: "Kamar tenang & bersih dengan kasur empuk, AC sejuk, dan kamar mandi dalam.",
+      highlights: ["AC Dingin", "KM Dalam", "WiFi Kencang"],
+      image:
+        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop",
+    },
+    {
+      id: "201",
+      number: "201",
       name: "Kamar Kipas Standar",
       badge: "Hemat & Nyaman",
       price: "200.000",
       dp: "100.000",
-      bed: "1 Double / 2 Single",
+      bed: "1 Double Bed",
       capacity: "2–3 Orang",
       desc: "Pilihan hemat & bersih dengan sirkulasi udara segar, kamar mandi pribadi di dalam, dan WiFi.",
       highlights: ["Kipas Dinding", "KM Dalam", "WiFi Kencang"],
       image:
         "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop",
+    },
+    {
+      id: "202",
+      number: "202",
+      name: "Kamar Kipas Standar",
+      badge: "Lantai 2",
+      price: "200.000",
+      dp: "100.000",
+      bed: "2 Single Bed",
+      capacity: "2–3 Orang",
+      desc: "Kamar twin bed praktis untuk rekan dinas atau teman perjalanan transit bandara.",
+      highlights: ["Kipas Dinding", "KM Dalam", "WiFi Kencang"],
+      image:
+        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800&auto=format&fit=crop",
     },
   ];
 
@@ -255,14 +285,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ringkasan Tipe Kamar (2 Cards Fully Side-by-Side on Mobile) */}
-      <section className="py-4 sm:py-8 px-3 sm:px-4 max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-2.5 sm:mb-6 gap-2">
+      {/* Ringkasan Tipe Kamar (4 Kamar: 1 Full + 1 Half Peek on Mobile Swipe) */}
+      <section className="py-4 sm:py-8 px-4 max-w-6xl mx-auto">
+        <div className="flex items-center justify-between mb-3 sm:mb-6 gap-2">
           <div>
-            <Badge variant="purple" className="mb-0.5 text-[10px]">
+            <Badge variant="purple" className="mb-1 text-[10px]">
               Pilihan Kamar
             </Badge>
-            <h2 className="text-base sm:text-2xl font-extrabold text-slate-950 tracking-tight">
+            <h2 className="text-lg sm:text-2xl font-extrabold text-slate-950 tracking-tight">
               Tipe Kamar Transit
             </h2>
           </div>
@@ -270,7 +300,7 @@ export default function HomePage() {
             asChild
             variant="outline"
             size="sm"
-            className="rounded-full border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-[10px] sm:text-xs gap-1 shrink-0 px-2.5 py-1 h-7"
+            className="rounded-full border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-xs gap-1 shrink-0 px-3 py-1"
           >
             <Link href="/kamar">
               <span>Semua 8 Kamar</span>
@@ -279,46 +309,53 @@ export default function HomePage() {
           </Button>
         </div>
 
-        {/* 2 Full Cards Side-by-Side (Grid 2 Cols) */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-6">
+        {/* 1 Card Full + 2nd Card Half Peek on Mobile Swipe (min-w-[76vw]) */}
+        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-3 sm:gap-5 pb-3 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
           {previewRooms.map((room) => (
             <div
               key={room.id}
-              className="bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between"
+              className="snap-center min-w-[76vw] sm:min-w-[280px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
             >
               <div>
-                <div className="relative h-24 sm:h-44 w-full bg-slate-100 overflow-hidden">
-                  <Image src={room.image} alt={room.name} fill className="object-cover" />
-                  <div className="absolute top-1.5 left-1.5">
-                    <span className="bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold">
+                <div className="relative h-36 sm:h-44 w-full bg-slate-100 overflow-hidden">
+                  <Image
+                    src={room.image}
+                    alt={room.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute top-2 left-2">
+                    <span className="bg-slate-900/90 text-white px-2 py-0.5 rounded-full text-[9px] font-bold">
                       {room.badge}
+                    </span>
+                  </div>
+                  <div className="absolute top-2 right-2">
+                    <span className="bg-purple-700 text-white px-2 py-0.5 rounded-full text-[9px] font-bold">
+                      #{room.number}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-2 sm:p-4">
-                  <h3 className="font-extrabold text-[11px] sm:text-base text-slate-900 leading-tight">
-                    {room.name}
-                  </h3>
-                  <p className="text-[9px] sm:text-xs text-purple-700 font-semibold mt-0.5">
-                    {room.bed}
-                  </p>
-
-                  <div className="mt-1.5 sm:mt-2">
-                    <p className="text-xs sm:text-lg font-black text-purple-700 leading-none">
-                      Rp {room.price}
-                    </p>
-                    <span className="text-[8px] sm:text-[10px] text-slate-500 font-medium">
-                      / malam
-                    </span>
+                <div className="p-3.5 sm:p-4">
+                  <div className="flex items-start justify-between gap-1 mb-1.5">
+                    <div>
+                      <h3 className="font-extrabold text-xs sm:text-base text-slate-900 leading-tight">
+                        {room.name}
+                      </h3>
+                      <p className="text-[10px] text-purple-700 font-semibold mt-0.5">{room.bed}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-xs sm:text-base font-black text-purple-700">Rp {room.price}</p>
+                      <span className="text-[8px] text-slate-500 font-medium">/ malam</span>
+                    </div>
                   </div>
 
                   {/* Compact Highlights Pills */}
-                  <div className="flex flex-wrap gap-1 my-1.5 sm:my-2">
-                    {room.highlights.slice(0, 2).map((h) => (
+                  <div className="flex flex-wrap gap-1 my-2">
+                    {room.highlights.map((h) => (
                       <span
                         key={h}
-                        className="text-[8px] sm:text-[9px] font-semibold text-slate-700 bg-slate-100 px-1 py-0.5 rounded"
+                        className="text-[9px] font-semibold text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded"
                       >
                         ✓ {h}
                       </span>
@@ -327,24 +364,24 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="p-2 sm:p-4 pt-0 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-1.5 border-t border-slate-100 mt-1">
-                <span className="text-[9px] sm:text-[10px] font-bold text-slate-800">
+              <div className="p-3.5 sm:p-4 pt-0 flex items-center justify-between gap-2 border-t border-slate-100 mt-1">
+                <span className="text-[10px] font-bold text-slate-800">
                   DP: <span className="text-purple-700">Rp {room.dp}</span>
                 </span>
                 <Button
                   asChild
                   variant="primary"
                   size="sm"
-                  className="rounded-lg font-bold text-[9px] sm:text-xs bg-purple-700 hover:bg-purple-800 text-white px-2 py-0.5 shadow-xs h-6 sm:h-7 w-full sm:w-auto justify-center"
+                  className="rounded-lg font-bold text-[10px] bg-purple-700 hover:bg-purple-800 text-white px-3 py-1 shadow-xs h-7"
                 >
                   <a
-                    href={`https://wa.me/6281242163116?text=Halo%20Penginapan%20Annisa,%20saya%20tertarik%20reservasi%20${encodeURIComponent(
+                    href={`https://wa.me/6281242163116?text=Halo%20Penginapan%20Annisa,%20saya%20tertarik%20reservasi%20Kamar%20${room.number}%20${encodeURIComponent(
                       room.name,
                     )}%20(Rp%20${room.price}/mlm).%20Apakah%20unit%20tersedia?`}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <Phone className="w-2.5 h-2.5 mr-1" />
+                    <Phone className="w-3 h-3 mr-1" />
                     <span>Pesan</span>
                   </a>
                 </Button>
@@ -354,14 +391,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ringkasan Oleh-oleh (2 Full Cards Side-by-Side Swipeable) */}
-      <section className="py-4 sm:py-8 px-3 sm:px-4 max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-2.5 sm:mb-6 gap-2">
+      {/* Ringkasan Oleh-oleh (3 Produk: 2 Full + 1 Half Peek on Mobile Swipe) */}
+      <section className="py-4 sm:py-8 px-4 max-w-6xl mx-auto">
+        <div className="flex items-center justify-between mb-3 sm:mb-6 gap-2">
           <div>
-            <Badge variant="purple" className="mb-0.5 text-[10px]">
+            <Badge variant="purple" className="mb-1 text-[10px]">
               Etalase Lokal
             </Badge>
-            <h2 className="text-base sm:text-2xl font-extrabold text-slate-950 tracking-tight">
+            <h2 className="text-lg sm:text-2xl font-extrabold text-slate-950 tracking-tight">
               Oleh-oleh Khas Maluku
             </h2>
           </div>
@@ -369,7 +406,7 @@ export default function HomePage() {
             asChild
             variant="outline"
             size="sm"
-            className="rounded-full border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-[10px] sm:text-xs gap-1 shrink-0 px-2.5 py-1 h-7"
+            className="rounded-full border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-xs gap-1 shrink-0 px-3 py-1"
           >
             <Link href="/oleh-oleh">
               <span>Lihat Semua</span>
@@ -378,38 +415,43 @@ export default function HomePage() {
           </Button>
         </div>
 
-        {/* 2 Full Cards in Mobile Viewport (min-w-[46vw]) */}
-        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2 sm:gap-5 pb-2 -mx-3 px-3 md:mx-0 md:px-0 md:grid md:grid-cols-3 no-scrollbar">
+        {/* 2 Full Cards + 3rd Card Half Peek on Mobile (min-w-[43vw]) */}
+        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-6 pb-3 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 no-scrollbar">
           {previewSouvenirs.map((item) => (
             <div
               key={item.name}
-              className="snap-center min-w-[46vw] sm:min-w-[200px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
+              className="snap-center min-w-[43vw] sm:min-w-[220px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
             >
               <div>
-                <div className="relative h-24 sm:h-36 w-full bg-slate-100 overflow-hidden">
-                  <Image src={item.image} alt={item.name} fill className="object-cover" />
-                  <div className="absolute top-1.5 left-1.5">
-                    <span className="bg-slate-900/90 px-1.5 py-0.5 rounded text-[7px] sm:text-[8px] font-bold text-white">
+                <div className="relative h-28 sm:h-36 w-full bg-slate-100 overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute top-2 left-2">
+                    <span className="bg-slate-900/90 text-white px-2 py-0.5 rounded-full text-[8px] font-bold">
                       {item.category}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-2 sm:p-3.5">
-                  <h3 className="font-extrabold text-[10px] sm:text-sm text-slate-900 line-clamp-1 mb-0.5">
+                <div className="p-3 sm:p-4">
+                  <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 line-clamp-1 mb-0.5">
                     {item.name}
                   </h3>
-                  <p className="text-xs sm:text-base font-black text-purple-700 mb-0.5 leading-none">
+                  <p className="text-xs sm:text-base font-black text-purple-700 mb-1 leading-none">
                     {item.price}
                   </p>
-                  <p className="text-[9px] sm:text-[10px] text-slate-500 line-clamp-1 leading-tight">
+                  <p className="text-[10px] text-slate-500 line-clamp-1 leading-tight">
                     {item.desc}
                   </p>
                 </div>
               </div>
 
-              <div className="p-2 sm:p-3.5 pt-0">
-                <div className="py-1 px-1.5 rounded bg-slate-50 border border-slate-200/80 text-center text-[8px] sm:text-[9px] font-bold text-purple-900">
+              <div className="p-3 sm:p-4 pt-0">
+                <div className="py-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200/80 text-center text-[9px] font-bold text-purple-900">
                   Tersedia di Resepsionis
                 </div>
               </div>

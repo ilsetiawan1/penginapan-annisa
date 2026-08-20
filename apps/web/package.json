@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@annisa/types": "workspace:*",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-avatar": "^1.1.3",
     "@radix-ui/react-dialog": "^1.1.6",
@@ -19,13 +20,13 @@
     "@radix-ui/react-tabs": "^1.1.3",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@tanstack/react-query": "^5.66.0",
-    "@annisa/types": "workspace:*",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
     "next": "^15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
+    "react-icons": "^5.7.0",
     "sonner": "^1.7.4",
     "tailwind-merge": "^3.0.1",
     "zod": "^3.24.2"
