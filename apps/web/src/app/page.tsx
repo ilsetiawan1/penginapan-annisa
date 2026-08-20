@@ -16,7 +16,6 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { Navbar } from "../components/layout/navbar";
-import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { BookingWidget } from "../features/booking/booking-widget";
 
@@ -157,8 +156,8 @@ export default function HomePage() {
     <div className="min-h-screen text-slate-900 selection:bg-purple-200 selection:text-purple-900 font-sans">
       <Navbar />
 
-      {/* 1. HERO SECTION: Broken White Canvas */}
-      <section className="relative w-full bg-[#faf9fc] pt-24 sm:pt-32 pb-6 sm:pb-12 px-4">
+      {/* 1. HERO SECTION: Broken White */}
+      <section className="relative w-full bg-[#faf9fc] pt-24 sm:pt-32 pb-8 sm:pb-14 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
             {/* Kolom Kiri: Value, Headline & Trust Badges */}
@@ -241,8 +240,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. NILAI UTAMA: Lavender Soft Canvas */}
-      <section className="relative w-full bg-[#f4edfd]/85 border-y border-purple-200/60 py-6 sm:py-10 px-4">
+      {/* 2. NILAI UTAMA: Soft Gradient Blur Transition (Broken White -> Lavender Soft -> Broken White) */}
+      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-50% to-[#faf9fc] py-8 sm:py-14 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="mb-3.5 sm:mb-5">
             <span className="text-[10px] uppercase font-bold tracking-widest text-purple-800 block mb-0.5">
@@ -285,7 +284,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. PILIHAN KAMAR: Broken White Canvas */}
+      {/* 3. PILIHAN KAMAR: Broken White */}
       <section className="relative w-full bg-[#faf9fc] py-6 sm:py-10 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
@@ -393,8 +392,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. ETALASE OLEH-OLEH: Lavender Soft Canvas */}
-      <section className="relative w-full bg-[#f4edfd]/85 border-y border-purple-200/60 py-6 sm:py-10 px-4">
+      {/* 4. ETALASE OLEH-OLEH: Soft Gradient Blur Transition (Broken White -> Lavender Soft -> Broken White) */}
+      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-50% to-[#faf9fc] py-8 sm:py-14 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
             <div>
@@ -464,7 +463,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. FAQ SECTION: Broken White Canvas */}
+      {/* 5. FAQ SECTION: Broken White */}
       <section className="relative w-full bg-[#faf9fc] py-6 sm:py-10 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-3 sm:mb-5">
@@ -510,8 +509,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. LOKASI & PETUNJUK ARAH: Lavender Soft Canvas */}
-      <section className="relative w-full bg-[#f4edfd]/90 border-t border-purple-200/70 py-6 sm:py-10 px-4 text-slate-900">
+      {/* 6. LOKASI & PETUNJUK ARAH: Soft Gradient Blur Transition (Broken White -> Lavender Soft -> Footer) */}
+      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] to-[#f8f6fc] py-8 sm:py-12 px-4 text-slate-900">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-center">
             <div>
@@ -555,7 +554,7 @@ export default function HomePage() {
             </div>
 
             {/* Embedded Google Maps */}
-            <div className="w-full h-40 sm:h-48 rounded-2xl overflow-hidden border border-purple-200 shadow-sm bg-white">
+            <div className="w-full h-40 sm:h-48 rounded-2xl overflow-hidden border border-purple-200/80 shadow-sm bg-white">
               <iframe
                 title="Google Maps Lokasi Penginapan Annisa"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1990.7403357162448!2d128.08762133246853!3d-3.7047467933343032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce7a259d48e1b%3A0x304cec63773e589e!2sPenginapan%20Annisa!5e0!3m2!1sid!2sid!4v1787149833837!5m2!1sid!2sid"
@@ -571,8 +570,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. FOOTER: Broken White Canvas */}
-      <footer className="w-full bg-[#faf9fc] text-slate-600 py-4 px-4 border-t border-slate-200/80 text-xs">
+      {/* 7. FOOTER: Seamless Broken White */}
+      <footer className="w-full bg-[#f8f6fc] text-slate-600 py-4 px-4 border-t border-purple-100/60 text-xs">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <div className="flex items-center gap-2">
             <div className="relative w-5 h-5 rounded-full overflow-hidden bg-purple-100 p-0.5 border border-purple-200">
