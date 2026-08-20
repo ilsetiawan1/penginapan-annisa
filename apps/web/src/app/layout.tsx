@@ -29,7 +29,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id" className={`${plusJakarta.variable} ${outfit.variable}`}>
-      <body className="font-sans antialiased bg-[#faf9fc] text-slate-900 selection:bg-purple-200 selection:text-purple-900">
+      <body
+        className={`${plusJakarta.className} antialiased bg-[#faf9fc] text-slate-900 selection:bg-purple-200 selection:text-purple-900`}
+      >
         {children}
       </body>
     </html>
