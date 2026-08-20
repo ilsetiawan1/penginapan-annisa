@@ -5,7 +5,6 @@ import { Navbar } from "../../components/layout/navbar";
 import { Footer } from "../../components/layout/footer";
 import { RoomHero } from "../../features/public/rooms/components/room-hero";
 import { RoomFilter } from "../../features/public/rooms/components/room-filter";
-import { RoomGuideCard } from "../../features/public/rooms/components/room-guide-card";
 import { RoomGrid } from "../../features/public/rooms/components/room-grid";
 import type { RoomItem } from "../../features/public/rooms/components/room-card";
 
@@ -181,7 +180,6 @@ export default function KamarPage() {
       <Navbar />
       <RoomHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <RoomFilter activeFilter={filter} onFilterChange={setFilter} />
-      <RoomGuideCard />
       <RoomGrid
         rooms={filteredRooms}
         searchQuery={searchQuery}
