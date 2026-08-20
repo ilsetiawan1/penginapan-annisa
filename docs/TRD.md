@@ -51,7 +51,7 @@ penginapan-annisa/
 │   │   │   ├── app/                   # App Router Pages (/, /kamar, /oleh-oleh, /artikel, /contact, /admin)
 │   │   │   ├── components/            # Global UI Primitives (Button, Badge, Card, Modal, Navbar, Footer)
 │   │   │   ├── lib/                   # Global Utilities (utils.ts, whatsapp.ts)
-│   │   │   └── features/              # Feature Modules Berbasis 5 Menu (home, rooms, souvenirs, articles, contact, admin)
+│   │   │   └── features/              # Dual-Zone Modules (public/ untuk Tamu & admin/ untuk Staf PMS)
 │   │
 │   └── api/                           👉 [ BACKEND REST API APPLICATION (Express / Bun) ]
 │       ├── package.json               # dependencies: { "@annisa/types": "workspace:*", "@annisa/db": "workspace:*" }
@@ -63,14 +63,14 @@ penginapan-annisa/
 
 ---
 
-## 2. 📦 Frontend: Feature-Driven Architecture (`apps/web`)
+## 2. 📦 Frontend: Dual-Zone Feature-Driven Architecture (`apps/web`)
 
-Struktur frontend dikelompokkan secara **vertikal berbasis 5 Menu Publik & 1 Modul Operasional Admin** (*Co-location*) untuk memaksimalkan *reusability* dan kemudahan pencarian komponen:
+Struktur frontend dibagi secara **simetris dan tegas menjadi 2 Zona Utama** (*Public Portal vs Admin PMS*) untuk memastikan pemisahan tanggung jawab yang rapi, teratur, dan mudah di-maintain:
 
 ```text
 apps/web/src/
 │
-├── components/                        👉 KOMPONEN GLOBAL & PRIMITIF (Re-usable)
+├── components/                        👉 KOMPONEN GLOBAL & PRIMITIF (Re-usable di Publik & Admin)
 │   ├── ui/                            # button.tsx, badge.tsx, card.tsx, dialog.tsx, input.tsx
 │   └── layout/                        # navbar.tsx, footer.tsx, admin-sidebar.tsx
 │
@@ -78,34 +78,59 @@ apps/web/src/
 │   ├── utils.ts                       # cn() Tailwind merger, formatRupiah(), formatDate()
 │   └── whatsapp.ts                    # Generator URL & Template Pesan WhatsApp (Booking, Oleh-oleh, CS, Nota)
 │
-└── features/                          👉 MODUL FITUR BERBASIS MENU (1 Menu = 1 Folder)
+└── features/                          👉 DUAL-ZONE FEATURE MODULES
     │
-    ├── home/                          📦 MENU 1: BERANDA (/)
-    │   └── components/                # HeroSection.tsx, BookingWidget.tsx, ValuesSection.tsx, FaqSection.tsx, LocationSection.tsx
+    ├── public/                        🌐 [ ZONA 1: PORTAL PUBLIK TAMU (5 MENU) ]
+    │   │
+    │   ├── home/                      📦 MENU 1: BERANDA (/)
+    │   │   └── components/            # HeroSection.tsx, BookingWidget.tsx, ValuesSection.tsx, FaqSection.tsx, LocationSection.tsx
+    │   │
+    │   ├── rooms/                     📦 MENU 2: TIPE KAMAR (/kamar)
+    │   │   ├── components/            # RoomCard.tsx, RoomGrid.tsx, RoomFilter.tsx, RoomGuideCard.tsx
+    │   │   ├── hooks/                 # useRooms.ts (TanStack Query fetch data kamar publik)
+    │   │   └── services/              # roomApi.ts (Client API fetcher)
+    │   │
+    │   ├── souvenirs/                 📦 MENU 3: OLEH-OLEH (/oleh-oleh)
+    │   │   ├── components/            # SouvenirCard.tsx, SouvenirGrid.tsx, SouvenirFilter.tsx, SouvenirGuideCard.tsx
+    │   │   └── services/              # souvenirApi.ts
+    │   │
+    │   ├── articles/                  📦 MENU 4: ARTIKEL WISATA (/artikel)
+    │   │   ├── components/            # ArticleCard.tsx, ExplorationCard.tsx, ArticleGrid.tsx, ArticleFilter.tsx
+    │   │   └── services/              # articleApi.ts
+    │   │
+    │   └── contact/                   📦 MENU 5: KONTAK (/contact)
+    │       └── components/            # ContactForm.tsx, ContactInfo.tsx, LocationMap.tsx
     │
-    ├── rooms/                         📦 MENU 2: TIPE KAMAR (/kamar)
-    │   ├── components/                # RoomCard.tsx, RoomGrid.tsx, RoomFilter.tsx, RoomGuideCard.tsx
-    │   ├── hooks/                     # useRooms.ts (TanStack Query fetch data kamar)
-    │   └── services/                  # roomApi.ts (Client API fetcher)
-    │
-    ├── souvenirs/                     📦 MENU 3: OLEH-OLEH (/oleh-oleh)
-    │   ├── components/                # SouvenirCard.tsx, SouvenirGrid.tsx, SouvenirFilter.tsx, SouvenirGuideCard.tsx
-    │   └── services/                  # souvenirApi.ts
-    │
-    ├── articles/                      📦 MENU 4: ARTIKEL WISATA (/artikel)
-    │   ├── components/                # ArticleCard.tsx, ExplorationCard.tsx, ArticleGrid.tsx, ArticleFilter.tsx
-    │   └── services/                  # articleApi.ts
-    │
-    ├── contact/                       📦 MENU 5: KONTAK (/contact)
-    │   └── components/                # ContactForm.tsx, ContactInfo.tsx, LocationMap.tsx
-    │
-    └── admin/                         📦 MODUL OPERASIONAL STAF & OWNER (PMS)
-        ├── dashboard/                 # StatsOverview.tsx, OccupancyMatrix.tsx
-        ├── rooms/                     # RoomMatrix4Colors.tsx, RoomStatusModal.tsx, RoomCrudForm.tsx
-        ├── reservations/              # ReservationTable.tsx, DpConfirmModal.tsx, CheckinFastTrack.tsx
-        ├── souvenirs/                 # SouvenirCrudTable.tsx, SouvenirFormModal.tsx
-        ├── articles/                  # ArticleCrudTable.tsx, RichTextEditor.tsx
-        └── reports/                   # MonthlyRevenueTable.tsx, ExportExcelButton.tsx
+    └── admin/                         👑 [ ZONA 2: PROPERTY MANAGEMENT SYSTEM (PMS STAF & OWNER) ]
+        │
+        ├── dashboard/                 📦 DASHBOARD UTAMA
+        │   ├── components/            # StatsOverview.tsx, OccupancyMatrix.tsx
+        │   ├── hooks/                 # useDashboardStats.ts
+        │   └── services/              # dashboardApi.ts
+        │
+        ├── rooms/                     📦 MANAJEMEN KAMAR (CRUD & STATUS)
+        │   ├── components/            # RoomMatrix4Colors.tsx, RoomStatusModal.tsx, RoomCrudForm.tsx
+        │   ├── hooks/                 # useAdminRooms.ts (Mutasi 4 warna status)
+        │   └── services/              # adminRoomApi.ts
+        │
+        ├── reservations/              📦 RESERVASI & FAST CHECK-IN
+        │   ├── components/            # ReservationTable.tsx, DpConfirmModal.tsx, CheckinFastTrack.tsx
+        │   ├── hooks/                 # useReservations.ts
+        │   └── services/              # reservationApi.ts
+        │
+        ├── souvenirs/                 📦 MANAJEMEN OLEH-OLEH (CRUD)
+        │   ├── components/            # SouvenirCrudTable.tsx, SouvenirFormModal.tsx
+        │   ├── hooks/                 # useAdminSouvenirs.ts
+        │   └── services/              # adminSouvenirApi.ts
+        │
+        ├── articles/                  📦 CMS ARTIKEL (CRUD)
+        │   ├── components/            # ArticleCrudTable.tsx, RichTextEditor.tsx
+        │   ├── hooks/                 # useAdminArticles.ts
+        │   └── services/              # adminArticleApi.ts
+        │
+        └── reports/                   📦 LAPORAN KEUANGAN & OKUPANSI
+            ├── components/            # MonthlyRevenueTable.tsx, ExportExcelButton.tsx
+            └── services/              # reportApi.ts
 ```
 
 ---
