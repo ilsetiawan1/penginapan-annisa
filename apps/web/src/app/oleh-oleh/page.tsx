@@ -11,16 +11,14 @@ import type { SouvenirItem } from "../../features/public/souvenirs/components/so
 
 const CATEGORIES = [
   "Semua",
-  "Herbal & Minyak",
-  "Camilan Sagu",
-  "Kopi & Rempah",
-  "Sambal & Bumbu",
+  "Makanan & Camilan",
+  "Minyak & Herbal",
 ];
 
 const SOUVENIRS_DATA: SouvenirItem[] = [
   {
     name: "Minyak Kayu Putih Asli Namlea (100ml)",
-    category: "Herbal & Minyak",
+    category: "Minyak & Herbal",
     price: "Rp 65.000",
     desc: "Penyulingan murni 100% asli Pulau Buru Namlea. Hangat alami, aroma menenangkan, dan membantu meredakan masuk angin.",
     image:
@@ -28,8 +26,17 @@ const SOUVENIRS_DATA: SouvenirItem[] = [
     origin: "Namlea, Pulau Buru",
   },
   {
+    name: "Minyak Cengkeh Murni Maluku (60ml)",
+    category: "Minyak & Herbal",
+    price: "Rp 55.000",
+    desc: "Ekstraksi murni bunga cengkeh pilihan khas kepulauan Maluku. Sangat efektif untuk meredakan sakit gigi dan nyeri sendi.",
+    image:
+      "https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=600&auto=format&fit=crop",
+    origin: "Kepulauan Maluku",
+  },
+  {
     name: "Kue Sagu Bagea Kenari Ambon",
-    category: "Camilan Sagu",
+    category: "Makanan & Camilan",
     price: "Rp 35.000",
     desc: "Kue sagu renyah gurih berpadu dengan cacahan biji kenari melimpah khas kepulauan Maluku.",
     image:
@@ -38,7 +45,7 @@ const SOUVENIRS_DATA: SouvenirItem[] = [
   },
   {
     name: "Roti Kenari Khas Maluku (1 Kotak)",
-    category: "Camilan Sagu",
+    category: "Makanan & Camilan",
     price: "Rp 45.000",
     desc: "Roti panggang kering renyah dengan taburan gula manis dan kenari gurih harum berlimpah.",
     image:
@@ -46,17 +53,8 @@ const SOUVENIRS_DATA: SouvenirItem[] = [
     origin: "Khas Kepulauan Ambon",
   },
   {
-    name: "Kopi Rarobang Rempah Ambon",
-    category: "Kopi & Rempah",
-    price: "Rp 40.000",
-    desc: "Kopi khas Ambon dengan racikan jahe merah, cengkeh, kayu manis, dan taburan kenari sangrai.",
-    image:
-      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=600&auto=format&fit=crop",
-    origin: "Racikan Rempah Tradisional",
-  },
-  {
     name: "Halua Kenari Gula Aren Maluku",
-    category: "Camilan Sagu",
+    category: "Makanan & Camilan",
     price: "Rp 38.000",
     desc: "Biji kenari pilihan disangrai dan dibalut karamel gula aren murni khas Saparua Maluku.",
     image:
@@ -65,7 +63,7 @@ const SOUVENIRS_DATA: SouvenirItem[] = [
   },
   {
     name: "Sambal Roa Khas Kepulauan Ambon",
-    category: "Sambal & Bumbu",
+    category: "Makanan & Camilan",
     price: "Rp 50.000",
     desc: "Sambal ikan asap pedas gurih, pas untuk lauk pelengkap santapan maupun buah tangan praktis.",
     image:

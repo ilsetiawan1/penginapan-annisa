@@ -8,15 +8,23 @@ export function HomeSouvenirsPreview() {
   const previewSouvenirs = [
     {
       name: "Minyak Kayu Putih Namlea",
-      category: "Herbal Asli",
+      category: "Minyak & Herbal",
       price: "Rp 65.000",
       desc: "Penyulingan murni Pulau Buru Namlea.",
       image:
         "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop",
     },
     {
+      name: "Minyak Cengkeh Asli Maluku",
+      category: "Minyak & Herbal",
+      price: "Rp 55.000",
+      desc: "Ekstraksi murni bunga cengkeh pilihan.",
+      image:
+        "https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=600&auto=format&fit=crop",
+    },
+    {
       name: "Kue Sagu Bagea Kenari",
-      category: "Camilan Sagu",
+      category: "Makanan & Camilan",
       price: "Rp 35.000",
       desc: "Kue sagu renyah bertabur kenari gurih.",
       image:
@@ -24,19 +32,11 @@ export function HomeSouvenirsPreview() {
     },
     {
       name: "Roti Kenari Khas Maluku",
-      category: "Kue Kering",
+      category: "Makanan & Camilan",
       price: "Rp 45.000",
       desc: "Roti panggang manis dengan kenari harum.",
       image:
         "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      name: "Kopi Rarobang Rempah",
-      category: "Minuman Khas",
-      price: "Rp 40.000",
-      desc: "Kopi jahe merah, cengkeh & kenari sangrai.",
-      image:
-        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=600&auto=format&fit=crop",
     },
   ];
 
