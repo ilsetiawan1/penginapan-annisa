@@ -46,23 +46,23 @@ export function HeroSection() {
 
           {/* 4 Quick Info Cards (2x2 Grid) */}
           <div className="grid grid-cols-2 gap-2.5 pt-1 pb-1">
-            <div className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-white/95 backdrop-blur-md rounded-2xl border border-white/80 shadow-md">
-              <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-white/15 backdrop-blur-md rounded-2xl border border-white/25 shadow-md">
+              <div className="w-8 h-8 rounded-xl bg-white/20 text-purple-300 flex items-center justify-center shrink-0">
                 <Plane className="w-4 h-4" />
               </div>
               <div>
-                <p className="font-extrabold text-xs text-slate-900 leading-tight">3 Mnt Bandara</p>
-                <p className="text-[10px] text-slate-500">750m ke terminal</p>
+                <p className="font-extrabold text-xs text-white leading-tight">3 Mnt Bandara</p>
+                <p className="text-[10px] text-slate-200">750m ke terminal</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-white/95 backdrop-blur-md rounded-2xl border border-white/80 shadow-md">
-              <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-white/15 backdrop-blur-md rounded-2xl border border-white/25 shadow-md">
+              <div className="w-8 h-8 rounded-xl bg-white/20 text-purple-300 flex items-center justify-center shrink-0">
                 <Bed className="w-4 h-4" />
               </div>
               <div>
-                <p className="font-extrabold text-xs text-slate-900 leading-tight">8 Unit Kamar</p>
-                <p className="text-[10px] text-slate-500">4 AC &amp; 4 Kipas</p>
+                <p className="font-extrabold text-xs text-white leading-tight">8 Unit Kamar</p>
+                <p className="text-[10px] text-slate-200">4 AC &amp; 4 Kipas</p>
               </div>
             </div>
 
@@ -82,13 +82,13 @@ export function HeroSection() {
               </div>
             </Link>
 
-            <div className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-white/95 backdrop-blur-md rounded-2xl border border-white/80 shadow-md">
-              <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-white/15 backdrop-blur-md rounded-2xl border border-white/25 shadow-md">
+              <div className="w-8 h-8 rounded-xl bg-white/20 text-purple-300 flex items-center justify-center shrink-0">
                 <Clock className="w-4 h-4" />
               </div>
               <div>
-                <p className="font-extrabold text-xs text-slate-900 leading-tight">06:00–22:00 WIT</p>
-                <p className="text-[10px] text-slate-500">Buka Tiap Hari</p>
+                <p className="font-extrabold text-xs text-white leading-tight">06:00–22:00 WIT</p>
+                <p className="text-[10px] text-slate-200">Buka Tiap Hari</p>
               </div>
             </div>
           </div>
