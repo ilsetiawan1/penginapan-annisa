@@ -156,7 +156,9 @@ export default function HomePage() {
     <div className="min-h-screen text-slate-900 selection:bg-purple-200 selection:text-purple-900 font-sans">
       <Navbar />
 
-      {/* 1. HERO SECTION: Broken White */}
+      {/* =========================================
+          BLOCK 1: HERO SECTION (WHITE CANVAS)
+          ========================================= */}
       <section className="relative w-full bg-[#faf9fc] pt-24 sm:pt-32 pb-8 sm:pb-14 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
@@ -240,277 +242,285 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. NILAI UTAMA: Soft Purple Gradient Blur (Broken White -> Purple Gradient -> Broken White) */}
-      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-purple-100/60 via-50% to-[#faf9fc] py-8 sm:py-14 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-3.5 sm:mb-5">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-purple-800 block mb-0.5">
-              Keunggulan
-            </span>
-            <h2 className="text-base sm:text-xl font-extrabold text-slate-950 tracking-tight">
-              Kenapa Memilih Penginapan Annisa?
-            </h2>
-          </div>
-
-          {/* 3 Cards Direct Display */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-4">
-            {whyChooseUs.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.title}
-                  className="bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 hover:shadow-xs transition-all flex items-start gap-2.5 sm:flex-col sm:justify-between group"
-                >
-                  <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs shrink-0 mt-0.5 sm:mt-0 sm:mb-2 group-hover:bg-purple-700 group-hover:text-white transition-colors">
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between gap-1 mb-0.5">
-                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
-                        {item.title}
-                      </h3>
-                      <span className="hidden sm:inline-block text-[9px] font-bold text-purple-800 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded-full shrink-0">
-                        {item.tag}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
-                      {item.desc}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. PILIHAN KAMAR: Broken White */}
-      <section className="relative w-full bg-[#faf9fc] py-6 sm:py-10 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
-            <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-purple-700 block mb-0.5">
-                Pilihan Unit
-              </span>
-              <h2 className="text-base sm:text-xl font-extrabold text-slate-950 tracking-tight">
-                Tipe Kamar Transit
-              </h2>
-            </div>
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="rounded-full border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-[10px] sm:text-xs gap-1 shrink-0 px-2.5 py-1 h-7"
-            >
-              <Link href="/kamar">
-                <span>Semua 8 Kamar</span>
-                <ArrowRight className="w-3 h-3" />
-              </Link>
-            </Button>
-          </div>
-
-          {/* 1 Card Full + 2nd Card Half Peek on Mobile Swipe (min-w-[76vw]) */}
-          <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
-            {previewRooms.map((room) => (
-              <div
-                key={room.id}
-                className="snap-center min-w-[76vw] sm:min-w-[260px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
-              >
-                <div>
-                  <div className="relative h-32 sm:h-40 w-full bg-slate-100 overflow-hidden">
-                    <Image
-                      src={room.image}
-                      alt={room.name}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute top-2 left-2">
-                      <span className="bg-slate-900/90 text-white px-2 py-0.5 rounded-full text-[8px] font-bold">
-                        {room.badge}
-                      </span>
-                    </div>
-                    <div className="absolute top-2 right-2">
-                      <span className="bg-purple-700 text-white px-2 py-0.5 rounded-full text-[8px] font-bold">
-                        #{room.number}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-3 sm:p-3.5">
-                    <div className="flex items-start justify-between gap-1 mb-1">
-                      <div>
-                        <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 leading-tight">
-                          {room.name}
-                        </h3>
-                        <p className="text-[10px] text-purple-700 font-semibold mt-0.5">{room.bed}</p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <p className="text-xs sm:text-base font-black text-purple-700">Rp {room.price}</p>
-                        <span className="text-[8px] text-slate-500 font-medium">/ malam</span>
-                      </div>
-                    </div>
-
-                    {/* Compact Highlights Pills */}
-                    <div className="flex flex-wrap gap-1 my-1.5">
-                      {room.highlights.map((h) => (
-                        <span
-                          key={h}
-                          className="text-[8px] sm:text-[9px] font-semibold text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded"
-                        >
-                          ✓ {h}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3 sm:p-3.5 pt-0 flex items-center justify-between gap-2 border-t border-slate-100 mt-1">
-                  <span className="text-[10px] font-bold text-slate-800">
-                    DP: <span className="text-purple-700">Rp {room.dp}</span>
-                  </span>
-                  <Button
-                    asChild
-                    variant="primary"
-                    size="sm"
-                    className="rounded-lg font-bold text-[10px] bg-purple-700 hover:bg-purple-800 text-white px-2.5 py-1 shadow-xs h-6 sm:h-7"
-                  >
-                    <a
-                      href={`https://wa.me/6281242163116?text=Halo%20Penginapan%20Annisa,%20saya%20tertarik%20reservasi%20Kamar%20${room.number}%20${encodeURIComponent(
-                        room.name,
-                      )}%20(Rp%20${room.price}/mlm).%20Apakah%20unit%20tersedia?`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <Phone className="w-2.5 h-2.5 mr-1" />
-                      <span>Pesan</span>
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. ETALASE OLEH-OLEH: Soft Purple Gradient Blur (Broken White -> Purple Gradient -> Broken White) */}
-      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-purple-100/60 via-50% to-[#faf9fc] py-8 sm:py-14 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
-            <div>
+      {/* ====================================================
+          BLOCK 2: KEUNGGULAN + PILIHAN UNIT (PURPLE CANVAS)
+          ==================================================== */}
+      <div className="relative w-full bg-gradient-to-b from-[#f3eefe] via-[#f1eaff] to-[#f3eefe] border-y border-purple-200/70 py-8 sm:py-14 px-4">
+        <div className="max-w-6xl mx-auto space-y-10 sm:space-y-14">
+          {/* 2.1 Section Keunggulan / Nilai Utama */}
+          <div>
+            <div className="mb-3.5 sm:mb-5">
               <span className="text-[10px] uppercase font-bold tracking-widest text-purple-800 block mb-0.5">
-                Etalase
+                Keunggulan
               </span>
               <h2 className="text-base sm:text-xl font-extrabold text-slate-950 tracking-tight">
-                Oleh-oleh Khas Maluku
+                Kenapa Memilih Penginapan Annisa?
               </h2>
             </div>
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="rounded-full border-slate-300 text-slate-800 hover:bg-white font-bold text-[10px] sm:text-xs gap-1 shrink-0 px-2.5 py-1 h-7"
-            >
-              <Link href="/oleh-oleh">
-                <span>Lihat Semua</span>
-                <ArrowRight className="w-3 h-3" />
-              </Link>
-            </Button>
-          </div>
 
-          {/* 2 Full Cards + 3rd Card Half Peek on Mobile (min-w-[40vw] max-w-[40vw]) */}
-          <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2 sm:gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
-            {previewSouvenirs.map((item) => (
-              <div
-                key={item.name}
-                className="snap-center min-w-[40vw] max-w-[40vw] sm:min-w-[200px] sm:max-w-none md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
-              >
-                <div>
-                  <div className="relative h-24 sm:h-32 w-full bg-slate-100 overflow-hidden">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute top-1.5 left-1.5">
-                      <span className="bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">
-                        {item.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-2 sm:p-3">
-                    <h3 className="font-extrabold text-[11px] sm:text-xs text-slate-900 line-clamp-1 mb-0.5">
-                      {item.name}
-                    </h3>
-                    <p className="text-xs sm:text-sm font-black text-purple-700 mb-0.5 leading-none">
-                      {item.price}
-                    </p>
-                    <p className="text-[9px] sm:text-[10px] text-slate-500 line-clamp-1 leading-tight">
-                      {item.desc}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-2 sm:p-3 pt-0">
-                  <div className="py-1 px-1.5 rounded bg-purple-50 border border-purple-200/70 text-center text-[8px] sm:text-[9px] font-bold text-purple-900">
-                    Tersedia di Resepsionis
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. FAQ SECTION: Broken White */}
-      <section className="relative w-full bg-[#faf9fc] py-6 sm:py-10 px-4">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center max-w-xl mx-auto mb-3 sm:mb-5">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-purple-700 block mb-0.5">
-              Bantuan
-            </span>
-            <h2 className="text-base sm:text-xl font-extrabold text-slate-950 tracking-tight">
-              Pertanyaan Umum
-            </h2>
-          </div>
-
-          <div className="space-y-2 max-w-2xl mx-auto">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div
-                  key={faq.q}
-                  className="rounded-xl bg-white/95 backdrop-blur-md border border-slate-200/90 overflow-hidden shadow-2xs transition-all hover:border-purple-300"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full p-3 text-left flex items-center justify-between gap-2.5 font-bold text-xs text-slate-900 hover:text-purple-700 transition cursor-pointer"
+            {/* 3 Cards Direct Display */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-4">
+              {whyChooseUs.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.title}
+                    className="bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 hover:shadow-xs transition-all flex items-start gap-2.5 sm:flex-col sm:justify-between group"
                   >
-                    <span>{faq.q}</span>
-                    <span
-                      className={`w-4 h-4 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 transition-transform ${
-                        isOpen ? "rotate-45 bg-purple-700 text-white" : ""
-                      }`}
-                    >
-                      <Plus className="w-2.5 h-2.5" />
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div className="px-3 pb-3 text-[11px] text-slate-600 leading-relaxed border-t border-slate-100 pt-1.5">
-                      {faq.a}
+                    <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs shrink-0 mt-0.5 sm:mt-0 sm:mb-2 group-hover:bg-purple-700 group-hover:text-white transition-colors">
+                      <Icon className="w-4 h-4" />
                     </div>
-                  )}
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between gap-1 mb-0.5">
+                        <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
+                          {item.title}
+                        </h3>
+                        <span className="hidden sm:inline-block text-[9px] font-bold text-purple-800 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded-full shrink-0">
+                          {item.tag}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 2.2 Section Pilihan Unit / Tipe Kamar */}
+          <div>
+            <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-purple-800 block mb-0.5">
+                  Pilihan Unit
+                </span>
+                <h2 className="text-base sm:text-xl font-extrabold text-slate-950 tracking-tight">
+                  Tipe Kamar Transit
+                </h2>
+              </div>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="rounded-full border-purple-200 bg-white/90 text-slate-800 hover:bg-white font-bold text-[10px] sm:text-xs gap-1 shrink-0 px-2.5 py-1 h-7"
+              >
+                <Link href="/kamar">
+                  <span>Semua 8 Kamar</span>
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </Button>
+            </div>
+
+            {/* 1 Card Full + 2nd Card Half Peek on Mobile Swipe (min-w-[76vw]) */}
+            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
+              {previewRooms.map((room) => (
+                <div
+                  key={room.id}
+                  className="snap-center min-w-[76vw] sm:min-w-[260px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
+                >
+                  <div>
+                    <div className="relative h-32 sm:h-40 w-full bg-slate-100 overflow-hidden">
+                      <Image
+                        src={room.image}
+                        alt={room.name}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-2 left-2">
+                        <span className="bg-slate-900/90 text-white px-2 py-0.5 rounded-full text-[8px] font-bold">
+                          {room.badge}
+                        </span>
+                      </div>
+                      <div className="absolute top-2 right-2">
+                        <span className="bg-purple-700 text-white px-2 py-0.5 rounded-full text-[8px] font-bold">
+                          #{room.number}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-3 sm:p-3.5">
+                      <div className="flex items-start justify-between gap-1 mb-1">
+                        <div>
+                          <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 leading-tight">
+                            {room.name}
+                          </h3>
+                          <p className="text-[10px] text-purple-700 font-semibold mt-0.5">{room.bed}</p>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <p className="text-xs sm:text-base font-black text-purple-700">Rp {room.price}</p>
+                          <span className="text-[8px] text-slate-500 font-medium">/ malam</span>
+                        </div>
+                      </div>
+
+                      {/* Compact Highlights Pills */}
+                      <div className="flex flex-wrap gap-1 my-1.5">
+                        {room.highlights.map((h) => (
+                          <span
+                            key={h}
+                            className="text-[8px] sm:text-[9px] font-semibold text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded"
+                          >
+                            ✓ {h}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 sm:p-3.5 pt-0 flex items-center justify-between gap-2 border-t border-slate-100 mt-1">
+                    <span className="text-[10px] font-bold text-slate-800">
+                      DP: <span className="text-purple-700">Rp {room.dp}</span>
+                    </span>
+                    <Button
+                      asChild
+                      variant="primary"
+                      size="sm"
+                      className="rounded-lg font-bold text-[10px] bg-purple-700 hover:bg-purple-800 text-white px-2.5 py-1 shadow-xs h-6 sm:h-7"
+                    >
+                      <a
+                        href={`https://wa.me/6281242163116?text=Halo%20Penginapan%20Annisa,%20saya%20tertarik%20reservasi%20Kamar%20${room.number}%20${encodeURIComponent(
+                          room.name,
+                        )}%20(Rp%20${room.price}/mlm).%20Apakah%20unit%20tersedia?`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Phone className="w-2.5 h-2.5 mr-1" />
+                        <span>Pesan</span>
+                      </a>
+                    </Button>
+                  </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* 6. UNIFIED FOOTER SECTION (LOKASI + PETA + LINK + COPYRIGHT) */}
-      <footer className="relative w-full bg-gradient-to-b from-[#faf9fc] via-purple-100/50 to-purple-100/80 pt-8 sm:pt-12 pb-6 px-4 text-slate-900 border-t border-purple-100">
+      {/* ====================================================
+          BLOCK 3: ETALASE + BANTUAN FAQ (WHITE CANVAS)
+          ==================================================== */}
+      <div className="relative w-full bg-[#faf9fc] py-8 sm:py-14 px-4">
+        <div className="max-w-6xl mx-auto space-y-10 sm:space-y-14">
+          {/* 3.1 Section Etalase Oleh-oleh */}
+          <div>
+            <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-purple-700 block mb-0.5">
+                  Etalase
+                </span>
+                <h2 className="text-base sm:text-xl font-extrabold text-slate-950 tracking-tight">
+                  Oleh-oleh Khas Maluku
+                </h2>
+              </div>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="rounded-full border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-[10px] sm:text-xs gap-1 shrink-0 px-2.5 py-1 h-7"
+              >
+                <Link href="/oleh-oleh">
+                  <span>Lihat Semua</span>
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </Button>
+            </div>
+
+            {/* 2 Full Cards + 3rd Card Half Peek on Mobile (min-w-[40vw] max-w-[40vw]) */}
+            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2 sm:gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
+              {previewSouvenirs.map((item) => (
+                <div
+                  key={item.name}
+                  className="snap-center min-w-[40vw] max-w-[40vw] sm:min-w-[200px] sm:max-w-none md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
+                >
+                  <div>
+                    <div className="relative h-24 sm:h-32 w-full bg-slate-100 overflow-hidden">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-1.5 left-1.5">
+                        <span className="bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">
+                          {item.category}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-2 sm:p-3">
+                      <h3 className="font-extrabold text-[11px] sm:text-xs text-slate-900 line-clamp-1 mb-0.5">
+                        {item.name}
+                      </h3>
+                      <p className="text-xs sm:text-sm font-black text-purple-700 mb-0.5 leading-none">
+                        {item.price}
+                      </p>
+                      <p className="text-[9px] sm:text-[10px] text-slate-500 line-clamp-1 leading-tight">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-2 sm:p-3 pt-0">
+                    <div className="py-1 px-1.5 rounded bg-purple-50 border border-purple-100 text-center text-[8px] sm:text-[9px] font-bold text-purple-900">
+                      Tersedia di Resepsionis
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 3.2 Section Bantuan FAQ */}
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center max-w-xl mx-auto mb-3 sm:mb-5">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-purple-700 block mb-0.5">
+                Bantuan
+              </span>
+              <h2 className="text-base sm:text-xl font-extrabold text-slate-950 tracking-tight">
+                Pertanyaan Umum
+              </h2>
+            </div>
+
+            <div className="space-y-2 max-w-2xl mx-auto">
+              {faqs.map((faq, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div
+                    key={faq.q}
+                    className="rounded-xl bg-white/95 backdrop-blur-md border border-slate-200/90 overflow-hidden shadow-2xs transition-all hover:border-purple-300"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : idx)}
+                      className="w-full p-3 text-left flex items-center justify-between gap-2.5 font-bold text-xs text-slate-900 hover:text-purple-700 transition cursor-pointer"
+                    >
+                      <span>{faq.q}</span>
+                      <span
+                        className={`w-4 h-4 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 transition-transform ${
+                          isOpen ? "rotate-45 bg-purple-700 text-white" : ""
+                        }`}
+                      >
+                        <Plus className="w-2.5 h-2.5" />
+                      </span>
+                    </button>
+                    {isOpen && (
+                      <div className="px-3 pb-3 text-[11px] text-slate-600 leading-relaxed border-t border-slate-100 pt-1.5">
+                        {faq.a}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ====================================================
+          BLOCK 4: UNIFIED FOOTER SECTION (PURPLE CANVAS)
+          ==================================================== */}
+      <footer className="relative w-full bg-gradient-to-b from-[#f3eefe] via-[#f1eaff] to-[#ebdffc] border-t border-purple-200/80 pt-8 sm:pt-12 pb-6 px-4 text-slate-900">
         <div className="max-w-5xl mx-auto">
           {/* Top Half: Lokasi & Embedded Google Maps */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8 items-center">
@@ -555,7 +565,7 @@ export default function HomePage() {
             </div>
 
             {/* Embedded Google Maps */}
-            <div className="w-full h-40 sm:h-48 rounded-2xl overflow-hidden border border-purple-200 shadow-sm bg-white">
+            <div className="w-full h-40 sm:h-48 rounded-2xl overflow-hidden border border-purple-200/90 shadow-sm bg-white">
               <iframe
                 title="Google Maps Lokasi Penginapan Annisa"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1990.7403357162448!2d128.08762133246853!3d-3.7047467933343032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce7a259d48e1b%3A0x304cec63773e589e!2sPenginapan%20Annisa!5e0!3m2!1sid!2sid!4v1787149833837!5m2!1sid!2sid"
