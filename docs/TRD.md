@@ -48,9 +48,10 @@ penginapan-annisa/
 │   ├── web/                           👉 [ FRONTEND WEB APPLICATION (Next.js 16) ]
 │   │   ├── package.json               # dependencies: { "@annisa/types": "workspace:*" }
 │   │   ├── src/
-│   │   │   ├── app/                   # App Router Pages (/, /kamar, /oleh-oleh, /artikel, /admin)
+│   │   │   ├── app/                   # App Router Pages (/, /kamar, /oleh-oleh, /artikel, /contact, /admin)
 │   │   │   ├── components/            # Global UI Primitives (Button, Badge, Card, Modal, Navbar, Footer)
-│   │   │   └── features/              # Feature-Driven Modules (rooms, souvenirs, articles, admin, booking)
+│   │   │   ├── lib/                   # Global Utilities (utils.ts, whatsapp.ts)
+│   │   │   └── features/              # Feature Modules Berbasis 5 Menu (home, rooms, souvenirs, articles, contact, admin)
 │   │
 │   └── api/                           👉 [ BACKEND REST API APPLICATION (Express / Bun) ]
 │       ├── package.json               # dependencies: { "@annisa/types": "workspace:*", "@annisa/db": "workspace:*" }
@@ -64,41 +65,41 @@ penginapan-annisa/
 
 ## 2. 📦 Frontend: Feature-Driven Architecture (`apps/web`)
 
-Struktur frontend dikelompokkan secara **vertikal berdasarkan domain bisnis/fitur** (*Co-location*) untuk memaksimalkan *reusability* dan kemudahan integrasi.
+Struktur frontend dikelompokkan secara **vertikal berbasis 5 Menu Publik & 1 Modul Operasional Admin** (*Co-location*) untuk memaksimalkan *reusability* dan kemudahan pencarian komponen:
 
 ```text
 apps/web/src/
 │
-├── components/                        👉 KOMPONEN GLOBAL & PRIMITIF
+├── components/                        👉 KOMPONEN GLOBAL & PRIMITIF (Re-usable)
 │   ├── ui/                            # button.tsx, badge.tsx, card.tsx, dialog.tsx, input.tsx
 │   └── layout/                        # navbar.tsx, footer.tsx, admin-sidebar.tsx
 │
-├── lib/                               👉 GLOBAL HELPERS
-│   └── utils.ts                       # cn() Tailwind merger, formatRupiah(), formatDate()
+├── lib/                               👉 GLOBAL HELPERS & UTILITIES
+│   ├── utils.ts                       # cn() Tailwind merger, formatRupiah(), formatDate()
+│   └── whatsapp.ts                    # Generator URL & Template Pesan WhatsApp (Booking, Oleh-oleh, CS, Nota)
 │
-└── features/                          👉 MODUL FITUR BISNIS
+└── features/                          👉 MODUL FITUR BERBASIS MENU (1 Menu = 1 Folder)
     │
-    ├── home/                          📦 Fitur Beranda
-    │   └── components/                # HeroSection.tsx, ValuesSection.tsx, FaqSection.tsx, LocationSection.tsx
+    ├── home/                          📦 MENU 1: BERANDA (/)
+    │   └── components/                # HeroSection.tsx, BookingWidget.tsx, ValuesSection.tsx, FaqSection.tsx, LocationSection.tsx
     │
-    ├── rooms/                         📦 Fitur Katalog Kamar
-    │   ├── components/                # RoomCard.tsx, RoomGrid.tsx, RoomFilter.tsx, RoomHero.tsx
-    │   ├── hooks/                     # useRooms.ts (TanStack Query fetch kamar)
+    ├── rooms/                         📦 MENU 2: TIPE KAMAR (/kamar)
+    │   ├── components/                # RoomCard.tsx, RoomGrid.tsx, RoomFilter.tsx, RoomGuideCard.tsx
+    │   ├── hooks/                     # useRooms.ts (TanStack Query fetch data kamar)
     │   └── services/                  # roomApi.ts (Client API fetcher)
     │
-    ├── souvenirs/                     📦 Fitur Etalase Oleh-oleh
-    │   ├── components/                # SouvenirCard.tsx, SouvenirGrid.tsx, SouvenirFilter.tsx
+    ├── souvenirs/                     📦 MENU 3: OLEH-OLEH (/oleh-oleh)
+    │   ├── components/                # SouvenirCard.tsx, SouvenirGrid.tsx, SouvenirFilter.tsx, SouvenirGuideCard.tsx
     │   └── services/                  # souvenirApi.ts
     │
-    ├── articles/                      📦 Fitur Artikel & Panduan Wisata
-    │   ├── components/                # ArticleCard.tsx, ExplorationCard.tsx, ArticleGrid.tsx
+    ├── articles/                      📦 MENU 4: ARTIKEL WISATA (/artikel)
+    │   ├── components/                # ArticleCard.tsx, ExplorationCard.tsx, ArticleGrid.tsx, ArticleFilter.tsx
     │   └── services/                  # articleApi.ts
     │
-    ├── booking/                       📦 Fitur Reservasi WhatsApp
-    │   ├── components/                # BookingWidget.tsx, DateRangePicker.tsx
-    │   └── utils/                     # whatsapp-dispatcher.ts (Template draf pesan WA)
+    ├── contact/                       📦 MENU 5: KONTAK (/contact)
+    │   └── components/                # ContactForm.tsx, ContactInfo.tsx, LocationMap.tsx
     │
-    └── admin/                         📦 Fitur Property Management System (PMS Staf)
+    └── admin/                         📦 MODUL OPERASIONAL STAF & OWNER (PMS)
         ├── dashboard/                 # StatsOverview.tsx, OccupancyMatrix.tsx
         ├── rooms/                     # RoomMatrix4Colors.tsx, RoomStatusModal.tsx, RoomCrudForm.tsx
         ├── reservations/              # ReservationTable.tsx, DpConfirmModal.tsx, CheckinFastTrack.tsx
