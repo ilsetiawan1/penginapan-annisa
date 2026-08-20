@@ -12,7 +12,9 @@
 | **Database & ORM**    | PostgreSQL (Neon.tech Serverless) + Prisma ORM v6 |
 | **State & Data Fetch**| TanStack Query v5 + Zod + React Hook Form |
 | **Pola Arsitektur**   | **Feature-Driven Architecture** (Frontend) & **3-Tier Repository Pattern** (Backend) |
-| **Versi Dokumen**     | 1.0.0 (Technical Production Blueprint) |
+| **Dokumentasi API**   | **Scalar Interactive API Reference** (`@scalar/express-api-reference`) + OpenAPI 3.1 |
+| **Testing Runner**    | **Bun Test Runner** (`bun:test`) + Supertest |
+| **Versi Dokumen**     | 1.1.0 (Technical Production Blueprint - Final) |
 
 ---
 
@@ -54,7 +56,8 @@ penginapan-annisa/
 │       ├── package.json               # dependencies: { "@annisa/types": "workspace:*", "@annisa/db": "workspace:*" }
 │       ├── src/
 │       │   ├── modules/               # Domain Modules (room, reservation, souvenir, article, auth)
-│       │   └── server.ts              # Entrypoint server & global middleware
+│       │   ├── docs/                  # OpenAPI Specification generator
+│       │   └── server.ts              # Entrypoint server & Scalar documentation
 ```
 
 ---
@@ -284,7 +287,7 @@ model Souvenir {
 
   category    SouvenirCategory @relation(fields: [categoryId], references: [id])
 
-  @@map("souvers")
+  @@map("souvenirs")
 }
 
 // 5. CMS ARTIKEL PANDUAN WISATA & TRANSIT
@@ -349,3 +352,87 @@ Semua model TypeScript di-export secara terpusat di `@annisa/types`:
 | `GET` | `/api/v1/articles` | Mengambil artikel panduan wisata | Publik / Staf |
 | `POST` | `/api/v1/articles` | Publikasi artikel baru | Admin |
 | `GET` | `/api/v1/reports/monthly` | Rekapitulasi bulanan & okupansi | Admin |
+
+---
+
+## 7. 📚 Interactive API Documentation (Scalar & OpenAPI 3.1)
+
+Backend mengimplementasikan dokumentasi API interaktif modern menggunakan **Scalar** (`@scalar/express-api-reference`) yang di-generate otomatis dari skema Zod OpenAPI (`@asteasolutions/zod-to-openapi`).
+
+### 🌐 Akses Endpoint Dokumentasi:
+* **Interactive UI:** `http://localhost:4000/docs` (Scalar Modern Documentation UI)
+* **Raw OpenAPI JSON Spec:** `http://localhost:4000/api-docs.json` (OpenAPI v3.1 Specification)
+
+### 📦 Konfigurasi Integrasi Scalar (`apps/api/src/server.ts`):
+```typescript
+import { apiReference } from "@scalar/express-api-reference";
+import express from "express";
+import { openApiSpec } from "./docs/openapi";
+
+const app = express();
+
+// 1. Endpoint Raw JSON Spec
+app.get("/api-docs.json", (req, res) => res.json(openApiSpec));
+
+// 2. Interactive Scalar Documentation Dashboard
+app.use(
+  "/docs",
+  apiReference({
+    theme: "purple", // Tema modern elegan ungu Annisa
+    spec: {
+      url: "/api-docs.json",
+    },
+    metaData: {
+      title: "Penginapan Annisa API Reference",
+      description: "Dokumentasi RESTful API untuk Sistem Reservasi, PMS Kamar, dan Katalog Oleh-Oleh",
+    },
+  })
+);
+```
+
+---
+
+## 8. 🧪 Testing Strategy & Quality Assurance
+
+Sistem Penginapan Annisa menerapkan strategi pengujian berlapis (*Testing Pyramid*) untuk menjamin keandalan sistem operasional kamar dan kalkulasi keuangan:
+
+```text
+               ▲
+              / \     E2E Tests (Playwright) ➔ Alur Booking WA & Check-In Cepat
+             /---\
+            /     \   Integration Tests ➔ API Endpoint & Database Transaction
+           /-------\
+          /         \ Unit Tests (Bun Test) ➔ Service Business Logic & DP Calculator
+         /-----------\
+```
+
+### A. Pembagian Layer Pengujian:
+
+| Layer Testing | Target / Modul | Runner / Tools | Cakupan |
+| :--- | :--- | :--- | :--- |
+| **Unit Test** | `*.service.ts` | `bun:test` | Kalkulasi DP 50%, validasi tanggal check-in/out, konflik nomor kamar. |
+| **Integration Test** | `*.routes.ts` & `*.repository.ts` | `bun:test` + `supertest` | Validasi response status HTTP (200, 201, 400, 404) dan Prisma query. |
+| **Form & Hook Test** | `*.schema.ts` & `useRooms.ts` | `@testing-library/react` | Validasi input form Zod, parsing nomor HP WhatsApp Indonesia. |
+| **E2E Smoke Test** | User Flow Booking & Walk-in | `Playwright` (Opsional) | Simulasi pemesanan tamu dari katalog hingga draf pesan WhatsApp. |
+
+### B. Daftar Test Suites Kritis:
+1. `apps/api/src/modules/room/__tests__/room.service.test.ts`:
+   - [x] Harus memvalidasi status 4 warna kamar (`ready`, `occupied`, `dirty`, `maintenance`).
+   - [x] Harus menolak pembuatan nomor kamar duplikat pada gedung yang sama.
+2. `apps/api/src/modules/reservation/__tests__/reservation.service.test.ts`:
+   - [x] Harus menghitung nilai DP tepat 50% dari total biaya kamar $\times$ jumlah malam.
+   - [x] Harus otomatis mengubah status kamar menjadi `dirty` saat checkout selesai.
+3. `apps/web/src/features/booking/__tests__/whatsapp-dispatcher.test.ts`:
+   - [x] Harus memformat nomor HP internasional `0852...` ➔ `62852...` dan generate URL `wa.me` yang valid.
+
+### C. Perintah Menjalankan Testing:
+```bash
+# Menjalankan seluruh test suite di Monorepo
+bun test
+
+# Menjalankan test dengan mode watch (TDD)
+bun test --watch
+
+# Menjalankan test spesifik modul reservasi
+bun test apps/api/src/modules/reservation
+```
