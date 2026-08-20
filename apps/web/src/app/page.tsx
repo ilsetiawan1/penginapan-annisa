@@ -260,15 +260,16 @@ export default function HomePage() {
 
       {/* Kenapa Memilih Penginapan Annisa? (Semua 3 Kartu Ditampilkan Langsung) */}
       <section className="py-4 sm:py-8 px-4 max-w-6xl mx-auto">
-        <div className="mb-3 sm:mb-6 flex items-center justify-between gap-2">
-          <div>
-            <Badge variant="purple" className="mb-1 text-[10px]">
-              Nilai Utama
-            </Badge>
-            <h2 className="text-lg sm:text-2xl font-extrabold text-slate-950 tracking-tight">
-              Kenapa Memilih Penginapan Annisa?
-            </h2>
-          </div>
+        <div className="mb-3.5 sm:mb-6">
+          <span className="text-[11px] uppercase font-bold tracking-widest text-purple-700 block mb-1">
+            Keunggulan Layanan
+          </span>
+          <h2 className="font-display text-xl sm:text-3xl font-extrabold text-slate-950 tracking-[-0.02em] leading-tight">
+            Kenapa Memilih Penginapan Annisa?
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 font-normal mt-1 max-w-lg">
+            Fasilitas &amp; kenyamanan transit yang dirancang khusus untuk penumpang pesawat di Ambon.
+          </p>
         </div>
 
         {/* 3 Cards Direct Display (Stack on Mobile, Grid 3-Cols on Desktop) */}
@@ -278,21 +279,21 @@ export default function HomePage() {
             return (
               <div
                 key={item.title}
-                className="bg-white/95 backdrop-blur-md p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all flex items-start gap-3 sm:flex-col sm:justify-between"
+                className="bg-white/95 backdrop-blur-md p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-xs transition-all flex items-start gap-3 sm:flex-col sm:justify-between group"
               >
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs shrink-0 mt-0.5 sm:mt-0 sm:mb-2.5">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs shrink-0 mt-0.5 sm:mt-0 sm:mb-3 group-hover:bg-purple-700 group-hover:text-white transition-colors">
                   <Icon className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <h3 className="text-xs sm:text-base font-bold text-slate-900 leading-snug">
+                    <h3 className="font-display text-xs sm:text-base font-bold text-slate-950 leading-snug">
                       {item.title}
                     </h3>
-                    <span className="hidden sm:inline-block text-[9px] font-bold text-purple-700 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full shrink-0">
+                    <span className="hidden sm:inline-block text-[9px] font-bold text-purple-800 bg-purple-50/90 border border-purple-100 px-2 py-0.5 rounded-full shrink-0">
                       {item.tag}
                     </span>
                   </div>
-                  <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                  <p className="text-[11px] sm:text-xs text-slate-600 font-normal leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
