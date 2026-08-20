@@ -153,10 +153,10 @@ export default function HomePage() {
       <Navbar />
 
       {/* ====================================================
-          BLOCK 1: HERO SECTION (WHITE CANVAS)
+          BLOCK 1: HERO SECTION (WHITE CANVAS - 100VH DESKTOP)
           ==================================================== */}
-      <section className="relative w-full bg-[#faf9fc] pt-24 sm:pt-32 pb-8 sm:pb-14 px-4">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative w-full bg-[#faf9fc] min-h-[92vh] lg:min-h-screen lg:h-screen flex flex-col justify-center pt-24 sm:pt-28 lg:pt-16 pb-8 lg:pb-0 px-4">
+        <div className="max-w-6xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
             {/* Kolom Kiri: Value, Headline & Trust Badges */}
             <div className="lg:col-span-6 flex flex-col justify-center text-left">
@@ -175,7 +175,7 @@ export default function HomePage() {
               </a>
 
               {/* Crisp Headline */}
-              <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-950 tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-950 tracking-tight leading-[1.15]">
                 Penginapan Transit Nyaman Dekat{" "}
                 <span className="text-purple-700">Bandara Pattimura</span>
               </h1>
@@ -239,14 +239,13 @@ export default function HomePage() {
       </section>
 
       {/* =========================================================================================
-          BLOCK 2: KEUNGGULAN + PILIHAN UNIT (PURPLE CANVAS DENGAN SEAMLESS BLUR GRADIENT WASH)
-          Fades smoothly from #faf9fc (White) into #f1eaff (Purple) and melts back into #faf9fc (White)
+          BLOCK 2: KEUNGGULAN + PILIHAN UNIT (PURPLE CANVAS - 100VH DESKTOP)
           ========================================================================================= */}
-      <div className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-15% via-[#f1eaff] via-85% to-[#faf9fc] py-10 sm:py-16 px-4">
-        <div className="max-w-6xl mx-auto space-y-10 sm:space-y-14">
+      <div className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-15% via-[#f1eaff] via-85% to-[#faf9fc] min-h-[92vh] lg:min-h-screen lg:h-screen flex flex-col justify-center py-10 lg:py-0 px-4">
+        <div className="max-w-6xl mx-auto w-full space-y-6 lg:space-y-7">
           {/* 2.1 Section Keunggulan / Nilai Utama */}
           <div>
-            <div className="mb-3.5 sm:mb-5">
+            <div className="mb-2.5 sm:mb-3">
               <span className="text-[10px] uppercase font-bold tracking-widest text-purple-800 block mb-0.5">
                 Keunggulan
               </span>
@@ -256,16 +255,16 @@ export default function HomePage() {
             </div>
 
             {/* 3 Cards Direct Display */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-3.5">
               {whyChooseUs.map((item) => {
                 const Icon = item.icon;
                 return (
                   <div
                     key={item.title}
-                    className="bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 hover:shadow-xs transition-all flex items-start gap-2.5 sm:flex-col sm:justify-between group"
+                    className="bg-white/95 backdrop-blur-md p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 hover:shadow-xs transition-all flex items-start gap-2.5 sm:flex-col sm:justify-between group"
                   >
-                    <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs shrink-0 mt-0.5 sm:mt-0 sm:mb-2 group-hover:bg-purple-700 group-hover:text-white transition-colors">
-                      <Icon className="w-4 h-4" />
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs shrink-0 mt-0.5 sm:mt-0 sm:mb-1.5 group-hover:bg-purple-700 group-hover:text-white transition-colors">
+                      <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between gap-1 mb-0.5">
@@ -276,7 +275,7 @@ export default function HomePage() {
                           {item.tag}
                         </span>
                       </div>
-                      <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
+                      <p className="text-[10px] sm:text-[11px] text-slate-600 leading-relaxed font-normal">
                         {item.desc}
                       </p>
                     </div>
@@ -288,7 +287,7 @@ export default function HomePage() {
 
           {/* 2.2 Section Pilihan Unit / Tipe Kamar */}
           <div>
-            <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
+            <div className="flex items-center justify-between mb-2.5 sm:mb-3 gap-2">
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-purple-800 block mb-0.5">
                   Pilihan Unit
@@ -311,14 +310,14 @@ export default function HomePage() {
             </div>
 
             {/* 1 Card Full + 2nd Card Half Peek on Mobile Swipe (min-w-[76vw]) */}
-            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
+            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-3.5 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
               {previewRooms.map((room) => (
                 <div
                   key={room.id}
                   className="snap-center min-w-[76vw] sm:min-w-[260px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
                 >
                   <div>
-                    <div className="relative h-32 sm:h-40 w-full bg-slate-100 overflow-hidden">
+                    <div className="relative h-28 sm:h-32 md:h-36 w-full bg-slate-100 overflow-hidden">
                       <Image
                         src={room.image}
                         alt={room.name}
@@ -337,7 +336,7 @@ export default function HomePage() {
                       </div>
                     </div>
 
-                    <div className="p-3 sm:p-3.5">
+                    <div className="p-2.5 sm:p-3">
                       <div className="flex items-start justify-between gap-1 mb-1">
                         <div>
                           <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 leading-tight">
@@ -346,13 +345,13 @@ export default function HomePage() {
                           <p className="text-[10px] text-purple-700 font-semibold mt-0.5">{room.bed}</p>
                         </div>
                         <div className="text-right shrink-0">
-                          <p className="text-xs sm:text-base font-black text-purple-700">Rp {room.price}</p>
+                          <p className="text-xs sm:text-sm font-black text-purple-700">Rp {room.price}</p>
                           <span className="text-[8px] text-slate-500 font-medium">/ malam</span>
                         </div>
                       </div>
 
                       {/* Compact Highlights Pills */}
-                      <div className="flex flex-wrap gap-1 my-1.5">
+                      <div className="flex flex-wrap gap-1 my-1">
                         {room.highlights.map((h) => (
                           <span
                             key={h}
@@ -365,7 +364,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="p-3 sm:p-3.5 pt-0 flex items-center justify-between gap-2 border-t border-slate-100 mt-1">
+                  <div className="p-2.5 sm:p-3 pt-0 flex items-center justify-between gap-2 border-t border-slate-100 mt-1">
                     <span className="text-[10px] font-bold text-slate-800">
                       DP: <span className="text-purple-700">Rp {room.dp}</span>
                     </span>
@@ -395,13 +394,13 @@ export default function HomePage() {
       </div>
 
       {/* ====================================================
-          BLOCK 3: ETALASE + BANTUAN FAQ (WHITE CANVAS)
+          BLOCK 3: ETALASE + BANTUAN FAQ (WHITE CANVAS - 100VH DESKTOP)
           ==================================================== */}
-      <div className="relative w-full bg-[#faf9fc] py-8 sm:py-14 px-4">
-        <div className="max-w-6xl mx-auto space-y-10 sm:space-y-14">
+      <div className="relative w-full bg-[#faf9fc] min-h-[92vh] lg:min-h-screen lg:h-screen flex flex-col justify-center py-10 lg:py-0 px-4">
+        <div className="max-w-6xl mx-auto w-full space-y-6 lg:space-y-8">
           {/* 3.1 Section Etalase Oleh-oleh */}
           <div>
-            <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
+            <div className="flex items-center justify-between mb-2.5 sm:mb-3 gap-2">
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-purple-700 block mb-0.5">
                   Etalase
@@ -424,14 +423,14 @@ export default function HomePage() {
             </div>
 
             {/* 2 Full Cards + 3rd Card Half Peek on Mobile (min-w-[40vw] max-w-[40vw]) */}
-            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2 sm:gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
+            <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2 sm:gap-3.5 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
               {previewSouvenirs.map((item) => (
                 <div
                   key={item.name}
                   className="snap-center min-w-[40vw] max-w-[40vw] sm:min-w-[200px] sm:max-w-none md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
                 >
                   <div>
-                    <div className="relative h-24 sm:h-32 w-full bg-slate-100 overflow-hidden">
+                    <div className="relative h-20 sm:h-24 md:h-28 w-full bg-slate-100 overflow-hidden">
                       <Image
                         src={item.image}
                         alt={item.name}
@@ -445,7 +444,7 @@ export default function HomePage() {
                       </div>
                     </div>
 
-                    <div className="p-2 sm:p-3">
+                    <div className="p-2 sm:p-2.5">
                       <h3 className="font-extrabold text-[11px] sm:text-xs text-slate-900 line-clamp-1 mb-0.5">
                         {item.name}
                       </h3>
@@ -458,8 +457,8 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="p-2 sm:p-3 pt-0">
-                    <div className="py-1 px-1.5 rounded bg-purple-50 border border-purple-100 text-center text-[8px] sm:text-[9px] font-bold text-purple-900">
+                  <div className="p-2 sm:p-2.5 pt-0">
+                    <div className="py-0.5 sm:py-1 px-1.5 rounded bg-purple-50 border border-purple-100 text-center text-[8px] sm:text-[9px] font-bold text-purple-900">
                       Tersedia di Resepsionis
                     </div>
                   </div>
@@ -469,8 +468,8 @@ export default function HomePage() {
           </div>
 
           {/* 3.2 Section Bantuan FAQ */}
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center max-w-xl mx-auto mb-3 sm:mb-5">
+          <div className="max-w-3xl mx-auto w-full">
+            <div className="text-center max-w-xl mx-auto mb-2.5 sm:mb-3">
               <span className="text-[10px] uppercase font-bold tracking-widest text-purple-700 block mb-0.5">
                 Bantuan
               </span>
@@ -479,7 +478,7 @@ export default function HomePage() {
               </h2>
             </div>
 
-            <div className="space-y-2 max-w-2xl mx-auto">
+            <div className="space-y-1.5 sm:space-y-2 max-w-2xl mx-auto">
               {faqs.map((faq, idx) => {
                 const isOpen = openFaq === idx;
                 return (
@@ -490,7 +489,7 @@ export default function HomePage() {
                     <button
                       type="button"
                       onClick={() => setOpenFaq(isOpen ? null : idx)}
-                      className="w-full p-3 text-left flex items-center justify-between gap-2.5 font-bold text-xs text-slate-900 hover:text-purple-700 transition cursor-pointer"
+                      className="w-full p-2.5 sm:p-3 text-left flex items-center justify-between gap-2.5 font-bold text-xs text-slate-900 hover:text-purple-700 transition cursor-pointer"
                     >
                       <span>{faq.q}</span>
                       <span
@@ -502,7 +501,7 @@ export default function HomePage() {
                       </span>
                     </button>
                     {isOpen && (
-                      <div className="px-3 pb-3 text-[11px] text-slate-600 leading-relaxed border-t border-slate-100 pt-1.5">
+                      <div className="px-2.5 sm:px-3 pb-2.5 sm:pb-3 text-[11px] text-slate-600 leading-relaxed border-t border-slate-100 pt-1.5">
                         {faq.a}
                       </div>
                     )}
@@ -515,10 +514,9 @@ export default function HomePage() {
       </div>
 
       {/* =========================================================================================
-          BLOCK 4: UNIFIED FOOTER SECTION (PURPLE CANVAS DENGAN SEAMLESS BLUR GRADIENT WASH)
-          Fades smoothly from #faf9fc (White) into #f1eaff (Purple) and deepens towards copyright
+          BLOCK 4: UNIFIED FOOTER SECTION (PURPLE CANVAS)
           ========================================================================================= */}
-      <footer className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] to-[#ebdffc] pt-10 sm:pt-16 pb-6 px-4 text-slate-900">
+      <footer className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] to-[#ebdffc] pt-10 sm:pt-14 pb-6 px-4 text-slate-900">
         <div className="max-w-5xl mx-auto">
           {/* Top Half: Lokasi & Embedded Google Maps */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8 items-center">
