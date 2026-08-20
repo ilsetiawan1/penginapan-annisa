@@ -19,10 +19,10 @@ export default function HomePage() {
         <HeroSection />
 
         {/* ====================================================
-            BLOCK 2: KEUNGGULAN + PILIHAN UNIT (100vh on Desktop)
+            BLOCK 2: KEUNGGULAN + PILIHAN UNIT (100vh on Desktop Large)
             Background: Soft Purple Atmosphere with Gradient Blur
             ==================================================== */}
-        <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-15% via-[#f1eaff] via-85% to-[#faf9fc] min-h-[92vh] lg:min-h-screen lg:h-screen flex flex-col justify-center py-10 lg:py-0 px-4">
+        <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-15% via-[#f1eaff] via-85% to-[#faf9fc] py-10 sm:py-14 xl:min-h-screen xl:h-screen xl:py-0 flex flex-col justify-center px-4">
           <div className="max-w-6xl mx-auto w-full">
             <ValuesSection />
             <HomeRoomsPreview />
@@ -30,10 +30,10 @@ export default function HomePage() {
         </section>
 
         {/* ====================================================
-            BLOCK 3: ETALASE OLEH-OLEH + BANTUAN FAQ (100vh on Desktop)
+            BLOCK 3: ETALASE OLEH-OLEH + BANTUAN FAQ (100vh on Desktop Large)
             Background: Clean White Canvas (#faf9fc)
             ==================================================== */}
-        <section className="relative w-full bg-[#faf9fc] min-h-[92vh] lg:min-h-screen lg:h-screen flex flex-col justify-center py-10 lg:py-0 px-4">
+        <section className="relative w-full bg-[#faf9fc] py-10 sm:py-14 xl:min-h-screen xl:h-screen xl:py-0 flex flex-col justify-center px-4">
           <div className="max-w-6xl mx-auto w-full space-y-6 sm:space-y-8">
             <HomeSouvenirsPreview />
             <FaqSection />

@@ -4,7 +4,7 @@ import { BookingWidget } from "./booking-widget";
 
 export function HeroSection() {
   return (
-    <section className="relative w-full min-h-[92vh] lg:min-h-screen lg:h-screen flex flex-col justify-center pt-24 sm:pt-28 lg:pt-16 pb-8 lg:pb-0 px-4">
+    <section className="relative w-full pt-24 sm:pt-28 pb-10 sm:pb-14 xl:min-h-screen xl:h-screen xl:pt-16 xl:pb-0 flex flex-col justify-center px-4">
       <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
         {/* Left Column: Headline & Value Proposition */}
         <div className="lg:col-span-7 text-left space-y-3 sm:space-y-4">
