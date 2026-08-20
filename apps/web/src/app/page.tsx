@@ -156,9 +156,9 @@ export default function HomePage() {
     <div className="min-h-screen text-slate-900 selection:bg-purple-200 selection:text-purple-900 font-sans">
       <Navbar />
 
-      {/* =========================================
+      {/* ====================================================
           BLOCK 1: HERO SECTION (WHITE CANVAS)
-          ========================================= */}
+          ==================================================== */}
       <section className="relative w-full bg-[#faf9fc] pt-24 sm:pt-32 pb-8 sm:pb-14 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
@@ -242,10 +242,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ====================================================
-          BLOCK 2: KEUNGGULAN + PILIHAN UNIT (PURPLE CANVAS)
-          ==================================================== */}
-      <div className="relative w-full bg-gradient-to-b from-[#f3eefe] via-[#f1eaff] to-[#f3eefe] border-y border-purple-200/70 py-8 sm:py-14 px-4">
+      {/* =========================================================================================
+          BLOCK 2: KEUNGGULAN + PILIHAN UNIT (PURPLE CANVAS DENGAN SEAMLESS BLUR GRADIENT WASH)
+          Fades smoothly from #faf9fc (White) into #f1eaff (Purple) and melts back into #faf9fc (White)
+          ========================================================================================= */}
+      <div className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-15% via-[#f1eaff] via-85% to-[#faf9fc] py-10 sm:py-16 px-4">
         <div className="max-w-6xl mx-auto space-y-10 sm:space-y-14">
           {/* 2.1 Section Keunggulan / Nilai Utama */}
           <div>
@@ -517,10 +518,11 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ====================================================
-          BLOCK 4: UNIFIED FOOTER SECTION (PURPLE CANVAS)
-          ==================================================== */}
-      <footer className="relative w-full bg-gradient-to-b from-[#f3eefe] via-[#f1eaff] to-[#ebdffc] border-t border-purple-200/80 pt-8 sm:pt-12 pb-6 px-4 text-slate-900">
+      {/* =========================================================================================
+          BLOCK 4: UNIFIED FOOTER SECTION (PURPLE CANVAS DENGAN SEAMLESS BLUR GRADIENT WASH)
+          Fades smoothly from #faf9fc (White) into #f1eaff (Purple) and deepens towards copyright
+          ========================================================================================= */}
+      <footer className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] to-[#ebdffc] pt-10 sm:pt-16 pb-6 px-4 text-slate-900">
         <div className="max-w-5xl mx-auto">
           {/* Top Half: Lokasi & Embedded Google Maps */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8 items-center">
