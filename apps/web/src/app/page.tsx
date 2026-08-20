@@ -381,12 +381,12 @@ export default function HomePage() {
           </Button>
         </div>
 
-        {/* 2-Card Glance on Mobile View (min-w-[55vw]) */}
+        {/* 2-Card Glance on Mobile View (min-w-[62vw]) */}
         <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-6 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 no-scrollbar">
           {previewSouvenirs.map((item) => (
             <div
               key={item.name}
-              className="snap-center min-w-[55vw] sm:min-w-[240px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
+              className="snap-center min-w-[62vw] sm:min-w-[240px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
             >
               <div>
                 <div className="relative h-28 sm:h-36 w-full bg-slate-100 overflow-hidden">
@@ -399,13 +399,13 @@ export default function HomePage() {
                 </div>
 
                 <div className="p-3 sm:p-4">
-                  <h3 className="font-bold text-[11px] sm:text-sm text-slate-900 line-clamp-1 mb-0.5">
+                  <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 line-clamp-1 mb-0.5">
                     {item.name}
                   </h3>
                   <p className="text-xs sm:text-base font-black text-purple-700 mb-1">
                     {item.price}
                   </p>
-                  <p className="text-[10px] text-slate-500 line-clamp-2 leading-relaxed">
+                  <p className="text-[10px] text-slate-500 line-clamp-1 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
