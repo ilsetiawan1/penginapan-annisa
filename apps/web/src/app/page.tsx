@@ -45,10 +45,9 @@ export default function HomePage() {
 
   const previewRooms = [
     {
-      id: "101",
-      number: "101",
+      id: "A1",
+      number: "A1",
       name: "Tipe AC",
-      badge: "Lantai 1",
       price: "275.000",
       dp: "137.500",
       bed: "1 Kasur Besar (Muat 2–3 Org)",
@@ -57,10 +56,9 @@ export default function HomePage() {
       image: "/rooms/room-ac-101.jpg",
     },
     {
-      id: "102",
-      number: "102",
+      id: "A2",
+      number: "A2",
       name: "Tipe AC",
-      badge: "Lantai 1",
       price: "275.000",
       dp: "137.500",
       bed: "1 Kasur Besar (Muat 2–3 Org)",
@@ -69,10 +67,9 @@ export default function HomePage() {
       image: "/rooms/room-ac-102.jpg",
     },
     {
-      id: "201",
-      number: "201",
+      id: "A3",
+      number: "A3",
       name: "Tipe Kipas",
-      badge: "Lantai 2",
       price: "200.000",
       dp: "100.000",
       bed: "1 Kasur Besar (Muat 2–3 Org)",
@@ -81,10 +78,9 @@ export default function HomePage() {
       image: "/rooms/room-kipas-201.jpg",
     },
     {
-      id: "202",
-      number: "202",
+      id: "A4",
+      number: "A4",
       name: "Tipe Kipas",
-      badge: "Lantai 2",
       price: "200.000",
       dp: "100.000",
       bed: "1 Kasur Besar (Muat 2–3 Org)",
@@ -303,7 +299,7 @@ export default function HomePage() {
                 className="rounded-full border-purple-200 bg-white/90 text-slate-800 hover:bg-white font-bold text-[10px] sm:text-xs gap-1 shrink-0 px-2.5 py-1 h-7"
               >
                 <Link href="/kamar">
-                  <span>Semua 8 Kamar</span>
+                  <span>Lihat Semua</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </Button>
@@ -324,13 +320,8 @@ export default function HomePage() {
                         fill
                         className="object-cover"
                       />
-                      <div className="absolute top-2 left-2">
-                        <span className="bg-slate-900/90 text-white px-2 py-0.5 rounded-full text-[8px] font-bold">
-                          {room.badge}
-                        </span>
-                      </div>
                       <div className="absolute top-2 right-2">
-                        <span className="bg-purple-700 text-white px-2 py-0.5 rounded-full text-[8px] font-bold">
+                        <span className="bg-purple-700 text-white px-2 py-0.5 rounded-full text-[9px] font-bold shadow-xs">
                           #{room.number}
                         </span>
                       </div>
