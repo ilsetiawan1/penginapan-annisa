@@ -240,8 +240,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. NILAI UTAMA: Soft Gradient Blur Transition (Broken White -> Lavender Soft -> Broken White) */}
-      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-50% to-[#faf9fc] py-8 sm:py-14 px-4">
+      {/* 2. NILAI UTAMA: Soft Purple Gradient Blur (Broken White -> Purple Gradient -> Broken White) */}
+      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-purple-100/60 via-50% to-[#faf9fc] py-8 sm:py-14 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="mb-3.5 sm:mb-5">
             <span className="text-[10px] uppercase font-bold tracking-widest text-purple-800 block mb-0.5">
@@ -259,7 +259,7 @@ export default function HomePage() {
               return (
                 <div
                   key={item.title}
-                  className="bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-xs transition-all flex items-start gap-2.5 sm:flex-col sm:justify-between group"
+                  className="bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 hover:shadow-xs transition-all flex items-start gap-2.5 sm:flex-col sm:justify-between group"
                 >
                   <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shadow-2xs shrink-0 mt-0.5 sm:mt-0 sm:mb-2 group-hover:bg-purple-700 group-hover:text-white transition-colors">
                     <Icon className="w-4 h-4" />
@@ -269,7 +269,7 @@ export default function HomePage() {
                       <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
                         {item.title}
                       </h3>
-                      <span className="hidden sm:inline-block text-[9px] font-bold text-purple-800 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full shrink-0">
+                      <span className="hidden sm:inline-block text-[9px] font-bold text-purple-800 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded-full shrink-0">
                         {item.tag}
                       </span>
                     </div>
@@ -392,8 +392,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. ETALASE OLEH-OLEH: Soft Gradient Blur Transition (Broken White -> Lavender Soft -> Broken White) */}
-      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] via-50% to-[#faf9fc] py-8 sm:py-14 px-4">
+      {/* 4. ETALASE OLEH-OLEH: Soft Purple Gradient Blur (Broken White -> Purple Gradient -> Broken White) */}
+      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-purple-100/60 via-50% to-[#faf9fc] py-8 sm:py-14 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-3 sm:mb-5 gap-2">
             <div>
@@ -422,7 +422,7 @@ export default function HomePage() {
             {previewSouvenirs.map((item) => (
               <div
                 key={item.name}
-                className="snap-center min-w-[40vw] max-w-[40vw] sm:min-w-[200px] sm:max-w-none md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-purple-100/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
+                className="snap-center min-w-[40vw] max-w-[40vw] sm:min-w-[200px] sm:max-w-none md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-purple-200/80 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
               >
                 <div>
                   <div className="relative h-24 sm:h-32 w-full bg-slate-100 overflow-hidden">
@@ -453,7 +453,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="p-2 sm:p-3 pt-0">
-                  <div className="py-1 px-1.5 rounded bg-purple-50/80 border border-purple-100 text-center text-[8px] sm:text-[9px] font-bold text-purple-900">
+                  <div className="py-1 px-1.5 rounded bg-purple-50 border border-purple-200/70 text-center text-[8px] sm:text-[9px] font-bold text-purple-900">
                     Tersedia di Resepsionis
                   </div>
                 </div>
@@ -509,10 +509,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. LOKASI & PETUNJUK ARAH: Soft Gradient Blur Transition (Broken White -> Lavender Soft -> Footer) */}
-      <section className="relative w-full bg-gradient-to-b from-[#faf9fc] via-[#f1eaff] to-[#f8f6fc] py-8 sm:py-12 px-4 text-slate-900">
+      {/* 6. UNIFIED FOOTER SECTION (LOKASI + PETA + LINK + COPYRIGHT) */}
+      <footer className="relative w-full bg-gradient-to-b from-[#faf9fc] via-purple-100/50 to-purple-100/80 pt-8 sm:pt-12 pb-6 px-4 text-slate-900 border-t border-purple-100">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-center">
+          {/* Top Half: Lokasi & Embedded Google Maps */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8 items-center">
             <div>
               <span className="text-[10px] uppercase font-bold tracking-widest text-purple-800 block mb-1">
                 Lokasi Transit
@@ -554,7 +555,7 @@ export default function HomePage() {
             </div>
 
             {/* Embedded Google Maps */}
-            <div className="w-full h-40 sm:h-48 rounded-2xl overflow-hidden border border-purple-200/80 shadow-sm bg-white">
+            <div className="w-full h-40 sm:h-48 rounded-2xl overflow-hidden border border-purple-200 shadow-sm bg-white">
               <iframe
                 title="Google Maps Lokasi Penginapan Annisa"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1990.7403357162448!2d128.08762133246853!3d-3.7047467933343032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce7a259d48e1b%3A0x304cec63773e589e!2sPenginapan%20Annisa!5e0!3m2!1sid!2sid!4v1787149833837!5m2!1sid!2sid"
@@ -567,37 +568,38 @@ export default function HomePage() {
               />
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* 7. FOOTER: Seamless Broken White */}
-      <footer className="w-full bg-[#f8f6fc] text-slate-600 py-4 px-4 border-t border-purple-100/60 text-xs">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
-          <div className="flex items-center gap-2">
-            <div className="relative w-5 h-5 rounded-full overflow-hidden bg-purple-100 p-0.5 border border-purple-200">
-              <Image src="/logo-penginapan-annisa.png" alt="Logo" fill className="object-contain" />
+          {/* Soft Divider */}
+          <div className="border-t border-purple-200/80 my-6 sm:my-8" />
+
+          {/* Bottom Half: Brand Logo, Nav Links & Copyright */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <div className="relative w-6 h-6 rounded-full overflow-hidden bg-purple-50 p-0.5 border border-purple-200">
+                <Image src="/logo-penginapan-annisa.png" alt="Logo" fill className="object-contain" />
+              </div>
+              <p className="font-bold text-slate-900 text-xs">Penginapan Annisa Ambon</p>
             </div>
-            <p className="font-bold text-slate-900 text-xs">Penginapan Annisa Ambon</p>
-          </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 text-[11px] font-medium">
-            <Link href="/kamar" className="text-slate-600 hover:text-purple-700 transition">
-              Tipe Kamar
-            </Link>
-            <Link href="/oleh-oleh" className="text-slate-600 hover:text-purple-700 transition">
-              Oleh-oleh
-            </Link>
-            <Link href="/artikel" className="text-slate-600 hover:text-purple-700 transition">
-              Artikel
-            </Link>
-            <Link href="/contact" className="text-slate-600 hover:text-purple-700 transition">
-              Kontak
-            </Link>
-          </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-[11px] font-medium">
+              <Link href="/kamar" className="text-slate-600 hover:text-purple-700 transition">
+                Tipe Kamar
+              </Link>
+              <Link href="/oleh-oleh" className="text-slate-600 hover:text-purple-700 transition">
+                Oleh-oleh
+              </Link>
+              <Link href="/artikel" className="text-slate-600 hover:text-purple-700 transition">
+                Artikel
+              </Link>
+              <Link href="/contact" className="text-slate-600 hover:text-purple-700 transition">
+                Kontak
+              </Link>
+            </div>
 
-          <p className="text-[10px] text-slate-500 text-center sm:text-right">
-            © 2026 Penginapan Annisa • 750m Bandara Pattimura
-          </p>
+            <p className="text-[10px] text-slate-500 text-center sm:text-right">
+              © 2026 Penginapan Annisa • 750m Bandara Pattimura
+            </p>
+          </div>
         </div>
       </footer>
     </div>
