@@ -212,98 +212,43 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Mengapa Memilih Penginapan Annisa (Mobile Swipe Carousel / Desktop Grid) */}
-      <section className="py-10 sm:py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-            <Badge variant="purple" className="mb-2">
-              Keunggulan Utama
-            </Badge>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
-              Mengapa Memilih Penginapan Annisa?
-            </h2>
-            <p className="text-slate-600 mt-1.5 text-xs sm:text-base">
-              Layanan ramah dan lokasi terbaik untuk waktu istirahat yang tenang.
-            </p>
+      {/* Trust & Highlights Stat Card Bar (Compact Glassmorphic) */}
+      <section className="py-4 sm:py-8 px-4 max-w-6xl mx-auto">
+        <div className="bg-white/75 backdrop-blur-xl rounded-3xl p-5 sm:p-7 border border-white/90 shadow-xl shadow-purple-950/5 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-purple-100/70 text-center">
+          <div className="flex flex-col items-center justify-center p-2">
+            <div className="w-10 h-10 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-2 shadow-2xs">
+              <Plane className="w-5 h-5" />
+            </div>
+            <p className="text-2xl sm:text-3xl font-black text-purple-700">750 Meter</p>
+            <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">Jarak ke Bandara</p>
+            <p className="text-[11px] text-slate-500">2–3 Menit dari Terminal</p>
           </div>
 
-          {/* Mobile Swipe Container (Flex Row) / Desktop 3-Cols Grid */}
-          <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-3 sm:gap-4 pb-3 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 no-scrollbar">
-            <Card className="snap-center min-w-[82vw] sm:min-w-[320px] md:min-w-0 p-6 sm:p-8 bg-white/75 backdrop-blur-xl border border-white/90 hover:bg-white/95 hover:border-purple-200/80 shadow-xl shadow-purple-950/5 group flex flex-col justify-between flex-shrink-0 md:flex-shrink">
-              <div>
-                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
-                  <Plane className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">
-                  Hanya 750m ke Bandara
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Hanya butuh waktu 2–3 menit perjalanan menuju terminal Bandara Pattimura Ambon.
-                  Bebas macet dan aman untuk jadwal terbang subuh.
-                </p>
-              </div>
-            </Card>
-
-            <Card className="snap-center min-w-[82vw] sm:min-w-[320px] md:min-w-0 p-6 sm:p-8 bg-white/75 backdrop-blur-xl border border-white/90 hover:bg-white/95 hover:border-purple-200/80 shadow-xl shadow-purple-950/5 group flex flex-col justify-between flex-shrink-0 md:flex-shrink">
-              <div>
-                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
-                  <Clock className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">
-                  Check-in Fleksibel
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Operasional pukul 07:00 – 21:00 WIT. Mendarat pagi jam 09.00 WIT? Anda bisa
-                  langsung masuk kamar jika unit telah siap (*Ready*).
-                </p>
-              </div>
-            </Card>
-
-            <Card className="snap-center min-w-[82vw] sm:min-w-[320px] md:min-w-0 p-6 sm:p-8 bg-white/75 backdrop-blur-xl border border-white/90 hover:bg-white/95 hover:border-purple-200/80 shadow-xl shadow-purple-950/5 group flex flex-col justify-between flex-shrink-0 md:flex-shrink">
-              <div>
-                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
-                  <HeartHandshake className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">
-                  Pelayanan Ramah &amp; Nyaman
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Penginapan bersih, aman, tenang, serta dilengkapi etalase oleh-oleh khas Maluku
-                  langsung di resepsionis.
-                </p>
-              </div>
-            </Card>
+          <div className="flex flex-col items-center justify-center p-2 pt-4 sm:pt-2">
+            <div className="w-10 h-10 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-2 shadow-2xs">
+              <Bed className="w-5 h-5" />
+            </div>
+            <p className="text-2xl sm:text-3xl font-black text-slate-950">8 Kamar</p>
+            <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">Pilihan Lengkap</p>
+            <p className="text-[11px] text-slate-500">4 AC &amp; 4 Kipas Standar</p>
           </div>
 
-          {/* Mobile Swipe Hint */}
-          <div className="block md:hidden text-center text-[10px] font-bold text-purple-800 mt-1">
-            <span>← Geser kartu untuk lihat lainnya →</span>
+          <div className="flex flex-col items-center justify-center p-2 pt-4 sm:pt-2">
+            <div className="w-10 h-10 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-2 shadow-2xs">
+              <Clock className="w-5 h-5" />
+            </div>
+            <p className="text-2xl sm:text-3xl font-black text-purple-700">07:00–21:00</p>
+            <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">Jam Buka (WIT)</p>
+            <p className="text-[11px] text-slate-500">Check-in Fleksibel</p>
           </div>
 
-          {/* Frosted Glass Stats Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-6 sm:mt-10 bg-white/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white/90 shadow-lg shadow-purple-950/5 text-center">
-            <div>
-              <p className="text-2xl sm:text-4xl font-black text-purple-700">750m</p>
-              <p className="text-[11px] sm:text-xs text-slate-500 font-semibold mt-0.5">
-                Jarak ke Bandara
-              </p>
+          <div className="flex flex-col items-center justify-center p-2 pt-4 sm:pt-2">
+            <div className="w-10 h-10 rounded-2xl bg-purple-100/90 text-purple-700 flex items-center justify-center mb-2 shadow-2xs">
+              <CheckCircle2 className="w-5 h-5" />
             </div>
-            <div>
-              <p className="text-2xl sm:text-4xl font-black text-slate-900">8 Kamar</p>
-              <p className="text-[11px] sm:text-xs text-slate-500 font-semibold mt-0.5">
-                4 AC &amp; 4 Kipas
-              </p>
-            </div>
-            <div>
-              <p className="text-2xl sm:text-4xl font-black text-purple-700">07–21</p>
-              <p className="text-[11px] sm:text-xs text-slate-500 font-semibold mt-0.5">
-                Jam Buka (WIT)
-              </p>
-            </div>
-            <div>
-              <p className="text-2xl sm:text-4xl font-black text-purple-700">100%</p>
-              <p className="text-[11px] sm:text-xs text-slate-500 font-semibold mt-0.5">KM Dalam</p>
-            </div>
+            <p className="text-2xl sm:text-3xl font-black text-purple-700">100%</p>
+            <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">KM Pribadi</p>
+            <p className="text-[11px] text-slate-500">Kamar Mandi Dalam</p>
           </div>
         </div>
       </section>
