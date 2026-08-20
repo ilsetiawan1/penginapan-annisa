@@ -638,12 +638,6 @@ export default function HomePage() {
             <Link href="/contact" className="hover:text-white transition">
               Kontak &amp; Peta
             </Link>
-            <Link
-              href="/dashboard"
-              className="text-purple-400 hover:text-purple-300 font-semibold transition"
-            >
-              Portal Staf ➔
-            </Link>
           </div>
         </div>
       </footer>

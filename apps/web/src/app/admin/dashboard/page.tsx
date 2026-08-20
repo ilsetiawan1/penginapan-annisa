@@ -25,9 +25,9 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Badge } from "../../components/ui/badge";
-import { Button } from "../../components/ui/button";
-import { Card } from "../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
+import { Button } from "../../../components/ui/button";
+import { Card } from "../../../components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -35,7 +35,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../../components/ui/dialog";
+} from "../../../components/ui/dialog";
 
 type RoomStatus = "ready" | "occupied" | "dirty" | "maintenance";
 
@@ -56,7 +56,7 @@ interface RoomItem {
   remainingAmount?: number;
 }
 
-export default function DashboardPage() {
+export default function AdminDashboardPage() {
   // Initial 8 Rooms State
   const [rooms, setRooms] = useState<RoomItem[]>([
     {
@@ -204,7 +204,7 @@ export default function DashboardPage() {
             status: "occupied",
             guestName: guestName || "Tamu Walk-in",
             guestPhone: guestPhone || "-",
-            checkInDate: "Hari ini (19 Aug)",
+            checkInDate: "Hari ini",
             checkOutDate: `${totalNights} malam ke depan`,
             totalNights,
             totalAmount: total,
@@ -254,12 +254,12 @@ export default function DashboardPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-brand-50/60 via-slate-50 to-slate-100/80 text-slate-900 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50/40 via-[#f8f5fc] to-white text-slate-900 pb-16">
       {/* Top Header Bar */}
-      <header className="bg-white/90 backdrop-blur-md border-b border-brand-100 sticky top-0 z-40 px-4 sm:px-8 py-3.5 shadow-xs">
+      <header className="bg-white/80 backdrop-blur-xl border-b border-purple-100 sticky top-0 z-40 px-4 sm:px-8 py-3.5 shadow-xs">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-xs bg-brand-50 border border-brand-200 flex items-center justify-center">
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-xs bg-purple-50 border border-purple-200 flex items-center justify-center">
               <Image
                 src="/logo-penginapan-annisa.png"
                 alt="Logo"
@@ -272,8 +272,8 @@ export default function DashboardPage() {
                 <h1 className="font-extrabold text-base sm:text-lg text-slate-900 leading-tight">
                   Penginapan Annisa
                 </h1>
-                <Badge variant="purple" className="text-[10px] py-0 px-2">
-                  Portal Staf PMS
+                <Badge variant="purple" className="text-[10px] py-0 px-2 font-bold">
+                  Admin PMS Portal
                 </Badge>
               </div>
               <p className="text-xs text-slate-500 font-medium">
@@ -287,7 +287,7 @@ export default function DashboardPage() {
               onClick={() => handleOpenWalkIn()}
               variant="primary"
               size="sm"
-              className="gap-1.5 font-bold shadow-brand-600/20 text-xs sm:text-sm rounded-xl"
+              className="gap-1.5 font-bold shadow-purple-600/20 text-xs sm:text-sm rounded-xl bg-purple-600 hover:bg-purple-700"
             >
               <Plus className="w-4 h-4" />
               <span>Tamu Walk-In</span>
@@ -301,7 +301,7 @@ export default function DashboardPage() {
             >
               <Link href="/">
                 <Home className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Lihat Web</span>
+                <span className="hidden sm:inline">Lihat Web Publik</span>
               </Link>
             </Button>
           </div>
@@ -590,7 +590,7 @@ export default function DashboardPage() {
                       onClick={() => handleMarkClean(room.number)}
                       variant="primary"
                       size="sm"
-                      className="w-full gap-1.5 font-bold text-xs rounded-xl bg-brand-600 hover:bg-brand-700"
+                      className="w-full gap-1.5 font-bold text-xs rounded-xl bg-purple-600 hover:bg-purple-700"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>Tandai Sudah Bersih</span>

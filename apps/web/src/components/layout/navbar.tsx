@@ -1,6 +1,6 @@
 "use client";
 
-import { Bed, BookOpen, Gift, Home, LayoutDashboard, MapPin, Phone } from "lucide-react";
+import { Bed, BookOpen, Gift, Home, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -56,14 +56,6 @@ export function Navbar() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <Link
-            href="/dashboard"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold bg-white/60 hover:bg-white/90 text-purple-950 transition border border-white/80 shadow-2xs backdrop-blur-md"
-          >
-            <LayoutDashboard className="w-3.5 h-3.5 text-purple-700" />
-            <span>Portal Staf</span>
-          </Link>
-
           <Button
             asChild
             variant="primary"
