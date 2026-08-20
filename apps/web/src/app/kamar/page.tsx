@@ -200,8 +200,8 @@ export default function KamarPage() {
           ==================================================== */}
       <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
         <Image
-          src="/rooms/hero-kamar.jpg"
-          alt="Penginapan Annisa Ambon"
+          src="/rooms/bg-bandara-pattimura-ambon.jpg"
+          alt="Bandara Internasional Pattimura Ambon"
           fill
           className="object-cover"
           priority
