@@ -191,14 +191,14 @@ export default function HomePage() {
               <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 group-hover:translate-x-0.5 transition-all" />
             </a>
 
-            {/* Crisp Headline */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.16]">
+            {/* Crisp Clean Modern Headline */}
+            <h1 className="font-display text-3xl sm:text-4xl lg:text-[46px] font-black text-slate-950 tracking-[-0.03em] leading-[1.12]">
               Penginapan Transit Nyaman Dekat{" "}
-              <span className="text-purple-700">Bandara Pattimura</span>
+              <span className="text-purple-700 font-black">Bandara Pattimura</span>
             </h1>
 
-            {/* Subtitle */}
-            <p className="mt-3 text-xs sm:text-base text-slate-600 leading-relaxed max-w-lg">
+            {/* Clean Minimalist Subtitle */}
+            <p className="mt-3.5 text-xs sm:text-base text-slate-600 font-normal leading-relaxed max-w-lg">
               Solusi istirahat ideal untuk penerbangan subuh, transit dinas, dan wisata di Ambon.
               Kamar bersih, WiFi kencang, dan <strong>bebas risiko terlambat pesawat</strong>.
             </p>

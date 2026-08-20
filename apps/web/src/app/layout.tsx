@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["500", "600", "700", "800", "900"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Penginapan Annisa — Penginapan Transit 750m dari Bandara Pattimura Ambon",
@@ -13,8 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
-      <body className="antialiased">{children}</body>
+    <html lang="id" className={`${plusJakarta.variable} ${outfit.variable}`}>
+      <body className="font-sans antialiased bg-[#faf9fc] text-slate-900 selection:bg-purple-200 selection:text-purple-900">
+        {children}
+      </body>
     </html>
   );
 }

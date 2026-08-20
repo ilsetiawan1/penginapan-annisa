@@ -38,6 +38,10 @@ const config: Config = {
           maintenance: "#ef4444",
         },
       },
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
+      },
       borderRadius: {
         "3xl": "1.75rem",
         "4xl": "2.25rem",
