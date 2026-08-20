@@ -50,15 +50,21 @@ export function HeroSection() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-white/90 backdrop-blur-md rounded-2xl border border-purple-100 shadow-2xs">
-              <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-4 h-4" />
+            <Link
+              href="/kamar"
+              className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600 text-white rounded-2xl shadow-md hover:shadow-lg hover:from-purple-800 hover:to-indigo-700 transition-all group cursor-pointer"
+            >
+              <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0">
+                <Bed className="w-4 h-4" />
               </div>
-              <div>
-                <p className="font-extrabold text-xs text-slate-900 leading-tight">KM Dalam</p>
-                <p className="text-[10px] text-slate-500">100% Private</p>
+              <div className="flex-1">
+                <p className="font-extrabold text-xs leading-tight flex items-center gap-1 text-white">
+                  <span>Lihat Kamar</span>
+                  <span className="group-hover:translate-x-1 transition-transform text-xs">➔</span>
+                </p>
+                <p className="text-[10px] text-purple-100 font-medium">8 Unit AC &amp; Kipas</p>
               </div>
-            </div>
+            </Link>
 
             <div className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-white/90 backdrop-blur-md rounded-2xl border border-purple-100 shadow-2xs">
               <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
