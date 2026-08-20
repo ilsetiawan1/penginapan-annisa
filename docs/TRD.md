@@ -436,3 +436,52 @@ bun test --watch
 # Menjalankan test spesifik modul reservasi
 bun test apps/api/src/modules/reservation
 ```
+
+---
+
+## 9. 📱 Progressive Web App (PWA) & Mobile Viewport Configuration
+
+Untuk mengunci tampilan antarmuka agar tidak mengalami *accidental pinch-to-zoom*, delay sentuhan, dan dapat di-install sebagai aplikasi mobile (*App-Like Experience*):
+
+### A. Next.js 16 Viewport Export (`apps/web/src/app/layout.tsx`)
+```typescript
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false, // Mencegah zoom in/out liar di mobile browser
+  themeColor: "#7e22ce", // Warna status bar HP (Ungu Annisa)
+};
+```
+
+### B. Web App Manifest (`apps/web/src/app/manifest.ts`)
+```typescript
+import type { MetadataRoute } from "next";
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: "Penginapan Annisa Ambon",
+    short_name: "Annisa PMS",
+    description: "Sistem Manajemen Kamar Transit & Katalog Penginapan Annisa (750m Bandara Pattimura)",
+    start_url: "/",
+    display: "standalone", // Mode fullscreen tanpa address bar browser
+    background_color: "#faf9fc",
+    theme_color: "#7e22ce",
+    icons: [
+      {
+        src: "/logo-penginapan-annisa.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        src: "/logo-penginapan-annisa.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+  };
+}
+```
+

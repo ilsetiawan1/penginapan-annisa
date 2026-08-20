@@ -179,15 +179,30 @@ SISTEM PENGINAPAN ANNISA (FASE V1)
 
 ---
 
-## 6. ⚙️ Referensi Implementasi Teknis
+## 6. 📱 Mobile-First Experience & Progressive Web App (PWA)
+
+Untuk memastikan pengalaman penggunaan yang mulus di perangkat smartphone (terutama bagi staf resepsionis yang bertugas mobile dan tamu transit yang memesan lewat HP):
+
+### 6.1. Karakteristik Antarmuka Mobile (*App-Like Experience*)
+* **Zero Pinch-to-Zoom Glitch:** Skala layar terkunci proporsional (`user-scalable=no, maximum-scale=1`) sehingga antarmuka tidak akan sengaja ter-zoom in/out secara acak saat tombol ditekan atau layar digeser cepat.
+* **Instant Touch Feedback:** Menghilangkan delay sentuhan 300ms (*touch-action: manipulation*) agar transisi tombol terasa instan seperti aplikasi native.
+* **Thumb-Friendly Navigation:** Seluruh tombol penting (Check-in cepat, Tombol WhatsApp, Filter Kamar) memiliki ukuran target sentuh minimal 40–48px yang nyaman untuk jempol tangan.
+
+### 6.2. Dukungan PWA (Progressive Web App)
+* **Installable to Homescreen:** Staf resepsionis dan owner dapat menambahkan ikon *Penginapan Annisa PMS* langsung ke layar utama (*Homescreen*) smartphone Android maupun iOS tanpa perlu mendownload dari Google Play Store / App Store.
+* **Standalone Display:** Saat dibuka dari Homescreen, aplikasi berjalan dalam mode *standalone* (bebas dari address bar browser) sehingga area kerja operasional kamar terlihat jauh lebih luas dan bersih.
+
+---
+
+## 7. ⚙️ Referensi Implementasi Teknis
 
 > 📘 **Dokumen Terkait:**
-> Seluruh rincian arsitektur teknis sistem, struktur folder monorepo (*Bun Workspaces*), pembagian modul *Feature-Driven Architecture*, pola *3-Tier Repository Pattern*, kontrak data `@annisa/types`, skema database Prisma ORM lengkap, dan spesifikasi REST API dapat dilihat pada dokumen:
+> Seluruh rincian arsitektur teknis sistem, konfigurasi PWA `manifest.json`, viewport meta, struktur folder monorepo (*Bun Workspaces*), pembagian modul *Feature-Driven Architecture*, pola *3-Tier Repository Pattern*, kontrak data `@annisa/types`, skema database Prisma ORM lengkap, dan spesifikasi REST API dapat dilihat pada dokumen:
 > 👉 **[TRD (Technical Requirements Document)](./TRD.md)**
 
 ---
 
-## 7. 🗓️ Rencana Fase Implementasi Proyek (7-Stage Workflow)
+## 8. 🗓️ Rencana Fase Implementasi Proyek (7-Stage Workflow)
 
 ```text
 [FASE 1] Setup & Instalasi Dependensi Inti (Monorepo FE, BE, Shared Packages)
