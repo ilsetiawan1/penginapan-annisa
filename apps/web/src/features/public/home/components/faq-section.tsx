@@ -31,14 +31,17 @@ export function FaqSection() {
 
   return (
     <div>
-      {/* Header (2-3 words) */}
-      <div className="text-left mb-2 sm:mb-3">
-        <span className="text-[10px] font-extrabold text-purple-700 tracking-wider uppercase block">
+      {/* Centered Section Header */}
+      <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
+        <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block mb-1">
           TANYA JAWAB
         </span>
-        <h2 className="text-xs sm:text-base text-slate-900 leading-tight">
+        <h2 className="text-sm sm:text-lg font-bold text-slate-900 leading-tight">
           Pertanyaan Seputar Transit
         </h2>
+        <p className="text-xs text-slate-500 mt-1">
+          Informasi penting mengenai jam check-in, lokasi, dan kenyamanan kamar.
+        </p>
       </div>
 
       {/* Accordion List */}

@@ -28,7 +28,7 @@ export function RoomCard({ room }: RoomCardProps) {
   const isAvailable = room.status === "tersedia";
 
   return (
-    <Card className="overflow-hidden p-0 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-md transition-all flex flex-col justify-between">
+    <Card className="overflow-hidden p-0 rounded-2xl bg-[#f4effe] hover:bg-[#f1eaff] border border-purple-200/90 hover:border-purple-300 hover:shadow-md transition-all flex flex-col justify-between">
       <div>
         <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden">
           <Image
@@ -61,35 +61,37 @@ export function RoomCard({ room }: RoomCardProps) {
           </div>
         </div>
 
-        <div className="p-4 sm:p-5">
-          <div className="flex items-start justify-between gap-1 mb-2">
+        <div className="p-4 sm:p-5 space-y-3">
+          <div className="flex items-start justify-between gap-2">
             <div>
-              <h3 className="font-extrabold text-base text-slate-900 leading-tight">
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug">
                 {room.name}
               </h3>
-              <p className="text-xs text-purple-700 font-semibold mt-0.5">{room.bed}</p>
+              <p className="text-xs text-purple-700 font-semibold mt-0.5">
+                {room.bed}
+              </p>
+            </div>
+            <div className="text-right shrink-0">
+              <p className="text-sm sm:text-base font-black text-purple-700">
+                Rp {room.price}
+              </p>
+              <span className="text-[10px] text-slate-500 font-medium block">
+                / malam
+              </span>
             </div>
           </div>
 
-          <div className="my-3 flex items-baseline justify-between border-y border-slate-100 py-2">
-            <div>
-              <span className="text-lg font-black text-purple-700">Rp {room.price}</span>
-              <span className="text-[10px] text-slate-500 font-medium"> / malam</span>
-            </div>
-            <span className="text-xs font-bold text-slate-700">
-              DP: <span className="text-purple-700">Rp {room.dp}</span>
-            </span>
-          </div>
-
-          {/* Facilities list */}
-          <ul className="space-y-1.5 mb-4">
-            {room.facilities.map((fac) => (
-              <li key={fac} className="flex items-center text-xs text-slate-600">
-                <CheckCircle2 className="w-3.5 h-3.5 text-purple-700 mr-2 shrink-0" />
-                <span>{fac}</span>
-              </li>
+          {/* Key Facilities Tags */}
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {room.facilities.slice(0, 4).map((f) => (
+              <span
+                key={f}
+                className="text-[10px] font-semibold text-purple-900 bg-white/85 border border-purple-100/80 px-2 py-0.5 rounded-md"
+              >
+                ✓ {f}
+              </span>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
 
