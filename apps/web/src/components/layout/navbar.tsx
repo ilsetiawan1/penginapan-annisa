@@ -23,8 +23,8 @@ export function Navbar() {
 
   return (
     <div className="fixed top-3 sm:top-5 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-4 pointer-events-none">
-      {/* Floating Capsule Header */}
-      <header className="w-full max-w-5xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-sm rounded-full px-3 sm:px-5 py-2 flex items-center justify-between pointer-events-auto transition-all">
+      {/* Floating Capsule Header (Frosted Glassmorphism) */}
+      <header className="w-full max-w-5xl bg-white/80 backdrop-blur-xl border border-white/70 shadow-lg shadow-purple-950/5 rounded-full px-3 sm:px-5 py-2 flex items-center justify-between pointer-events-auto transition-all">
         {/* Brand Logo & Name */}
         <Link
           href="/"

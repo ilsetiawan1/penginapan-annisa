@@ -15,9 +15,10 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
         alt="Jembatan Merah Putih Ambon"
         fill
         className="object-cover"
-        priority
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-black/35" />
+      {/* Top dark overlay for text contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/40 to-transparent" />
+      {/* Smooth Bottom White Fade Transition */}
+      <div className="absolute inset-x-0 bottom-0 h-36 sm:h-48 bg-gradient-to-t from-[#faf9fc] via-[#faf9fc]/80 to-transparent pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-14 sm:pt-16">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-3 sm:mb-4 shadow-sm">
