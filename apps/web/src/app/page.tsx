@@ -176,10 +176,14 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
           {/* Kolom Kiri: Value, Headline & Trust Badges */}
           <div className="lg:col-span-6 flex flex-col justify-center text-left">
-            {/* Minimalist Location Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-200/80 text-purple-800 text-xs font-semibold mb-3 sm:mb-4 w-fit shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
-              <span>750m dari Bandara Pattimura Ambon</span>
+            {/* Editorial Location Header (Authentic & Professional) */}
+            <div className="flex items-center gap-2 mb-3 sm:mb-4 flex-wrap">
+              <span className="text-[11px] uppercase font-black tracking-wider text-purple-700 flex items-center gap-1.5 bg-purple-50/80 px-2.5 py-1 rounded-lg border border-purple-100">
+                <MapPin className="w-3.5 h-3.5 text-purple-700" />
+                <span>Ambon, Maluku</span>
+              </span>
+              <span className="text-slate-300 hidden sm:inline">•</span>
+              <span className="text-xs font-bold text-slate-700">750m dari Bandara Pattimura</span>
             </div>
 
             {/* Crisp Headline */}
