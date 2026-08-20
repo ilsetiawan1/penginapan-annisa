@@ -118,7 +118,7 @@ export default function HomePage() {
       name: "Minyak Kayu Putih Namlea (100ml)",
       category: "Herbal Asli",
       price: "Rp 65.000",
-      desc: "Penyulingan murni Pulau Buru Namlea. Hangat alami dan menenangkan.",
+      desc: "Penyulingan murni Pulau Buru Namlea. Hangat alami dan aroma menenangkan.",
       image:
         "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop",
     },
@@ -126,7 +126,7 @@ export default function HomePage() {
       name: "Kue Sagu Bagea Kenari Ambon",
       category: "Camilan Khas",
       price: "Rp 35.000",
-      desc: "Kue sagu renyah gurih dengan cacahan biji kenari melimpah.",
+      desc: "Kue sagu renyah gurih dengan cacahan biji kenari melimpah khas Maluku.",
       image:
         "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600&auto=format&fit=crop",
     },
@@ -134,9 +134,17 @@ export default function HomePage() {
       name: "Roti Kenari Khas Maluku",
       category: "Pastry Kering",
       price: "Rp 45.000",
-      desc: "Roti panggang kering renyah dengan taburan gula manis & kenari.",
+      desc: "Roti panggang kering renyah dengan taburan gula manis dan kenari gurih harum.",
       image:
         "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop",
+    },
+    {
+      name: "Kopi Rarobang Rempah Ambon",
+      category: "Minuman Khas",
+      price: "Rp 40.000",
+      desc: "Kopi khas Ambon dengan racikan rempah jahe, cengkeh, dan kenari sangrai.",
+      image:
+        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=600&auto=format&fit=crop",
     },
   ];
 
@@ -391,7 +399,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ringkasan Oleh-oleh (3 Produk: 2 Full + 1 Half Peek on Mobile Swipe) */}
+      {/* Ringkasan Oleh-oleh (2 Full Cards + 1 Half Peek on Mobile Swipe) */}
       <section className="py-4 sm:py-8 px-4 max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-3 sm:mb-6 gap-2">
           <div>
@@ -415,43 +423,43 @@ export default function HomePage() {
           </Button>
         </div>
 
-        {/* 2 Full Cards + 3rd Card Half Peek on Mobile (min-w-[43vw]) */}
-        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-6 pb-3 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 no-scrollbar">
+        {/* 2 Full Cards + 3rd Card Half Peek on Mobile (min-w-[40vw] max-w-[40vw]) */}
+        <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-2.5 sm:gap-6 pb-3 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 no-scrollbar">
           {previewSouvenirs.map((item) => (
             <div
               key={item.name}
-              className="snap-center min-w-[43vw] sm:min-w-[220px] md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
+              className="snap-center min-w-[40vw] max-w-[40vw] sm:min-w-[200px] sm:max-w-none md:min-w-0 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all overflow-hidden flex flex-col justify-between flex-shrink-0 md:flex-shrink"
             >
               <div>
-                <div className="relative h-28 sm:h-36 w-full bg-slate-100 overflow-hidden">
+                <div className="relative h-24 sm:h-36 w-full bg-slate-100 overflow-hidden">
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute top-2 left-2">
-                    <span className="bg-slate-900/90 text-white px-2 py-0.5 rounded-full text-[8px] font-bold">
+                  <div className="absolute top-1.5 left-1.5">
+                    <span className="bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">
                       {item.category}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-3 sm:p-4">
-                  <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 line-clamp-1 mb-0.5">
+                <div className="p-2 sm:p-3.5">
+                  <h3 className="font-extrabold text-[11px] sm:text-sm text-slate-900 line-clamp-1 mb-0.5">
                     {item.name}
                   </h3>
-                  <p className="text-xs sm:text-base font-black text-purple-700 mb-1 leading-none">
+                  <p className="text-xs sm:text-base font-black text-purple-700 mb-0.5 leading-none">
                     {item.price}
                   </p>
-                  <p className="text-[10px] text-slate-500 line-clamp-1 leading-tight">
+                  <p className="text-[9px] sm:text-[10px] text-slate-500 line-clamp-1 leading-tight">
                     {item.desc}
                   </p>
                 </div>
               </div>
 
-              <div className="p-3 sm:p-4 pt-0">
-                <div className="py-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200/80 text-center text-[9px] font-bold text-purple-900">
+              <div className="p-2 sm:p-3.5 pt-0">
+                <div className="py-1 px-1.5 rounded bg-slate-50 border border-slate-200/80 text-center text-[8px] sm:text-[9px] font-bold text-purple-900">
                   Tersedia di Resepsionis
                 </div>
               </div>
