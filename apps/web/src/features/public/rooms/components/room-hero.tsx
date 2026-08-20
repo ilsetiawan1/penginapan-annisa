@@ -11,8 +11,8 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
   return (
     <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
       <Image
-        src="/rooms/bg-bandara-pattimura-ambon.jpg"
-        alt="Bandara Internasional Pattimura Ambon"
+        src="/rooms/JMP-Ambon-baru.webp"
+        alt="Jembatan Merah Putih Ambon"
         fill
         className="object-cover"
         priority
