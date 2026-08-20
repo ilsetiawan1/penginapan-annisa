@@ -103,23 +103,6 @@ export default function HomePage() {
     },
   ];
 
-  const previewArticles = [
-    {
-      title: "Tips Transit Nyaman dan Bebas Ketinggalan Pesawat di Bandara Pattimura",
-      slug: "tips-transit-bandara-pattimura",
-      category: "Panduan Transit",
-      readTime: "3 Menit",
-      desc: "Punya jeda penerbangan beberapa jam atau flight subuh di Ambon? Simak tips istirahat nyaman hanya 750 meter dari terminal.",
-    },
-    {
-      title: "5 Destinasi Wisata Eksotis di Sekitar Ambon yang Bisa Dikunjungi Singkat",
-      slug: "wisata-singkat-ambon",
-      category: "Wisata Maluku",
-      readTime: "4 Menit",
-      desc: "Dari Pantai Liang hingga Pintu Kota, jelajahi pesona alam Ambon Manise di sela-sela jadwal transit penerbangan Anda.",
-    },
-  ];
-
   const faqs = [
     {
       q: "Berapa jarak dari Penginapan Annisa ke Bandara Internasional Pattimura?",
@@ -148,66 +131,84 @@ export default function HomePage() {
 
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-3 sm:px-4">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Frosted Glass Pill Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-xl border border-white/90 text-purple-950 text-[11px] sm:text-xs font-bold mb-2.5 sm:mb-4 shadow-sm">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-purple-600 animate-pulse" />
-            <MapPin className="w-3 h-3 text-purple-600" />
-            <span>750m dari Bandara Internasional Pattimura Ambon</span>
+      {/* Hero Section: 2-Column Split Screen (Desktop) / Fluid Stack (Mobile) */}
+      <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* Kolom Kiri: Value, Headline & Trust Badges (7 Cols on LG) */}
+          <div className="lg:col-span-6 flex flex-col justify-center text-left">
+            {/* Frosted Glass Pill Badge */}
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/75 backdrop-blur-xl border border-white/90 text-purple-950 text-xs font-bold mb-4 shadow-xs w-fit">
+              <span className="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse" />
+              <MapPin className="w-3.5 h-3.5 text-purple-600" />
+              <span>750m dari Bandara Pattimura Ambon</span>
+            </div>
+
+            {/* Balanced Headline */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.16]">
+              Penginapan Transit Nyaman Dekat{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700">
+                Bandara Pattimura
+              </span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed max-w-lg">
+              Solusi istirahat ideal untuk penerbangan subuh, transit dinas, dan wisata di Ambon.
+              Kamar bersih, WiFi kencang, dan <strong>bebas risiko terlambat pesawat</strong>.
+            </p>
+
+            {/* 4 Quick Feature Highlights (Glass Chips) */}
+            <div className="grid grid-cols-2 gap-2.5 mt-6 max-w-lg">
+              <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/70 backdrop-blur-md border border-white/80 shadow-2xs">
+                <span className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+                  <Plane className="w-4 h-4" />
+                </span>
+                <div className="text-xs">
+                  <span className="font-bold text-slate-900 block leading-tight">
+                    3 Menit Bandara
+                  </span>
+                  <span className="text-[10px] text-slate-500">750m ke terminal</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/70 backdrop-blur-md border border-white/80 shadow-2xs">
+                <span className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+                  <Bed className="w-4 h-4" />
+                </span>
+                <div className="text-xs">
+                  <span className="font-bold text-slate-900 block leading-tight">8 Unit Kamar</span>
+                  <span className="text-[10px] text-slate-500">4 AC &amp; 4 Kipas</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/70 backdrop-blur-md border border-white/80 shadow-2xs">
+                <span className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-4 h-4" />
+                </span>
+                <div className="text-xs">
+                  <span className="font-bold text-slate-900 block leading-tight">KM Dalam</span>
+                  <span className="text-[10px] text-slate-500">100% Private Bathroom</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/70 backdrop-blur-md border border-white/80 shadow-2xs">
+                <span className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+                  <Clock className="w-4 h-4" />
+                </span>
+                <div className="text-xs">
+                  <span className="font-bold text-slate-900 block leading-tight">
+                    07:00 – 21:00 WIT
+                  </span>
+                  <span className="text-[10px] text-slate-500">Check-in Fleksibel</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Headline */}
-          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.15] max-w-4xl mx-auto">
-            Penginapan Transit Nyaman &amp; Tenang Dekat{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700">
-              Bandara Pattimura
-            </span>
-          </h1>
-
-          {/* Subtitle (Hidden on mobile for above-the-fold space) */}
-          <p className="hidden sm:block mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Solusi istirahat ideal untuk penerbangan pagi, dinas, dan wisata. Kamar bersih, WiFi
-            kencang, dan <strong>bebas risiko ketinggalan pesawat</strong>.
-          </p>
-
-          {/* Category Quick Filter Pills (Frosted Glass) */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-5">
-            <Link
-              href="/kamar"
-              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/70 backdrop-blur-md border border-white/80 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition-all duration-200"
-            >
-              <Bed className="w-3 h-3" />
-              <span>Semua Kamar (8 Unit)</span>
-            </Link>
-            <Link
-              href="/kamar"
-              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/70 backdrop-blur-md border border-white/80 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition-all duration-200"
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>Kamar AC (Rp 275rb)</span>
-            </Link>
-            <Link
-              href="/kamar"
-              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/70 backdrop-blur-md border border-white/80 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition-all duration-200"
-            >
-              <Wind className="w-3 h-3" />
-              <span>Kamar Kipas (Rp 200rb)</span>
-            </Link>
-            <Link
-              href="/oleh-oleh"
-              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-white/70 backdrop-blur-md border border-white/80 text-purple-950 hover:bg-purple-600 hover:text-white hover:border-purple-600 shadow-2xs transition-all duration-200"
-            >
-              <Gift className="w-3 h-3" />
-              <span>Oleh-oleh Maluku</span>
-            </Link>
+          {/* Kolom Kanan: Card Foto Kamar Cantik & Booking Widget (6 Cols on LG) */}
+          <div className="lg:col-span-6">
+            <BookingWidget />
           </div>
-        </div>
-
-        {/* Integrated Clean Glass Booking Widget */}
-        <div className="mt-4 sm:mt-6">
-          <BookingWidget />
         </div>
       </section>
 
