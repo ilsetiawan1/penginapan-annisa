@@ -37,7 +37,7 @@ export function Navbar() {
       <header
         className={`w-full max-w-5xl rounded-full px-3 sm:px-5 py-2 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
           isScrolled
-            ? "bg-slate-950/80 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/25 text-white"
+            ? "bg-slate-950/20 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/25 text-white"
             : "bg-white/20 backdrop-blur-xl border border-white/30 shadow-lg text-white"
         }`}
       >
@@ -136,7 +136,7 @@ export function Navbar() {
           {/* Backdrop Blur Overlay */}
           <div
             onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-[-1] pointer-events-auto animate-in fade-in duration-200"
+            className="fixed inset-0 bg-slate-950/20 backdrop-blur-md z-[-1] pointer-events-auto animate-in fade-in duration-200"
           />
 
           {/* Solid Pure White Drawer Card */}
