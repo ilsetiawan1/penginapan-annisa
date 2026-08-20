@@ -500,28 +500,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Location & Directions (Ultra Clean Dark Container) */}
-      <section className="py-6 sm:py-10 px-4 bg-slate-950 text-white">
+      {/* Smooth Blur Transition Divider */}
+      <div className="relative h-10 -mb-5 pointer-events-none z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#f5f2f9]/60 to-[#f5f2f9] backdrop-blur-[1px]" />
+      </div>
+
+      {/* Location & Directions (Clean Broken White Container) */}
+      <section className="relative py-6 sm:py-10 px-4 bg-[#f5f2f9] text-slate-900 border-t border-purple-100/60">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-center">
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-purple-400 block mb-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-purple-700 block mb-1">
                 Lokasi Transit
               </span>
-              <h2 className="text-lg sm:text-2xl font-extrabold tracking-tight mb-2">
+              <h2 className="text-lg sm:text-2xl font-extrabold text-slate-950 tracking-tight mb-2">
                 750m ke Bandara Pattimura
               </h2>
 
-              <div className="space-y-1.5 text-xs text-slate-300 mb-4">
+              <div className="space-y-1.5 text-xs text-slate-600 mb-4">
                 <div className="flex items-center gap-2">
-                  <Navigation className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                  <span className="text-[11px]">
+                  <Navigation className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+                  <span className="text-[11px] font-medium text-slate-800">
                     Jl. Bandara Pattimura (2–3 mnt ke Terminal)
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                  <span className="text-[11px]">
+                  <Phone className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+                  <span className="text-[11px] font-medium text-slate-800">
                     WA: +62 812-4216-3116 (07:00 – 21:00 WIT)
                   </span>
                 </div>
@@ -544,8 +549,8 @@ export default function HomePage() {
               </Button>
             </div>
 
-            {/* Embedded Google Maps */}
-            <div className="w-full h-40 sm:h-48 rounded-2xl overflow-hidden border border-slate-800 shadow-md">
+            {/* Embedded Google Maps in Acrylic Container */}
+            <div className="w-full h-40 sm:h-48 rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-white">
               <iframe
                 title="Google Maps Lokasi Penginapan Annisa"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1990.7403357162448!2d128.08762133246853!3d-3.7047467933343032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce7a259d48e1b%3A0x304cec63773e589e!2sPenginapan%20Annisa!5e0!3m2!1sid!2sid!4v1787149833837!5m2!1sid!2sid"
@@ -561,27 +566,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ultra Compact Minimalist Footer */}
-      <footer className="bg-slate-950 text-slate-400 py-4 px-4 border-t border-slate-900 text-xs">
+      {/* Clean Broken White Minimalist Footer */}
+      <footer className="bg-[#f5f2f9] text-slate-600 py-4 px-4 border-t border-slate-200/70 text-xs">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <div className="flex items-center gap-2">
-            <div className="relative w-5 h-5 rounded-full overflow-hidden bg-white/10 p-0.5">
+            <div className="relative w-5 h-5 rounded-full overflow-hidden bg-purple-100 p-0.5 border border-purple-200">
               <Image src="/logo-penginapan-annisa.png" alt="Logo" fill className="object-contain" />
             </div>
-            <p className="font-bold text-white text-xs">Penginapan Annisa Ambon</p>
+            <p className="font-bold text-slate-900 text-xs">Penginapan Annisa Ambon</p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 text-[11px]">
-            <Link href="/kamar" className="hover:text-white transition">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-[11px] font-medium">
+            <Link href="/kamar" className="text-slate-600 hover:text-purple-700 transition">
               Tipe Kamar
             </Link>
-            <Link href="/oleh-oleh" className="hover:text-white transition">
+            <Link href="/oleh-oleh" className="text-slate-600 hover:text-purple-700 transition">
               Oleh-oleh
             </Link>
-            <Link href="/artikel" className="hover:text-white transition">
+            <Link href="/artikel" className="text-slate-600 hover:text-purple-700 transition">
               Artikel
             </Link>
-            <Link href="/contact" className="hover:text-white transition">
+            <Link href="/contact" className="text-slate-600 hover:text-purple-700 transition">
               Kontak
             </Link>
           </div>
