@@ -71,8 +71,8 @@ export function HeroSection() {
                 <Clock className="w-4 h-4" />
               </div>
               <div>
-                <p className="font-extrabold text-xs text-slate-900 leading-tight">07:00–21:00 WIT</p>
-                <p className="text-[10px] text-slate-500">Check-in Fleksibel</p>
+                <p className="font-extrabold text-xs text-slate-900 leading-tight">06:00–22:00 WIT</p>
+                <p className="text-[10px] text-slate-500">Buka Tiap Hari</p>
               </div>
             </div>
           </div>

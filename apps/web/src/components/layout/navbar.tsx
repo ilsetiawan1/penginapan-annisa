@@ -144,7 +144,7 @@ export function Navbar() {
             </div>
 
             <div className="mt-3 pt-2.5 border-t border-slate-100 px-2 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
-              <span>Buka 07:00 – 21:00 WIT</span>
+              <span>Buka 06:00 – 22:00 WIT</span>
               <span className="text-purple-700 font-extrabold">750m Bandara</span>
             </div>
           </div>

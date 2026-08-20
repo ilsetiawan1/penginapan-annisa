@@ -9,19 +9,19 @@ export function FaqSection() {
   const faqs = [
     {
       q: "Berapa jarak dari Bandara Pattimura ke Penginapan Annisa?",
-      a: "Hanya 750 meter (2–3 menit perjalanan). Anda bisa berjalan santai atau naik kendaraan roda dua/empat dalam waktu kilat tanpa takut macet.",
+      a: "Hanya 750 meter (sekitar 2–3 menit perjalanan). Anda bisa jalan kaki santai atau naik kendaraan dengan sangat cepat tanpa khawatir macet.",
     },
     {
-      q: "Bagaimana jika saya check-in pagi sekali (misal 08:00 WIT)?",
-      a: "Kami memberlakukan aturan check-in fleksibel 24 jam. Jika unit kamar yang Anda tuju telah bersih & siap pakai, Anda bisa langsung masuk istirahat tanpa menunggu siang.",
+      q: "Bagaimana jika saya check-in pagi hari (misal jam 07:00 WIT)?",
+      a: "Penginapan kami buka melayani tamu dari jam 06:00 pagi hingga 22:00 malam WIT. Jika Anda tiba dengan pesawat pagi, Anda bisa langsung masuk istirahat jika kamar sudah selesai dibersihkan.",
     },
     {
-      q: "Bagaimana cara booking dan sistem pembayarannya?",
-      a: "Cukup pilih tanggal & kamar di kalkulator atas, lalu klik kirim WhatsApp. Anda cukup membayar DP 50% via transfer bank/QRIS untuk mengunci kamar. Pelunasan saat tiba di lokasi.",
+      q: "Bagaimana cara pesan kamar dan cara pembayarannya?",
+      a: "Cukup pilih tanggal dan tipe kamar pada formulir di atas, lalu klik tombol Pesan via WhatsApp. Untuk mengunci kamar, cukup bayar DP 50% via transfer bank atau QRIS. Sisanya dibayar saat tiba di lokasi.",
     },
     {
       q: "Apakah seluruh kamar mandi berada di dalam kamar?",
-      a: "Ya, 100% dari 8 unit kamar kami memiliki kamar mandi dalam privat lengkap dengan air bersih, ember/gayung/shower, dan handuk bersih.",
+      a: "Ya, seluruh 8 kamar kami memiliki kamar mandi pribadi di dalam kamar, lengkap dengan air bersih, ember/gayung/shower, dan handuk bersih.",
     },
   ];
 

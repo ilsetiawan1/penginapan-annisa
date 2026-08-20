@@ -10,7 +10,7 @@ export function ValuesSection() {
     },
     {
       icon: Clock,
-      badge: "07:00–21:00 WIT",
+      badge: "06:00–22:00 WIT",
       title: "Check-In Fleksibel",
       desc: "Mendarat pagi bisa langsung istirahat jika unit telah siap.",
     },

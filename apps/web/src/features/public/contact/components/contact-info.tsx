@@ -46,7 +46,7 @@ export function ContactInfo() {
             <div>
               <p className="font-bold text-slate-900">Jam Operasional</p>
               <p className="text-slate-600">
-                Resepsionis: 24 Jam • Check-in Fleksibel Kapan Saja
+                Resepsionis: 06:00 – 22:00 WIT (Setiap Hari)
               </p>
             </div>
           </li>
