@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import { Check } from "lucide-react";
-import { Card } from "../../../../components/ui/card";
+import Image from "next/image";
+import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
+import { Card } from "../../../../components/ui/card";
 import { getRoomBookingWhatsAppUrl } from "../../../../lib/whatsapp";
 
 interface RoomOption {
@@ -82,7 +82,7 @@ export function BookingWidget() {
 
         <div className="absolute top-3 right-3">
           <span className="bg-white text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-black shadow-xs">
-            Rp {(currentRoom.price).toLocaleString("id-ID")}{" "}
+            Rp {currentRoom.price.toLocaleString("id-ID")}{" "}
             <span className="text-[9px] font-medium text-slate-500">/ mlm</span>
           </span>
         </div>

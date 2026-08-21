@@ -1,7 +1,7 @@
 // ==========================================
 // 1. PENGGUNA & AUTH (USERS & SESSIONS)
 // ==========================================
-export type UserRole = "admin" | "staff";
+export type UserRole = "owner" | "staff";
 
 export interface User {
   id: string;

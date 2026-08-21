@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "../../components/layout/navbar";
 import { Footer } from "../../components/layout/footer";
-import { RoomHero } from "../../features/public/rooms/components/room-hero";
+import { Navbar } from "../../components/layout/navbar";
+import type { RoomItem } from "../../features/public/rooms/components/room-card";
 import { RoomFilter } from "../../features/public/rooms/components/room-filter";
 import { RoomGrid } from "../../features/public/rooms/components/room-grid";
-import type { RoomItem } from "../../features/public/rooms/components/room-card";
+import { RoomHero } from "../../features/public/rooms/components/room-hero";
 
 const ROOMS_DATA: RoomItem[] = [
   {
@@ -161,11 +161,7 @@ export default function KamarPage() {
 
   const filteredRooms = ROOMS_DATA.filter((r) => {
     const matchCategory =
-      filter === "all"
-        ? true
-        : filter === "tersedia"
-        ? r.status === "tersedia"
-        : r.type === filter;
+      filter === "all" ? true : filter === "tersedia" ? r.status === "tersedia" : r.type === filter;
 
     const matchSearch =
       r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

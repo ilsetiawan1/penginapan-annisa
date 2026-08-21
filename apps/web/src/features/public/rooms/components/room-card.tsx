@@ -1,11 +1,8 @@
-import Image from "next/image";
 import { Check, CheckCircle2, Clock, Phone } from "lucide-react";
+import Image from "next/image";
 import { Button } from "../../../../components/ui/button";
 import { Card } from "../../../../components/ui/card";
-import {
-  getRoomAvailabilityInquiryUrl,
-  getRoomBookingWhatsAppUrl,
-} from "../../../../lib/whatsapp";
+import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "../../../../lib/whatsapp";
 
 export interface RoomItem {
   number: string;
@@ -67,17 +64,11 @@ export function RoomCard({ room }: RoomCardProps) {
               <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug">
                 {room.name}
               </h3>
-              <p className="text-xs text-purple-700 font-semibold mt-0.5">
-                {room.bed}
-              </p>
+              <p className="text-xs text-purple-700 font-semibold mt-0.5">{room.bed}</p>
             </div>
             <div className="text-right shrink-0">
-              <p className="text-sm sm:text-base font-black text-purple-700">
-                Rp {room.price}
-              </p>
-              <span className="text-[10px] text-slate-500 font-medium block">
-                / malam
-              </span>
+              <p className="text-sm sm:text-base font-black text-purple-700">Rp {room.price}</p>
+              <span className="text-[10px] text-slate-500 font-medium block">/ malam</span>
             </div>
           </div>
 

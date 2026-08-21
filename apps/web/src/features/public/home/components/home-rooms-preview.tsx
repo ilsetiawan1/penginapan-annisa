@@ -1,6 +1,6 @@
+import { ArrowRight, Bed, Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Bed, Check } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 import { getRoomBookingWhatsAppUrl } from "../../../../lib/whatsapp";

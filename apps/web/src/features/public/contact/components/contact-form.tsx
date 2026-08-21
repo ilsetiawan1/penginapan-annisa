@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { MessageSquare, Phone, Send } from "lucide-react";
+import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card } from "../../../../components/ui/card";
 import { getGeneralContactWhatsAppUrl } from "../../../../lib/whatsapp";
@@ -25,16 +25,12 @@ export function ContactForm() {
         <span className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
           <MessageSquare className="w-4 h-4" />
         </span>
-        <h3 className="font-extrabold text-base text-slate-950">
-          Kirim Pesan Cepat ke WhatsApp
-        </h3>
+        <h3 className="font-extrabold text-base text-slate-950">Kirim Pesan Cepat ke WhatsApp</h3>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label className="text-[11px] font-bold text-slate-700 block mb-1">
-            Nama Anda
-          </label>
+          <label className="text-[11px] font-bold text-slate-700 block mb-1">Nama Anda</label>
           <input
             type="text"
             value={name}

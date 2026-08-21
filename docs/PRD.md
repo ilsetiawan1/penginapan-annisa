@@ -76,14 +76,14 @@ Penginapan Annisa memiliki **8 unit kamar** yang terbagi rata di 2 bangunan berd
 | Peran (Role) | Deskripsi | Hak Akses Utama |
 | :--- | :--- | :--- |
 | **Pengunjung / Tamu Transit** | Calon penumpang pesawat / wisatawan yang membutuhkan kamar transit. | Melihat katalog kamar & fasilitas, cek ketersediaan tanggal, kirim request booking ke WhatsApp, melihat etalase oleh-oleh, dan membaca artikel wisata Ambon. |
-| **Staf Resepsionis & Housekeeping** | Staf operasional yang menerima tamu di lokasi dan menjaga kebersihan kamar. | Input tamu *walk-in* cepat, konfirmasi bukti DP 50%, ubah status *Check-in/Check-out*, update kebersihan kamar (*Ready $\leftrightarrow$ Dirty*), dan kirim nota digital ke WhatsApp tamu. |
-| **Owner / Pengelola Utama (Admin)** | Pemilik penginapan dengan akses manajerial penuh. | Semua akses staf + manajemen kamar & tarif, manajemen foto Cloudinary, manajemen etalase oleh-oleh & CMS artikel, serta rekapitulasi laporan reservasi/keuangan. |
+| **Staf (Resepsionis)** | Staf operasional yang menerima tamu di lokasi dan menjaga perputaran kamar. | Input tamu *walk-in* cepat, konfirmasi bukti DP 50%, ubah status *Check-in/Check-out*, update kebersihan kamar (*Siap Pakai $\leftrightarrow$ Perlu Bersih*), dan kirim nota digital ke WhatsApp tamu. |
+| **Owner** | Pemilik penginapan dengan kepemilikan dan kendali manajerial penuh. | Semua akses staf + manajemen kamar & tarif, manajemen foto Cloudinary, manajemen etalase oleh-oleh & CMS artikel, rekapitulasi laporan reservasi/keuangan, serta kelola akun staf. |
 
 ---
 
 ### 3.2. Matriks Hak Akses (*RBAC Permission Matrix*)
 
-| Modul & Fitur Sistem | 👤 Tamu Publik | 🧑‍💼 Staf Resepsionis | 👑 Owner / Admin |
+| Modul & Fitur Sistem | 👤 Tamu Publik | 🧑‍💼 Staf | 👑 Owner |
 | :--- | :---: | :---: | :---: |
 | **🌐 PORTAL PUBLIK** | | | |
 | Melihat Katalog 8 Kamar, Tarif & Fasilitas | ✅ Full | ✅ Full | ✅ Full |

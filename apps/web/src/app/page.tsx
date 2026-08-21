@@ -1,10 +1,10 @@
-import { Navbar } from "../components/layout/navbar";
 import { Footer } from "../components/layout/footer";
-import { HeroSection } from "../features/public/home/components/hero-section";
+import { Navbar } from "../components/layout/navbar";
 import { BookingProcessSection } from "../features/public/home/components/booking-process-section";
+import { FaqSection } from "../features/public/home/components/faq-section";
+import { HeroSection } from "../features/public/home/components/hero-section";
 import { HomeRoomsPreview } from "../features/public/home/components/home-rooms-preview";
 import { HomeSouvenirsPreview } from "../features/public/home/components/home-souvenirs-preview";
-import { FaqSection } from "../features/public/home/components/faq-section";
 
 export default function HomePage() {
   return (

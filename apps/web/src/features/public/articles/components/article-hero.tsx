@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { BookOpen, Search } from "lucide-react";
+import Image from "next/image";
 import { Button } from "../../../../components/ui/button";
 
 interface ArticleHeroProps {
@@ -33,7 +33,8 @@ export function ArticleHero({ searchQuery, onSearchChange }: ArticleHeroProps) {
         </h1>
 
         <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
-          Temukan panduan wisata pantai eksotis, rekomendasi kuliner khas Maluku, dan tips transit nyaman di Ambon...
+          Temukan panduan wisata pantai eksotis, rekomendasi kuliner khas Maluku, dan tips transit
+          nyaman di Ambon...
         </p>
 
         {/* Floating Search Bar */}

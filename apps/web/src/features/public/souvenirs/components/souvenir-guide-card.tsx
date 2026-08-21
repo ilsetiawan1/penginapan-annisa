@@ -16,7 +16,14 @@ export function SouvenirGuideCard() {
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Semua produk etalase kami dikurasi langsung dari pengrajin dan produsen terpercaya di Maluku. Mulai dari <strong className="text-slate-900 font-bold">Minyak Kayu Putih Namlea asli Pulau Buru</strong> tanpa campuran, camilan renyah <strong className="text-slate-900 font-bold">Bagea &amp; Roti Kenari</strong>, hingga racikan kopi rempah khas pesisir Ambon.
+              Semua produk etalase kami dikurasi langsung dari pengrajin dan produsen terpercaya di
+              Maluku. Mulai dari{" "}
+              <strong className="text-slate-900 font-bold">
+                Minyak Kayu Putih Namlea asli Pulau Buru
+              </strong>{" "}
+              tanpa campuran, camilan renyah{" "}
+              <strong className="text-slate-900 font-bold">Bagea &amp; Roti Kenari</strong>, hingga
+              racikan kopi rempah khas pesisir Ambon.
             </p>
           </div>
 
@@ -29,19 +36,22 @@ export function SouvenirGuideCard() {
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  <strong className="text-slate-900">Praktis &amp; Hemat Waktu:</strong> Tersedia langsung di meja resepsionis tanpa perlu keliling pasar kota.
+                  <strong className="text-slate-900">Praktis &amp; Hemat Waktu:</strong> Tersedia
+                  langsung di meja resepsionis tanpa perlu keliling pasar kota.
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  <strong className="text-slate-900">Kemasan Aman Bagasi:</strong> Botol dan kotak makanan dikemas rapi &amp; aman untuk penerbangan.
+                  <strong className="text-slate-900">Kemasan Aman Bagasi:</strong> Botol dan kotak
+                  makanan dikemas rapi &amp; aman untuk penerbangan.
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  <strong className="text-slate-900">Pesan Awal via WA:</strong> Bisa titip stok sebelum check-out agar siap saat Anda berangkat ke bandara.
+                  <strong className="text-slate-900">Pesan Awal via WA:</strong> Bisa titip stok
+                  sebelum check-out agar siap saat Anda berangkat ke bandara.
                 </span>
               </li>
             </ul>

@@ -16,7 +16,13 @@ export function ExplorationCard() {
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Ambon Manise selalu menawarkan pengalaman liburan dan transit yang tak terlupakan. Mulai dari keindahan wisata <strong className="text-slate-900 font-bold">pantai pasir putih Liang</strong>, pesona tebing karang <strong className="text-slate-900 font-bold">Pintu Kota</strong>, hingga aneka <strong className="text-slate-900 font-bold">kuliner khas</strong> seperti Rujak Natsepa dan ikan bakar segar. Dapatkan semua informasi menarik dan rekomendasi liburan terbaiknya hanya di Blog Penginapan Annisa.
+              Ambon Manise selalu menawarkan pengalaman liburan dan transit yang tak terlupakan.
+              Mulai dari keindahan wisata{" "}
+              <strong className="text-slate-900 font-bold">pantai pasir putih Liang</strong>, pesona
+              tebing karang <strong className="text-slate-900 font-bold">Pintu Kota</strong>, hingga
+              aneka <strong className="text-slate-900 font-bold">kuliner khas</strong> seperti Rujak
+              Natsepa dan ikan bakar segar. Dapatkan semua informasi menarik dan rekomendasi liburan
+              terbaiknya hanya di Blog Penginapan Annisa.
             </p>
           </div>
 
@@ -29,19 +35,24 @@ export function ExplorationCard() {
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  Pilih penginapan transit <strong className="text-slate-900">750m dari Bandara Pattimura</strong> untuk kemudahan mobilitas tanpa risiko macet.
+                  Pilih penginapan transit{" "}
+                  <strong className="text-slate-900">750m dari Bandara Pattimura</strong> untuk
+                  kemudahan mobilitas tanpa risiko macet.
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  Cicipi <strong className="text-slate-900">Rujak Natsepa &amp; Ikan Bakar</strong> khas pesisir pantai di sore hari saat matahari terbenam.
+                  Cicipi <strong className="text-slate-900">Rujak Natsepa &amp; Ikan Bakar</strong>{" "}
+                  khas pesisir pantai di sore hari saat matahari terbenam.
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  Sediakan waktu 45–60 menit dari penginapan menuju <strong className="text-slate-900">Pantai Liang</strong> untuk sewa perahu &amp; snorkeling.
+                  Sediakan waktu 45–60 menit dari penginapan menuju{" "}
+                  <strong className="text-slate-900">Pantai Liang</strong> untuk sewa perahu &amp;
+                  snorkeling.
                 </span>
               </li>
             </ul>

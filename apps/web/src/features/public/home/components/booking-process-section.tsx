@@ -152,10 +152,7 @@ export function BookingProcessSection() {
           {STEPS.map((step) => {
             const Icon = step.icon;
             return (
-              <div
-                key={step.step}
-                className="relative z-10 flex items-start gap-4 group"
-              >
+              <div key={step.step} className="relative z-10 flex items-start gap-4 group">
                 {/* Floating Icon Node anchored directly on dotted line */}
                 <div className="relative shrink-0">
                   <div className="w-12 h-12 rounded-2xl bg-white border-2 border-purple-200 text-purple-700 shadow-md shadow-purple-500/10 flex items-center justify-center">
@@ -171,9 +168,7 @@ export function BookingProcessSection() {
                   <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 mb-0.5 leading-tight">
                     {step.title}
                   </h3>
-                  <p className="text-[11px] text-slate-600 leading-relaxed">
-                    {step.desc}
-                  </p>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">{step.desc}</p>
                 </div>
               </div>
             );

@@ -5,9 +5,7 @@ export function ContactInfo() {
   return (
     <div className="space-y-4 text-left">
       <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-purple-100 shadow-2xs">
-        <h3 className="font-extrabold text-base text-slate-950 mb-3">
-          Informasi Kontak Langsung
-        </h3>
+        <h3 className="font-extrabold text-base text-slate-950 mb-3">Informasi Kontak Langsung</h3>
 
         <ul className="space-y-3.5 text-xs text-slate-700">
           <li className="flex items-start gap-3">
@@ -45,9 +43,7 @@ export function ContactInfo() {
             </div>
             <div>
               <p className="font-bold text-slate-900">Jam Operasional</p>
-              <p className="text-slate-600">
-                Resepsionis: 06:00 – 22:00 WIT (Setiap Hari)
-              </p>
+              <p className="text-slate-600">Resepsionis: 06:00 – 22:00 WIT (Setiap Hari)</p>
             </div>
           </li>
         </ul>
@@ -59,7 +55,8 @@ export function ContactInfo() {
           <span>Panduan Rute Cepat:</span>
         </div>
         <p className="text-slate-600 leading-relaxed">
-          Keluar dari terminal Bandara Pattimura ➔ Jalan lurus 500m ➔ Belok kanan di gapura Tawiri ➔ Penginapan Annisa 250m di sebelah kiri jalan.
+          Keluar dari terminal Bandara Pattimura ➔ Jalan lurus 500m ➔ Belok kanan di gapura Tawiri ➔
+          Penginapan Annisa 250m di sebelah kiri jalan.
         </p>
       </div>
     </div>

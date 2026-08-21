@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Clock, MapPin, Navigation, Phone } from "lucide-react";
+import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Navbar } from "../../components/layout/navbar";
 import { Button } from "../../components/ui/button";
@@ -37,7 +37,8 @@ export default function ContactPage() {
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-200 font-normal max-w-lg mx-auto leading-relaxed drop-shadow-sm">
-            Hanya 750 meter dari gerbang Bandara Pattimura Ambon. Resepsionis siap melayani Anda pukul 06:00 – 22:00 WIT.
+            Hanya 750 meter dari gerbang Bandara Pattimura Ambon. Resepsionis siap melayani Anda
+            pukul 06:00 – 22:00 WIT.
           </p>
         </div>
 
@@ -83,7 +84,8 @@ export default function ContactPage() {
                   <span>Petunjuk Arah Cepat:</span>
                 </div>
                 <p className="text-[11px] text-slate-600 leading-relaxed">
-                  Keluar gerbang bandara ➔ jalan 500m ke arah jalan utama ➔ belok kanan di Gapura Tawiri ➔ penginapan berada 250m di sebelah kiri.
+                  Keluar gerbang bandara ➔ jalan 500m ke arah jalan utama ➔ belok kanan di Gapura
+                  Tawiri ➔ penginapan berada 250m di sebelah kiri.
                 </p>
               </div>
             </div>

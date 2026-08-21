@@ -1,6 +1,6 @@
+import { Bed, Clock, MapPin, Plane, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Bed, Clock, MapPin, Plane, ShieldCheck } from "lucide-react";
 import { BookingWidget } from "./booking-widget";
 
 export function HeroSection() {
@@ -41,7 +41,8 @@ export function HeroSection() {
           </h1>
 
           <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal leading-relaxed max-w-xl drop-shadow-sm">
-            Solusi istirahat ideal untuk penerbangan subuh, transit dinas, dan wisata di Ambon. Bersih, tenang, dan bebas macet.
+            Solusi istirahat ideal untuk penerbangan subuh, transit dinas, dan wisata di Ambon.
+            Bersih, tenang, dan bebas macet.
           </p>
 
           {/* 4 Quick Info Cards (2x2 Grid) */}

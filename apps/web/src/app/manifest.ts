@@ -4,7 +4,8 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Penginapan Annisa Ambon",
     short_name: "Annisa PMS",
-    description: "Sistem Manajemen Kamar Transit & Katalog Penginapan Annisa (750m Bandara Pattimura)",
+    description:
+      "Sistem Manajemen Kamar Transit & Katalog Penginapan Annisa (750m Bandara Pattimura)",
     start_url: "/",
     display: "standalone",
     background_color: "#faf9fc",

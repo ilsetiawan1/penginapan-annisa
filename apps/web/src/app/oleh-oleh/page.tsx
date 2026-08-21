@@ -1,18 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "../../components/layout/navbar";
 import { Footer } from "../../components/layout/footer";
-import { SouvenirHero } from "../../features/public/souvenirs/components/souvenir-hero";
+import { Navbar } from "../../components/layout/navbar";
+import type { SouvenirItem } from "../../features/public/souvenirs/components/souvenir-card";
 import { SouvenirFilter } from "../../features/public/souvenirs/components/souvenir-filter";
 import { SouvenirGrid } from "../../features/public/souvenirs/components/souvenir-grid";
-import type { SouvenirItem } from "../../features/public/souvenirs/components/souvenir-card";
+import { SouvenirHero } from "../../features/public/souvenirs/components/souvenir-hero";
 
-const CATEGORIES = [
-  "Semua",
-  "Makanan & Camilan",
-  "Minyak & Herbal",
-];
+const CATEGORIES = ["Semua", "Makanan & Camilan", "Minyak & Herbal"];
 
 const SOUVENIRS_DATA: SouvenirItem[] = [
   {
@@ -76,8 +72,7 @@ export default function OlehOlehPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredSouvenirs = SOUVENIRS_DATA.filter((item) => {
-    const matchCategory =
-      activeCategory === "Semua" || item.category === activeCategory;
+    const matchCategory = activeCategory === "Semua" || item.category === activeCategory;
     const matchSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||

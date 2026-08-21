@@ -6,9 +6,7 @@ export function ContactMap() {
       <div className="flex items-center justify-between mb-3 px-1">
         <div className="flex items-center gap-1.5">
           <MapPin className="w-4 h-4 text-purple-700" />
-          <span className="font-extrabold text-xs text-slate-900">
-            Peta Lokasi Google Maps
-          </span>
+          <span className="font-extrabold text-xs text-slate-900">Peta Lokasi Google Maps</span>
         </div>
         <a
           href="https://maps.app.goo.gl/PskXAUZuGD7NeMoL7"

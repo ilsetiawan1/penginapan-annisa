@@ -1,6 +1,6 @@
+import { ArrowRight, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Phone } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 import { getSouvenirOrderWhatsAppUrl } from "../../../../lib/whatsapp";
@@ -44,7 +44,8 @@ export function HomeSouvenirsPreview() {
           Katalog di Resepsionis
         </h2>
         <p className="text-xs text-slate-500 mt-1">
-          Minyak kayu putih Namlea murni, minyak cengkeh, dan camilan khas Maluku tersedia langsung di meja resepsionis.
+          Minyak kayu putih Namlea murni, minyak cengkeh, dan camilan khas Maluku tersedia langsung
+          di meja resepsionis.
         </p>
       </div>
 
@@ -82,9 +83,7 @@ export function HomeSouvenirsPreview() {
             </div>
 
             <div className="p-4 sm:p-5 pt-0 border-t border-slate-100/90 mt-1 flex items-center justify-between gap-2">
-              <span className="text-[10px] text-slate-400 font-medium">
-                Ambil di Resepsionis
-              </span>
+              <span className="text-[10px] text-slate-400 font-medium">Ambil di Resepsionis</span>
               <Button
                 asChild
                 className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-4 gap-1.5 shadow-2xs transition-all cursor-pointer"

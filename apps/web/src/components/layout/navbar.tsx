@@ -69,9 +69,7 @@ export function Navbar() {
         {/* Desktop Center Navigation */}
         <nav
           className={`hidden md:flex items-center gap-1 p-1 rounded-full border backdrop-blur-md transition-colors ${
-            isScrolled
-              ? "bg-white/10 border-white/15"
-              : "bg-white/15 border-white/20"
+            isScrolled ? "bg-white/10 border-white/15" : "bg-white/15 border-white/20"
           }`}
         >
           {navLinks.map((link) => {
@@ -121,11 +119,7 @@ export function Navbar() {
             className="md:hidden w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center border border-white/30 transition-colors cursor-pointer"
             aria-label="Toggle Menu"
           >
-            {isMobileMenuOpen ? (
-              <X className="w-4 h-4 text-white" />
-            ) : (
-              <Menu className="w-4 h-4" />
-            )}
+            {isMobileMenuOpen ? <X className="w-4 h-4 text-white" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </header>
@@ -156,11 +150,7 @@ export function Navbar() {
                         : "bg-white/10 text-white hover:bg-white/20 border border-white/15 backdrop-blur-md"
                     }`}
                   >
-                    <Icon
-                      className={`w-4 h-4 ${
-                        isActive ? "text-white" : "text-purple-300"
-                      }`}
-                    />
+                    <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-purple-300"}`} />
                     <span>{link.label}</span>
                   </Link>
                 );

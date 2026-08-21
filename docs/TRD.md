@@ -185,13 +185,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// 1. PENGGUNA SISTEM (STAF & ADMIN)
+// 1. PENGGUNA SISTEM (STAF & OWNER)
 model User {
   id           String        @id @default(uuid())
   name         String
   email        String        @unique
   passwordHash String        @map("password_hash")
-  role         String        @default("staff") // 'admin' | 'staff'
+  role         String        @default("staff") // 'owner' | 'staff'
   isActive     Boolean       @default(true) @map("is_active")
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
@@ -356,7 +356,7 @@ Semua model TypeScript di-export secara terpusat di `@annisa/types`:
 
 * `Room`, `RoomType`, `RoomStatus` (`ready` | `occupied` | `dirty` | `maintenance`)
 * `Reservation`, `ReservationStatus`, `PaymentStatus`, `PaymentMethod`
-* `Guest`, `User`, `UserRole` (`admin` | `staff`)
+* `Guest`, `User`, `UserRole` (`owner` | `staff`)
 * `Souvenir`, `SouvenirCategory`
 * `Article`, `ArticleCategory`
 * `OccupancyStats` (Data agregat dashboard)
@@ -367,17 +367,17 @@ Semua model TypeScript di-export secara terpusat di `@annisa/types`:
 
 | Method | Endpoint | Deskripsi | Akses |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/rooms` | Mengambil daftar 8 unit kamar & status terkini | Publik / Staf |
-| `GET` | `/api/v1/rooms/:id` | Detail spesifik kamar | Publik / Staf |
-| `PATCH` | `/api/v1/rooms/:id/status` | Update status kamar (4 warna) | Staf / Admin |
-| `POST` | `/api/v1/reservations/walkin` | Check-in cepat tamu walk-in (< 1 menit) | Staf / Admin |
-| `POST` | `/api/v1/reservations/confirm-dp` | Konfirmasi pembayaran DP 50% | Staf / Admin |
-| `PATCH` | `/api/v1/reservations/:id/checkout` | Check-out 1-klik (kamar jadi *dirty*) | Staf / Admin |
-| `GET` | `/api/v1/souvenirs` | Mengambil katalog oleh-oleh | Publik / Staf |
-| `POST` | `/api/v1/souvenirs` | Tambah produk oleh-oleh baru | Admin |
-| `GET` | `/api/v1/articles` | Mengambil artikel panduan wisata | Publik / Staf |
-| `POST` | `/api/v1/articles` | Publikasi artikel baru | Admin |
-| `GET` | `/api/v1/reports/monthly` | Rekapitulasi bulanan & okupansi | Admin |
+| `GET` | `/api/v1/rooms` | Mengambil daftar 8 unit kamar & status terkini | Publik / Staf / Owner |
+| `GET` | `/api/v1/rooms/:id` | Detail spesifik kamar | Publik / Staf / Owner |
+| `PATCH` | `/api/v1/rooms/:id/status` | Update status kamar (4 warna) | Staf / Owner |
+| `POST` | `/api/v1/reservations/walkin` | Check-in cepat tamu walk-in (< 1 menit) | Staf / Owner |
+| `POST` | `/api/v1/reservations/confirm-dp` | Konfirmasi pembayaran DP 50% | Staf / Owner |
+| `PATCH` | `/api/v1/reservations/:id/checkout` | Check-out 1-klik (kamar jadi *dirty*) | Staf / Owner |
+| `GET` | `/api/v1/souvenirs` | Mengambil katalog oleh-oleh | Publik / Staf / Owner |
+| `POST` | `/api/v1/souvenirs` | Tambah produk oleh-oleh baru | Owner |
+| `GET` | `/api/v1/articles` | Mengambil artikel panduan wisata | Publik / Staf / Owner |
+| `POST` | `/api/v1/articles` | Publikasi artikel baru | Owner |
+| `GET` | `/api/v1/reports/monthly` | Rekapitulasi bulanan & omzet | Owner |
 
 ---
 

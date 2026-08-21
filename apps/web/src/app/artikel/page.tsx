@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "../../components/layout/navbar";
 import { Footer } from "../../components/layout/footer";
-import { ArticleHero } from "../../features/public/articles/components/article-hero";
-import { ArticleFilter } from "../../features/public/articles/components/article-filter";
-import { ExplorationCard } from "../../features/public/articles/components/exploration-card";
-import { ArticleGrid } from "../../features/public/articles/components/article-grid";
+import { Navbar } from "../../components/layout/navbar";
 import type { ArticleItem } from "../../features/public/articles/components/article-card";
+import { ArticleFilter } from "../../features/public/articles/components/article-filter";
+import { ArticleGrid } from "../../features/public/articles/components/article-grid";
+import { ArticleHero } from "../../features/public/articles/components/article-hero";
+import { ExplorationCard } from "../../features/public/articles/components/exploration-card";
 
 const CATEGORIES = [
   "Semua",
@@ -70,8 +70,7 @@ export default function ArtikelPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredArticles = ARTICLES_DATA.filter((art) => {
-    const matchCategory =
-      activeCategory === "Semua" || art.category === activeCategory;
+    const matchCategory = activeCategory === "Semua" || art.category === activeCategory;
     const matchSearch =
       art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       art.desc.toLowerCase().includes(searchQuery.toLowerCase());
