@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import {
   Bed,
   ChevronLeft,
@@ -12,8 +14,6 @@ import {
   Users,
   X,
 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import { Button } from "../ui/button";
 
 export type AdminRole = "owner" | "staff";
@@ -70,53 +70,70 @@ export function AdminSidebar({
           isMobileOpen ? "translate-x-0 w-72" : "-translate-x-full lg:translate-x-0"
         } ${isCollapsed ? "lg:w-20" : "lg:w-64"}`}
       >
-        {/* Header & Logo Identitas */}
+        {/* Bagian Atas: Header & Menu */}
         <div>
-          <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100">
-            <div className="flex items-center gap-3 overflow-hidden">
-              <div className="relative w-8 h-8 rounded-xl bg-purple-50 p-1 border border-purple-200 shrink-0">
-                <Image
-                  src="/logo-penginapan-annisa.png"
-                  alt="Logo Penginapan Annisa"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              {!isCollapsed && (
-                <div className="overflow-hidden">
-                  <h1 className="font-black text-sm text-slate-900 leading-tight truncate">
-                    Penginapan Annisa
-                  </h1>
-                  <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider block">
-                    Sistem Resepsionis (PMS)
-                  </span>
+          {/* Header & Logo Identitas */}
+          <div className="relative">
+            <div
+              className={`h-16 flex items-center border-b border-slate-100 transition-all ${
+                isCollapsed ? "justify-center px-0" : "justify-between px-5"
+              }`}
+            >
+              <div className={`flex items-center gap-3 overflow-hidden ${isCollapsed ? "justify-center" : ""}`}>
+                <div className="relative w-9 h-9 rounded-xl bg-purple-50 p-1.5 border border-purple-200 shrink-0 shadow-2xs">
+                  <Image
+                    src="/logo-penginapan-annisa.png"
+                    alt="Logo Penginapan Annisa"
+                    fill
+                    className="object-contain"
+                  />
                 </div>
+                {!isCollapsed && (
+                  <div className="overflow-hidden">
+                    <h1 className="font-black text-sm text-slate-900 leading-tight truncate">
+                      Penginapan Annisa
+                    </h1>
+                    <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider block">
+                      Sistem Resepsionis (PMS)
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Tombol Collapse Desktop Saat Sidebar Terbuka */}
+              {!isCollapsed && (
+                <button
+                  type="button"
+                  onClick={onToggleCollapse}
+                  aria-label="Sembunyikan bilah menu"
+                  className="hidden lg:flex w-7 h-7 rounded-xl bg-purple-100/70 hover:bg-purple-200 text-purple-900 items-center justify-center transition cursor-pointer"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
               )}
+
+              {/* Tombol Tutup di Tampilan Mobile/Tablet */}
+              <button
+                type="button"
+                onClick={onCloseMobile}
+                aria-label="Tutup menu"
+                className="lg:hidden p-1.5 rounded-xl text-slate-500 hover:bg-slate-200"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            {/* Tombol Lipat / Sembunyikan Sidebar */}
-            <button
-              type="button"
-              onClick={onToggleCollapse}
-              aria-label="Sembunyikan bilah menu"
-              className="hidden lg:flex w-7 h-7 rounded-xl bg-purple-100/60 hover:bg-purple-200/80 text-purple-900 items-center justify-center transition cursor-pointer"
-            >
-              {isCollapsed ? (
-                <ChevronRight className="w-4 h-4" />
-              ) : (
-                <ChevronLeft className="w-4 h-4" />
-              )}
-            </button>
-
-            {/* Tombol Tutup di Tampilan Mobile/Tablet */}
-            <button
-              type="button"
-              onClick={onCloseMobile}
-              aria-label="Tutup menu"
-              className="lg:hidden p-1.5 rounded-xl text-slate-500 hover:bg-slate-200"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            {/* Tombol Floating Expand Saat Sidebar Terlipat (Collapsed) */}
+            {isCollapsed && (
+              <button
+                type="button"
+                onClick={onToggleCollapse}
+                aria-label="Buka bilah menu"
+                className="hidden lg:flex absolute -right-3 top-5 z-50 w-6 h-6 rounded-full bg-white border border-slate-300/90 shadow-md items-center justify-center text-slate-600 hover:text-purple-700 hover:border-purple-400 transition cursor-pointer"
+              >
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
 
           {/* Menu Navigasi Utama */}
@@ -157,7 +174,7 @@ export function AdminSidebar({
               </div>
             </div>
 
-            {/* Bagian Manajemen Pemilik (Owner Saja) */}
+            {/* Bagian Manajemen Pengelola (Owner Saja) */}
             {visibleManagement.length > 0 && (
               <div>
                 {!isCollapsed && (
