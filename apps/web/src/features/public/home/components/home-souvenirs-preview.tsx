@@ -49,12 +49,14 @@ export function HomeSouvenirsPreview() {
         </p>
       </div>
 
-      {/* Grid Layout: 2 Kolom di Mobile, 3 Kolom di Tablet & Desktop */}
+      {/* Grid Layout: Tepat 1 Baris (2 Kolom di Mobile, 3 Kolom di Tablet & Desktop) */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-5 lg:gap-6 max-w-5xl mx-auto">
-        {previewSouvenirs.map((item) => (
+        {previewSouvenirs.map((item, idx) => (
           <div
             key={item.name}
-            className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-purple-200/80 shadow-2xs hover:border-purple-300 hover:shadow-lg transition-all overflow-hidden flex flex-col justify-between"
+            className={`bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-purple-200/80 shadow-2xs hover:border-purple-300 hover:shadow-lg transition-all overflow-hidden flex flex-col justify-between ${
+              idx === 2 ? "hidden md:flex" : "flex"
+            }`}
           >
             <div>
               <div className="relative h-28 sm:h-40 lg:h-44 w-full bg-slate-100 overflow-hidden">
@@ -110,7 +112,7 @@ export function HomeSouvenirsPreview() {
       </div>
 
       {/* Bottom Link to Full Souvenirs Catalog */}
-      <div className="text-center mt-6 sm:mt-8">
+      <div className="text-center mt-5 sm:mt-8">
         <Link
           href="/oleh-oleh"
           className="inline-flex items-center gap-1.5 text-xs font-extrabold text-purple-700 hover:text-purple-900 hover:underline transition"
