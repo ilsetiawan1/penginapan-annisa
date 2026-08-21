@@ -1,184 +1,194 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, Clock } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card } from "../../../../components/ui/card";
-import { getRoomBookingWhatsAppUrl } from "../../../../lib/whatsapp";
+import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
 
-interface RoomOption {
-  id: "ac" | "kipas";
-  name: string;
-  price: number;
-  dp: number;
-  image: string;
-  features: string;
-}
-
-const ROOM_OPTIONS: RoomOption[] = [
-  {
-    id: "ac",
-    name: "Tipe AC",
-    price: 275000,
-    dp: 137500,
-    image: "/rooms/room-ac-101.jpg",
-    features: "1 Kasur Besar (2–3 Org) • AC Dingin • KM Dalam • TV • WiFi",
-  },
-  {
-    id: "kipas",
-    name: "Tipe Kipas",
-    price: 200000,
-    dp: 100000,
-    image: "/rooms/room-kipas-201.jpg",
-    features: "1 Kasur Besar (2–3 Org) • Kipas Angin • KM Dalam • TV • WiFi",
-  },
-];
+type RoomType = "ac" | "kipas";
 
 export function BookingWidget() {
-  const [selectedRoom, setSelectedRoom] = useState<"ac" | "kipas">("ac");
+  const [selectedType, setSelectedType] = useState<RoomType>("ac");
   const [checkInDate, setCheckInDate] = useState<string>(() => {
-    const today = new Date();
-    return today.toISOString().split("T")[0];
+    return new Date().toISOString().split("T")[0];
   });
   const [nights, setNights] = useState<number>(1);
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
 
-  const currentRoom = ROOM_OPTIONS.find((r) => r.id === selectedRoom) || ROOM_OPTIONS[0];
-  const totalPrice = currentRoom.price * nights;
-  const dpPrice = currentRoom.dp * nights;
+  // Harga per malam
+  const pricePerNight = selectedType === "ac" ? 275000 : 200000;
+  const totalPrice = pricePerNight * nights;
+  const dpPrice = Math.round(totalPrice * 0.5);
 
   const handleBooking = () => {
-    const url = getRoomBookingWhatsAppUrl({
-      roomName: currentRoom.name,
-      price: currentRoom.price.toLocaleString("id-ID"),
-      checkInDate: checkInDate || "Segera",
-      nights: nights,
-      total: totalPrice.toLocaleString("id-ID"),
-      dp: dpPrice.toLocaleString("id-ID"),
+    const formattedDate = new Date(checkInDate).toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
     });
-    window.open(url, "_blank");
+
+    const typeName = selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas";
+
+    const waMessage = `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
+• Tipe: *${typeName}*
+• Tgl Check-In: *${formattedDate}*
+• Durasi: *${nights} Malam*
+• Nama Pemesan: *${guestName || "-"}*
+• No. WhatsApp: *${guestPhone || "-"}*
+• Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*
+• DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*
+
+Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
+
+    window.open(
+      `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`,
+      "_blank"
+    );
   };
 
   return (
-    <Card className="overflow-hidden p-0 bg-white/90 backdrop-blur-xl border border-white/80 shadow-2xl shadow-purple-950/20 rounded-3xl text-left transition-all">
-      {/* Top Room Photo Banner */}
-      <div className="relative h-36 sm:h-44 w-full bg-slate-900 overflow-hidden">
+    <Card className="w-full max-w-lg mx-auto bg-white/95 backdrop-blur-xl border border-white/90 shadow-2xl rounded-3xl overflow-hidden p-0">
+      {/* 1. Room Image Preview Banner */}
+      <div className="relative h-44 sm:h-52 w-full bg-slate-100 overflow-hidden">
         <Image
-          src={currentRoom.image}
-          alt={currentRoom.name}
+          src={
+            selectedType === "ac"
+              ? "/rooms/room-ac-101.jpg"
+              : "/rooms/room-kipas-201.jpg"
+          }
+          alt="Preview Kamar Penginapan Annisa"
           fill
-          className="object-cover opacity-90 transition-all duration-300"
+          className="object-cover transition-transform duration-500 hover:scale-105"
+          priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30" />
 
-        {/* Top Badges */}
-        <div className="absolute top-3 left-3">
-          <span className="bg-purple-950/85 text-purple-200 border border-purple-400/40 px-2.5 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider shadow-xs">
-            {selectedRoom === "ac" ? "Paling Populer" : "Paling Hemat"}
+        {/* Badge Info */}
+        <div className="absolute top-3 left-3 flex items-center gap-1.5">
+          <span className="bg-purple-700 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
+            {selectedType === "ac" ? "Paling Populer" : "Paling Hemat"}
           </span>
         </div>
 
-        <div className="absolute top-3 right-3">
-          <span className="bg-white text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-black shadow-xs">
-            Rp {currentRoom.price.toLocaleString("id-ID")}{" "}
-            <span className="text-[9px] font-medium text-slate-500">/ mlm</span>
-          </span>
+        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full text-slate-900 text-xs font-black shadow-xs">
+          Rp {pricePerNight.toLocaleString("id-ID")} <span className="text-[10px] font-normal text-slate-500">/ mlm</span>
         </div>
 
-        {/* Bottom Overlay Text */}
         <div className="absolute bottom-3 left-3 right-3 text-white">
-          <h3 className="text-sm sm:text-base font-black leading-tight drop-shadow-xs">
-            {currentRoom.name}
+          <h3 className="font-black text-base sm:text-lg leading-tight drop-shadow-sm">
+            {selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas"}
           </h3>
-          <p className="text-[10px] sm:text-[11px] text-slate-200 line-clamp-1 mt-0.5 drop-shadow-xs">
-            {currentRoom.features}
+          <p className="text-[11px] text-slate-200 font-medium drop-shadow-xs">
+            {selectedType === "ac"
+              ? "1 Kasur Besar (2–3 Org) • AC Dingin • KM Dalam • TV • WiFi"
+              : "1 Kasur Besar (2–3 Org) • Kipas Dinding • KM Dalam • TV • WiFi"}
           </p>
         </div>
       </div>
 
-      <div className="p-4 sm:p-5 space-y-3">
-        {/* High-Contrast Segmented Room Type Switch */}
-        <div className="bg-slate-200/80 p-1 rounded-2xl border border-slate-300/80 grid grid-cols-2 gap-1">
-          {ROOM_OPTIONS.map((room) => {
-            const isSelected = selectedRoom === room.id;
-            return (
-              <button
-                key={room.id}
-                type="button"
-                onClick={() => setSelectedRoom(room.id)}
-                className={`py-2 px-2.5 rounded-xl transition-all cursor-pointer flex items-center justify-between text-left ${
-                  isSelected
-                    ? "bg-purple-700 text-white shadow-md border border-purple-400/50"
-                    : "bg-white/80 text-slate-800 hover:bg-white border border-slate-200/70"
-                }`}
-              >
-                <div>
-                  <p
-                    className={`font-extrabold text-xs leading-tight ${
-                      isSelected ? "text-white" : "text-slate-900"
-                    }`}
-                  >
-                    {room.name}
-                  </p>
-                  <p
-                    className={`text-[10px] font-bold ${
-                      isSelected ? "text-purple-200" : "text-purple-700"
-                    }`}
-                  >
-                    Rp {(room.price / 1000).toFixed(0)}rb/mlm
-                  </p>
-                </div>
-                {isSelected && (
-                  <div className="w-4 h-4 rounded-full bg-white text-purple-900 flex items-center justify-center shrink-0 shadow-xs">
-                    <Check className="w-2.5 h-2.5 stroke-[3]" />
-                  </div>
-                )}
-              </button>
-            );
-          })}
+      {/* 2. Interactive Form Inputs */}
+      <div className="p-3.5 sm:p-5 space-y-3">
+        {/* Room Type Selector */}
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => setSelectedType("ac")}
+            className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+              selectedType === "ac"
+                ? "bg-purple-700 text-white border-purple-700 shadow-xs"
+                : "bg-slate-50 hover:bg-slate-100 text-slate-900 border-slate-200"
+            }`}
+          >
+            <div>
+              <p className="font-extrabold text-xs">Tipe AC</p>
+              <p className={`text-[10px] ${selectedType === "ac" ? "text-purple-200" : "text-purple-700 font-bold"}`}>
+                Rp 275rb/mlm
+              </p>
+            </div>
+            {selectedType === "ac" && (
+              <div className="w-5 h-5 rounded-full bg-white text-purple-700 flex items-center justify-center shrink-0">
+                <Check className="w-3 h-3 stroke-[3]" />
+              </div>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSelectedType("kipas")}
+            className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+              selectedType === "kipas"
+                ? "bg-purple-700 text-white border-purple-700 shadow-xs"
+                : "bg-slate-50 hover:bg-slate-100 text-slate-900 border-slate-200"
+            }`}
+          >
+            <div>
+              <p className="font-extrabold text-xs">Tipe Kipas</p>
+              <p className={`text-[10px] ${selectedType === "kipas" ? "text-purple-200" : "text-purple-700 font-bold"}`}>
+                Rp 200rb/mlm
+              </p>
+            </div>
+            {selectedType === "kipas" && (
+              <div className="w-5 h-5 rounded-full bg-white text-purple-700 flex items-center justify-center shrink-0">
+                <Check className="w-3 h-3 stroke-[3]" />
+              </div>
+            )}
+          </button>
         </div>
 
-        {/* High-Contrast Date & Nights Inputs */}
+        {/* Date & Nights Selector */}
         <div className="grid grid-cols-2 gap-2">
-          <div className="bg-white border-2 border-slate-300/90 focus-within:border-purple-600 shadow-2xs rounded-xl p-2 sm:p-2.5 transition-all">
-            <label className="text-[10px] font-black text-slate-700 uppercase tracking-wider block mb-0.5">
+          <div className="bg-slate-50 border border-slate-200/90 focus-within:border-purple-600 rounded-2xl p-2 sm:p-2.5 transition">
+            <label
+              htmlFor="booking-checkin-date"
+              className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-0.5"
+            >
               TGL CHECK-IN
             </label>
             <input
+              id="booking-checkin-date"
               type="date"
               value={checkInDate}
               onChange={(e) => setCheckInDate(e.target.value)}
-              className="w-full bg-transparent text-xs sm:text-sm font-black text-slate-950 outline-none cursor-pointer"
+              className="w-full bg-transparent text-xs sm:text-sm font-extrabold text-slate-950 outline-none cursor-pointer"
             />
           </div>
 
-          <div className="bg-white border-2 border-slate-300/90 focus-within:border-purple-600 shadow-2xs rounded-xl p-2 sm:p-2.5 transition-all">
-            <label className="text-[10px] font-black text-slate-700 uppercase tracking-wider block mb-0.5">
+          <div className="bg-slate-50 border border-slate-200/90 focus-within:border-purple-600 rounded-2xl p-2 sm:p-2.5 transition">
+            <label
+              htmlFor="booking-nights-select"
+              className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-0.5"
+            >
               LAMA MENGINAP
             </label>
             <select
+              id="booking-nights-select"
               value={nights}
               onChange={(e) => setNights(Number(e.target.value))}
-              className="w-full bg-transparent text-xs sm:text-sm font-black text-slate-950 outline-none cursor-pointer"
+              className="w-full bg-transparent text-xs sm:text-sm font-extrabold text-slate-950 outline-none cursor-pointer"
             >
               <option value={1}>1 Malam (Transit)</option>
               <option value={2}>2 Malam</option>
               <option value={3}>3 Malam</option>
               <option value={4}>4 Malam</option>
-              <option value={5}>5+ Malam</option>
+              <option value={5}>5 Malam</option>
             </select>
           </div>
         </div>
 
-        {/* High-Contrast Guest Name & WhatsApp Inputs */}
+        {/* Guest Name & Phone */}
         <div className="grid grid-cols-2 gap-2">
-          <div className="bg-white border-2 border-slate-300/90 focus-within:border-purple-600 shadow-2xs rounded-xl p-2 sm:p-2.5 transition-all">
-            <label className="text-[10px] font-black text-slate-700 uppercase tracking-wider block mb-0.5">
+          <div className="bg-slate-50 border border-slate-200/90 focus-within:border-purple-600 rounded-2xl p-2 sm:p-2.5 transition">
+            <label
+              htmlFor="booking-guest-name"
+              className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-0.5"
+            >
               NAMA PEMESAN
             </label>
             <input
+              id="booking-guest-name"
               type="text"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
@@ -187,11 +197,15 @@ export function BookingWidget() {
             />
           </div>
 
-          <div className="bg-white border-2 border-slate-300/90 focus-within:border-purple-600 shadow-2xs rounded-xl p-2 sm:p-2.5 transition-all">
-            <label className="text-[10px] font-black text-slate-700 uppercase tracking-wider block mb-0.5">
+          <div className="bg-slate-50 border border-slate-200/90 focus-within:border-purple-600 rounded-2xl p-2 sm:p-2.5 transition">
+            <label
+              htmlFor="booking-guest-phone"
+              className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-0.5"
+            >
               NO. WHATSAPP
             </label>
             <input
+              id="booking-guest-phone"
               type="tel"
               value={guestPhone}
               onChange={(e) => setGuestPhone(e.target.value)}
@@ -201,26 +215,32 @@ export function BookingWidget() {
           </div>
         </div>
 
-        {/* Bottom Price Summary & CTA Button */}
-        <div className="pt-2 flex items-center justify-between gap-3 border-t border-slate-200/90">
-          <div>
-            <p className="text-[11px] text-slate-600 font-bold">
-              Total ({nights} Malam):{" "}
-              <strong className="text-slate-950 font-black">
+        {/* 3. Bottom Price Summary & CTA Button (Flex-Aligned, Zero Cramping) */}
+        <div className="pt-2 space-y-2 border-t border-slate-100">
+          {/* Baris Rincian Harga & DP (Flex Horizontal Sejajar) */}
+          <div className="flex items-center justify-between bg-purple-50/80 border border-purple-100/90 rounded-2xl px-3 py-1.5 text-xs">
+            <div className="flex items-center gap-1.5">
+              <span className="text-slate-600 font-medium text-[11px]">Total ({nights} Malam):</span>
+              <strong className="text-slate-950 font-black text-xs sm:text-sm">
                 Rp {totalPrice.toLocaleString("id-ID")}
               </strong>
-            </p>
-            <p className="text-[10px] font-extrabold text-purple-950 bg-purple-200/90 px-2 py-0.5 rounded-md inline-block mt-0.5 shadow-2xs">
-              DP 50% Transfer: Rp {dpPrice.toLocaleString("id-ID")}
-            </p>
+            </div>
+
+            <div className="flex items-center gap-1 bg-white/95 border border-purple-200/80 px-2 py-0.5 rounded-lg shadow-2xs">
+              <span className="text-purple-700 font-bold text-[10px]">DP 50%:</span>
+              <strong className="text-purple-950 font-black text-[11px]">
+                Rp {dpPrice.toLocaleString("id-ID")}
+              </strong>
+            </div>
           </div>
 
+          {/* Tombol Pesan via WhatsApp Lebar Penuh */}
           <Button
             type="button"
             onClick={handleBooking}
-            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs sm:text-sm h-10 px-4 sm:px-5 gap-1.5 shadow-md hover:shadow-lg transition-all cursor-pointer shrink-0"
+            className="w-full rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-11 gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center"
           >
-            <span>Pesan via WhatsApp</span>
+            <span>Pesan via WhatsApp Sekarang</span>
             <span className="text-xs">➔</span>
           </Button>
         </div>
