@@ -80,17 +80,6 @@ export default function ContactPage() {
 
               {/* 3. Arah dari Bandara */}
               <div className="flex items-center gap-3 p-2 rounded-2xl bg-purple-50/70 border border-purple-100/80">
-                <div className="w-8 h-8 rounded-xl bg-purple-200 text-purple-900 flex items-center justify-center shrink-0 shadow-2xs">
-                  <Navigation className="w-4 h-4" />
-                </div>
-                <div className="overflow-hidden">
-                  <span className="text-[10px] font-black text-purple-700 uppercase tracking-wider block">
-                    Petunjuk Cepat
-                  </span>
-                  <p className="text-xs font-bold text-purple-950 truncate">
-                    750m via Gapura Tawiri (250m kiri jalan)
-                  </p>
-                </div>
               </div>
             </div>
 

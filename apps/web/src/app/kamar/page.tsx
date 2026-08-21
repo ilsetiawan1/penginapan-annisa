@@ -8,7 +8,9 @@ import { RoomFilter } from "../../features/public/rooms/components/room-filter";
 import { RoomGrid } from "../../features/public/rooms/components/room-grid";
 import { RoomHero } from "../../features/public/rooms/components/room-hero";
 
+// 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SESUAI PRD & TRD)
 const ROOMS_DATA: RoomItem[] = [
+  // BANGUNAN A
   {
     number: "A1",
     name: "Kamar A1 — Tipe AC",
@@ -16,7 +18,7 @@ const ROOMS_DATA: RoomItem[] = [
     status: "tersedia",
     price: "275.000",
     dp: "137.500",
-    bed: "1 Kasur Besar (Muat 2–3 Tamu)",
+    bed: "1 Kasur Besar (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: [
       "AC Dingin Nyaman",
@@ -34,7 +36,7 @@ const ROOMS_DATA: RoomItem[] = [
     status: "terisi",
     price: "275.000",
     dp: "137.500",
-    bed: "1 Kasur Besar (Muat 2–3 Tamu)",
+    bed: "1 Kasur Besar (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: [
       "AC Dingin Nyaman",
@@ -52,7 +54,7 @@ const ROOMS_DATA: RoomItem[] = [
     status: "tersedia",
     price: "200.000",
     dp: "100.000",
-    bed: "1 Kasur Besar (Muat 2–3 Tamu)",
+    bed: "1 Kasur Besar (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: [
       "Kipas Angin Dinding",
@@ -70,7 +72,7 @@ const ROOMS_DATA: RoomItem[] = [
     status: "tersedia",
     price: "200.000",
     dp: "100.000",
-    bed: "1 Kasur Besar (Muat 2–3 Tamu)",
+    bed: "1 Kasur Besar (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: [
       "Kipas Angin Dinding",
@@ -81,6 +83,8 @@ const ROOMS_DATA: RoomItem[] = [
     ],
     image: "/rooms/room-kipas-202.jpg",
   },
+
+  // BANGUNAN B
   {
     number: "B1",
     name: "Kamar B1 — Tipe AC",
@@ -88,7 +92,7 @@ const ROOMS_DATA: RoomItem[] = [
     status: "tersedia",
     price: "275.000",
     dp: "137.500",
-    bed: "1 Kasur Besar (Muat 2–3 Tamu)",
+    bed: "1 Kasur Besar (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: [
       "AC Dingin Nyaman",
@@ -106,7 +110,7 @@ const ROOMS_DATA: RoomItem[] = [
     status: "tersedia",
     price: "275.000",
     dp: "137.500",
-    bed: "1 Kasur Besar (Muat 2–3 Tamu)",
+    bed: "1 Kasur Besar (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: [
       "AC Dingin Nyaman",
@@ -124,7 +128,7 @@ const ROOMS_DATA: RoomItem[] = [
     status: "terisi",
     price: "200.000",
     dp: "100.000",
-    bed: "1 Kasur Besar (Muat 2–3 Tamu)",
+    bed: "1 Kasur Besar (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: [
       "Kipas Angin Dinding",
@@ -142,7 +146,7 @@ const ROOMS_DATA: RoomItem[] = [
     status: "tersedia",
     price: "200.000",
     dp: "100.000",
-    bed: "1 Kasur Besar (Muat 2–3 Tamu)",
+    bed: "1 Kasur Besar (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: [
       "Kipas Angin Dinding",
@@ -158,6 +162,10 @@ const ROOMS_DATA: RoomItem[] = [
 export default function KamarPage() {
   const [filter, setFilter] = useState<"all" | "ac" | "kipas" | "tersedia">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [checkInDate, setCheckInDate] = useState<string>(() => {
+    return new Date().toISOString().split("T")[0];
+  });
+  const [nights, setNights] = useState<number>(1);
 
   const filteredRooms = ROOMS_DATA.filter((r) => {
     const matchCategory =
@@ -175,13 +183,23 @@ export default function KamarPage() {
     <div className="min-h-screen bg-[#faf9fc] text-slate-900 font-sans selection:bg-purple-200 selection:text-purple-900">
       <Navbar />
       <RoomHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-      <RoomFilter activeFilter={filter} onFilterChange={setFilter} />
+      <RoomFilter
+        checkInDate={checkInDate}
+        onCheckInDateChange={setCheckInDate}
+        nights={nights}
+        onNightsChange={setNights}
+        activeFilter={filter}
+        onFilterChange={setFilter}
+      />
       <RoomGrid
         rooms={filteredRooms}
         searchQuery={searchQuery}
+        checkInDate={checkInDate}
+        nights={nights}
         onReset={() => {
           setSearchQuery("");
           setFilter("all");
+          setNights(1);
         }}
       />
       <Footer />
