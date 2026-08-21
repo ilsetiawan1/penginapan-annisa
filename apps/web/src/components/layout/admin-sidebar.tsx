@@ -72,9 +72,9 @@ export function AdminSidebar({
       >
         {/* Header & Logo Identitas */}
         <div>
-          <div className="h-20 flex items-center justify-between px-5 border-b border-slate-100">
+          <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100">
             <div className="flex items-center gap-3 overflow-hidden">
-              <div className="relative w-10 h-10 rounded-2xl bg-purple-50 p-1.5 border border-purple-200 shrink-0">
+              <div className="relative w-8 h-8 rounded-xl bg-purple-50 p-1 border border-purple-200 shrink-0">
                 <Image
                   src="/logo-penginapan-annisa.png"
                   alt="Logo Penginapan Annisa"

@@ -5,7 +5,6 @@ import { type CheckInFormData, CheckInModal } from "../../reservations/component
 import { CheckOutModal } from "../../reservations/components/checkout-modal";
 import { ReceiptModal } from "../../reservations/components/receipt-modal";
 import { RoomCard, type RoomItem } from "./room-card";
-import { RoomFilterBanner } from "./room-filter-banner";
 
 // 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SESUAI PRD & TRD)
 const INITIAL_ROOMS: RoomItem[] = [
@@ -96,23 +95,10 @@ const INITIAL_ROOMS: RoomItem[] = [
 export function RoomMatrix() {
   const [rooms, setRooms] = useState<RoomItem[]>(INITIAL_ROOMS);
 
-  // Filter State
-  const [buildingFilter, setBuildingFilter] = useState<string>("all");
-  const [typeFilter, setTypeFilter] = useState<string>("all");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-
   // Modal State
   const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(null);
   const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(null);
   const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
-
-  // Filter Data
-  const filteredRooms = rooms.filter((room) => {
-    if (buildingFilter !== "all" && room.building !== buildingFilter) return false;
-    if (typeFilter !== "all" && room.type !== typeFilter) return false;
-    if (statusFilter !== "all" && room.status !== statusFilter) return false;
-    return true;
-  });
 
   // Ringkasan Status
   const readyCount = rooms.filter((r) => r.status === "ready").length;
@@ -178,107 +164,62 @@ export function RoomMatrix() {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8">
-      {/* 4 Kartu Metrik Ringkas (Inspirasi FinSet Dashboard) */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {/* Siap Pakai */}
-        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs">
-          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-emerald-700 block">
-            🟢 Siap Pakai
+    <div className="space-y-3.5 sm:space-y-4">
+      {/* Top Header Strip: Judul + Ringkasan Status 4 Warna Horizontal (Zero Scroll Tablet View) */}
+      <div className="flex flex-wrap items-center justify-between gap-2.5 bg-white py-2.5 px-4 rounded-2xl border border-slate-200/80 shadow-2xs">
+        <div className="flex items-center gap-2">
+          <h2 className="text-base font-black text-slate-900 tracking-tight">Matriks 8 Kamar</h2>
+          <span className="bg-purple-100 text-purple-900 text-[11px] font-black px-2 py-0.5 rounded-full">
+            8 Unit
           </span>
-          <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-2xl sm:text-3xl font-black text-slate-900">{readyCount}</span>
-            <span className="text-xs text-slate-500 font-medium">Kamar Kosong</span>
-          </div>
         </div>
 
-        {/* Terisi */}
-        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs">
-          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-blue-700 block">
-            🔵 Terisi
-          </span>
-          <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-2xl sm:text-3xl font-black text-slate-900">{occupiedCount}</span>
-            <span className="text-xs text-slate-500 font-medium">Tamu Menginap</span>
-          </div>
-        </div>
-
-        {/* Perlu Bersih */}
-        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs">
-          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-amber-800 block">
-            🟡 Perlu Bersih
-          </span>
-          <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-2xl sm:text-3xl font-black text-slate-900">{dirtyCount}</span>
-            <span className="text-xs text-slate-500 font-medium">Housekeeping</span>
-          </div>
-        </div>
-
-        {/* Perbaikan */}
-        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs">
-          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-rose-700 block">
-            🔴 Perbaikan
-          </span>
-          <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-2xl sm:text-3xl font-black text-slate-900">
-              {maintenanceCount}
+        {/* 4 Status Pills Horizontal (Ramping & Jelas) */}
+        <div className="flex items-center gap-2 flex-wrap text-xs font-bold">
+          <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>
+              Siap Pakai: <strong>{readyCount}</strong>
             </span>
-            <span className="text-xs text-slate-500 font-medium">Servis Teknisi</span>
-          </div>
-        </div>
-      </div>
+          </span>
 
-      {/* 1. Hero Filter Cepat (Tanpa Search Box, Cepat & Jelas) */}
-      <RoomFilterBanner
-        buildingFilter={buildingFilter}
-        onBuildingFilterChange={setBuildingFilter}
-        typeFilter={typeFilter}
-        onTypeFilterChange={setTypeFilter}
-        statusFilter={statusFilter}
-        onStatusFilterChange={setStatusFilter}
-      />
+          <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-blue-600" />
+            <span>
+              Terisi: <strong>{occupiedCount}</strong>
+            </span>
+          </span>
 
-      {/* 2. Judul Bagian: "Daftar 8 Unit Kamar" + Badge Jumlah */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-            Matriks 8 Unit Kamar
-          </h2>
-          <span className="bg-purple-100 text-purple-900 text-xs font-black px-2.5 py-0.5 rounded-full">
-            {filteredRooms.length} Kamar
+          <span className="bg-amber-50 text-amber-900 border border-amber-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-amber-500" />
+            <span>
+              Perlu Bersih: <strong>{dirtyCount}</strong>
+            </span>
+          </span>
+
+          <span className="bg-rose-50 text-rose-800 border border-rose-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-rose-500" />
+            <span>
+              Perbaikan: <strong>{maintenanceCount}</strong>
+            </span>
           </span>
         </div>
-
-        <span className="text-xs font-bold text-slate-500 hidden sm:inline">
-          Bangunan A: #A1–#A4 • Bangunan B: #B1–#B4
-        </span>
       </div>
 
-      {/* 3. Grid 3-Kolom / 2-Kolom Kamar */}
-      {filteredRooms.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {filteredRooms.map((room) => (
-            <RoomCard
-              key={room.code}
-              room={room}
-              onOpenCheckIn={setCheckInModalData}
-              onOpenCheckOut={setCheckOutModalData}
-              onOpenReceipt={setReceiptModalData}
-              onMarkClean={handleMarkClean}
-              onFinishMaintenance={handleFinishMaintenance}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 shadow-2xs space-y-2">
-          <p className="text-base font-extrabold text-slate-700">
-            Tidak ada kamar dengan filter ini
-          </p>
-          <p className="text-xs text-slate-500">
-            Coba ubah opsi filter pada bilah pilihan di atas.
-          </p>
-        </div>
-      )}
+      {/* 8 ROOMS GRID (Tepat 4 Kolom x 2 Baris: Muat 1 Layar Tablet Penuh Tanpa Scroll) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5">
+        {rooms.map((room) => (
+          <RoomCard
+            key={room.code}
+            room={room}
+            onOpenCheckIn={setCheckInModalData}
+            onOpenCheckOut={setCheckOutModalData}
+            onOpenReceipt={setReceiptModalData}
+            onMarkClean={handleMarkClean}
+            onFinishMaintenance={handleFinishMaintenance}
+          />
+        ))}
+      </div>
 
       {/* MODAL DIALOGS */}
       {checkInModalData && (
