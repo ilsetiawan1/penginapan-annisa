@@ -8,7 +8,7 @@ import { RoomCard, type RoomItem } from "./room-card";
 
 // 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SESUAI PRD & TRD)
 const INITIAL_ROOMS: RoomItem[] = [
-  // BANGUNAN A
+  // BANGUNAN A (KIRI): 2 AC (A1, A2) & 2 KIPAS (A3, A4)
   {
     code: "A1",
     building: "A",
@@ -49,7 +49,8 @@ const INITIAL_ROOMS: RoomItem[] = [
     price: 200000,
     status: "ready",
   },
-  // BANGUNAN B
+
+  // BANGUNAN B (KANAN): 2 AC (B1, B2) & 2 KIPAS (B3, B4)
   {
     code: "B1",
     building: "B",
@@ -100,7 +101,11 @@ export function RoomMatrix() {
   const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(null);
   const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
 
-  // Ringkasan Status
+  // Pisahkan Kamar Bangunan A & Bangunan B
+  const roomsA = rooms.filter((r) => r.building === "A");
+  const roomsB = rooms.filter((r) => r.building === "B");
+
+  // Ringkasan Status Keseluruhan
   const readyCount = rooms.filter((r) => r.status === "ready").length;
   const occupiedCount = rooms.filter((r) => r.status === "occupied").length;
   const dirtyCount = rooms.filter((r) => r.status === "dirty").length;
@@ -164,61 +169,117 @@ export function RoomMatrix() {
   };
 
   return (
-    <div className="space-y-3.5 sm:space-y-4">
-      {/* Top Header Strip: Judul + Ringkasan Status 4 Warna Horizontal (Zero Scroll Tablet View) */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5 bg-white py-2.5 px-4 rounded-2xl border border-slate-200/80 shadow-2xs">
+    <div className="space-y-3 sm:space-y-3.5">
+      {/* Top Header Strip: Judul + Ringkasan Status 4 Warna Horizontal */}
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-white py-2 px-3.5 sm:px-4 rounded-2xl border border-slate-200/80 shadow-2xs">
         <div className="flex items-center gap-2">
-          <h2 className="text-base font-black text-slate-900 tracking-tight">Matriks 8 Kamar</h2>
-          <span className="bg-purple-100 text-purple-900 text-[11px] font-black px-2 py-0.5 rounded-full">
-            8 Unit
+          <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
+            Matriks 8 Kamar
+          </h2>
+          <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-2 py-0.5 rounded-full">
+            8 Unit Total
           </span>
         </div>
 
-        {/* 4 Status Pills Horizontal (Ramping & Jelas) */}
-        <div className="flex items-center gap-2 flex-wrap text-xs font-bold">
-          <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+        {/* 4 Status Pills Horizontal */}
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap text-xs font-bold">
+          <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>
-              Siap Pakai: <strong>{readyCount}</strong>
+              Siap: <strong>{readyCount}</strong>
             </span>
           </span>
 
-          <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+          <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-blue-600" />
             <span>
               Terisi: <strong>{occupiedCount}</strong>
             </span>
           </span>
 
-          <span className="bg-amber-50 text-amber-900 border border-amber-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+          <span className="bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-amber-500" />
             <span>
-              Perlu Bersih: <strong>{dirtyCount}</strong>
+              Kotor: <strong>{dirtyCount}</strong>
             </span>
           </span>
 
-          <span className="bg-rose-50 text-rose-800 border border-rose-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+          <span className="bg-rose-50 text-rose-800 border border-rose-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-rose-500" />
             <span>
-              Perbaikan: <strong>{maintenanceCount}</strong>
+              Servis: <strong>{maintenanceCount}</strong>
             </span>
           </span>
         </div>
       </div>
 
-      {/* 8 ROOMS GRID (Tepat 4 Kolom x 2 Baris: Muat 1 Layar Tablet Penuh Tanpa Scroll) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5">
-        {rooms.map((room) => (
-          <RoomCard
-            key={room.code}
-            room={room}
-            onOpenCheckIn={setCheckInModalData}
-            onOpenCheckOut={setCheckOutModalData}
-            onOpenReceipt={setReceiptModalData}
-            onMarkClean={handleMarkClean}
-            onFinishMaintenance={handleFinishMaintenance}
-          />
-        ))}
+      {/* 2 BANGUNAN BERDAMPINGAN: KIRI (BANGUNAN A) & KANAN (BANGUNAN B) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-4 relative">
+        {/* ====================================================
+            BLOK KIRI: BANGUNAN A (4 KAMAR: 2 AC & 2 KIPAS)
+            ==================================================== */}
+        <div className="bg-[#f4f2f7] rounded-3xl p-3 sm:p-3.5 border border-slate-200/90 shadow-2xs space-y-2.5">
+          {/* Header Bangunan A */}
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
+              <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
+                BANGUNAN A (Lokasi 1)
+              </h3>
+            </div>
+            <span className="text-[10px] font-extrabold text-purple-950 bg-white px-2 py-0.5 rounded-md border border-purple-100 shadow-2xs">
+              2 AC (#A1,#A2) • 2 Kipas (#A3,#A4)
+            </span>
+          </div>
+
+          {/* Grid 2x2 Kamar Bangunan A */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {roomsA.map((room) => (
+              <RoomCard
+                key={room.code}
+                room={room}
+                onOpenCheckIn={setCheckInModalData}
+                onOpenCheckOut={setCheckOutModalData}
+                onOpenReceipt={setReceiptModalData}
+                onMarkClean={handleMarkClean}
+                onFinishMaintenance={handleFinishMaintenance}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* ====================================================
+            BLOK KANAN: BANGUNAN B (4 KAMAR: 2 AC & 2 KIPAS)
+            ==================================================== */}
+        <div className="bg-[#f4f2f7] rounded-3xl p-3 sm:p-3.5 border border-slate-200/90 shadow-2xs space-y-2.5">
+          {/* Header Bangunan B */}
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
+              <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
+                BANGUNAN B (Lokasi 2)
+              </h3>
+            </div>
+            <span className="text-[10px] font-extrabold text-purple-950 bg-white px-2 py-0.5 rounded-md border border-purple-100 shadow-2xs">
+              2 AC (#B1,#B2) • 2 Kipas (#B3,#B4)
+            </span>
+          </div>
+
+          {/* Grid 2x2 Kamar Bangunan B */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {roomsB.map((room) => (
+              <RoomCard
+                key={room.code}
+                room={room}
+                onOpenCheckIn={setCheckInModalData}
+                onOpenCheckOut={setCheckOutModalData}
+                onOpenReceipt={setReceiptModalData}
+                onMarkClean={handleMarkClean}
+                onFinishMaintenance={handleFinishMaintenance}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* MODAL DIALOGS */}
