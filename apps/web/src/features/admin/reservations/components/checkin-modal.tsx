@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Phone, User } from "lucide-react";
+import { Check, Phone, User, Zap } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import {
@@ -88,11 +88,11 @@ export function CheckInModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md w-full bg-white rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-200">
+      <DialogContent className="max-w-md w-full max-h-[90vh] overflow-y-auto bg-white rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-200">
         <DialogHeader className="text-left space-y-1">
           <div className="flex items-center justify-between">
             <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-              Fast-Track Check-In
+              Check-In Langsung (Walk-In / Booking WA)
             </span>
             <span className="text-xs font-extrabold text-slate-500">
               Kamar #{roomNumber} ({roomTypeName})
@@ -110,8 +110,8 @@ export function CheckInModal({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-          {/* Guest Name Input */}
+        <form onSubmit={handleSubmit} className="space-y-3.5 pt-2">
+          {/* Input Nama Tamu */}
           <div className="space-y-1">
             <label
               htmlFor="checkin-guest-name"
@@ -133,20 +133,20 @@ export function CheckInModal({
             </div>
           </div>
 
-          {/* Guest Phone Input */}
+          {/* Input Nomor WhatsApp */}
           <div className="space-y-1">
             <label
               htmlFor="checkin-guest-phone"
               className="text-[11px] font-black text-slate-700 uppercase tracking-wider block"
             >
-              No. WhatsApp Tamu (Untuk Nota Digital)
+              No. WhatsApp Tamu (Untuk Kirim Nota Digital)
             </label>
             <div className="flex items-center gap-2 bg-slate-50 border-2 border-slate-200 focus-within:border-purple-600 rounded-xl px-3 py-2 transition-all">
               <Phone className="w-4 h-4 text-purple-700 shrink-0" />
               <input
                 id="checkin-guest-phone"
                 type="tel"
-                placeholder="0812-xxxx-xxxx"
+                placeholder="Contoh: 081234567890"
                 value={guestPhone}
                 onChange={(e) => setGuestPhone(e.target.value)}
                 className="w-full bg-transparent text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400"
@@ -154,7 +154,7 @@ export function CheckInModal({
             </div>
           </div>
 
-          {/* Nights & DP Grid */}
+          {/* Durasi & Nominal Pembayaran Masuk */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <label
@@ -186,7 +186,7 @@ export function CheckInModal({
                 htmlFor="checkin-dp"
                 className="text-[11px] font-black text-slate-700 uppercase tracking-wider block"
               >
-                DP Diterima (Rp)
+                Uang Diterima (Rp)
               </label>
               <input
                 id="checkin-dp"
@@ -198,10 +198,36 @@ export function CheckInModal({
             </div>
           </div>
 
-          {/* Payment Method Pills */}
+          {/* Shortcut Tombol Cepat Pembayaran (DP 50%, Lunas 100%, Bayar Nanti) */}
+          <div className="flex items-center gap-1.5 pt-0.5">
+            <span className="text-[10px] font-bold text-slate-400">Pintasan:</span>
+            <button
+              type="button"
+              onClick={() => setDpPaid(Math.round(totalAmount * 0.5))}
+              className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-purple-100 text-purple-800 hover:bg-purple-200 cursor-pointer"
+            >
+              DP 50% (Rp {(totalAmount * 0.5).toLocaleString("id-ID")})
+            </button>
+            <button
+              type="button"
+              onClick={() => setDpPaid(totalAmount)}
+              className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 hover:bg-emerald-200 cursor-pointer"
+            >
+              Lunas 100%
+            </button>
+            <button
+              type="button"
+              onClick={() => setDpPaid(0)}
+              className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer"
+            >
+              Bayar Nanti
+            </button>
+          </div>
+
+          {/* Pilihan Metode Bayar */}
           <div className="space-y-1">
             <span className="text-[11px] font-black text-slate-700 uppercase tracking-wider block">
-              Metode Pembayaran DP
+              Metode Pembayaran
             </span>
             <div className="grid grid-cols-3 gap-2">
               {(["cash", "qris", "transfer"] as const).map((m) => (
@@ -221,7 +247,7 @@ export function CheckInModal({
             </div>
           </div>
 
-          {/* Billing Summary Box */}
+          {/* Kotak Ringkasan Tagihan & Sisa Pelunasan */}
           <div className="bg-purple-50/80 border border-purple-100 rounded-2xl p-3 flex items-center justify-between text-xs">
             <div>
               <span className="text-slate-500 font-medium block">
@@ -232,26 +258,32 @@ export function CheckInModal({
               </strong>
             </div>
             <div className="text-right">
-              <span className="text-slate-500 font-medium block">Sisa Bayar Saat Check-Out:</span>
-              <strong className="text-sm font-black text-amber-700">
-                Rp {remainingAmount.toLocaleString("id-ID")}
+              <span className="text-slate-500 font-medium block">
+                {remainingAmount === 0 ? "Status Pelunasan:" : "Sisa Bayar Saat Check-Out:"}
+              </span>
+              <strong
+                className={`text-sm font-black ${
+                  remainingAmount === 0 ? "text-emerald-700" : "text-amber-700"
+                }`}
+              >
+                {remainingAmount === 0 ? "LUNAS 100% ✨" : `Rp ${remainingAmount.toLocaleString("id-ID")}`}
               </strong>
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Tombol Aksi */}
           <DialogFooter className="flex flex-row items-center justify-end gap-2 pt-2">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
-              className="rounded-xl h-11 px-4 text-xs font-bold text-slate-600"
+              className="rounded-xl h-11 px-4 text-xs font-bold text-slate-600 cursor-pointer"
             >
               Batal
             </Button>
             <Button
               type="submit"
-              className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-5 gap-1.5 shadow-md"
+              className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-5 gap-1.5 shadow-md cursor-pointer"
             >
               <Check className="w-4 h-4" />
               <span>Konfirmasi Check-In</span>
