@@ -7,26 +7,29 @@ import { ANNISA_WA_NUMBER } from "../../lib/whatsapp";
 
 export default function ContactPage() {
   return (
-    <div className="relative h-dvh max-h-dvh w-full flex flex-col justify-between overflow-hidden selection:bg-purple-200 selection:text-purple-900">
-      {/* Background Image Contact */}
-      <Image
-        src="/contact/bg-contact.png"
-        alt="Lokasi Penginapan Annisa Ambon"
-        fill
-        className="object-cover object-center"
-        priority
-      />
-
-      {/* Dark Overlay for Text Readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/70 to-slate-950/90" />
+    <div className="relative h-dvh max-h-dvh w-full bg-[#faf9fc] flex flex-col justify-between overflow-hidden selection:bg-purple-200 selection:text-purple-900">
+      {/* Setengah Background Image Atas (Mirip Halaman /artikel) */}
+      <div className="absolute inset-x-0 top-0 h-[45%] sm:h-[50%] overflow-hidden z-0">
+        <Image
+          src="/contact/bg-contact.png"
+          alt="Lokasi Penginapan Annisa Ambon"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        {/* Top dark gradient overlay for navbar & title contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/50 to-transparent" />
+        {/* Smooth bottom fade into #faf9fc canvas */}
+        <div className="absolute inset-x-0 bottom-0 h-32 sm:h-44 bg-gradient-to-t from-[#faf9fc] via-[#faf9fc]/80 to-transparent pointer-events-none" />
+      </div>
 
       {/* Floating Navbar */}
       <Navbar />
 
-      {/* Main Content (Strict 100vh Single-Screen Layout from Mobile to Desktop) */}
-      <main className="relative z-10 max-w-5xl mx-auto w-full px-3 sm:px-4 pt-16 sm:pt-20 lg:pt-24 pb-1 sm:pb-2 flex-1 flex flex-col justify-center min-h-0">
+      {/* Main Content (Strict 100vh Single-Screen Layout) */}
+      <main className="relative z-10 max-w-5xl mx-auto w-full px-3 sm:px-4 pt-16 sm:pt-20 lg:pt-22 pb-1 sm:pb-2 flex-1 flex flex-col justify-center min-h-0">
         {/* Header Title */}
-        <div className="text-center text-white mb-2.5 sm:mb-4 shrink-0">
+        <div className="text-center text-white mb-2 sm:mb-3.5 shrink-0">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-1 shadow-sm">
             <MapPin className="w-3 h-3 text-purple-300" />
             <span>LOKASI &amp; KONTAK RESMI</span>
@@ -138,8 +141,8 @@ export default function ContactPage() {
         </div>
       </main>
 
-      {/* Bottom Compact Footer (1 Line) */}
-      <footer className="relative z-10 py-2 sm:py-2.5 text-center text-[10px] sm:text-[11px] text-slate-300 border-t border-white/10 shrink-0">
+      {/* Bottom Compact Footer */}
+      <footer className="relative z-10 py-2 sm:py-2.5 text-center text-[10px] sm:text-[11px] text-slate-500 border-t border-slate-200/80 shrink-0">
         <p>© 2026 Penginapan Annisa • 750m dari Bandara Pattimura Ambon. Hak Cipta Dilindungi.</p>
       </footer>
     </div>
