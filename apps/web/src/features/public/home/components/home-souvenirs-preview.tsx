@@ -95,10 +95,7 @@ export function HomeSouvenirsPreview() {
                 className="w-full sm:w-auto rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-[11px] sm:text-xs h-8 sm:h-9 px-3 sm:px-4 gap-1.5 shadow-2xs transition-all cursor-pointer"
               >
                 <a
-                  href={getSouvenirOrderWhatsAppUrl({
-                    itemName: item.name,
-                    price: item.price,
-                  })}
+                  href={getSouvenirOrderWhatsAppUrl(item.name, item.price)}
                   target="_blank"
                   rel="noreferrer"
                 >
