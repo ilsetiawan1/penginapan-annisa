@@ -4,7 +4,7 @@ import { ChevronDown, HelpCircle } from "lucide-react";
 import { useState } from "react";
 
 export function FaqSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0); // Buka default pertanyaan pertama
 
   const faqs = [
     {
@@ -30,7 +30,7 @@ export function FaqSection() {
   };
 
   return (
-    <div>
+    <div className="max-w-3xl mx-auto">
       {/* Centered Section Header */}
       <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
         <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block mb-1">
@@ -44,8 +44,8 @@ export function FaqSection() {
         </p>
       </div>
 
-      {/* Accordion List */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+      {/* Accordion List (Flex Column 4 Rows Stack) */}
+      <div className="flex flex-col gap-2.5 sm:gap-3">
         {faqs.map((faq, idx) => {
           const isOpen = openIndex === idx;
           return (
@@ -61,19 +61,19 @@ export function FaqSection() {
               <button
                 type="button"
                 onClick={() => toggleFaq(idx)}
-                className="w-full p-3 sm:p-3.5 flex items-center justify-between gap-2.5 text-left cursor-pointer transition-colors"
+                className="w-full p-3.5 sm:p-4 flex items-center justify-between gap-3 text-left cursor-pointer transition-colors"
                 aria-expanded={isOpen}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <div
-                    className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                    className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                       isOpen ? "bg-purple-100 text-purple-700" : "bg-slate-100 text-slate-500"
                     }`}
                   >
-                    <HelpCircle className="w-3.5 h-3.5" />
+                    <HelpCircle className="w-4 h-4" />
                   </div>
                   <h3
-                    className={`font-extrabold text-xs leading-snug transition-colors ${
+                    className={`font-extrabold text-xs sm:text-sm leading-snug transition-colors ${
                       isOpen ? "text-purple-900" : "text-slate-900"
                     }`}
                   >
@@ -82,7 +82,7 @@ export function FaqSection() {
                 </div>
 
                 <div
-                  className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
+                  className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
                     isOpen ? "rotate-180 text-purple-700 bg-purple-50" : "text-slate-400"
                   }`}
                 >
@@ -92,8 +92,8 @@ export function FaqSection() {
 
               {/* Collapsible Answer */}
               {isOpen && (
-                <div className="px-3 pb-3 sm:px-3.5 sm:pb-3.5 pt-0 pl-11 animate-in fade-in slide-in-from-top-1 duration-200">
-                  <p className="text-[10px] sm:text-[11px] text-slate-600 leading-relaxed border-t border-purple-50 pt-2">
+                <div className="px-4 pb-4 pt-0 pl-14 animate-in fade-in slide-in-from-top-1 duration-200">
+                  <p className="text-xs text-slate-600 leading-relaxed border-t border-purple-50 pt-2.5">
                     {faq.a}
                   </p>
                 </div>
