@@ -30,7 +30,7 @@ export function FaqSection() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto pt-10 sm:pt-16">
       {/* Centered Section Header */}
       <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
         <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block mb-1">
