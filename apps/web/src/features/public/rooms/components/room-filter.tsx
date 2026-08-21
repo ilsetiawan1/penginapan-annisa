@@ -1,5 +1,7 @@
 "use client";
 
+import { Calendar, Moon } from "lucide-react";
+
 interface RoomFilterProps {
   checkInDate: string;
   onCheckInDateChange: (date: string) => void;
@@ -17,41 +19,55 @@ export function RoomFilter({
   activeFilter,
   onFilterChange,
 }: RoomFilterProps) {
+  const formattedDate = checkInDate
+    ? new Date(checkInDate).toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "Pilih Tanggal";
+
   return (
     <section className="relative z-20 -mt-6 sm:-mt-8 max-w-4xl mx-auto px-3 sm:px-4">
       <div className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 shadow-xl border border-white/80 space-y-2 sm:space-y-3">
-        {/* Baris 1: Date & Duration (2 Kolom Berdampingan di Mobile, 3 Kolom di Desktop) */}
+        {/* Baris 1: Date & Duration (2 Kolom Berdampingan dengan Desain Modern Traveloka/Airbnb Style) */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 items-center">
-          {/* Input Tanggal Check-In */}
-          <div className="bg-slate-50 border border-slate-200/90 rounded-xl px-2.5 py-1 focus-within:border-purple-600 transition">
-            <label
-              htmlFor="kamar-checkin-date"
-              className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider block"
-            >
-              📅 Check-In
-            </label>
+          {/* Box Tanggal Check-In */}
+          <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-purple-600 transition flex items-center justify-between">
+            <div>
+              <span className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+                TGL CHECK-IN
+              </span>
+              <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+                {formattedDate}
+              </span>
+            </div>
+            <Calendar className="w-4 h-4 text-purple-700 shrink-0" />
             <input
               id="kamar-checkin-date"
               type="date"
               value={checkInDate}
               onChange={(e) => onCheckInDateChange(e.target.value)}
-              className="w-full bg-transparent text-[11px] sm:text-xs font-extrabold text-slate-900 outline-none cursor-pointer"
+              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
             />
           </div>
 
-          {/* Selector Lama Menginap */}
-          <div className="bg-slate-50 border border-slate-200/90 rounded-xl px-2.5 py-1 focus-within:border-purple-600 transition">
-            <label
-              htmlFor="kamar-nights"
-              className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider block"
-            >
-              🌙 Durasi
-            </label>
+          {/* Box Lama Menginap */}
+          <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-purple-600 transition flex items-center justify-between">
+            <div>
+              <span className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+                LAMA MENGINAP
+              </span>
+              <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+                {nights} Malam {nights === 1 ? "(Transit)" : ""}
+              </span>
+            </div>
+            <Moon className="w-4 h-4 text-purple-700 shrink-0" />
             <select
               id="kamar-nights"
               value={nights}
               onChange={(e) => onNightsChange(Number(e.target.value))}
-              className="w-full bg-transparent text-[11px] sm:text-xs font-extrabold text-slate-900 outline-none cursor-pointer"
+              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
             >
               <option value={1}>1 Malam (Transit)</option>
               <option value={2}>2 Malam</option>
@@ -62,7 +78,7 @@ export function RoomFilter({
           </div>
 
           {/* Indikator DP 50% (Hanya tampil di tablet/desktop agar tampilan mobile sangat ringkas) */}
-          <div className="hidden sm:flex bg-purple-50/80 border border-purple-100 rounded-xl p-2 text-center flex-col justify-center">
+          <div className="hidden sm:flex bg-purple-50/80 border border-purple-100 rounded-2xl p-2 text-center flex-col justify-center">
             <span className="text-[10px] font-bold text-purple-700 block">
               DP Otomatis: <strong>50% Transfer</strong>
             </span>
