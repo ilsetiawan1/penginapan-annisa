@@ -177,7 +177,7 @@ export function BookingCalendarGrid({
                   </span>
                 )}
               </div>
-            </div>
+            </button>
           );
         })}
       </div>
