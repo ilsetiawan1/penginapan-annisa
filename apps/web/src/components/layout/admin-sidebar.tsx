@@ -2,6 +2,7 @@
 
 import {
   Bed,
+  Calendar,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
@@ -40,6 +41,7 @@ export function AdminSidebar({
   // Menu Operasional & Manajemen (100% Bahasa Indonesia)
   const generalMenu = [
     { id: "matrix", label: "Matriks 8 Kamar", icon: LayoutDashboard, roles: ["owner", "staff"] },
+    { id: "bookings", label: "Jadwal Booking WA", icon: Calendar, roles: ["owner", "staff"] },
     { id: "pos", label: "Kasir Oleh-Oleh", icon: Gift, roles: ["owner", "staff"] },
     { id: "rooms", label: "Pengaturan Tarif", icon: Bed, roles: ["owner"] },
   ];

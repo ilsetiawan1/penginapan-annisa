@@ -4,6 +4,7 @@ import { useState } from "react";
 import { type AdminRole, AdminSidebar } from "../../../components/layout/admin-sidebar";
 import { AdminTopbar } from "../../../features/admin/dashboard/components/admin-topbar";
 import { FinancialReports } from "../../../features/admin/reports/components/financial-reports";
+import { AdvanceBookingList } from "../../../features/admin/reservations/components/advance-booking-list";
 import { RoomManagement } from "../../../features/admin/rooms/components/room-management";
 import { RoomMatrix } from "../../../features/admin/rooms/components/room-matrix";
 import { SouvenirPos } from "../../../features/admin/souvenirs/components/souvenir-pos";
@@ -39,7 +40,7 @@ export default function AdminDashboardPage() {
           currentRole={currentRole}
           onRoleChange={(newRole) => {
             setCurrentRole(newRole);
-            if (newRole === "staff" && !["matrix", "pos"].includes(activeTab)) {
+            if (newRole === "staff" && !["matrix", "bookings", "pos"].includes(activeTab)) {
               setActiveTab("matrix");
             }
           }}
@@ -51,16 +52,19 @@ export default function AdminDashboardPage() {
           {/* TAB 1: Matriks 8 Kamar PMS (Owner & Staf) */}
           {activeTab === "matrix" && <RoomMatrix />}
 
-          {/* TAB 2: Kasir & Stok Oleh-oleh (Owner & Staf) */}
+          {/* TAB 2: Jadwal Booking Mendatang WA (Owner & Staf) */}
+          {activeTab === "bookings" && <AdvanceBookingList />}
+
+          {/* TAB 3: Kasir & Stok Oleh-oleh (Owner & Staf) */}
           {activeTab === "pos" && <SouvenirPos />}
 
-          {/* TAB 3: Manajemen Tarif & Kamar (Khusus Owner) */}
+          {/* TAB 4: Manajemen Tarif & Kamar (Khusus Owner) */}
           {activeTab === "rooms" && currentRole === "owner" && <RoomManagement />}
 
-          {/* TAB 4: Laporan Omzet & Okupansi (Khusus Owner) */}
+          {/* TAB 5: Laporan Omzet & Okupansi (Khusus Owner) */}
           {activeTab === "reports" && currentRole === "owner" && <FinancialReports />}
 
-          {/* TAB 5: Kelola Akun Staf (Khusus Owner) */}
+          {/* TAB 6: Kelola Akun Staf (Khusus Owner) */}
           {activeTab === "staff" && currentRole === "owner" && <StaffManagement />}
         </main>
       </div>
