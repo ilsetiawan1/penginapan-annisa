@@ -97,7 +97,10 @@ export function CheckInModal({
                 Check-In Tamu
               </span>
               <span className="text-xs font-bold text-slate-500">
-                Tarif: <strong className="text-purple-700">Rp {roomPrice.toLocaleString("id-ID")}/malam</strong>
+                Tarif:{" "}
+                <strong className="text-purple-700">
+                  Rp {roomPrice.toLocaleString("id-ID")}/malam
+                </strong>
               </span>
             </div>
             <DialogTitle className="text-base sm:text-lg font-black text-slate-900 leading-tight mt-0.5">
@@ -271,7 +274,9 @@ export function CheckInModal({
                       remainingAmount === 0 ? "text-emerald-700" : "text-amber-700"
                     }`}
                   >
-                    {remainingAmount === 0 ? "LUNAS 100% ✨" : `Rp ${remainingAmount.toLocaleString("id-ID")}`}
+                    {remainingAmount === 0
+                      ? "LUNAS 100% ✨"
+                      : `Rp ${remainingAmount.toLocaleString("id-ID")}`}
                   </strong>
                 </div>
               </div>

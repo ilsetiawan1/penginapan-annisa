@@ -46,11 +46,7 @@ const ROOM_OPTIONS = [
   { code: "B4", building: "B", name: "Kamar #B4 (Bangunan B - Tipe Kipas)", price: 200000 },
 ];
 
-export function AdvanceBookingModal({
-  isOpen,
-  onClose,
-  onConfirm,
-}: AdvanceBookingModalProps) {
+export function AdvanceBookingModal({ isOpen, onClose, onConfirm }: AdvanceBookingModalProps) {
   const [selectedRoomCode, setSelectedRoomCode] = useState<string>("A1");
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
@@ -90,7 +86,13 @@ export function AdvanceBookingModal({
     onConfirm({
       id: `BK-${Date.now().toString().slice(-4)}`,
       roomCode: selectedRoom.code,
-      roomTypeName: selectedRoom.code.startsWith("A1") || selectedRoom.code.startsWith("A2") || selectedRoom.code.startsWith("B1") || selectedRoom.code.startsWith("B2") ? "Tipe AC" : "Tipe Kipas",
+      roomTypeName:
+        selectedRoom.code.startsWith("A1") ||
+        selectedRoom.code.startsWith("A2") ||
+        selectedRoom.code.startsWith("B1") ||
+        selectedRoom.code.startsWith("B2")
+          ? "Tipe AC"
+          : "Tipe Kipas",
       guestName,
       guestPhone,
       checkInDate: formattedIn,
@@ -310,13 +312,17 @@ export function AdvanceBookingModal({
               {/* Rincian Ringkas */}
               <div className="bg-purple-50/90 border border-purple-200/80 rounded-xl p-2.5 flex items-center justify-between text-xs">
                 <div>
-                  <span className="text-[10px] text-slate-500 font-medium block">Total ({nights} Malam):</span>
+                  <span className="text-[10px] text-slate-500 font-medium block">
+                    Total ({nights} Malam):
+                  </span>
                   <strong className="text-xs sm:text-sm font-black text-slate-900">
                     Rp {totalAmount.toLocaleString("id-ID")}
                   </strong>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-500 font-medium block">Sisa Pelunasan di Lokasi:</span>
+                  <span className="text-[10px] text-slate-500 font-medium block">
+                    Sisa Pelunasan di Lokasi:
+                  </span>
                   <strong className="text-xs sm:text-sm font-black text-amber-700">
                     Rp {remainingAmount.toLocaleString("id-ID")}
                   </strong>

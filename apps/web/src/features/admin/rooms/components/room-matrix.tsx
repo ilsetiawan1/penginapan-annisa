@@ -2,11 +2,14 @@
 
 import { Calendar, Plus } from "lucide-react";
 import { useState } from "react";
-import { AdvanceBookingData, AdvanceBookingModal } from "../../reservations/components/advance-booking-modal";
-import { CheckInFormData, CheckInModal } from "../../reservations/components/checkin-modal";
+import {
+  type AdvanceBookingData,
+  AdvanceBookingModal,
+} from "../../reservations/components/advance-booking-modal";
+import { type CheckInFormData, CheckInModal } from "../../reservations/components/checkin-modal";
 import { CheckOutModal } from "../../reservations/components/checkout-modal";
 import { ReceiptModal } from "../../reservations/components/receipt-modal";
-import { RoomCard, RoomItem } from "./room-card";
+import { RoomCard, type RoomItem } from "./room-card";
 
 // 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SESUAI PRD & TRD)
 const INITIAL_ROOMS: RoomItem[] = [
@@ -134,7 +137,7 @@ export function RoomMatrix() {
           };
         }
         return r;
-      })
+      }),
     );
   };
 
@@ -158,28 +161,24 @@ export function RoomMatrix() {
           };
         }
         return r;
-      })
+      }),
     );
   };
 
   // Handle Tandai Kamar Bersih (Housekeeping Selesai)
   const handleMarkClean = (roomCode: string) => {
-    setRooms((prev) =>
-      prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r))
-    );
+    setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
   };
 
   // Handle Selesai Perbaikan
   const handleFinishMaintenance = (roomCode: string) => {
-    setRooms((prev) =>
-      prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r))
-    );
+    setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
   };
 
   // Handle Simpan Advance Booking WA
   const handleConfirmAdvanceBooking = (data: AdvanceBookingData) => {
     setAdvanceBookingSuccess(
-      `Jadwal Booking Berhasil Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")} tercatat.`
+      `Jadwal Booking Berhasil Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")} tercatat.`,
     );
     setTimeout(() => setAdvanceBookingSuccess(""), 4000);
   };
@@ -201,22 +200,30 @@ export function RoomMatrix() {
         <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap text-xs font-bold">
           <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Siap: <strong>{readyCount}</strong></span>
+            <span>
+              Siap: <strong>{readyCount}</strong>
+            </span>
           </span>
 
           <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-blue-600" />
-            <span>Terisi: <strong>{occupiedCount}</strong></span>
+            <span>
+              Terisi: <strong>{occupiedCount}</strong>
+            </span>
           </span>
 
           <span className="bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-amber-500" />
-            <span>Kotor: <strong>{dirtyCount}</strong></span>
+            <span>
+              Kotor: <strong>{dirtyCount}</strong>
+            </span>
           </span>
 
           <span className="bg-rose-50 text-rose-800 border border-rose-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-rose-500" />
-            <span>Servis: <strong>{maintenanceCount}</strong></span>
+            <span>
+              Servis: <strong>{maintenanceCount}</strong>
+            </span>
           </span>
 
           {/* Tombol Pintas Catat Booking WA Mendatang */}

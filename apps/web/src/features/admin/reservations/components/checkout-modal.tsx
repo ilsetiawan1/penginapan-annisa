@@ -118,7 +118,8 @@ export function CheckOutModal({
               </div>
 
               <div className="p-2 rounded-xl bg-amber-50/70 border border-amber-200/70 text-[11px] text-amber-900 font-medium">
-                Setelah check-out, status kamar otomatis berubah ke 🟡 <strong>Perlu Bersih</strong> untuk housekeeping.
+                Setelah check-out, status kamar otomatis berubah ke 🟡 <strong>Perlu Bersih</strong>{" "}
+                untuk housekeeping.
               </div>
             </div>
           </div>
