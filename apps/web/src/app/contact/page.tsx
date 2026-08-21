@@ -11,8 +11,8 @@ export default function ContactPage() {
       {/* Setengah Background Image Atas (Mirip Halaman /artikel) */}
       <div className="absolute inset-x-0 top-0 h-[45%] sm:h-[50%] overflow-hidden z-0">
         <Image
-          src="/contact/bg-contact.png"
-          alt="Lokasi Penginapan Annisa Ambon"
+          src="/contact/bg-gong-perdamaian-kota-ambon.webp"
+          alt="Gong Perdamaian Nusantara Kota Ambon - Penginapan Annisa"
           fill
           className="object-cover object-center"
           priority
