@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {
-  AdminHeader,
-  type AdminRole,
-} from "../../../features/admin/dashboard/components/admin-header";
+import { type AdminRole, AdminSidebar } from "../../../components/layout/admin-sidebar";
+import { AdminTopbar } from "../../../features/admin/dashboard/components/admin-topbar";
 import { FinancialReports } from "../../../features/admin/reports/components/financial-reports";
 import { RoomManagement } from "../../../features/admin/rooms/components/room-management";
 import { RoomMatrix } from "../../../features/admin/rooms/components/room-matrix";
@@ -14,47 +12,58 @@ import { StaffManagement } from "../../../features/admin/staff/components/staff-
 export default function AdminDashboardPage() {
   const [currentRole, setCurrentRole] = useState<AdminRole>("owner");
   const [activeTab, setActiveTab] = useState<string>("matrix");
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-[#f8f7fb] text-slate-900 font-sans flex flex-col antialiased">
-      {/* Universal Admin Header (WIT Clock, Role Switcher, & Touch Tabs) */}
-      <AdminHeader
+    <div className="min-h-screen bg-[#f7f6f9] text-slate-900 font-sans flex antialiased">
+      {/* 1. Left Sidebar Navigation (Mentalhy Architecture) */}
+      <AdminSidebar
         currentRole={currentRole}
-        onRoleChange={(newRole) => {
-          setCurrentRole(newRole);
-          // If staff role selected while on owner-only tab, redirect to matrix
-          if (newRole === "staff" && !["matrix", "pos"].includes(activeTab)) {
-            setActiveTab("matrix");
-          }
-        }}
         activeTab={activeTab}
         onTabChange={setActiveTab}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        isMobileOpen={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
-      {/* Main Workspace Area (Tablet-First Responsive Padding) */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-3.5 sm:p-6 lg:p-8">
-        {/* TAB 1: Matriks 8 Kamar PMS (Owner & Staf) */}
-        {activeTab === "matrix" && <RoomMatrix />}
+      {/* 2. Main Workspace Layout Area (Offset by sidebar width on desktop) */}
+      <div
+        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+          isSidebarCollapsed ? "lg:pl-20" : "lg:pl-64"
+        }`}
+      >
+        {/* Top Header & Greeting Bar */}
+        <AdminTopbar
+          currentRole={currentRole}
+          onRoleChange={(newRole) => {
+            setCurrentRole(newRole);
+            if (newRole === "staff" && !["matrix", "pos"].includes(activeTab)) {
+              setActiveTab("matrix");
+            }
+          }}
+          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+        />
 
-        {/* TAB 2: Kasir & Stok Oleh-oleh (Owner & Staf) */}
-        {activeTab === "pos" && <SouvenirPos />}
+        {/* Dynamic Main Workspace Content */}
+        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-7 lg:p-9">
+          {/* TAB 1: Matriks 8 Kamar PMS (Owner & Staf) */}
+          {activeTab === "matrix" && <RoomMatrix />}
 
-        {/* TAB 3: Manajemen Tarif & Kamar (Khusus Owner) */}
-        {activeTab === "rooms" && currentRole === "owner" && <RoomManagement />}
+          {/* TAB 2: Kasir & Stok Oleh-oleh (Owner & Staf) */}
+          {activeTab === "pos" && <SouvenirPos />}
 
-        {/* TAB 4: Laporan Omzet & Okupansi (Khusus Owner) */}
-        {activeTab === "reports" && currentRole === "owner" && <FinancialReports />}
+          {/* TAB 3: Manajemen Tarif & Kamar (Khusus Owner) */}
+          {activeTab === "rooms" && currentRole === "owner" && <RoomManagement />}
 
-        {/* TAB 5: Kelola Akun Staf (Khusus Owner) */}
-        {activeTab === "staff" && currentRole === "owner" && <StaffManagement />}
-      </main>
+          {/* TAB 4: Laporan Omzet & Okupansi (Khusus Owner) */}
+          {activeTab === "reports" && currentRole === "owner" && <FinancialReports />}
 
-      {/* Subtle Admin Footer Strip */}
-      <footer className="w-full py-4 px-6 border-t border-slate-200/80 bg-white/70 backdrop-blur-md text-center text-xs text-slate-400 font-medium">
-        <p>
-          Penginapan Annisa PMS v1.0 • Khusus Penggunaan Internal Meja Resepsionis &amp; Manajemen
-        </p>
-      </footer>
+          {/* TAB 5: Kelola Akun Staf (Khusus Owner) */}
+          {activeTab === "staff" && currentRole === "owner" && <StaffManagement />}
+        </main>
+      </div>
     </div>
   );
 }

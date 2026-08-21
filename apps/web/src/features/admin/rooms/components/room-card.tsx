@@ -1,6 +1,16 @@
 "use client";
 
-import { CheckCircle2, LogOut, Plus, RotateCw, Sparkles, Wrench } from "lucide-react";
+import {
+  Bed,
+  CheckCircle2,
+  LogOut,
+  Plus,
+  RotateCw,
+  Sparkles,
+  User,
+  Wind,
+  Wrench,
+} from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 
@@ -46,156 +56,175 @@ export function RoomCard({
   const isMaintenance = room.status === "maintenance";
 
   return (
-    <div
-      className={`rounded-3xl border-2 p-4 transition-all flex flex-col justify-between select-none ${
-        isReady
-          ? "bg-white border-purple-200/90 shadow-2xs hover:border-purple-400"
-          : isOccupied
-            ? "bg-white border-blue-200/90 shadow-2xs hover:border-blue-400"
-            : isDirty
-              ? "bg-white border-amber-200/90 shadow-2xs hover:border-amber-400"
-              : "bg-white border-rose-200/90 shadow-2xs"
-      }`}
-    >
-      {/* Card Header: Room Number, Status Badge, Price */}
+    <div className="bg-white rounded-3xl p-5 border border-slate-200/90 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between select-none">
       <div>
-        <div className="flex items-start justify-between gap-1 mb-1.5">
-          <div className="flex items-center gap-2">
-            <span className="text-xl sm:text-2xl font-black text-slate-900">#{room.number}</span>
-            {isReady && (
-              <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
-                Siap Pakai
-              </span>
-            )}
-            {isOccupied && (
-              <span className="bg-blue-100 text-blue-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
-                Terisi
-              </span>
-            )}
-            {isDirty && (
-              <span className="bg-amber-100 text-amber-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
-                Perlu Bersih
-              </span>
-            )}
-            {isMaintenance && (
-              <span className="bg-rose-100 text-rose-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
-                Perbaikan
-              </span>
-            )}
+        {/* Top Header: Room Number Avatar & Status Badge (TRD Colors) */}
+        <div className="flex items-start justify-between gap-2">
+          {/* Avatar / Number Info (Matching Mentalhy Reference Profile Style) */}
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 text-purple-900 flex items-center justify-center font-black text-base shrink-0 shadow-2xs">
+              #{room.number}
+            </div>
+            <div>
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-tight">
+                {room.typeName}
+              </h3>
+              <p className="text-[11px] text-slate-500 font-medium">
+                Lantai {room.floor} • Kapasitas 2-3 Tamu
+              </p>
+            </div>
           </div>
-          <span className="text-[11px] font-bold text-slate-600">
-            Rp {(room.price / 1000).toFixed(0)}rb
-          </span>
+
+          {/* Status Badge in Strict TRD Colors (Green, Blue, Yellow, Red) */}
+          {isReady && (
+            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1 shrink-0">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Tersedia</span>
+            </span>
+          )}
+
+          {isOccupied && (
+            <span className="bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1 shrink-0">
+              <span className="w-2 h-2 rounded-full bg-blue-600" />
+              <span>Terisi</span>
+            </span>
+          )}
+
+          {isDirty && (
+            <span className="bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1 shrink-0">
+              <span className="w-2 h-2 rounded-full bg-amber-500" />
+              <span>Perlu Bersih</span>
+            </span>
+          )}
+
+          {isMaintenance && (
+            <span className="bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1 shrink-0">
+              <span className="w-2 h-2 rounded-full bg-rose-500" />
+              <span>Perbaikan</span>
+            </span>
+          )}
         </div>
 
-        <p className="text-[11px] text-slate-500 font-medium mb-3">
-          {room.typeName} (Lt. {room.floor})
-        </p>
-
-        {/* Card Body by Status */}
-        {isReady && (
-          <div className="bg-purple-50/60 border border-purple-100 rounded-2xl p-4 text-center my-2 space-y-1">
-            <CheckCircle2 className="w-6 h-6 text-purple-600 mx-auto" />
-            <p className="text-xs font-bold text-slate-800">Kamar Kosong &amp; Bersih</p>
-            <p className="text-[10px] text-slate-500">Siap menerima tamu transit</p>
-          </div>
-        )}
-
-        {isOccupied && (
-          <div className="bg-blue-50/70 border border-blue-100 rounded-2xl p-3 my-2 space-y-1.5 text-xs">
-            <div className="flex items-center justify-between">
-              <strong className="text-slate-900 font-extrabold truncate">{room.guestName}</strong>
-              <span className="text-[10px] font-bold text-blue-800 bg-blue-100 px-1.5 py-0.5 rounded">
-                {room.totalNights} Malam
+        {/* Middle Info / Tags (Matching Mentalhy Reference Tag Pills) */}
+        <div className="my-4">
+          {isReady && (
+            <div className="flex flex-wrap gap-1.5">
+              <span className="bg-slate-100/90 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg">
+                KM Dalam Pribadi
+              </span>
+              <span className="bg-slate-100/90 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg">
+                {room.type === "ac" ? "AC Dingin" : "Kipas Angin"}
+              </span>
+              <span className="bg-slate-100/90 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg">
+                WiFi Kencang
               </span>
             </div>
-            {room.guestPhone && (
-              <p className="text-[11px] text-slate-600">
-                WA: <strong className="text-slate-800">{room.guestPhone}</strong>
-              </p>
-            )}
-            <div className="flex items-center justify-between pt-1 border-t border-blue-100 text-[11px]">
-              <span className="text-slate-500">Sisa Bayar:</span>
-              <strong className="text-blue-900 font-black">
-                Rp {room.remainingAmount?.toLocaleString("id-ID") || 0}
-              </strong>
+          )}
+
+          {isOccupied && (
+            <div className="bg-blue-50/60 border border-blue-100 rounded-2xl p-3 space-y-1 text-xs">
+              <div className="flex items-center justify-between">
+                <strong className="text-slate-900 font-extrabold truncate">{room.guestName}</strong>
+                <span className="text-[10px] font-bold text-blue-800 bg-blue-100 px-1.5 py-0.5 rounded-md">
+                  {room.totalNights} Malam
+                </span>
+              </div>
+              {room.guestPhone && (
+                <p className="text-[11px] text-slate-600">
+                  WA: <strong className="text-slate-800">{room.guestPhone}</strong>
+                </p>
+              )}
+              <div className="flex items-center justify-between pt-1 border-t border-blue-100 text-[11px]">
+                <span className="text-slate-500">Sisa Bayar:</span>
+                <strong className="text-blue-900 font-black">
+                  Rp {room.remainingAmount?.toLocaleString("id-ID") || 0}
+                </strong>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {isDirty && (
-          <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4 text-center my-2 space-y-1">
-            <RotateCw className="w-6 h-6 text-amber-700 mx-auto animate-spin-slow" />
-            <p className="text-xs font-bold text-slate-900">Tamu Baru Saja Pulang</p>
-            <p className="text-[10px] text-slate-600">Menunggu staf membersihkan sprei &amp; KM</p>
-          </div>
-        )}
+          {isDirty && (
+            <div className="bg-amber-50/60 border border-amber-200/70 rounded-2xl p-3 text-center space-y-0.5">
+              <p className="text-xs font-bold text-slate-900">Tamu Baru Saja Check-Out</p>
+              <p className="text-[10px] text-slate-500">
+                Menunggu housekeeping mengganti sprei &amp; bersih KM
+              </p>
+            </div>
+          )}
 
-        {isMaintenance && (
-          <div className="bg-rose-50/70 border border-rose-200/80 rounded-2xl p-4 text-center my-2 space-y-1">
-            <Wrench className="w-6 h-6 text-rose-600 mx-auto" />
-            <p className="text-xs font-bold text-slate-900">Sedang Perbaikan</p>
-            <p className="text-[10px] text-slate-600">Perbaikan AC / Pipa / Lampu</p>
-          </div>
-        )}
+          {isMaintenance && (
+            <div className="bg-rose-50/60 border border-rose-200/70 rounded-2xl p-3 text-center space-y-0.5">
+              <p className="text-xs font-bold text-slate-900">Sedang Dalam Perbaikan</p>
+              <p className="text-[10px] text-slate-500">Perbaikan AC / Pipa / Lampu</p>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Card Actions (Tablet-Friendly Big Touch Targets >= 44px) */}
-      <div className="pt-3 border-t border-slate-100 mt-2">
-        {isReady && (
-          <Button
-            type="button"
-            onClick={() => onOpenCheckIn(room)}
-            className="w-full rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs h-11 gap-1.5 shadow-xs cursor-pointer"
-          >
-            <Plus className="w-4 h-4" />
-            <span>+ Check-In Tamu</span>
-          </Button>
-        )}
+      {/* Bottom Area: Price on Left, Solid Pill Button on Right (Matching Mentalhy Reference) */}
+      <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+        <div>
+          <span className="text-sm sm:text-base font-black text-slate-900 block">
+            Rp {(room.price / 1000).toFixed(0)}rb
+          </span>
+          <span className="text-[10px] text-slate-400 font-medium block">per malam</span>
+        </div>
 
-        {isOccupied && (
-          <div className="grid grid-cols-2 gap-2">
-            <Button
+        {/* Action Button (Solid Primary Pill Button) */}
+        <div>
+          {isReady && (
+            <button
               type="button"
-              onClick={() => onOpenCheckOut(room)}
-              className="rounded-xl bg-slate-900 hover:bg-slate-950 text-white font-extrabold text-xs h-11 gap-1 cursor-pointer"
+              onClick={() => onOpenCheckIn(room)}
+              className="px-5 py-2.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs transition-all shadow-xs hover:shadow-md cursor-pointer flex items-center gap-1.5"
             >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Check-Out</span>
-            </Button>
-            <Button
+              <Plus className="w-3.5 h-3.5" />
+              <span>Check-In</span>
+            </button>
+          )}
+
+          {isOccupied && (
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => onOpenCheckOut(room)}
+                className="px-3.5 py-2 rounded-2xl bg-slate-900 hover:bg-slate-950 text-white font-extrabold text-xs transition cursor-pointer"
+              >
+                Check-Out
+              </button>
+              <button
+                type="button"
+                onClick={() => onOpenReceipt(room)}
+                className="p-2 rounded-2xl border border-purple-200 hover:bg-purple-50 text-purple-700 transition cursor-pointer"
+                title="Kirim Nota WA"
+              >
+                <FaWhatsapp className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {isDirty && (
+            <button
               type="button"
-              onClick={() => onOpenReceipt(room)}
-              variant="outline"
-              className="rounded-xl border-purple-200 hover:bg-purple-50 text-purple-800 font-extrabold text-xs h-11 gap-1 cursor-pointer"
+              onClick={() => onMarkClean(room.number)}
+              className="px-4 py-2.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
             >
-              <FaWhatsapp className="w-3.5 h-3.5 text-purple-700" />
-              <span>Nota WA</span>
-            </Button>
-          </div>
-        )}
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Tandai Bersih</span>
+            </button>
+          )}
 
-        {isDirty && (
-          <Button
-            type="button"
-            onClick={() => onMarkClean(room.number)}
-            className="w-full rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs h-11 gap-1.5 shadow-xs cursor-pointer"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>Tandai Sudah Bersih</span>
-          </Button>
-        )}
-
-        {isMaintenance && (
-          <Button
-            type="button"
-            onClick={() => onFinishMaintenance(room.number)}
-            className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs h-11 gap-1.5 shadow-xs cursor-pointer"
-          >
-            <CheckCircle2 className="w-4 h-4" />
-            <span>Selesai Servis</span>
-          </Button>
-        )}
+          {isMaintenance && (
+            <button
+              type="button"
+              onClick={() => onFinishMaintenance(room.number)}
+              className="px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Selesai Servis</span>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
