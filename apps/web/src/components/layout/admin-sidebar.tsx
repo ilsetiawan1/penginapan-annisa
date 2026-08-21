@@ -6,13 +6,9 @@ import {
   ChevronRight,
   ExternalLink,
   Gift,
-  HelpCircle,
   LayoutDashboard,
   LogOut,
-  Menu,
-  ShieldCheck,
   TrendingUp,
-  UserCheck,
   Users,
   X,
 } from "lucide-react";
@@ -41,11 +37,11 @@ export function AdminSidebar({
   isMobileOpen,
   onCloseMobile,
 }: AdminSidebarProps) {
-  // Navigation Menu Sections
+  // Menu Operasional & Manajemen (100% Bahasa Indonesia)
   const generalMenu = [
     { id: "matrix", label: "Matriks 8 Kamar", icon: LayoutDashboard, roles: ["owner", "staff"] },
-    { id: "pos", label: "Kasir Oleh-oleh", icon: Gift, roles: ["owner", "staff"] },
-    { id: "rooms", label: "Katalog & Tarif", icon: Bed, roles: ["owner"] },
+    { id: "pos", label: "Kasir Oleh-Oleh", icon: Gift, roles: ["owner", "staff"] },
+    { id: "rooms", label: "Pengaturan Tarif", icon: Bed, roles: ["owner"] },
   ];
 
   const managementMenu = [
@@ -58,7 +54,7 @@ export function AdminSidebar({
 
   return (
     <>
-      {/* Mobile / Tablet Backdrop Overlay */}
+      {/* Overlay Layar Sentuh Tablet / HP */}
       {isMobileOpen && (
         <div
           role="presentation"
@@ -68,13 +64,13 @@ export function AdminSidebar({
         />
       )}
 
-      {/* Sidebar Container */}
+      {/* Kontainer Sidebar */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 bg-[#faf9fc] border-r border-slate-200/80 flex flex-col justify-between transition-all duration-300 ease-in-out ${
           isMobileOpen ? "translate-x-0 w-72" : "-translate-x-full lg:translate-x-0"
         } ${isCollapsed ? "lg:w-20" : "lg:w-64"}`}
       >
-        {/* Top Header & Logo */}
+        {/* Header & Logo Identitas */}
         <div>
           <div className="h-20 flex items-center justify-between px-5 border-b border-slate-100">
             <div className="flex items-center gap-3 overflow-hidden">
@@ -92,17 +88,17 @@ export function AdminSidebar({
                     Penginapan Annisa
                   </h1>
                   <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider block">
-                    PMS Management
+                    Sistem Resepsionis (PMS)
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Desktop Collapse Toggle Button (Matching Reference) */}
+            {/* Tombol Lipat / Sembunyikan Sidebar */}
             <button
               type="button"
               onClick={onToggleCollapse}
-              aria-label="Toggle sidebar collapse"
+              aria-label="Sembunyikan bilah menu"
               className="hidden lg:flex w-7 h-7 rounded-xl bg-purple-100/60 hover:bg-purple-200/80 text-purple-900 items-center justify-center transition cursor-pointer"
             >
               {isCollapsed ? (
@@ -112,24 +108,24 @@ export function AdminSidebar({
               )}
             </button>
 
-            {/* Mobile Close Button */}
+            {/* Tombol Tutup di Tampilan Mobile/Tablet */}
             <button
               type="button"
               onClick={onCloseMobile}
-              aria-label="Close mobile sidebar"
+              aria-label="Tutup menu"
               className="lg:hidden p-1.5 rounded-xl text-slate-500 hover:bg-slate-200"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Navigation Links */}
+          {/* Menu Navigasi Utama */}
           <div className="p-3.5 space-y-6 overflow-y-auto">
-            {/* General Section */}
+            {/* Bagian Operasional PMS */}
             <div>
               {!isCollapsed && (
                 <p className="px-3 text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">
-                  Operasional PMS
+                  Operasional Kamar
                 </p>
               )}
               <div className="space-y-1">
@@ -161,12 +157,12 @@ export function AdminSidebar({
               </div>
             </div>
 
-            {/* Management Section (Owner Only) */}
+            {/* Bagian Manajemen Pemilik (Owner Saja) */}
             {visibleManagement.length > 0 && (
               <div>
                 {!isCollapsed && (
                   <p className="px-3 text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">
-                    Manajemen Owner
+                    Manajemen Pengelola
                   </p>
                 )}
                 <div className="space-y-1">
@@ -201,7 +197,7 @@ export function AdminSidebar({
           </div>
         </div>
 
-        {/* Bottom Area: Link Web & Log Out (Matching Reference) */}
+        {/* Footer Sidebar: Lihat Website & Keluar Akun */}
         <div className="p-3.5 border-t border-slate-200/80 space-y-1.5">
           <Button
             asChild
@@ -210,9 +206,9 @@ export function AdminSidebar({
               isCollapsed ? "justify-center px-0" : ""
             }`}
           >
-            <Link href="/" target="_blank" title="Lihat Web Publik">
+            <Link href="/" target="_blank" title="Buka Halaman Web Tamu">
               <ExternalLink className="w-4 h-4 text-purple-700 shrink-0" />
-              {!isCollapsed && <span>Lihat Web Publik</span>}
+              {!isCollapsed && <span>Buka Web Tamu</span>}
             </Link>
           </Button>
 
@@ -221,10 +217,10 @@ export function AdminSidebar({
             className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer ${
               isCollapsed ? "justify-center px-0" : ""
             }`}
-            title="Keluar / Log out"
+            title="Keluar Akun"
           >
             <LogOut className="w-4 h-4 text-slate-500 shrink-0" />
-            {!isCollapsed && <span>Keluar (Log out)</span>}
+            {!isCollapsed && <span>Keluar Akun</span>}
           </button>
         </div>
       </aside>

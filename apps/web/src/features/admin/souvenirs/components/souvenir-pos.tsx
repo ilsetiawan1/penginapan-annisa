@@ -1,14 +1,15 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, Search } from "lucide-react";
 import { useState } from "react";
 import { SouvenirItemCard, type SouvenirProduct } from "./souvenir-item-card";
 import { type SaleRecord, SouvenirSalesHistory } from "./souvenir-sales-history";
 
+// PRODUK ETALASE OLEH-OLEH KHAS MALUKU (SESUAI PRD & TRD)
 const INITIAL_SOUVENIRS: SouvenirProduct[] = [
   {
     id: "mkp",
-    name: "Minyak Kayu Putih Namlea",
+    name: "Minyak Kayu Putih Asli Namlea",
     category: "Minyak & Herbal",
     price: 65000,
     stock: 24,
@@ -26,7 +27,7 @@ const INITIAL_SOUVENIRS: SouvenirProduct[] = [
   },
   {
     id: "bagea",
-    name: "Kue Sagu Bagea Kenari",
+    name: "Kue Sagu Bagea Kenari Ambon",
     category: "Makanan & Camilan",
     price: 35000,
     stock: 30,
@@ -46,6 +47,7 @@ const INITIAL_SOUVENIRS: SouvenirProduct[] = [
 
 export function SouvenirPos() {
   const [products, setProducts] = useState<SouvenirProduct[]>(INITIAL_SOUVENIRS);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [recentSales, setRecentSales] = useState<SaleRecord[]>([]);
   const [successMsg, setSuccessMsg] = useState<string>("");
 
@@ -81,16 +83,22 @@ export function SouvenirPos() {
 
   const totalSalesToday = recentSales.reduce((acc, curr) => acc + curr.total, 0);
 
+  const filteredProducts = products.filter(
+    (p) =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.category.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      {/* Top Banner */}
+      {/* Banner Kasir & Ringkasan Penjualan */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-2xs">
         <div>
           <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-            Kasir Resepsionis &amp; Stok
+            Kasir Meja Resepsionis
           </span>
           <h2 className="text-base sm:text-lg font-black text-slate-900 leading-tight mt-1">
-            Penjualan Oleh-oleh Khas di Meja Resepsionis
+            Penjualan Oleh-Oleh Khas di Meja Depan
           </h2>
           <p className="text-xs text-slate-500">
             Klik tombol &quot;Catat Terjual&quot; saat tamu membeli oleh-oleh langsung di lobi
@@ -108,6 +116,27 @@ export function SouvenirPos() {
         </div>
       </div>
 
+      {/* Kotak Pencarian Produk Oleh-Oleh (Sesuai Permintaan User) */}
+      <div className="bg-white rounded-2xl p-3 border border-slate-200 shadow-2xs flex items-center gap-2.5">
+        <Search className="w-4 h-4 text-purple-700 shrink-0 ml-1" />
+        <input
+          type="text"
+          placeholder="Cari produk oleh-oleh (contoh: minyak kayu putih, roti kenari, sagu bagea)..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-800 outline-none placeholder:text-slate-400"
+        />
+        {searchQuery && (
+          <button
+            type="button"
+            onClick={() => setSearchQuery("")}
+            className="text-xs text-slate-400 hover:text-slate-700 px-2 font-bold"
+          >
+            Reset
+          </button>
+        )}
+      </div>
+
       {successMsg && (
         <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-3.5 rounded-2xl flex items-center gap-2 text-xs font-bold animate-in fade-in">
           <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -115,9 +144,9 @@ export function SouvenirPos() {
         </div>
       )}
 
-      {/* 4 Products Grid */}
+      {/* 4 Kartu Produk Oleh-Oleh */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {products.map((item) => (
+        {filteredProducts.map((item) => (
           <SouvenirItemCard
             key={item.id}
             item={item}
@@ -127,7 +156,7 @@ export function SouvenirPos() {
         ))}
       </div>
 
-      {/* Recent Sales History Sub-Component */}
+      {/* Sub-Komponen Riwayat Penjualan */}
       <SouvenirSalesHistory sales={recentSales} />
     </div>
   );

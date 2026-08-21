@@ -1,26 +1,15 @@
 "use client";
 
-import {
-  Bed,
-  CheckCircle2,
-  LogOut,
-  Plus,
-  RotateCw,
-  Sparkles,
-  User,
-  Wind,
-  Wrench,
-} from "lucide-react";
+import { Bed, CheckCircle2, LogOut, Plus, RotateCw, Sparkles, Wind, Wrench } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
-import { Button } from "../../../../components/ui/button";
 
 export type RoomStatus = "ready" | "occupied" | "dirty" | "maintenance";
 
 export interface RoomItem {
-  number: string;
+  code: string; // "A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"
+  building: "A" | "B";
   type: "ac" | "kipas";
-  typeName: string;
-  floor: number;
+  typeName: string; // "Tipe AC" | "Tipe Kipas"
   price: number;
   status: RoomStatus;
   guestName?: string;
@@ -38,8 +27,8 @@ interface RoomCardProps {
   onOpenCheckIn: (room: RoomItem) => void;
   onOpenCheckOut: (room: RoomItem) => void;
   onOpenReceipt: (room: RoomItem) => void;
-  onMarkClean: (roomNumber: string) => void;
-  onFinishMaintenance: (roomNumber: string) => void;
+  onMarkClean: (roomCode: string) => void;
+  onFinishMaintenance: (roomCode: string) => void;
 }
 
 export function RoomCard({
@@ -58,28 +47,28 @@ export function RoomCard({
   return (
     <div className="bg-white rounded-3xl p-5 border border-slate-200/90 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between select-none">
       <div>
-        {/* Top Header: Room Number Avatar & Status Badge (TRD Colors) */}
+        {/* Header Kartu: Badge Nomor Kamar & Status Kamar TRD */}
         <div className="flex items-start justify-between gap-2">
-          {/* Avatar / Number Info (Matching Mentalhy Reference Profile Style) */}
+          {/* Avatar / Nomor Kamar (Sesuai PRD/TRD: #A1, #A2, #B1, dst) */}
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 text-purple-900 flex items-center justify-center font-black text-base shrink-0 shadow-2xs">
-              #{room.number}
+            <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 text-purple-950 flex items-center justify-center font-black text-base shrink-0 shadow-2xs">
+              #{room.code}
             </div>
             <div>
               <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-tight">
-                {room.typeName}
+                Kamar {room.typeName}
               </h3>
               <p className="text-[11px] text-slate-500 font-medium">
-                Lantai {room.floor} • Kapasitas 2-3 Tamu
+                Bangunan {room.building} • Kapasitas 2–3 Orang
               </p>
             </div>
           </div>
 
-          {/* Status Badge in Strict TRD Colors (Green, Blue, Yellow, Red) */}
+          {/* Badge Status Resmi TRD (4 Warna: Hijau, Biru, Kuning, Merah) */}
           {isReady && (
             <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1 shrink-0">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Tersedia</span>
+              <span>Siap Pakai</span>
             </span>
           )}
 
@@ -105,7 +94,7 @@ export function RoomCard({
           )}
         </div>
 
-        {/* Middle Info / Tags (Matching Mentalhy Reference Tag Pills) */}
+        {/* Informasi Isi / Fasilitas Kamar */}
         <div className="my-4">
           {isReady && (
             <div className="flex flex-wrap gap-1.5">
@@ -135,7 +124,7 @@ export function RoomCard({
                 </p>
               )}
               <div className="flex items-center justify-between pt-1 border-t border-blue-100 text-[11px]">
-                <span className="text-slate-500">Sisa Bayar:</span>
+                <span className="text-slate-500">Sisa Pelunasan:</span>
                 <strong className="text-blue-900 font-black">
                   Rp {room.remainingAmount?.toLocaleString("id-ID") || 0}
                 </strong>
@@ -145,9 +134,9 @@ export function RoomCard({
 
           {isDirty && (
             <div className="bg-amber-50/60 border border-amber-200/70 rounded-2xl p-3 text-center space-y-0.5">
-              <p className="text-xs font-bold text-slate-900">Tamu Baru Saja Check-Out</p>
+              <p className="text-xs font-bold text-slate-900">Tamu Baru Saja Keluar</p>
               <p className="text-[10px] text-slate-500">
-                Menunggu housekeeping mengganti sprei &amp; bersih KM
+                Menunggu housekeeping mengganti sprei &amp; membersihkan kamar mandi
               </p>
             </div>
           )}
@@ -155,13 +144,13 @@ export function RoomCard({
           {isMaintenance && (
             <div className="bg-rose-50/60 border border-rose-200/70 rounded-2xl p-3 text-center space-y-0.5">
               <p className="text-xs font-bold text-slate-900">Sedang Dalam Perbaikan</p>
-              <p className="text-[10px] text-slate-500">Perbaikan AC / Pipa / Lampu</p>
+              <p className="text-[10px] text-slate-500">Perbaikan AC / Pipa / Kelistrikan</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Bottom Area: Price on Left, Solid Pill Button on Right (Matching Mentalhy Reference) */}
+      {/* Bagian Bawah: Tarif Sewa di Kiri & Tombol Aksi di Kanan */}
       <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
         <div>
           <span className="text-sm sm:text-base font-black text-slate-900 block">
@@ -170,7 +159,7 @@ export function RoomCard({
           <span className="text-[10px] text-slate-400 font-medium block">per malam</span>
         </div>
 
-        {/* Action Button (Solid Primary Pill Button) */}
+        {/* Tombol Aksi Pill */}
         <div>
           {isReady && (
             <button
@@ -179,7 +168,7 @@ export function RoomCard({
               className="px-5 py-2.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs transition-all shadow-xs hover:shadow-md cursor-pointer flex items-center gap-1.5"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Check-In</span>
+              <span>Check-In Tamu</span>
             </button>
           )}
 
@@ -196,7 +185,7 @@ export function RoomCard({
                 type="button"
                 onClick={() => onOpenReceipt(room)}
                 className="p-2 rounded-2xl border border-purple-200 hover:bg-purple-50 text-purple-700 transition cursor-pointer"
-                title="Kirim Nota WA"
+                title="Kirim Nota WhatsApp"
               >
                 <FaWhatsapp className="w-4 h-4" />
               </button>
@@ -206,7 +195,7 @@ export function RoomCard({
           {isDirty && (
             <button
               type="button"
-              onClick={() => onMarkClean(room.number)}
+              onClick={() => onMarkClean(room.code)}
               className="px-4 py-2.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5" />
@@ -217,7 +206,7 @@ export function RoomCard({
           {isMaintenance && (
             <button
               type="button"
-              onClick={() => onFinishMaintenance(room.number)}
+              onClick={() => onFinishMaintenance(room.code)}
               className="px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
             >
               <CheckCircle2 className="w-3.5 h-3.5" />

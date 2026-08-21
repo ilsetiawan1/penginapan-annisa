@@ -7,20 +7,22 @@ import { ReceiptModal } from "../../reservations/components/receipt-modal";
 import { RoomCard, type RoomItem } from "./room-card";
 import { RoomFilterBanner } from "./room-filter-banner";
 
+// 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SESUAI PRD & TRD)
 const INITIAL_ROOMS: RoomItem[] = [
+  // BANGUNAN A
   {
-    number: "101",
+    code: "A1",
+    building: "A",
     type: "ac",
-    typeName: "Kamar AC Superior",
-    floor: 1,
+    typeName: "Tipe AC",
     price: 275000,
     status: "ready",
   },
   {
-    number: "102",
+    code: "A2",
+    building: "A",
     type: "ac",
-    typeName: "Kamar AC Superior",
-    floor: 1,
+    typeName: "Tipe AC",
     price: 275000,
     status: "occupied",
     guestName: "Budi Santoso",
@@ -33,42 +35,43 @@ const INITIAL_ROOMS: RoomItem[] = [
     remainingAmount: 137500,
   },
   {
-    number: "103",
-    type: "ac",
-    typeName: "Kamar AC Superior",
-    floor: 1,
-    price: 275000,
+    code: "A3",
+    building: "A",
+    type: "kipas",
+    typeName: "Tipe Kipas",
+    price: 200000,
     status: "dirty",
   },
   {
-    number: "104",
+    code: "A4",
+    building: "A",
+    type: "kipas",
+    typeName: "Tipe Kipas",
+    price: 200000,
+    status: "ready",
+  },
+  // BANGUNAN B
+  {
+    code: "B1",
+    building: "B",
     type: "ac",
-    typeName: "Kamar AC Superior",
-    floor: 1,
+    typeName: "Tipe AC",
     price: 275000,
     status: "ready",
   },
   {
-    number: "201",
-    type: "kipas",
-    typeName: "Kamar Kipas Standar",
-    floor: 2,
-    price: 200000,
+    code: "B2",
+    building: "B",
+    type: "ac",
+    typeName: "Tipe AC",
+    price: 275000,
     status: "ready",
   },
   {
-    number: "202",
+    code: "B3",
+    building: "B",
     type: "kipas",
-    typeName: "Kamar Kipas Standar",
-    floor: 2,
-    price: 200000,
-    status: "ready",
-  },
-  {
-    number: "203",
-    type: "kipas",
-    typeName: "Kamar Kipas Standar",
-    floor: 2,
+    typeName: "Tipe Kipas",
     price: 200000,
     status: "occupied",
     guestName: "Siti Rahma",
@@ -81,10 +84,10 @@ const INITIAL_ROOMS: RoomItem[] = [
     remainingAmount: 200000,
   },
   {
-    number: "204",
+    code: "B4",
+    building: "B",
     type: "kipas",
-    typeName: "Kamar Kipas Standar",
-    floor: 2,
+    typeName: "Tipe Kipas",
     price: 200000,
     status: "ready",
   },
@@ -93,29 +96,35 @@ const INITIAL_ROOMS: RoomItem[] = [
 export function RoomMatrix() {
   const [rooms, setRooms] = useState<RoomItem[]>(INITIAL_ROOMS);
 
-  // Filters state
+  // Filter State
+  const [buildingFilter, setBuildingFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [floorFilter, setFloorFilter] = useState<string>("all");
 
-  // Modals state
+  // Modal State
   const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(null);
   const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(null);
   const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
 
-  // Filter logic
+  // Filter Data
   const filteredRooms = rooms.filter((room) => {
+    if (buildingFilter !== "all" && room.building !== buildingFilter) return false;
     if (typeFilter !== "all" && room.type !== typeFilter) return false;
     if (statusFilter !== "all" && room.status !== statusFilter) return false;
-    if (floorFilter !== "all" && String(room.floor) !== floorFilter) return false;
     return true;
   });
 
-  // Handle Check-In
+  // Ringkasan Status
+  const readyCount = rooms.filter((r) => r.status === "ready").length;
+  const occupiedCount = rooms.filter((r) => r.status === "occupied").length;
+  const dirtyCount = rooms.filter((r) => r.status === "dirty").length;
+  const maintenanceCount = rooms.filter((r) => r.status === "maintenance").length;
+
+  // Handle Check-In Tamu
   const handleConfirmCheckIn = (data: CheckInFormData) => {
     setRooms((prev) =>
       prev.map((r) => {
-        if (r.number === data.roomNumber) {
+        if (r.code === data.roomNumber) {
           return {
             ...r,
             status: "occupied",
@@ -134,12 +143,12 @@ export function RoomMatrix() {
     );
   };
 
-  // Handle Check-Out
+  // Handle Check-Out Tamu
   const handleConfirmCheckOut = () => {
     if (!checkOutModalData) return;
     setRooms((prev) =>
       prev.map((r) => {
-        if (r.number === checkOutModalData.number) {
+        if (r.code === checkOutModalData.code) {
           return {
             ...r,
             status: "dirty",
@@ -158,51 +167,99 @@ export function RoomMatrix() {
     );
   };
 
-  // Handle Mark Clean (Dirty -> Ready)
-  const handleMarkClean = (roomNumber: string) => {
-    setRooms((prev) => prev.map((r) => (r.number === roomNumber ? { ...r, status: "ready" } : r)));
+  // Handle Tandai Kamar Bersih (Housekeeping Selesai)
+  const handleMarkClean = (roomCode: string) => {
+    setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
   };
 
-  // Handle Finish Maintenance
-  const handleFinishMaintenance = (roomNumber: string) => {
-    setRooms((prev) => prev.map((r) => (r.number === roomNumber ? { ...r, status: "ready" } : r)));
+  // Handle Selesai Perbaikan
+  const handleFinishMaintenance = (roomCode: string) => {
+    setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
   };
 
   return (
     <div className="space-y-6 sm:space-y-8">
-      {/* 1. Hero Filter Banner (Mentalhy Reference Floating Filter) */}
+      {/* 4 Kartu Metrik Ringkas (Inspirasi FinSet Dashboard) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        {/* Siap Pakai */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs">
+          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-emerald-700 block">
+            🟢 Siap Pakai
+          </span>
+          <div className="flex items-baseline gap-2 mt-1">
+            <span className="text-2xl sm:text-3xl font-black text-slate-900">{readyCount}</span>
+            <span className="text-xs text-slate-500 font-medium">Kamar Kosong</span>
+          </div>
+        </div>
+
+        {/* Terisi */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs">
+          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-blue-700 block">
+            🔵 Terisi
+          </span>
+          <div className="flex items-baseline gap-2 mt-1">
+            <span className="text-2xl sm:text-3xl font-black text-slate-900">{occupiedCount}</span>
+            <span className="text-xs text-slate-500 font-medium">Tamu Menginap</span>
+          </div>
+        </div>
+
+        {/* Perlu Bersih */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs">
+          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-amber-800 block">
+            🟡 Perlu Bersih
+          </span>
+          <div className="flex items-baseline gap-2 mt-1">
+            <span className="text-2xl sm:text-3xl font-black text-slate-900">{dirtyCount}</span>
+            <span className="text-xs text-slate-500 font-medium">Housekeeping</span>
+          </div>
+        </div>
+
+        {/* Perbaikan */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs">
+          <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-rose-700 block">
+            🔴 Perbaikan
+          </span>
+          <div className="flex items-baseline gap-2 mt-1">
+            <span className="text-2xl sm:text-3xl font-black text-slate-900">
+              {maintenanceCount}
+            </span>
+            <span className="text-xs text-slate-500 font-medium">Servis Teknisi</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 1. Hero Filter Cepat (Tanpa Search Box, Cepat & Jelas) */}
       <RoomFilterBanner
+        buildingFilter={buildingFilter}
+        onBuildingFilterChange={setBuildingFilter}
         typeFilter={typeFilter}
         onTypeFilterChange={setTypeFilter}
         statusFilter={statusFilter}
         onStatusFilterChange={setStatusFilter}
-        floorFilter={floorFilter}
-        onFloorFilterChange={setFloorFilter}
-        onSearchClick={() => {}}
       />
 
-      {/* 2. Section Header: "Daftar 8 Unit Kamar" + Count Badge (Matching Mentalhy "Best for you [24]") */}
+      {/* 2. Judul Bagian: "Daftar 8 Unit Kamar" + Badge Jumlah */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-            Status 8 Unit Kamar
+            Matriks 8 Unit Kamar
           </h2>
-          <span className="bg-slate-200/80 text-slate-700 text-xs font-black px-2.5 py-0.5 rounded-full">
-            {filteredRooms.length}
+          <span className="bg-purple-100 text-purple-900 text-xs font-black px-2.5 py-0.5 rounded-full">
+            {filteredRooms.length} Kamar
           </span>
         </div>
 
-        <span className="text-xs font-bold text-slate-500">
-          🟢 Hijau: Tersedia • 🔵 Biru: Terisi • 🟡 Kuning: Perlu Bersih • 🔴 Merah: Servis
+        <span className="text-xs font-bold text-slate-500 hidden sm:inline">
+          Bangunan A: #A1–#A4 • Bangunan B: #B1–#B4
         </span>
       </div>
 
-      {/* 3. 3-Column / 2-Column Cards Grid (Mentalhy Layout) */}
+      {/* 3. Grid 3-Kolom / 2-Kolom Kamar */}
       {filteredRooms.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {filteredRooms.map((room) => (
             <RoomCard
-              key={room.number}
+              key={room.code}
               room={room}
               onOpenCheckIn={setCheckInModalData}
               onOpenCheckOut={setCheckOutModalData}
@@ -218,7 +275,7 @@ export function RoomMatrix() {
             Tidak ada kamar dengan filter ini
           </p>
           <p className="text-xs text-slate-500">
-            Coba ubah opsi filter pada kotak pencarian di atas.
+            Coba ubah opsi filter pada bilah pilihan di atas.
           </p>
         </div>
       )}
@@ -228,7 +285,7 @@ export function RoomMatrix() {
         <CheckInModal
           isOpen={!!checkInModalData}
           onClose={() => setCheckInModalData(null)}
-          roomNumber={checkInModalData.number}
+          roomNumber={checkInModalData.code}
           roomPrice={checkInModalData.price}
           roomTypeName={checkInModalData.typeName}
           onConfirm={handleConfirmCheckIn}
@@ -239,7 +296,7 @@ export function RoomMatrix() {
         <CheckOutModal
           isOpen={!!checkOutModalData}
           onClose={() => setCheckOutModalData(null)}
-          roomNumber={checkOutModalData.number}
+          roomNumber={checkOutModalData.code}
           roomTypeName={checkOutModalData.typeName}
           guestName={checkOutModalData.guestName || "Tamu"}
           guestPhone={checkOutModalData.guestPhone}
@@ -255,7 +312,7 @@ export function RoomMatrix() {
         <ReceiptModal
           isOpen={!!receiptModalData}
           onClose={() => setReceiptModalData(null)}
-          roomNumber={receiptModalData.number}
+          roomNumber={receiptModalData.code}
           roomTypeName={receiptModalData.typeName}
           guestName={receiptModalData.guestName || "Tamu"}
           guestPhone={receiptModalData.guestPhone || ""}

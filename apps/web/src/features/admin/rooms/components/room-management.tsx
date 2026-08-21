@@ -10,6 +10,7 @@ interface RoomTypeConfig {
   price: number;
   capacity: string;
   bedType: string;
+  roomCodes: string[];
   facilities: string[];
   unitCount: number;
 }
@@ -17,31 +18,33 @@ interface RoomTypeConfig {
 const INITIAL_TYPES: RoomTypeConfig[] = [
   {
     id: "ac",
-    name: "Kamar Tipe AC (Lantai 1)",
+    name: "Kamar Tipe AC",
     price: 275000,
-    capacity: "2–3 Tamu",
-    bedType: "1 Kasur Besar",
+    capacity: "2–3 Orang",
+    bedType: "1 Kasur Besar (Double Bed)",
+    roomCodes: ["#A1", "#A2", "#B1", "#B2"],
     facilities: [
       "AC Dingin",
-      "KM Dalam Pribadi",
+      "Kamar Mandi Dalam Pribadi",
       "TV Layar Datar",
       "WiFi Kencang",
-      "Handuk & Air Mineral",
+      "Handuk Bersih & Air Mineral",
     ],
     unitCount: 4,
   },
   {
     id: "kipas",
-    name: "Kamar Tipe Kipas (Lantai 2)",
+    name: "Kamar Tipe Kipas",
     price: 200000,
-    capacity: "2–3 Tamu",
-    bedType: "1 Kasur Besar",
+    capacity: "2–3 Orang",
+    bedType: "1 Kasur Besar (Double Bed)",
+    roomCodes: ["#A3", "#A4", "#B3", "#B4"],
     facilities: [
-      "Kipas Angin",
-      "KM Dalam Pribadi",
+      "Kipas Angin Dinding",
+      "Kamar Mandi Dalam Pribadi",
       "TV Layar Datar",
       "WiFi Kencang",
-      "Handuk & Air Mineral",
+      "Handuk Bersih & Air Mineral",
     ],
     unitCount: 4,
   },
@@ -66,14 +69,14 @@ export function RoomManagement() {
       <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-2xs">
         <div>
           <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-            Owner Master Data
+            Pengaturan Master Tarif
           </span>
           <h2 className="text-base sm:text-lg font-black text-slate-900 leading-tight mt-1">
-            Pengaturan Tarif &amp; Fasilitas Kamar
+            Pengaturan Tarif &amp; Fasilitas 8 Kamar
           </h2>
           <p className="text-xs text-slate-500">
-            Perubahan harga di sini akan otomatis terupdate pada formulir booking publik dan sistem
-            kasir staf.
+            Perubahan harga di sini akan otomatis terhubung ke formulir pemesanan WhatsApp publik
+            dan sistem kasir staf resepsionis.
           </p>
         </div>
 
@@ -94,7 +97,7 @@ export function RoomManagement() {
         </div>
       )}
 
-      {/* 2 Room Types Grid */}
+      {/* 2 Tipe Kamar Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {types.map((type) => (
           <div
@@ -113,7 +116,24 @@ export function RoomManagement() {
               </div>
             </div>
 
-            {/* Price Edit Input */}
+            {/* Daftar Unit Kamar yang Menggunakan Tipe Ini */}
+            <div className="space-y-1">
+              <span className="text-[10px] text-slate-400 font-bold uppercase block">
+                Nomor Unit Kamar:
+              </span>
+              <div className="flex gap-1.5">
+                {type.roomCodes.map((code) => (
+                  <span
+                    key={code}
+                    className="bg-purple-100/70 text-purple-900 text-xs font-black px-2.5 py-1 rounded-xl"
+                  >
+                    {code}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Input Edit Harga */}
             <div className="space-y-1.5 pt-2">
               <label
                 htmlFor={`price-${type.id}`}
@@ -139,23 +159,7 @@ export function RoomManagement() {
               </p>
             </div>
 
-            {/* Bed & Capacity */}
-            <div className="grid grid-cols-2 gap-3 pt-1">
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                <span className="text-[10px] text-slate-400 font-bold uppercase block">
-                  Kapasitas:
-                </span>
-                <strong className="text-xs text-slate-800 font-bold">{type.capacity}</strong>
-              </div>
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                <span className="text-[10px] text-slate-400 font-bold uppercase block">
-                  Tipe Tempat Tidur:
-                </span>
-                <strong className="text-xs text-slate-800 font-bold">{type.bedType}</strong>
-              </div>
-            </div>
-
-            {/* Facilities List */}
+            {/* Fasilitas Kamar */}
             <div className="space-y-1.5 pt-2 border-t border-slate-100">
               <span className="text-[11px] font-black text-slate-700 uppercase tracking-wider block">
                 Fasilitas Kamar Termasuk:

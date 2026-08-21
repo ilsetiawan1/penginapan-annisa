@@ -31,7 +31,7 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
               <th className="pb-3">Nama Tamu</th>
               <th className="pb-3">Durasi</th>
               <th className="pb-3">Total Nilai</th>
-              <th className="pb-3">Status</th>
+              <th className="pb-3">Status Pembayaran</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
@@ -47,7 +47,7 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
                 </td>
                 <td className="py-3">
                   <span
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-black ${
                       trx.status === "Lunas"
                         ? "bg-emerald-100 text-emerald-800"
                         : "bg-amber-100 text-amber-900"

@@ -46,14 +46,14 @@ export function ReceiptModal({
 
   const receiptText = `*🧾 BUKTI TRANSAKSI RESERVASI — PENGINAPAN ANNISA AMBON*
 Jl. Bandara Pattimura, Tawiri (750m dari Bandara)
-WA: 0812-4216-3116
+WhatsApp: 0812-4216-3116
 ---------------------------------------------
 Halo Bpk/Ibu *${guestName}*, terima kasih telah memilih Penginapan Annisa.
 
 *DETAIL RESERVASI:*
 • No. Kamar: *Kamar #${roomNumber}* (${roomTypeName})
 • Check-In: *${checkInDate}* (Mulai 06:00 WIT)
-• Check-Out: *${checkOutDate}*
+• Check-Out: *${checkOutDate}* (Maksimal 12:00 WIT)
 • Durasi: *${totalNights} Malam*
 
 *RINCIAN BIAYA:*
@@ -63,7 +63,7 @@ Halo Bpk/Ibu *${guestName}*, terima kasih telah memilih Penginapan Annisa.
 
 Fasilitas: 100% Kamar Mandi Dalam Pribadi, AC/Kipas, TV, WiFi Kencang, Handuk & Air Mineral.
 
-Ada pertanyaan atau butuh petunjuk arah dari bandara? Balas pesan ini ya! 🙏✨`;
+Ada pertanyaan atau butuh petunjuk arah dari bandara? Silakan balas pesan ini ya! 🙏✨`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(receiptText);
@@ -91,15 +91,15 @@ Ada pertanyaan atau butuh petunjuk arah dari bandara? Balas pesan ini ya! 🙏�
             <span className="text-xs font-extrabold text-slate-500">Kamar #{roomNumber}</span>
           </div>
           <DialogTitle className="text-lg sm:text-xl font-black text-slate-900 leading-tight">
-            Kirim Bukti Reservasi ke Tamu
+            Kirim Bukti Pembayaran ke Tamu
           </DialogTitle>
           <DialogDescription className="text-xs text-slate-500">
             Tamu: <strong className="text-slate-900">{guestName}</strong> (
-            {guestPhone || "Nomor WA belum diisi"})
+            {guestPhone || "Nomor WhatsApp belum diisi"})
           </DialogDescription>
         </DialogHeader>
 
-        {/* Receipt Text Preview Box */}
+        {/* Kotak Pratinjau Teks Nota */}
         <div className="relative mt-2">
           <pre className="w-full bg-slate-900 text-purple-100 text-xs font-mono p-4 rounded-2xl overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-64 border border-slate-800 select-all">
             {receiptText}
@@ -118,7 +118,7 @@ Ada pertanyaan atau butuh petunjuk arah dari bandara? Balas pesan ini ya! 🙏�
           </button>
         </div>
 
-        {/* Dialog Actions */}
+        {/* Tombol Aksi */}
         <DialogFooter className="flex flex-row items-center justify-end gap-2 pt-3">
           <Button
             type="button"

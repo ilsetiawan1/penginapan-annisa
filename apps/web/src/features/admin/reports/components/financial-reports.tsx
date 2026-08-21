@@ -10,7 +10,7 @@ const RECENT_TRANSACTIONS: TransactionRecord[] = [
   {
     id: "TRX-001",
     date: "21 Agu 2026",
-    room: "#102 (AC)",
+    room: "#A2 (Tipe AC)",
     guest: "Budi Santoso",
     nights: 1,
     amount: 275000,
@@ -19,7 +19,7 @@ const RECENT_TRANSACTIONS: TransactionRecord[] = [
   {
     id: "TRX-002",
     date: "20 Agu 2026",
-    room: "#203 (Kipas)",
+    room: "#B3 (Tipe Kipas)",
     guest: "Siti Rahma",
     nights: 2,
     amount: 400000,
@@ -28,7 +28,7 @@ const RECENT_TRANSACTIONS: TransactionRecord[] = [
   {
     id: "TRX-003",
     date: "20 Agu 2026",
-    room: "#101 (AC)",
+    room: "#A1 (Tipe AC)",
     guest: "Hendro Wijaya",
     nights: 1,
     amount: 275000,
@@ -37,7 +37,7 @@ const RECENT_TRANSACTIONS: TransactionRecord[] = [
   {
     id: "TRX-004",
     date: "19 Agu 2026",
-    room: "#104 (AC)",
+    room: "#B2 (Tipe AC)",
     guest: "Mega Pratama",
     nights: 1,
     amount: 275000,
@@ -46,7 +46,7 @@ const RECENT_TRANSACTIONS: TransactionRecord[] = [
   {
     id: "TRX-005",
     date: "19 Agu 2026",
-    room: "#201 (Kipas)",
+    room: "#A4 (Tipe Kipas)",
     guest: "Fajar Nugraha",
     nights: 1,
     amount: 200000,
@@ -64,14 +64,14 @@ export function FinancialReports() {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      {/* Top Banner & Export */}
+      {/* Banner & Ekspor Laporan */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-2xs">
         <div>
           <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-            Owner Financial Analytics
+            Laporan Keuangan Owner
           </span>
           <h2 className="text-base sm:text-lg font-black text-slate-900 leading-tight mt-1">
-            Rekapitulasi Omzet &amp; Okupansi Kamar
+            Rekapitulasi Pendapatan &amp; Okupansi Kamar
           </h2>
           <p className="text-xs text-slate-500">
             Laporan pendapatan sewa 8 kamar transit dan penjualan oleh-oleh khas Maluku.
@@ -84,7 +84,7 @@ export function FinancialReports() {
           className="rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm h-11 px-5 gap-2 shadow-md cursor-pointer"
         >
           <FileSpreadsheet className="w-4 h-4" />
-          <span>Ekspor Laporan (Excel/CSV)</span>
+          <span>Ekspor Laporan (Excel / CSV)</span>
         </Button>
       </div>
 
@@ -95,10 +95,10 @@ export function FinancialReports() {
         </div>
       )}
 
-      {/* 4 Financial Stat Cards Sub-Component */}
+      {/* 4 Kartu Statistik Keuangan */}
       <RevenueStatsCards />
 
-      {/* Transactions Table Sub-Component */}
+      {/* Tabel Riwayat Transaksi */}
       <TransactionTable transactions={RECENT_TRANSACTIONS} />
     </div>
   );
