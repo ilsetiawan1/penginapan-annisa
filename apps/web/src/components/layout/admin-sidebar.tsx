@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import {
   Bed,
   ChevronLeft,
@@ -14,6 +12,8 @@ import {
   Users,
   X,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { Button } from "../ui/button";
 
 export type AdminRole = "owner" | "staff";
@@ -79,7 +79,9 @@ export function AdminSidebar({
                 isCollapsed ? "justify-center px-0" : "justify-between px-5"
               }`}
             >
-              <div className={`flex items-center gap-3 overflow-hidden ${isCollapsed ? "justify-center" : ""}`}>
+              <div
+                className={`flex items-center gap-3 overflow-hidden ${isCollapsed ? "justify-center" : ""}`}
+              >
                 <div className="relative w-9 h-9 rounded-xl bg-purple-50 p-1.5 border border-purple-200 shrink-0 shadow-2xs">
                   <Image
                     src="/logo-penginapan-annisa.png"
@@ -94,7 +96,7 @@ export function AdminSidebar({
                       Penginapan Annisa
                     </h1>
                     <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider block">
-                      Sistem Resepsionis (PMS)
+                      Sistem Resepsionis
                     </span>
                   </div>
                 )}
