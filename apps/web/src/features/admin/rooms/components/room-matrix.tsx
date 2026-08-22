@@ -6,12 +6,13 @@ import {
   AdvanceBookingData,
   AdvanceBookingModal,
 } from "../../reservations/components/advance-booking-modal";
+import { BookingSettlementModal } from "../../reservations/components/booking-settlement-modal";
 import { CheckInFormData, CheckInModal } from "../../reservations/components/checkin-modal";
 import { CheckOutModal } from "../../reservations/components/checkout-modal";
 import { ReceiptModal } from "../../reservations/components/receipt-modal";
 import { RoomCard, RoomItem } from "./room-card";
 
-// 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SESUAI PRD & TRD)
+// 8 UNIT KAMAR RESMI PENGINAPAN ANNISA DENGAN SKENARIO REALISTIS
 const INITIAL_ROOMS: RoomItem[] = [
   // BANGUNAN A (KIRI): 2 AC (A1, A2) & 2 KIPAS (A3, A4)
   {
@@ -31,12 +32,12 @@ const INITIAL_ROOMS: RoomItem[] = [
     status: "occupied",
     guestName: "Budi Santoso",
     guestPhone: "081234567890",
-    checkInDate: "21 Agu 2026",
-    checkOutDate: "22 Agu 2026",
+    checkInDate: "22 Agu 2026",
+    checkOutDate: "23 Agu 2026",
     totalNights: 1,
     totalAmount: 275000,
-    dpPaid: 137500,
-    remainingAmount: 137500,
+    dpPaid: 275000,
+    remainingAmount: 0, // Lunas saat Check-in
   },
   {
     code: "A3",
@@ -56,13 +57,22 @@ const INITIAL_ROOMS: RoomItem[] = [
   },
 
   // BANGUNAN B (KANAN): 2 AC (B1, B2) & 2 KIPAS (B3, B4)
+  // SKENARIO KHUSUS: #B1 TERBOOKING WA HARI INI (SUDAH DP 50%, MENUNGGU PELUNASAN KETIKA TAMU TIBA)
   {
     code: "B1",
     building: "B",
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    status: "ready",
+    status: "booked", // 🟣 Terbooking WA
+    guestName: "Hendra Pratama",
+    guestPhone: "081399881122",
+    checkInDate: "22 Agu 2026",
+    checkOutDate: "23 Agu 2026",
+    totalNights: 1,
+    totalAmount: 275000,
+    dpPaid: 137500,
+    remainingAmount: 137500,
   },
   {
     code: "B2",
@@ -81,12 +91,12 @@ const INITIAL_ROOMS: RoomItem[] = [
     status: "occupied",
     guestName: "Siti Rahma",
     guestPhone: "085299887766",
-    checkInDate: "20 Agu 2026",
-    checkOutDate: "22 Agu 2026",
+    checkInDate: "21 Agu 2026",
+    checkOutDate: "23 Agu 2026",
     totalNights: 2,
     totalAmount: 400000,
-    dpPaid: 200000,
-    remainingAmount: 200000,
+    dpPaid: 400000,
+    remainingAmount: 0, // Lunas
   },
   {
     code: "B4",
@@ -105,8 +115,9 @@ export function RoomMatrix() {
   const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(null);
   const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(null);
   const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
+  const [settlementModalData, setSettlementModalData] = useState<RoomItem | null>(null);
   const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] = useState<boolean>(false);
-  const [advanceBookingSuccess, setAdvanceBookingSuccess] = useState<string>("");
+  const [notification, setNotification] = useState<string>("");
 
   // Pisahkan Kamar Bangunan A & Bangunan B
   const roomsA = rooms.filter((r) => r.building === "A");
@@ -115,10 +126,11 @@ export function RoomMatrix() {
   // Ringkasan Status Keseluruhan
   const readyCount = rooms.filter((r) => r.status === "ready").length;
   const occupiedCount = rooms.filter((r) => r.status === "occupied").length;
+  const bookedCount = rooms.filter((r) => r.status === "booked").length;
   const dirtyCount = rooms.filter((r) => r.status === "dirty").length;
   const maintenanceCount = rooms.filter((r) => r.status === "maintenance").length;
 
-  // Handle Check-In Tamu
+  // Handle Check-In Tamu Walk-In
   const handleConfirmCheckIn = (data: CheckInFormData) => {
     setRooms((prev) =>
       prev.map((r) => {
@@ -139,6 +151,29 @@ export function RoomMatrix() {
         return r;
       })
     );
+    setNotification(`Check-In Berhasil! Kamar #${data.roomNumber} kini Terisi untuk ${data.guestName}.`);
+    setTimeout(() => setNotification(""), 4000);
+  };
+
+  // Handle Pelunasan & Check-In Tamu Booking WA yang Baru Saja Tiba di Resepsionis
+  const handleConfirmSettlement = (roomCode: string, paymentMethod: string) => {
+    setRooms((prev) =>
+      prev.map((r) => {
+        if (r.code === roomCode) {
+          return {
+            ...r,
+            status: "occupied",
+            dpPaid: r.totalAmount || r.price, // Sudah bayar full (DP 50% + Pelunasan 50%)
+            remainingAmount: 0, // Sisa Rp 0 (Lunas 100%)
+          };
+        }
+        return r;
+      })
+    );
+    setNotification(
+      `Pelunasan Berhasil Diterima (${paymentMethod.toUpperCase()})! Kamar #${roomCode} kini Lunas 100% dan Siap Ditempati.`
+    );
+    setTimeout(() => setNotification(""), 4000);
   };
 
   // Handle Check-Out Tamu
@@ -163,11 +198,15 @@ export function RoomMatrix() {
         return r;
       })
     );
+    setNotification(`Check-Out Berhasil! Kamar #${checkOutModalData.code} kini masuk status Perlu Bersih.`);
+    setTimeout(() => setNotification(""), 4000);
   };
 
   // Handle Tandai Kamar Bersih (Housekeeping Selesai)
   const handleMarkClean = (roomCode: string) => {
     setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
+    setNotification(`Kamar #${roomCode} telah bersih dan siap disewakan kembali! 🟢`);
+    setTimeout(() => setNotification(""), 4000);
   };
 
   // Handle Selesai Perbaikan
@@ -177,15 +216,15 @@ export function RoomMatrix() {
 
   // Handle Simpan Advance Booking WA
   const handleConfirmAdvanceBooking = (data: AdvanceBookingData) => {
-    setAdvanceBookingSuccess(
+    setNotification(
       `Jadwal Booking Berhasil Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")} tercatat.`
     );
-    setTimeout(() => setAdvanceBookingSuccess(""), 4000);
+    setTimeout(() => setNotification(""), 4000);
   };
 
   return (
     <div className="space-y-3 sm:space-y-3.5">
-      {/* Top Header Strip: Status Kamar + 4 Status Badges + Tombol Catat Booking WA */}
+      {/* Top Header Strip: Status Kamar + Counter Badges + Tombol Catat Booking WA */}
       <div className="flex flex-wrap items-center justify-between gap-2 bg-white py-2 px-3.5 sm:px-4 rounded-2xl border border-slate-200/80 shadow-2xs">
         <div className="flex items-center gap-2">
           <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
@@ -196,7 +235,7 @@ export function RoomMatrix() {
           </span>
         </div>
 
-        {/* 4 Status Pills Horizontal */}
+        {/* Status Pills Horizontal */}
         <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap text-xs font-bold">
           <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -204,6 +243,15 @@ export function RoomMatrix() {
               Siap: <strong>{readyCount}</strong>
             </span>
           </span>
+
+          {bookedCount > 0 && (
+            <span className="bg-purple-50 text-purple-900 border border-purple-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
+              <span className="w-2 h-2 rounded-full bg-purple-700" />
+              <span>
+                Booking WA: <strong>{bookedCount}</strong>
+              </span>
+            </span>
+          )}
 
           <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-blue-600" />
@@ -238,10 +286,10 @@ export function RoomMatrix() {
         </div>
       </div>
 
-      {advanceBookingSuccess && (
+      {notification && (
         <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-3 rounded-2xl flex items-center gap-2 text-xs font-bold animate-in fade-in">
           <span>✨</span>
-          <span>{advanceBookingSuccess}</span>
+          <span>{notification}</span>
         </div>
       )}
 
@@ -271,6 +319,7 @@ export function RoomMatrix() {
                 onOpenCheckIn={setCheckInModalData}
                 onOpenCheckOut={setCheckOutModalData}
                 onOpenReceipt={setReceiptModalData}
+                onOpenSettlement={setSettlementModalData}
                 onMarkClean={handleMarkClean}
                 onFinishMaintenance={handleFinishMaintenance}
               />
@@ -302,6 +351,7 @@ export function RoomMatrix() {
                 onOpenCheckIn={setCheckInModalData}
                 onOpenCheckOut={setCheckOutModalData}
                 onOpenReceipt={setReceiptModalData}
+                onOpenSettlement={setSettlementModalData}
                 onMarkClean={handleMarkClean}
                 onFinishMaintenance={handleFinishMaintenance}
               />
@@ -310,7 +360,7 @@ export function RoomMatrix() {
         </div>
       </div>
 
-      {/* MODAL DIALOGS */}
+      {/* MODAL CHECK-IN REGULER */}
       {checkInModalData && (
         <CheckInModal
           isOpen={!!checkInModalData}
@@ -322,6 +372,17 @@ export function RoomMatrix() {
         />
       )}
 
+      {/* MODAL PELUNASAN & CHECK-IN KHUSUS TAMU BOOKING WA (HARI H) */}
+      {settlementModalData && (
+        <BookingSettlementModal
+          isOpen={!!settlementModalData}
+          onClose={() => setSettlementModalData(null)}
+          room={settlementModalData}
+          onConfirmSettlement={handleConfirmSettlement}
+        />
+      )}
+
+      {/* MODAL CHECK-OUT */}
       {checkOutModalData && (
         <CheckOutModal
           isOpen={!!checkOutModalData}
@@ -338,6 +399,7 @@ export function RoomMatrix() {
         />
       )}
 
+      {/* MODAL NOTA DIGITAL WA */}
       {receiptModalData && (
         <ReceiptModal
           isOpen={!!receiptModalData}
@@ -346,8 +408,8 @@ export function RoomMatrix() {
           roomTypeName={receiptModalData.typeName}
           guestName={receiptModalData.guestName || "Tamu"}
           guestPhone={receiptModalData.guestPhone || ""}
-          checkInDate={receiptModalData.checkInDate || "21 Agu 2026"}
-          checkOutDate={receiptModalData.checkOutDate || "22 Agu 2026"}
+          checkInDate={receiptModalData.checkInDate || "22 Agu 2026"}
+          checkOutDate={receiptModalData.checkOutDate || "23 Agu 2026"}
           totalNights={receiptModalData.totalNights || 1}
           totalAmount={receiptModalData.totalAmount || receiptModalData.price}
           dpPaid={receiptModalData.dpPaid || 0}
