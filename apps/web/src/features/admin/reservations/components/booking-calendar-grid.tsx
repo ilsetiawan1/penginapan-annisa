@@ -176,20 +176,28 @@ export function BookingCalendarGrid({
                 {hasBookings && <span className="w-1.5 h-1.5 rounded-full bg-purple-700" />}
               </div>
 
-              {/* Event Pill Badges (Highlight Warna Booking) */}
-              <div className="space-y-0.5 overflow-hidden">
-                {dayBookings.slice(0, 2).map((bk) => (
-                  <div
-                    key={bk.id}
-                    className="truncate text-[9px] font-bold px-1.5 py-0.5 rounded bg-purple-200/80 text-purple-950 border border-purple-300/80 leading-tight"
-                    title={`#${bk.roomCode}: ${bk.guestName}`}
-                  >
-                    #{bk.roomCode} {bk.guestName.split(" ")[0]}
-                  </div>
-                ))}
+              {/* Event Pill Badges (Ringkas & Bersih dengan Icon User) */}
+              <div className="space-y-0.5 overflow-hidden w-full">
+                {dayBookings.slice(0, 2).map((bk) => {
+                  const isLunas = bk.dpPaid >= bk.totalAmount;
+                  return (
+                    <div
+                      key={bk.id}
+                      className={`text-[9px] font-black px-1.5 py-0.5 rounded-md flex items-center justify-between gap-1 border leading-tight shadow-2xs ${
+                        isLunas
+                          ? "bg-blue-100/90 text-blue-950 border-blue-200"
+                          : "bg-purple-100/90 text-purple-950 border-purple-200"
+                      }`}
+                      title={`#${bk.roomCode} - ${bk.guestName} (${isLunas ? "Lunas 100%" : "DP 50%"})`}
+                    >
+                      <span className="font-black">#{bk.roomCode}</span>
+                      <User className={`w-2.5 h-2.5 shrink-0 ${isLunas ? "text-blue-700" : "text-purple-700"}`} />
+                    </div>
+                  );
+                })}
                 {dayBookings.length > 2 && (
                   <span className="text-[8px] font-extrabold text-purple-700 block pl-0.5">
-                    +{dayBookings.length - 2} lagi
+                    +{dayBookings.length - 2} tamu lagi
                   </span>
                 )}
               </div>
