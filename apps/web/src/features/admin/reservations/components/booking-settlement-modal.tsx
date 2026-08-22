@@ -1,8 +1,8 @@
 "use client";
 
-import { CheckCircle2, DollarSign, User, X } from "lucide-react";
-import { useState } from "react";
-import { FaWhatsapp } from "react-icons/fa6";
+import { CheckCircle2, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "../../../../components/ui/button";
 import type { RoomItem } from "../../rooms/components/room-card";
 
@@ -20,8 +20,19 @@ export function BookingSettlementModal({
   onConfirmSettlement,
 }: BookingSettlementModalProps) {
   const [paymentMethod, setPaymentMethod] = useState<string>("tunai");
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!isOpen || !mounted) return null;
 
   const total = room.totalAmount || room.price;
   const dp = room.dpPaid || Math.round(total * 0.5);
@@ -32,8 +43,8 @@ export function BookingSettlementModal({
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-[999] bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
+  const modalContent = (
+    <div className="fixed inset-0 z-[9999] bg-slate-950/65 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
       <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg overflow-hidden flex flex-col justify-between">
         {/* Header Modal */}
         <div className="bg-purple-700 text-white p-4 sm:p-5 flex items-center justify-between">
@@ -166,4 +177,6 @@ export function BookingSettlementModal({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
