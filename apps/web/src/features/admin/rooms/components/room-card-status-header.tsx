@@ -5,9 +5,10 @@ import type { RoomItem } from "./room-card";
 
 interface RoomCardStatusHeaderProps {
   room: RoomItem;
+  onOpenDetail?: (room: RoomItem) => void;
 }
 
-export function RoomCardStatusHeader({ room }: RoomCardStatusHeaderProps) {
+export function RoomCardStatusHeader({ room, onOpenDetail }: RoomCardStatusHeaderProps) {
   const isReady = room.status === "ready";
   const isOccupied = room.status === "occupied";
   const isDirty = room.status === "dirty";
@@ -26,7 +27,11 @@ export function RoomCardStatusHeader({ room }: RoomCardStatusHeaderProps) {
 
   return (
     <div
-      className={`px-3 py-1 text-[9px] font-black tracking-wider uppercase flex items-center gap-1.5 ${getStatusHeaderStyle()}`}
+      onClick={() => onOpenDetail && onOpenDetail(room)}
+      className={`px-3 py-1 text-[9px] font-black tracking-wider uppercase flex items-center gap-1.5 ${getStatusHeaderStyle()} ${
+        onOpenDetail ? "cursor-pointer hover:brightness-95 transition" : ""
+      }`}
+      title="Klik untuk lihat rincian lengkap kamar"
     >
       {isReady && (
         <>

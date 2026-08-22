@@ -29,6 +29,7 @@ interface RoomCardProps {
   onOpenCheckOut: (room: RoomItem) => void;
   onOpenReceipt: (room: RoomItem) => void;
   onOpenSettlement?: (room: RoomItem) => void;
+  onOpenDetail?: (room: RoomItem) => void;
   onMarkClean: (roomCode: string) => void;
   onFinishMaintenance: (roomCode: string) => void;
 }
@@ -39,17 +40,18 @@ export function RoomCard({
   onOpenCheckOut,
   onOpenReceipt,
   onOpenSettlement,
+  onOpenDetail,
   onMarkClean,
   onFinishMaintenance,
 }: RoomCardProps) {
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 flex flex-col justify-between overflow-hidden select-none group">
       <div>
-        {/* 1. Sub-Komponen Strip Header Status */}
-        <RoomCardStatusHeader room={room} />
+        {/* 1. Sub-Komponen Strip Header Status (Klik untuk Detail) */}
+        <RoomCardStatusHeader room={room} onOpenDetail={onOpenDetail} />
 
-        {/* 2. Sub-Komponen Body Konten Kamar */}
-        <RoomCardBody room={room} />
+        {/* 2. Sub-Komponen Body Konten Kamar (Klik untuk Detail) */}
+        <RoomCardBody room={room} onOpenDetail={onOpenDetail} />
       </div>
 
       {/* 3. Sub-Komponen Tombol Aksi Full Width */}

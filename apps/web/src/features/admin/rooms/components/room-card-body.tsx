@@ -4,9 +4,10 @@ import type { RoomItem } from "./room-card";
 
 interface RoomCardBodyProps {
   room: RoomItem;
+  onOpenDetail?: (room: RoomItem) => void;
 }
 
-export function RoomCardBody({ room }: RoomCardBodyProps) {
+export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
   const isReady = room.status === "ready";
   const isOccupied = room.status === "occupied";
   const isDirty = room.status === "dirty";
@@ -14,7 +15,13 @@ export function RoomCardBody({ room }: RoomCardBodyProps) {
   const isBooked = room.status === "booked";
 
   return (
-    <div className="p-3 sm:p-3.5 space-y-2">
+    <div
+      onClick={() => onOpenDetail && onOpenDetail(room)}
+      className={`p-3 sm:p-3.5 space-y-2 text-left ${
+        onOpenDetail ? "cursor-pointer hover:bg-slate-50/60 transition rounded-xl" : ""
+      }`}
+      title="Klik untuk lihat rincian lengkap kamar"
+    >
       {/* Baris Nomor Kamar, Nama Tipe, & Tarif */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">

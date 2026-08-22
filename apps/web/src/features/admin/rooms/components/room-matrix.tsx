@@ -12,6 +12,7 @@ import { CheckInFormData, CheckInModal } from "../../reservations/components/che
 import { CheckOutModal } from "../../reservations/components/checkout-modal";
 import { ReceiptModal } from "../../reservations/components/receipt-modal";
 import { RoomCard, RoomItem } from "./room-card";
+import { RoomDetailModal } from "./room-detail-modal";
 
 // 8 UNIT KAMAR RESMI PENGINAPAN ANNISA DENGAN SKENARIO REALISTIS
 const INITIAL_ROOMS: RoomItem[] = [
@@ -117,6 +118,7 @@ export function RoomMatrix() {
   const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(null);
   const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
   const [settlementModalData, setSettlementModalData] = useState<RoomItem | null>(null);
+  const [detailModalData, setDetailModalData] = useState<RoomItem | null>(null);
   const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
@@ -349,6 +351,7 @@ export function RoomMatrix() {
                   onOpenCheckOut={setCheckOutModalData}
                   onOpenReceipt={setReceiptModalData}
                   onOpenSettlement={setSettlementModalData}
+                  onOpenDetail={setDetailModalData}
                   onMarkClean={handleMarkClean}
                   onFinishMaintenance={handleFinishMaintenance}
                 />
@@ -383,6 +386,7 @@ export function RoomMatrix() {
                   onOpenCheckOut={setCheckOutModalData}
                   onOpenReceipt={setReceiptModalData}
                   onOpenSettlement={setSettlementModalData}
+                  onOpenDetail={setDetailModalData}
                   onMarkClean={handleMarkClean}
                   onFinishMaintenance={handleFinishMaintenance}
                 />
@@ -391,6 +395,21 @@ export function RoomMatrix() {
           </div>
         </div>
       </div>
+
+      {/* MODAL DETAIL LENGKAP KAMAR & RESERVASI (QUICK VIEW) */}
+      {detailModalData && (
+        <RoomDetailModal
+          isOpen={!!detailModalData}
+          onClose={() => setDetailModalData(null)}
+          room={detailModalData}
+          onOpenCheckIn={setCheckInModalData}
+          onOpenCheckOut={setCheckOutModalData}
+          onOpenSettlement={setSettlementModalData}
+          onOpenReceipt={setReceiptModalData}
+          onMarkClean={handleMarkClean}
+          onFinishMaintenance={handleFinishMaintenance}
+        />
+      )}
 
       {/* MODAL CHECK-IN REGULER */}
       {checkInModalData && (
