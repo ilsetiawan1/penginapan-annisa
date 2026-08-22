@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, CheckCircle2, Plus, Sparkles, Wrench } from "lucide-react";
+import { Calendar, CheckCircle2, LogOut, Plus, Sparkles, Wrench } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 
 export type RoomStatus = "ready" | "occupied" | "dirty" | "maintenance" | "booked";
@@ -57,15 +57,6 @@ export function RoomCard({
     return "bg-slate-500 text-white";
   };
 
-  const getStatusLabel = () => {
-    if (isReady) return "TERSEDIA";
-    if (isOccupied) return `TERISI (${room.totalNights || 1} MALAM)`;
-    if (isBooked) return "BOOKING WA (DP 50%)";
-    if (isDirty) return "PERLU BERSIH";
-    if (isMaintenance) return "PERBAIKAN";
-    return "STATUS";
-  };
-
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 flex flex-col justify-between overflow-hidden select-none group">
       <div>
@@ -73,12 +64,46 @@ export function RoomCard({
         <div
           className={`px-3 py-1 text-[9px] font-black tracking-wider uppercase flex items-center gap-1.5 ${getStatusHeaderStyle()}`}
         >
-          {isReady && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
-          {isOccupied && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
-          {isBooked && <Calendar className="w-2.5 h-2.5 text-purple-200" />}
-          {isDirty && <Sparkles className="w-2.5 h-2.5" />}
-          {isMaintenance && <Wrench className="w-2.5 h-2.5" />}
-          <span>{getStatusLabel()}</span>
+          {isReady && (
+            <>
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              <span>TERSEDIA</span>
+            </>
+          )}
+
+          {isOccupied && (
+            <>
+              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+              <span>TERISI</span>
+              <span className="text-white/80 font-normal tracking-normal normal-case">
+                • {room.totalNights || 1} Malam
+              </span>
+            </>
+          )}
+
+          {isBooked && (
+            <>
+              <Calendar className="w-2.5 h-2.5 text-purple-200" />
+              <span>BOOKING WA</span>
+              <span className="text-purple-200/90 font-normal tracking-normal normal-case">
+                • DP 50%
+              </span>
+            </>
+          )}
+
+          {isDirty && (
+            <>
+              <Sparkles className="w-2.5 h-2.5" />
+              <span>PERLU BERSIH</span>
+            </>
+          )}
+
+          {isMaintenance && (
+            <>
+              <Wrench className="w-2.5 h-2.5" />
+              <span>PERBAIKAN</span>
+            </>
+          )}
         </div>
 
         {/* 2. Isi Kartu Clean */}
@@ -103,7 +128,7 @@ export function RoomCard({
           {/* Garis Pemisah Halus (Dashed Line) */}
           <div className="border-t border-dashed border-slate-200 my-1" />
 
-          {/* Rincian Operasional Kamar (Jelas & Bebas Redundan) */}
+          {/* Rincian Operasional Kamar */}
           <div className="min-h-[48px] flex flex-col justify-center">
             {/* JIKA KAMAR TERSEDIA (KOSONG & BERSIH) */}
             {isReady && (
@@ -180,88 +205,85 @@ export function RoomCard({
         </div>
       </div>
 
-      {/* 3. Tombol Aksi Bawah */}
-      <div className="p-2.5 sm:p-3 pt-0 border-t border-slate-100 flex items-center justify-between gap-1.5">
-        <span className="text-[10px] font-bold text-slate-400">Aksi Staf:</span>
+      {/* 3. Tombol Aksi Bawah (Rata Kanan Tanpa Label Redundan) */}
+      <div className="p-2.5 sm:p-3 pt-0 border-t border-slate-100 flex items-center justify-end gap-1.5">
+        {isReady && (
+          <button
+            type="button"
+            onClick={() => onOpenCheckIn(room)}
+            className="px-3 py-1 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
+          >
+            <Plus className="w-3 h-3" />
+            <span>Check-In</span>
+          </button>
+        )}
 
-        <div>
-          {isReady && (
+        {isBooked && (
+          <div className="flex items-center gap-1">
             <button
               type="button"
-              onClick={() => onOpenCheckIn(room)}
-              className="px-3 py-1 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
-            >
-              <Plus className="w-3 h-3" />
-              <span>Check-In</span>
-            </button>
-          )}
-
-          {isBooked && (
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={() => onOpenSettlement && onOpenSettlement(room)}
-                className="px-3 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
-              >
-                <CheckCircle2 className="w-3 h-3" />
-                <span>Pelunasan &amp; Check-In</span>
-              </button>
-              {room.guestPhone && (
-                <a
-                  href={`https://wa.me/${room.guestPhone.replace(/[^0-9]/g, "")}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-1 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-emerald-600 transition cursor-pointer shadow-2xs"
-                  title="Chat WhatsApp Tamu"
-                >
-                  <FaWhatsapp className="w-3.5 h-3.5" />
-                </a>
-              )}
-            </div>
-          )}
-
-          {isOccupied && (
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={() => onOpenCheckOut(room)}
-                className="px-2.5 py-1 rounded-xl bg-slate-900 hover:bg-slate-950 text-white font-extrabold text-[10px] transition cursor-pointer"
-              >
-                Check-Out
-              </button>
-              <button
-                type="button"
-                onClick={() => onOpenReceipt(room)}
-                className="p-1 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-emerald-600 transition cursor-pointer shadow-2xs"
-                title="Kirim Nota WhatsApp"
-              >
-                <FaWhatsapp className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          )}
-
-          {isDirty && (
-            <button
-              type="button"
-              onClick={() => onMarkClean(room.code)}
-              className="px-3 py-1 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>Bersih</span>
-            </button>
-          )}
-
-          {isMaintenance && (
-            <button
-              type="button"
-              onClick={() => onFinishMaintenance(room.code)}
-              className="px-3 py-1 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
+              onClick={() => onOpenSettlement && onOpenSettlement(room)}
+              className="px-3 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
             >
               <CheckCircle2 className="w-3 h-3" />
-              <span>Selesai</span>
+              <span>Pelunasan &amp; Check-In</span>
             </button>
-          )}
-        </div>
+            {room.guestPhone && (
+              <a
+                href={`https://wa.me/${room.guestPhone.replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                className="p-1 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-emerald-600 transition cursor-pointer shadow-2xs"
+                title="Chat WhatsApp Tamu"
+              >
+                <FaWhatsapp className="w-3.5 h-3.5" />
+              </a>
+            )}
+          </div>
+        )}
+
+        {isOccupied && (
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => onOpenCheckOut(room)}
+              className="px-3 py-1 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[11px] transition shadow-2xs cursor-pointer flex items-center gap-1"
+            >
+              <LogOut className="w-3 h-3" />
+              <span>Check-Out</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => onOpenReceipt(room)}
+              className="p-1 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-emerald-600 transition cursor-pointer shadow-2xs"
+              title="Kirim Nota WhatsApp"
+            >
+              <FaWhatsapp className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
+        {isDirty && (
+          <button
+            type="button"
+            onClick={() => onMarkClean(room.code)}
+            className="px-3 py-1 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
+          >
+            <Sparkles className="w-3 h-3" />
+            <span>Bersih</span>
+          </button>
+        )}
+
+        {isMaintenance && (
+          <button
+            type="button"
+            onClick={() => onFinishMaintenance(room.code)}
+            className="px-3 py-1 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
+          >
+            <CheckCircle2 className="w-3 h-3" />
+            <span>Selesai</span>
+          </button>
+        )}
       </div>
     </div>
   );
