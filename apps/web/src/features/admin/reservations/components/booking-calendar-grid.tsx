@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Plus, RotateCw } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, RotateCw, User } from "lucide-react";
 import type { AdvanceBookingData } from "./advance-booking-modal";
 
 interface BookingCalendarGridProps {
