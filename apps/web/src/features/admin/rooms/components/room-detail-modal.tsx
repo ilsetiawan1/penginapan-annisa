@@ -5,16 +5,16 @@ import {
   Calendar,
   CheckCircle2,
   Clock,
-  DollarSign,
   LogOut,
   Plus,
   Sparkles,
-  User,
   Wifi,
   Wind,
   Wrench,
   X,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 import type { RoomItem } from "./room-card";
@@ -42,7 +42,19 @@ export function RoomDetailModal({
   onMarkClean,
   onFinishMaintenance,
 }: RoomDetailModalProps) {
-  if (!isOpen || !room) return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!isOpen || !room || !mounted) return null;
 
   const isReady = room.status === "ready";
   const isOccupied = room.status === "occupied";
@@ -59,11 +71,15 @@ export function RoomDetailModal({
         ? total - dp
         : 0;
 
-  return (
-    <div className="fixed inset-0 z-[999] bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg overflow-hidden flex flex-col justify-between">
+  const modalContent = (
+    <div
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-[9999] bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
+    >
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg overflow-hidden flex flex-col justify-between max-h-[90vh]">
         {/* Header Modal */}
-        <div className="bg-gradient-to-r from-purple-800 to-indigo-900 text-white p-4 sm:p-5 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-purple-800 to-indigo-900 text-white p-4 sm:p-5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center font-black text-base border border-white/30">
               #{room.code}
@@ -94,7 +110,7 @@ export function RoomDetailModal({
         </div>
 
         {/* Body Modal */}
-        <div className="p-4 sm:p-5 space-y-3.5 text-left max-h-[75vh] overflow-y-auto">
+        <div className="p-4 sm:p-5 space-y-3.5 text-left overflow-y-auto">
           {/* Status Badge Strip */}
           <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200/80">
             <span className="text-xs font-bold text-slate-500">Status Operasional:</span>
@@ -242,7 +258,7 @@ export function RoomDetailModal({
         </div>
 
         {/* Footer Tombol Aksi */}
-        <div className="p-4 sm:p-5 pt-0 border-t border-slate-100 flex items-center justify-between gap-2 mt-2">
+        <div className="p-4 sm:p-5 pt-0 border-t border-slate-100 flex items-center justify-between gap-2 mt-2 shrink-0">
           <Button
             type="button"
             variant="outline"
@@ -342,4 +358,6 @@ export function RoomDetailModal({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
