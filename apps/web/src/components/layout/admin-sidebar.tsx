@@ -7,6 +7,7 @@ import {
   ChevronRight,
   ExternalLink,
   Gift,
+  Home,
   LayoutDashboard,
   LogOut,
   TrendingUp,
@@ -40,10 +41,11 @@ export function AdminSidebar({
 }: AdminSidebarProps) {
   // Menu Operasional & Manajemen (100% Bahasa Indonesia)
   const generalMenu = [
-    { id: "matrix", label: "Status Kamar", icon: LayoutDashboard, roles: ["owner", "staff"] },
+    { id: "dashboard", label: "Dashboard", icon: Home, roles: ["owner", "staff"] },
+    { id: "matrix", label: "Status Kamar", icon: Bed, roles: ["owner", "staff"] },
     { id: "bookings", label: "Jadwal Booking WA", icon: Calendar, roles: ["owner", "staff"] },
     { id: "pos", label: "Oleh-Oleh", icon: Gift, roles: ["owner", "staff"] },
-    { id: "rooms", label: "Pengaturan Tarif", icon: Bed, roles: ["owner"] },
+    { id: "rooms", label: "Pengaturan Tarif", icon: LayoutDashboard, roles: ["owner"] },
   ];
 
   const managementMenu = [

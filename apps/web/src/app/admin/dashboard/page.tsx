@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { type AdminRole, AdminSidebar } from "../../../components/layout/admin-sidebar";
 import { AdminTopbar } from "../../../features/admin/dashboard/components/admin-topbar";
+import { OperationalDashboard } from "../../../features/admin/dashboard/components/operational-dashboard";
 import { FinancialReports } from "../../../features/admin/reports/components/financial-reports";
 import { AdvanceBookingList } from "../../../features/admin/reservations/components/advance-booking-list";
 import { RoomManagement } from "../../../features/admin/rooms/components/room-management";
@@ -12,13 +13,13 @@ import { StaffManagement } from "../../../features/admin/staff/components/staff-
 
 export default function AdminDashboardPage() {
   const [currentRole, setCurrentRole] = useState<AdminRole>("owner");
-  const [activeTab, setActiveTab] = useState<string>("matrix");
+  const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
   return (
     <div className="min-h-screen bg-[#f7f6f9] text-slate-900 font-sans flex antialiased">
-      {/* 1. Left Sidebar Navigation (Mentalhy Architecture) */}
+      {/* 1. Left Sidebar Navigation */}
       <AdminSidebar
         currentRole={currentRole}
         activeTab={activeTab}
@@ -29,7 +30,7 @@ export default function AdminDashboardPage() {
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
-      {/* 2. Main Workspace Layout Area (Offset by sidebar width on desktop) */}
+      {/* 2. Main Workspace Layout Area */}
       <div
         className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
           isSidebarCollapsed ? "lg:pl-20" : "lg:pl-64"
@@ -40,16 +41,19 @@ export default function AdminDashboardPage() {
           currentRole={currentRole}
           onRoleChange={(newRole) => {
             setCurrentRole(newRole);
-            if (newRole === "staff" && !["matrix", "bookings", "pos"].includes(activeTab)) {
-              setActiveTab("matrix");
+            if (newRole === "staff" && !["dashboard", "matrix", "bookings", "pos"].includes(activeTab)) {
+              setActiveTab("dashboard");
             }
           }}
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
         />
 
-        {/* Dynamic Main Workspace Content (Zero-Scroll Tablet Optimized & Mobile Friendly) */}
+        {/* Dynamic Main Workspace Content */}
         <main className="flex-1 max-w-7xl w-full mx-auto p-2.5 sm:p-4 lg:p-5">
-          {/* TAB 1: Matriks 8 Kamar PMS (Owner & Staf) */}
+          {/* TAB 0: Dashboard Utama Operasional & Produktivitas (Owner & Staf) */}
+          {activeTab === "dashboard" && <OperationalDashboard onNavigateTab={setActiveTab} />}
+
+          {/* TAB 1: Status Kamar (Matriks 8 Kamar PMS) (Owner & Staf) */}
           {activeTab === "matrix" && <RoomMatrix />}
 
           {/* TAB 2: Jadwal Booking Mendatang WA (Owner & Staf) */}
