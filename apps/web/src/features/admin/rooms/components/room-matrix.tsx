@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar } from "lucide-react";
+import { Calendar, RotateCw } from "lucide-react";
 import { useState } from "react";
 import {
   AdvanceBookingData,
@@ -117,11 +117,21 @@ export function RoomMatrix() {
   const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
   const [settlementModalData, setSettlementModalData] = useState<RoomItem | null>(null);
   const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] = useState<boolean>(false);
-  const [notification, setNotification] = useState<string>("");
+  const [notification, setNotification] = useState<string>("" );
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   // Pisahkan Kamar Bangunan A & Bangunan B
   const roomsA = rooms.filter((r) => r.building === "A");
   const roomsB = rooms.filter((r) => r.building === "B");
+
+  // Reset / Refresh Data Kamar ke kondisi awal
+  const handleResetRooms = () => {
+    setIsRefreshing(true);
+    setRooms(INITIAL_ROOMS);
+    setNotification("Data status 8 kamar telah di-refresh ke kondisi awal! 🔄");
+    setTimeout(() => setIsRefreshing(false), 500);
+    setTimeout(() => setNotification(""), 3500);
+  };
 
   // Ringkasan Status Keseluruhan
   const readyCount = rooms.filter((r) => r.status === "ready").length;
@@ -282,6 +292,17 @@ export function RoomMatrix() {
           >
             <Calendar className="w-3.5 h-3.5" />
             <span>+ Booking WA</span>
+          </button>
+
+          {/* Tombol Refresh / Reset Demo State */}
+          <button
+            type="button"
+            onClick={handleResetRooms}
+            title="Refresh & Reset Data Demo Kamar"
+            className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1"
+          >
+            <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <span className="text-[11px] font-extrabold hidden sm:inline">Refresh</span>
           </button>
         </div>
       </div>
