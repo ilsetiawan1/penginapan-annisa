@@ -332,16 +332,11 @@ export function RoomMatrix() {
             BLOK KIRI: BANGUNAN A (4 KAMAR: #A1 s/d #A4)
             ==================================================== */}
         <div className="space-y-3 lg:pr-4 lg:border-r-2 lg:border-dashed lg:border-slate-300">
-          <div className="flex items-center justify-between px-1">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
-              <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
-                BANGUNAN A (Kiri)
-              </h3>
-            </div>
-            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
-              2 AC (#A1,#A2) • 2 Kipas (#A3,#A4)
-            </span>
+          <div className="flex items-center gap-2 px-1">
+            <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
+            <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
+              BANGUNAN A
+            </h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
@@ -364,16 +359,11 @@ export function RoomMatrix() {
             BLOK KANAN: BANGUNAN B (4 KAMAR: #B1 s/d #B4)
             ==================================================== */}
         <div className="space-y-3 lg:pl-2 pt-3 border-t-2 border-dashed border-slate-200 lg:border-t-0 lg:pt-0">
-          <div className="flex items-center justify-between px-1">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
-              <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
-                BANGUNAN B (Kanan)
-              </h3>
-            </div>
-            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
-              2 AC (#B1,#B2) • 2 Kipas (#B3,#B4)
-            </span>
+          <div className="flex items-center gap-2 px-1">
+            <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
+            <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
+              BANGUNAN B
+            </h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
