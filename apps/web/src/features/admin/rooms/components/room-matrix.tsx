@@ -1,15 +1,15 @@
 "use client";
 
-import { Calendar, Plus } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useState } from "react";
 import {
-  type AdvanceBookingData,
+  AdvanceBookingData,
   AdvanceBookingModal,
 } from "../../reservations/components/advance-booking-modal";
-import { type CheckInFormData, CheckInModal } from "../../reservations/components/checkin-modal";
+import { CheckInFormData, CheckInModal } from "../../reservations/components/checkin-modal";
 import { CheckOutModal } from "../../reservations/components/checkout-modal";
 import { ReceiptModal } from "../../reservations/components/receipt-modal";
-import { RoomCard, type RoomItem } from "./room-card";
+import { RoomCard, RoomItem } from "./room-card";
 
 // 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SESUAI PRD & TRD)
 const INITIAL_ROOMS: RoomItem[] = [
@@ -18,7 +18,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     code: "A1",
     building: "A",
     type: "ac",
-    typeName: "Tipe AC",
+    typeName: "Kamar Tipe AC",
     price: 275000,
     status: "ready",
   },
@@ -26,7 +26,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     code: "A2",
     building: "A",
     type: "ac",
-    typeName: "Tipe AC",
+    typeName: "Kamar Tipe AC",
     price: 275000,
     status: "occupied",
     guestName: "Budi Santoso",
@@ -42,7 +42,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     code: "A3",
     building: "A",
     type: "kipas",
-    typeName: "Tipe Kipas",
+    typeName: "Kamar Tipe Kipas",
     price: 200000,
     status: "dirty",
   },
@@ -50,7 +50,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     code: "A4",
     building: "A",
     type: "kipas",
-    typeName: "Tipe Kipas",
+    typeName: "Kamar Tipe Kipas",
     price: 200000,
     status: "ready",
   },
@@ -60,7 +60,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     code: "B1",
     building: "B",
     type: "ac",
-    typeName: "Tipe AC",
+    typeName: "Kamar Tipe AC",
     price: 275000,
     status: "ready",
   },
@@ -68,7 +68,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     code: "B2",
     building: "B",
     type: "ac",
-    typeName: "Tipe AC",
+    typeName: "Kamar Tipe AC",
     price: 275000,
     status: "ready",
   },
@@ -76,7 +76,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     code: "B3",
     building: "B",
     type: "kipas",
-    typeName: "Tipe Kipas",
+    typeName: "Kamar Tipe Kipas",
     price: 200000,
     status: "occupied",
     guestName: "Siti Rahma",
@@ -92,7 +92,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     code: "B4",
     building: "B",
     type: "kipas",
-    typeName: "Tipe Kipas",
+    typeName: "Kamar Tipe Kipas",
     price: 200000,
     status: "ready",
   },
@@ -137,7 +137,7 @@ export function RoomMatrix() {
           };
         }
         return r;
-      }),
+      })
     );
   };
 
@@ -161,7 +161,7 @@ export function RoomMatrix() {
           };
         }
         return r;
-      }),
+      })
     );
   };
 
@@ -178,14 +178,14 @@ export function RoomMatrix() {
   // Handle Simpan Advance Booking WA
   const handleConfirmAdvanceBooking = (data: AdvanceBookingData) => {
     setAdvanceBookingSuccess(
-      `Jadwal Booking Berhasil Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")} tercatat.`,
+      `Jadwal Booking Berhasil Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")} tercatat.`
     );
     setTimeout(() => setAdvanceBookingSuccess(""), 4000);
   };
 
   return (
     <div className="space-y-3 sm:space-y-3.5">
-      {/* Top Header Strip: Judul + Ringkasan Status 4 Warna + Tombol Pintas + Catat Booking WA */}
+      {/* Top Header Strip: Status Kamar + 4 Status Badges + Tombol Catat Booking WA */}
       <div className="flex flex-wrap items-center justify-between gap-2 bg-white py-2 px-3.5 sm:px-4 rounded-2xl border border-slate-200/80 shadow-2xs">
         <div className="flex items-center gap-2">
           <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
@@ -226,7 +226,7 @@ export function RoomMatrix() {
             </span>
           </span>
 
-          {/* Tombol Pintas Catat Booking WA Mendatang */}
+          {/* Tombol Pintas Catat Booking WA */}
           <button
             type="button"
             onClick={() => setIsAdvanceBookingOpen(true)}
@@ -245,23 +245,25 @@ export function RoomMatrix() {
         </div>
       )}
 
-      {/* 2 BANGUNAN BERDAMPINGAN: KIRI (BANGUNAN A) & KANAN (BANGUNAN B) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-4 relative">
-        {/* BLOK KIRI: BANGUNAN A (4 KAMAR: 2 AC & 2 KIPAS) */}
-        <div className="bg-[#f4f2f7] rounded-3xl p-3 sm:p-3.5 border border-slate-200/90 shadow-2xs space-y-2.5">
+      {/* 2 BANGUNAN BERDAMPINGAN DENGAN GARIS PEMISAH DASHED LINE DI TENGAH */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 relative bg-white/70 backdrop-blur-md rounded-3xl p-3.5 sm:p-4.5 border border-slate-200/90 shadow-2xs">
+        {/* ====================================================
+            BLOK KIRI: BANGUNAN A (4 KAMAR: #A1 s/d #A4)
+            ==================================================== */}
+        <div className="space-y-3 lg:pr-4 lg:border-r-2 lg:border-dashed lg:border-slate-300">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
               <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
-                BANGUNAN A (Lokasi 1)
+                BANGUNAN A (Kiri)
               </h3>
             </div>
-            <span className="text-[10px] font-extrabold text-purple-950 bg-white px-2 py-0.5 rounded-md border border-purple-100 shadow-2xs">
+            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
               2 AC (#A1,#A2) • 2 Kipas (#A3,#A4)
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {roomsA.map((room) => (
               <RoomCard
                 key={room.code}
@@ -276,21 +278,23 @@ export function RoomMatrix() {
           </div>
         </div>
 
-        {/* BLOK KANAN: BANGUNAN B (4 KAMAR: 2 AC & 2 KIPAS) */}
-        <div className="bg-[#f4f2f7] rounded-3xl p-3 sm:p-3.5 border border-slate-200/90 shadow-2xs space-y-2.5">
+        {/* ====================================================
+            BLOK KANAN: BANGUNAN B (4 KAMAR: #B1 s/d #B4)
+            ==================================================== */}
+        <div className="space-y-3 lg:pl-2">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
               <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
-                BANGUNAN B (Lokasi 2)
+                BANGUNAN B (Kanan)
               </h3>
             </div>
-            <span className="text-[10px] font-extrabold text-purple-950 bg-white px-2 py-0.5 rounded-md border border-purple-100 shadow-2xs">
+            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
               2 AC (#B1,#B2) • 2 Kipas (#B3,#B4)
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {roomsB.map((room) => (
               <RoomCard
                 key={room.code}
