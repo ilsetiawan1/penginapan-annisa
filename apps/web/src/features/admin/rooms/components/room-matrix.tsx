@@ -189,7 +189,7 @@ export function RoomMatrix() {
       <div className="flex flex-wrap items-center justify-between gap-2 bg-white py-2 px-3.5 sm:px-4 rounded-2xl border border-slate-200/80 shadow-2xs">
         <div className="flex items-center gap-2">
           <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
-            Matriks 8 Kamar
+            Status Kamar
           </h2>
           <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-2 py-0.5 rounded-full">
             8 Unit Total
