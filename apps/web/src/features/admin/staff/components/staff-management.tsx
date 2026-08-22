@@ -1,7 +1,8 @@
 "use client";
 
-import { Check, Plus } from "lucide-react";
+import { Plus, RotateCw } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../../../../components/ui/button";
 import { StaffCard, type StaffMember } from "./staff-card";
 import { StaffFormModal } from "./staff-form-modal";
@@ -28,16 +29,23 @@ const INITIAL_STAFF: StaffMember[] = [
 export function StaffManagement() {
   const [staffList, setStaffList] = useState<StaffMember[]>(INITIAL_STAFF);
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
-  const [successMsg, setSuccessMsg] = useState<string>("");
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handleToggleActive = (id: string) => {
     setStaffList((prev) => prev.map((s) => (s.id === id ? { ...s, isActive: !s.isActive } : s)));
+    toast.success("Status keaktifan staf berhasil diperbarui!");
   };
 
   const handleAddStaff = (newMember: StaffMember) => {
     setStaffList((prev) => [...prev, newMember]);
-    setSuccessMsg(`Akun staf "${newMember.name}" berhasil dibuat!`);
-    setTimeout(() => setSuccessMsg(""), 3000);
+    toast.success(`Akun staf "${newMember.name}" berhasil dibuat!`);
+  };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setStaffList(INITIAL_STAFF);
+    toast.success("Daftar akun staf telah di-refresh!");
+    setTimeout(() => setIsRefreshing(false), 500);
   };
 
   return (
@@ -56,22 +64,27 @@ export function StaffManagement() {
           </p>
         </div>
 
-        <Button
-          type="button"
-          onClick={() => setShowAddForm(!showAddForm)}
-          className="rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-5 gap-2 shadow-md cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Tambah Akun Staf Baru</span>
-        </Button>
-      </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleRefresh}
+            title="Refresh Daftar Staf"
+            className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
+          >
+            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <span className="text-xs font-black hidden sm:inline">Refresh</span>
+          </button>
 
-      {successMsg && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-4 rounded-2xl flex items-center gap-2.5 text-xs font-bold animate-in fade-in">
-          <Check className="w-5 h-5 text-emerald-600 shrink-0" />
-          <span>{successMsg}</span>
+          <Button
+            type="button"
+            onClick={() => setShowAddForm(!showAddForm)}
+            className="rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-5 gap-2 shadow-md cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Tambah Akun Staf Baru</span>
+          </Button>
         </div>
-      )}
+      </div>
 
       {/* Add Staff Form Sub-Component */}
       <StaffFormModal

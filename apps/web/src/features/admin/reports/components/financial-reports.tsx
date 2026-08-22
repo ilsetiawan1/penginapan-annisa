@@ -1,7 +1,8 @@
 "use client";
 
-import { Check, FileSpreadsheet } from "lucide-react";
+import { FileSpreadsheet, RotateCw } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../../../../components/ui/button";
 import { RevenueStatsCards } from "./revenue-stats-cards";
 import { type TransactionRecord, TransactionTable } from "./transaction-table";
@@ -55,11 +56,16 @@ const RECENT_TRANSACTIONS: TransactionRecord[] = [
 ];
 
 export function FinancialReports() {
-  const [downloadSuccess, setDownloadSuccess] = useState<boolean>(false);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handleExport = () => {
-    setDownloadSuccess(true);
-    setTimeout(() => setDownloadSuccess(false), 3000);
+    toast.success("File laporan omzet bulan ini berhasil digenerate dan siap diunduh! 📊");
+  };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    toast.success("Laporan omzet & okupansi kamar telah diperbarui!");
+    setTimeout(() => setIsRefreshing(false), 500);
   };
 
   return (
@@ -78,22 +84,27 @@ export function FinancialReports() {
           </p>
         </div>
 
-        <Button
-          type="button"
-          onClick={handleExport}
-          className="rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm h-11 px-5 gap-2 shadow-md cursor-pointer"
-        >
-          <FileSpreadsheet className="w-4 h-4" />
-          <span>Ekspor Laporan (Excel / CSV)</span>
-        </Button>
-      </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleRefresh}
+            title="Perbarui Data Laporan"
+            className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
+          >
+            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <span className="text-xs font-black hidden sm:inline">Refresh</span>
+          </button>
 
-      {downloadSuccess && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-4 rounded-2xl flex items-center gap-2.5 text-xs font-bold animate-in fade-in">
-          <Check className="w-5 h-5 text-emerald-600 shrink-0" />
-          <span>File laporan omzet bulan ini berhasil digenerate dan siap diunduh!</span>
+          <Button
+            type="button"
+            onClick={handleExport}
+            className="rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm h-11 px-5 gap-2 shadow-md cursor-pointer"
+          >
+            <FileSpreadsheet className="w-4 h-4" />
+            <span>Ekspor Laporan (Excel / CSV)</span>
+          </Button>
         </div>
-      )}
+      </div>
 
       {/* 4 Kartu Statistik Keuangan */}
       <RevenueStatsCards />

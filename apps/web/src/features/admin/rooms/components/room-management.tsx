@@ -1,7 +1,8 @@
 "use client";
 
-import { Bed, Check, Save, Wind } from "lucide-react";
+import { Bed, RotateCw, Save, Wind } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../../../../components/ui/button";
 
 interface RoomTypeConfig {
@@ -52,15 +53,21 @@ const INITIAL_TYPES: RoomTypeConfig[] = [
 
 export function RoomManagement() {
   const [types, setTypes] = useState<RoomTypeConfig[]>(INITIAL_TYPES);
-  const [savedSuccess, setSavedSuccess] = useState<boolean>(false);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handlePriceChange = (id: string, newPrice: number) => {
     setTypes((prev) => prev.map((t) => (t.id === id ? { ...t, price: newPrice } : t)));
   };
 
   const handleSave = () => {
-    setSavedSuccess(true);
-    setTimeout(() => setSavedSuccess(false), 3000);
+    toast.success("Tarif dan spesifikasi kamar berhasil disimpan!");
+  };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTypes(INITIAL_TYPES);
+    toast.success("Daftar tarif kamar telah di-refresh ke default!");
+    setTimeout(() => setIsRefreshing(false), 500);
   };
 
   return (
@@ -80,22 +87,27 @@ export function RoomManagement() {
           </p>
         </div>
 
-        <Button
-          type="button"
-          onClick={handleSave}
-          className="rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-6 gap-2 shadow-md cursor-pointer"
-        >
-          <Save className="w-4 h-4" />
-          <span>Simpan Perubahan</span>
-        </Button>
-      </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleRefresh}
+            title="Refresh Data Tarif"
+            className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
+          >
+            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <span className="text-xs font-black hidden sm:inline">Refresh</span>
+          </button>
 
-      {savedSuccess && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-4 rounded-2xl flex items-center gap-2.5 text-xs font-bold animate-in fade-in">
-          <Check className="w-5 h-5 text-emerald-600 shrink-0" />
-          <span>Tarif dan spesifikasi kamar berhasil diperbarui dan disimpan!</span>
+          <Button
+            type="button"
+            onClick={handleSave}
+            className="rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-6 gap-2 shadow-md cursor-pointer"
+          >
+            <Save className="w-4 h-4" />
+            <span>Simpan Perubahan</span>
+          </Button>
         </div>
-      )}
+      </div>
 
       {/* 2 Tipe Kamar Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

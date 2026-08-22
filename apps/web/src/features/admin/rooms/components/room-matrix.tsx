@@ -2,6 +2,7 @@
 
 import { Calendar, RotateCw } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   AdvanceBookingData,
   AdvanceBookingModal,
@@ -117,7 +118,6 @@ export function RoomMatrix() {
   const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
   const [settlementModalData, setSettlementModalData] = useState<RoomItem | null>(null);
   const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] = useState<boolean>(false);
-  const [notification, setNotification] = useState<string>("" );
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   // Pisahkan Kamar Bangunan A & Bangunan B
@@ -128,9 +128,8 @@ export function RoomMatrix() {
   const handleResetRooms = () => {
     setIsRefreshing(true);
     setRooms(INITIAL_ROOMS);
-    setNotification("Data status 8 kamar telah di-refresh ke kondisi awal! 🔄");
+    toast.success("Data status 8 kamar telah di-refresh ke kondisi awal!");
     setTimeout(() => setIsRefreshing(false), 500);
-    setTimeout(() => setNotification(""), 3500);
   };
 
   // Ringkasan Status Keseluruhan
@@ -161,8 +160,7 @@ export function RoomMatrix() {
         return r;
       })
     );
-    setNotification(`Check-In Berhasil! Kamar #${data.roomNumber} kini Terisi untuk ${data.guestName}.`);
-    setTimeout(() => setNotification(""), 4000);
+    toast.success(`Check-In Berhasil! Kamar #${data.roomNumber} kini Terisi untuk ${data.guestName}.`);
   };
 
   // Handle Pelunasan & Check-In Tamu Booking WA yang Baru Saja Tiba di Resepsionis
@@ -180,10 +178,9 @@ export function RoomMatrix() {
         return r;
       })
     );
-    setNotification(
-      `Pelunasan Berhasil Diterima (${paymentMethod.toUpperCase()})! Kamar #${roomCode} kini Lunas 100% dan Siap Ditempati.`
+    toast.success(
+      `Pelunasan Berhasil (${paymentMethod.toUpperCase()})! Kamar #${roomCode} kini Lunas 100% dan Siap Ditempati.`
     );
-    setTimeout(() => setNotification(""), 4000);
   };
 
   // Handle Check-Out Tamu
@@ -208,28 +205,26 @@ export function RoomMatrix() {
         return r;
       })
     );
-    setNotification(`Check-Out Berhasil! Kamar #${checkOutModalData.code} kini masuk status Perlu Bersih.`);
-    setTimeout(() => setNotification(""), 4000);
+    toast.info(`Check-Out Berhasil! Kamar #${checkOutModalData.code} kini masuk status Perlu Bersih.`);
   };
 
   // Handle Tandai Kamar Bersih (Housekeeping Selesai)
   const handleMarkClean = (roomCode: string) => {
     setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
-    setNotification(`Kamar #${roomCode} telah bersih dan siap disewakan kembali! 🟢`);
-    setTimeout(() => setNotification(""), 4000);
+    toast.success(`Kamar #${roomCode} telah bersih dan siap disewakan kembali! 🟢`);
   };
 
   // Handle Selesai Perbaikan
   const handleFinishMaintenance = (roomCode: string) => {
     setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
+    toast.success(`Kamar #${roomCode} telah selesai perbaikan dan Siap Pakai! 🟢`);
   };
 
   // Handle Simpan Advance Booking WA
   const handleConfirmAdvanceBooking = (data: AdvanceBookingData) => {
-    setNotification(
-      `Jadwal Booking Berhasil Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")} tercatat.`
+    toast.success(
+      `Jadwal Booking Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")}`
     );
-    setTimeout(() => setNotification(""), 4000);
   };
 
   return (
@@ -306,13 +301,6 @@ export function RoomMatrix() {
           </button>
         </div>
       </div>
-
-      {notification && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-3 rounded-2xl flex items-center gap-2 text-xs font-bold animate-in fade-in">
-          <span>✨</span>
-          <span>{notification}</span>
-        </div>
-      )}
 
       {/* 2 BANGUNAN BERDAMPINGAN DENGAN GARIS PEMISAH DASHED LINE DI TENGAH */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 relative bg-white/70 backdrop-blur-md rounded-3xl p-3.5 sm:p-4.5 border border-slate-200/90 shadow-2xs">

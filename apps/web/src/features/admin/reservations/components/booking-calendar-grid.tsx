@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, RotateCw } from "lucide-react";
 import type { AdvanceBookingData } from "./advance-booking-modal";
 
 interface BookingCalendarGridProps {
@@ -11,6 +11,7 @@ interface BookingCalendarGridProps {
   onSelectDate: (date: Date) => void;
   bookings: AdvanceBookingData[];
   onOpenAddModal: () => void;
+  onRefresh?: () => void;
 }
 
 const DAYS_OF_WEEK = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
@@ -23,6 +24,7 @@ export function BookingCalendarGrid({
   onSelectDate,
   bookings,
   onOpenAddModal,
+  onRefresh,
 }: BookingCalendarGridProps) {
   const year = currentMonth.getFullYear();
   const month = currentMonth.getMonth();
@@ -83,14 +85,28 @@ export function BookingCalendarGrid({
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={onOpenAddModal}
-          className="px-3.5 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-black shadow-xs flex items-center gap-1.5 cursor-pointer transition"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>+ Catat Booking WA</span>
-        </button>
+        <div className="flex items-center gap-1.5">
+          {onRefresh && (
+            <button
+              type="button"
+              onClick={onRefresh}
+              title="Refresh Jadwal Reservasi"
+              className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1"
+            >
+              <RotateCw className="w-3.5 h-3.5" />
+              <span className="text-[11px] font-extrabold hidden sm:inline">Refresh</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={onOpenAddModal}
+            className="px-3.5 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-black shadow-xs flex items-center gap-1.5 cursor-pointer transition"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>+ Catat Booking WA</span>
+          </button>
+        </div>
       </div>
 
       {/* Header Nama Hari: Min, Sen, Sel, Rab, Kam, Jum, Sab */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { type AdvanceBookingData, AdvanceBookingModal } from "./advance-booking-modal";
 import { BookingCalendarGrid } from "./booking-calendar-grid";
 import { BookingDateDetailsPanel } from "./booking-date-details-panel";
@@ -71,8 +72,14 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
     setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   };
 
+  const handleRefresh = () => {
+    setBookings(INITIAL_BOOKINGS);
+    toast.success("Jadwal reservasi booking WA telah di-refresh!");
+  };
+
   const handleAddBooking = (newBooking: AdvanceBookingData) => {
     setBookings((prev) => [newBooking, ...prev]);
+    toast.success(`Booking baru #${newBooking.roomCode} (${newBooking.guestName}) berhasil dicatat!`);
   };
 
   return (
@@ -91,6 +98,7 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
             onSelectDate={setSelectedDate}
             bookings={bookings}
             onOpenAddModal={() => setIsModalOpen(true)}
+            onRefresh={handleRefresh}
           />
         </div>
 

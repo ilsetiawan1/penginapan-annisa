@@ -1,7 +1,8 @@
 "use client";
 
-import { Check, Search } from "lucide-react";
+import { RotateCw, Search } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { SouvenirItemCard, type SouvenirProduct } from "./souvenir-item-card";
 import { type SaleRecord, SouvenirSalesHistory } from "./souvenir-sales-history";
 
@@ -49,10 +50,13 @@ export function SouvenirPos() {
   const [products, setProducts] = useState<SouvenirProduct[]>(INITIAL_SOUVENIRS);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [recentSales, setRecentSales] = useState<SaleRecord[]>([]);
-  const [successMsg, setSuccessMsg] = useState<string>("");
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handleSell = (product: SouvenirProduct) => {
-    if (product.stock <= 0) return;
+    if (product.stock <= 0) {
+      toast.error(`Stok ${product.name} sudah habis!`);
+      return;
+    }
 
     setProducts((prev) =>
       prev.map((p) => (p.id === product.id ? { ...p, stock: p.stock - 1 } : p)),
@@ -71,14 +75,22 @@ export function SouvenirPos() {
       ...prev.slice(0, 4),
     ]);
 
-    setSuccessMsg(
-      `Berhasil mencatat penjualan: 1x ${product.name} (Rp ${product.price.toLocaleString("id-ID")})`,
+    toast.success(
+      `Penjualan Berhasil: 1x ${product.name} (Rp ${product.price.toLocaleString("id-ID")})`,
     );
-    setTimeout(() => setSuccessMsg(""), 3000);
   };
 
   const handleAddStock = (id: string) => {
     setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, stock: p.stock + 5 } : p)));
+    toast.success("Stok berhasil ditambah +5 unit!");
+  };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setProducts(INITIAL_SOUVENIRS);
+    setRecentSales([]);
+    toast.success("Katalog & stok oleh-oleh telah di-refresh!");
+    setTimeout(() => setIsRefreshing(false), 500);
   };
 
   const totalSalesToday = recentSales.reduce((acc, curr) => acc + curr.total, 0);
@@ -106,17 +118,29 @@ export function SouvenirPos() {
           </p>
         </div>
 
-        <div className="bg-purple-50 border border-purple-200 px-4 py-2 rounded-2xl text-right">
-          <span className="text-[10px] font-bold text-slate-500 block uppercase">
-            Penjualan Shift Ini:
-          </span>
-          <strong className="text-base font-black text-purple-700">
-            Rp {totalSalesToday.toLocaleString("id-ID")}
-          </strong>
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={handleRefresh}
+            title="Refresh Katalog Oleh-Oleh"
+            className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
+          >
+            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <span className="text-xs font-black hidden sm:inline">Refresh</span>
+          </button>
+
+          <div className="bg-purple-50 border border-purple-200 px-4 py-2 rounded-2xl text-right">
+            <span className="text-[10px] font-bold text-slate-500 block uppercase">
+              Penjualan Shift Ini:
+            </span>
+            <strong className="text-base font-black text-purple-700">
+              Rp {totalSalesToday.toLocaleString("id-ID")}
+            </strong>
+          </div>
         </div>
       </div>
 
-      {/* Kotak Pencarian Produk Oleh-Oleh (Sesuai Permintaan User) */}
+      {/* Kotak Pencarian Produk Oleh-Oleh */}
       <div className="bg-white rounded-2xl p-3 border border-slate-200 shadow-2xs flex items-center gap-2.5">
         <Search className="w-4 h-4 text-purple-700 shrink-0 ml-1" />
         <input
@@ -130,19 +154,12 @@ export function SouvenirPos() {
           <button
             type="button"
             onClick={() => setSearchQuery("")}
-            className="text-xs text-slate-400 hover:text-slate-700 px-2 font-bold"
+            className="text-xs text-slate-400 hover:text-slate-700 px-2 font-bold cursor-pointer"
           >
             Reset
           </button>
         )}
       </div>
-
-      {successMsg && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 p-3.5 rounded-2xl flex items-center gap-2 text-xs font-bold animate-in fade-in">
-          <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>{successMsg}</span>
-        </div>
-      )}
 
       {/* 4 Kartu Produk Oleh-Oleh */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

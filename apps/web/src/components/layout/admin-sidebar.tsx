@@ -42,7 +42,7 @@ export function AdminSidebar({
   const generalMenu = [
     { id: "matrix", label: "Status Kamar", icon: LayoutDashboard, roles: ["owner", "staff"] },
     { id: "bookings", label: "Jadwal Booking WA", icon: Calendar, roles: ["owner", "staff"] },
-    { id: "pos", label: "Kasir Oleh-Oleh", icon: Gift, roles: ["owner", "staff"] },
+    { id: "pos", label: "Oleh-Oleh", icon: Gift, roles: ["owner", "staff"] },
     { id: "rooms", label: "Pengaturan Tarif", icon: Bed, roles: ["owner"] },
   ];
 
