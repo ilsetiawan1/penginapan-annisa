@@ -68,7 +68,7 @@ export function AdminSidebar({
 
       {/* Kontainer Sidebar */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 bg-[#faf9fc] border-r border-slate-200/80 flex flex-col justify-between transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-30 bg-[#faf9fc] border-r border-slate-200/80 flex flex-col justify-between transition-all duration-300 ease-in-out ${
           isMobileOpen ? "translate-x-0 w-72" : "-translate-x-full lg:translate-x-0"
         } ${isCollapsed ? "lg:w-20" : "lg:w-64"}`}
       >
