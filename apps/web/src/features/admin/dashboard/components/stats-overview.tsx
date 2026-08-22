@@ -19,7 +19,7 @@ export function StatsOverview({
       <div className="bg-white border-2 border-purple-200/90 rounded-2xl p-3.5 sm:p-4 shadow-2xs">
         <div className="flex items-center justify-between mb-1">
           <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-purple-700">
-            SIAP PAKAI
+            TERSEDIA
           </span>
           <span className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
         </div>

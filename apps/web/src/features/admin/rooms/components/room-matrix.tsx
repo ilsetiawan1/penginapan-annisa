@@ -230,27 +230,50 @@ export function RoomMatrix() {
   return (
     <div className="space-y-3 sm:space-y-3.5">
       {/* Top Header Strip: Status Kamar + Counter Badges + Tombol Catat Booking WA */}
-      <div className="flex flex-wrap items-center justify-between gap-2 bg-white py-2 px-3.5 sm:px-4 rounded-2xl border border-slate-200/80 shadow-2xs">
-        <div className="flex items-center gap-2">
-          <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
-            Status Kamar
-          </h2>
-          <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-2 py-0.5 rounded-full">
-            8 Unit Total
-          </span>
+      <div className="bg-white p-3 sm:py-2 sm:px-4 rounded-2xl border border-slate-200/80 shadow-2xs space-y-2.5 sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:gap-3">
+        {/* Baris 1: Judul Status Kamar & Tombol Aksi Cepat */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
+              Status Kamar
+            </h2>
+            <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-2 py-0.5 rounded-full">
+              8 Unit Total
+            </span>
+          </div>
+
+          {/* Tombol Aksi di Mobile (Pindah ke kanan atas) */}
+          <div className="flex items-center gap-1.5 sm:hidden">
+            <button
+              type="button"
+              onClick={() => setIsAdvanceBookingOpen(true)}
+              className="px-2.5 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-[10px] font-black flex items-center gap-1 shadow-xs cursor-pointer transition"
+            >
+              <Calendar className="w-3 h-3" />
+              <span>+ Booking WA</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleResetRooms}
+              title="Refresh & Reset Data Demo Kamar"
+              className="p-1 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs"
+            >
+              <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            </button>
+          </div>
         </div>
 
-        {/* Status Pills Horizontal */}
-        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap text-xs font-bold">
-          <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
+        {/* Baris 2: Status Pills Horizontal (Bisa di-scroll halus di mobile tanpa berantakan) */}
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 sm:py-0 text-xs font-bold shrink-0">
+          <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>
-              Siap: <strong>{readyCount}</strong>
+              Tersedia: <strong>{readyCount}</strong>
             </span>
           </span>
 
           {bookedCount > 0 && (
-            <span className="bg-purple-50 text-purple-900 border border-purple-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
+            <span className="bg-purple-50 text-purple-900 border border-purple-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
               <span className="w-2 h-2 rounded-full bg-purple-700" />
               <span>
                 Booking WA: <strong>{bookedCount}</strong>
@@ -258,52 +281,53 @@ export function RoomMatrix() {
             </span>
           )}
 
-          <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
+          <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
             <span className="w-2 h-2 rounded-full bg-blue-600" />
             <span>
               Terisi: <strong>{occupiedCount}</strong>
             </span>
           </span>
 
-          <span className="bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
+          <span className="bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
             <span className="w-2 h-2 rounded-full bg-amber-500" />
             <span>
               Kotor: <strong>{dirtyCount}</strong>
             </span>
           </span>
 
-          <span className="bg-rose-50 text-rose-800 border border-rose-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px]">
+          <span className="bg-rose-50 text-rose-800 border border-rose-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
             <span className="w-2 h-2 rounded-full bg-rose-500" />
             <span>
               Servis: <strong>{maintenanceCount}</strong>
             </span>
           </span>
 
-          {/* Tombol Pintas Catat Booking WA */}
-          <button
-            type="button"
-            onClick={() => setIsAdvanceBookingOpen(true)}
-            className="ml-1 px-3 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-[11px] font-extrabold flex items-center gap-1 shadow-xs cursor-pointer transition"
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>+ Booking WA</span>
-          </button>
+          {/* Tombol Pintas Desktop Saja */}
+          <div className="hidden sm:flex items-center gap-1.5 pl-1">
+            <button
+              type="button"
+              onClick={() => setIsAdvanceBookingOpen(true)}
+              className="px-3 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-[11px] font-extrabold flex items-center gap-1 shadow-xs cursor-pointer transition"
+            >
+              <Calendar className="w-3.5 h-3.5" />
+              <span>+ Booking WA</span>
+            </button>
 
-          {/* Tombol Refresh / Reset Demo State */}
-          <button
-            type="button"
-            onClick={handleResetRooms}
-            title="Refresh & Reset Data Demo Kamar"
-            className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1"
-          >
-            <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
-            <span className="text-[11px] font-extrabold hidden sm:inline">Refresh</span>
-          </button>
+            <button
+              type="button"
+              onClick={handleResetRooms}
+              title="Refresh & Reset Data Demo Kamar"
+              className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1"
+            >
+              <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+              <span className="text-[11px] font-extrabold hidden md:inline">Refresh</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 2 BANGUNAN BERDAMPINGAN DENGAN GARIS PEMISAH DASHED LINE DI TENGAH */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 relative bg-white/70 backdrop-blur-md rounded-3xl p-3.5 sm:p-4.5 border border-slate-200/90 shadow-2xs">
+      {/* 2 BANGUNAN BERDAMPINGAN DENGAN GARIS PEMISAH DASHED LINE */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 relative bg-white/70 backdrop-blur-md rounded-3xl p-3 sm:p-4.5 border border-slate-200/90 shadow-2xs">
         {/* ====================================================
             BLOK KIRI: BANGUNAN A (4 KAMAR: #A1 s/d #A4)
             ==================================================== */}
@@ -320,7 +344,7 @@ export function RoomMatrix() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
             {roomsA.map((room) => (
               <RoomCard
                 key={room.code}
@@ -339,7 +363,7 @@ export function RoomMatrix() {
         {/* ====================================================
             BLOK KANAN: BANGUNAN B (4 KAMAR: #B1 s/d #B4)
             ==================================================== */}
-        <div className="space-y-3 lg:pl-2">
+        <div className="space-y-3 lg:pl-2 pt-3 border-t-2 border-dashed border-slate-200 lg:border-t-0 lg:pt-0">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
@@ -352,7 +376,7 @@ export function RoomMatrix() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
             {roomsB.map((room) => (
               <RoomCard
                 key={room.code}

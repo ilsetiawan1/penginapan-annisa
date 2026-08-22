@@ -132,7 +132,7 @@ export function RoomFilter({
                 : "bg-emerald-50 text-emerald-800 hover:bg-emerald-100"
             }`}
           >
-            🟢 Siap Dipesan
+            🟢 Tersedia
           </button>
         </div>
       </div>

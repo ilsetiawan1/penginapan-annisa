@@ -58,7 +58,7 @@ export function RoomCard({
   };
 
   const getStatusLabel = () => {
-    if (isReady) return "SIAP PAKAI";
+    if (isReady) return "TERSEDIA";
     if (isOccupied) return `TERISI (${room.totalNights || 1} MALAM)`;
     if (isBooked) return "BOOKING WA (DP 50%)";
     if (isDirty) return "PERLU BERSIH";
@@ -215,9 +215,9 @@ export function RoomCard({
               <button
                 type="button"
                 onClick={() => onOpenSettlement && onOpenSettlement(room)}
-                className="px-3 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
+                className="px-2.5 sm:px-3 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[10px] sm:text-[11px] transition-all shadow-2xs cursor-pointer flex items-center gap-1"
               >
-                <CheckCircle2 className="w-3 h-3" />
+                <CheckCircle2 className="w-3 h-3 shrink-0" />
                 <span>Pelunasan &amp; Check-In</span>
               </button>
               {room.guestPhone && (
@@ -225,7 +225,7 @@ export function RoomCard({
                   href={`https://wa.me/${room.guestPhone.replace(/[^0-9]/g, "")}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-1 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-emerald-600 transition cursor-pointer shadow-2xs"
+                  className="p-1 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-emerald-600 transition cursor-pointer shadow-2xs shrink-0"
                   title="Chat WhatsApp Tamu"
                 >
                   <FaWhatsapp className="w-3.5 h-3.5" />

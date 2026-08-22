@@ -47,8 +47,8 @@ export default function AdminDashboardPage() {
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
         />
 
-        {/* Dynamic Main Workspace Content (Zero-Scroll Tablet Optimized) */}
-        <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 lg:p-5">
+        {/* Dynamic Main Workspace Content (Zero-Scroll Tablet Optimized & Mobile Friendly) */}
+        <main className="flex-1 max-w-7xl w-full mx-auto p-2.5 sm:p-4 lg:p-5">
           {/* TAB 1: Matriks 8 Kamar PMS (Owner & Staf) */}
           {activeTab === "matrix" && <RoomMatrix />}
 

@@ -32,33 +32,44 @@ export function AdminTopbar({ currentRole, onRoleChange, onOpenMobileSidebar }: 
   }, []);
 
   return (
-    <header className="h-16 w-full flex items-center justify-between px-4 sm:px-6 border-b border-slate-200/70 bg-white/90 backdrop-blur-md sticky top-0 z-30 shrink-0">
-      {/* Kiri: Hamburger Menu Mobile & Sapaan Hangat */}
-      <div className="flex items-center gap-3">
+    <header className="h-14 sm:h-16 w-full flex items-center justify-between px-3 sm:px-6 border-b border-slate-200/70 bg-white/95 backdrop-blur-md sticky top-0 z-30 shrink-0">
+      {/* Kiri: Hamburger Menu Mobile & Sapaan */}
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <button
           type="button"
           onClick={onOpenMobileSidebar}
           aria-label="Buka navigasi menu"
-          className="lg:hidden p-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer"
+          className="lg:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer shrink-0 transition"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
-        <div>
-          <h1 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-tight">
-            {currentRole === "owner"
-              ? "Selamat Datang, Pemilik Penginapan!"
-              : "Selamat Datang, Staf Resepsionis!"}
+        <div className="min-w-0">
+          <h1 className="text-xs sm:text-base lg:text-lg font-black text-slate-900 tracking-tight leading-tight truncate">
+            {currentRole === "owner" ? (
+              <>
+                <span className="sm:hidden">Halo, Owner!</span>
+                <span className="hidden sm:inline">Selamat Datang, Pemilik Penginapan!</span>
+              </>
+            ) : (
+              <>
+                <span className="sm:hidden">Halo, Resepsionis!</span>
+                <span className="hidden sm:inline">Selamat Datang, Staf Resepsionis!</span>
+              </>
+            )}
           </h1>
           <p className="text-[10px] text-slate-500 font-medium hidden sm:block">
             Operasional 8 Kamar Transit Bandara Pattimura Ambon (750m)
           </p>
+          <span className="text-[9px] font-bold text-purple-700 sm:hidden block leading-none">
+            Penginapan Annisa
+          </span>
         </div>
       </div>
 
       {/* Kanan: Jam Real-time WIT, Pilihan Peran, Notifikasi & Profil */}
-      <div className="flex items-center gap-2.5 sm:gap-3">
-        {/* Jam Real-time WIT (Ambon) */}
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        {/* Jam Real-time WIT (Ambon) - Desktop Saja */}
         <div className="hidden md:flex items-center gap-1.5 bg-slate-50 border border-slate-200/80 px-2.5 py-1 rounded-xl text-slate-700 text-xs font-bold shadow-2xs">
           <Clock className="w-3.5 h-3.5 text-purple-700" />
           <span>{timeStr || "Memuat WIT..."}</span>
@@ -69,27 +80,27 @@ export function AdminTopbar({ currentRole, onRoleChange, onOpenMobileSidebar }: 
           <button
             type="button"
             onClick={() => onRoleChange("owner")}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+            className={`flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
               currentRole === "owner"
                 ? "bg-purple-700 text-white shadow-2xs"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Owner</span>
+            <ShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline sm:inline">Owner</span>
           </button>
 
           <button
             type="button"
             onClick={() => onRoleChange("staff")}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+            className={`flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
               currentRole === "staff"
                 ? "bg-purple-700 text-white shadow-2xs"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
-            <UserCheck className="w-3.5 h-3.5" />
-            <span>Staf</span>
+            <UserCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span className="hidden xs:inline sm:inline">Staf</span>
           </button>
         </div>
 
@@ -97,15 +108,15 @@ export function AdminTopbar({ currentRole, onRoleChange, onOpenMobileSidebar }: 
         <button
           type="button"
           aria-label="Pemberitahuan masuk"
-          className="relative w-9 h-9 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 flex items-center justify-center text-slate-700 transition cursor-pointer"
+          className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 flex items-center justify-center text-slate-700 transition cursor-pointer shrink-0"
         >
-          <Bell className="w-4 h-4" />
+          <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
         </button>
 
         {/* Avatar Profil */}
-        <div className="flex items-center pl-0.5">
-          <div className="w-9 h-9 rounded-xl bg-purple-700 text-white flex items-center justify-center font-black text-xs shadow-xs border-2 border-purple-200">
+        <div className="flex items-center shrink-0">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-700 text-white flex items-center justify-center font-black text-xs shadow-xs border-2 border-purple-200">
             {currentRole === "owner" ? "O" : "S"}
           </div>
         </div>

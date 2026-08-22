@@ -64,12 +64,12 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
             {isAvailable ? (
               <span className="bg-emerald-600/95 text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold shadow-xs flex items-center gap-1 backdrop-blur-xs">
                 <Check className="w-3 h-3" />
-                <span>Buka Reservasi</span>
+                <span>Tersedia</span>
               </span>
             ) : (
               <span className="bg-blue-600/95 text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold shadow-xs flex items-center gap-1 backdrop-blur-xs">
                 <Clock className="w-3 h-3" />
-                <span>Terisi Hari Ini</span>
+                <span>Terisi</span>
               </span>
             )}
           </div>
