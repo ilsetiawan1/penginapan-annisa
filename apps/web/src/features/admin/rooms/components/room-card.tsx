@@ -69,22 +69,16 @@ export function RoomCard({
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 flex flex-col justify-between overflow-hidden select-none group">
       <div>
-        {/* 1. Top Colored Status Header Strip (Tanpa Teks Redundan) */}
+        {/* 1. Top Colored Status Header Strip */}
         <div
-          className={`px-3 py-1 text-[9px] font-black tracking-wider uppercase flex items-center justify-between ${getStatusHeaderStyle()}`}
+          className={`px-3 py-1 text-[9px] font-black tracking-wider uppercase flex items-center gap-1.5 ${getStatusHeaderStyle()}`}
         >
-          <span className="flex items-center gap-1.5">
-            {isReady && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
-            {isOccupied && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
-            {isBooked && <Calendar className="w-2.5 h-2.5 text-purple-200" />}
-            {isDirty && <Sparkles className="w-2.5 h-2.5" />}
-            {isMaintenance && <Wrench className="w-2.5 h-2.5" />}
-            <span>{getStatusLabel()}</span>
-          </span>
-
-          <span className="font-bold text-[9px] opacity-90">
-            {isReady ? "SIAP PAKAI" : isOccupied ? "AKTIF" : isBooked ? "RESERVASI" : ""}
-          </span>
+          {isReady && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+          {isOccupied && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+          {isBooked && <Calendar className="w-2.5 h-2.5 text-purple-200" />}
+          {isDirty && <Sparkles className="w-2.5 h-2.5" />}
+          {isMaintenance && <Wrench className="w-2.5 h-2.5" />}
+          <span>{getStatusLabel()}</span>
         </div>
 
         {/* 2. Isi Kartu Clean */}

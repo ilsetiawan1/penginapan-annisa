@@ -326,59 +326,68 @@ export function RoomMatrix() {
         </div>
       </div>
 
-      {/* 2 BANGUNAN BERDAMPINGAN DENGAN GARIS PEMISAH DASHED LINE */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 relative bg-white/70 backdrop-blur-md rounded-3xl p-3 sm:p-4.5 border border-slate-200/90 shadow-2xs">
-        {/* ====================================================
-            BLOK KIRI: BANGUNAN A (4 KAMAR: #A1 s/d #A4)
-            ==================================================== */}
-        <div className="space-y-3 lg:pr-4 lg:border-r-2 lg:border-dashed lg:border-slate-300">
-          <div className="flex items-center gap-2 px-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
-            <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
-              BANGUNAN A
-            </h3>
+      {/* 2 BANGUNAN BERDAMPINGAN DENGAN GARIS PEMISAH DASHED LINE ELEMEN DI TENGAH */}
+      <div className="bg-white/70 backdrop-blur-md rounded-3xl p-3.5 sm:p-4.5 border border-slate-200/90 shadow-2xs">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-stretch">
+          {/* ====================================================
+              KIRI: BANGUNAN A (4 KAMAR: #A1 s/d #A4)
+              ==================================================== */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 px-1">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
+              <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
+                BANGUNAN A
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+              {roomsA.map((room) => (
+                <RoomCard
+                  key={room.code}
+                  room={room}
+                  onOpenCheckIn={setCheckInModalData}
+                  onOpenCheckOut={setCheckOutModalData}
+                  onOpenReceipt={setReceiptModalData}
+                  onOpenSettlement={setSettlementModalData}
+                  onMarkClean={handleMarkClean}
+                  onFinishMaintenance={handleFinishMaintenance}
+                />
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-            {roomsA.map((room) => (
-              <RoomCard
-                key={room.code}
-                room={room}
-                onOpenCheckIn={setCheckInModalData}
-                onOpenCheckOut={setCheckOutModalData}
-                onOpenReceipt={setReceiptModalData}
-                onOpenSettlement={setSettlementModalData}
-                onMarkClean={handleMarkClean}
-                onFinishMaintenance={handleFinishMaintenance}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* ====================================================
-            BLOK KANAN: BANGUNAN B (4 KAMAR: #B1 s/d #B4)
-            ==================================================== */}
-        <div className="space-y-3 lg:pl-2 pt-3 border-t-2 border-dashed border-slate-200 lg:border-t-0 lg:pt-0">
-          <div className="flex items-center gap-2 px-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
-            <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
-              BANGUNAN B
-            </h3>
+          {/* ====================================================
+              TENGAH: ELEMEN DASHED LINE PEMISAH (100% SIMETRIS RATA TENGAH)
+              ==================================================== */}
+          <div className="hidden lg:flex items-center justify-center px-1">
+            <div className="w-[1px] h-full border-r-2 border-dashed border-slate-300 my-1" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-            {roomsB.map((room) => (
-              <RoomCard
-                key={room.code}
-                room={room}
-                onOpenCheckIn={setCheckInModalData}
-                onOpenCheckOut={setCheckOutModalData}
-                onOpenReceipt={setReceiptModalData}
-                onOpenSettlement={setSettlementModalData}
-                onMarkClean={handleMarkClean}
-                onFinishMaintenance={handleFinishMaintenance}
-              />
-            ))}
+          {/* ====================================================
+              KANAN: BANGUNAN B (4 KAMAR: #B1 s/d #B4)
+              ==================================================== */}
+          <div className="space-y-3 pt-3 border-t-2 border-dashed border-slate-200 lg:border-t-0 lg:pt-0">
+            <div className="flex items-center gap-2 px-1">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
+              <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
+                BANGUNAN B
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+              {roomsB.map((room) => (
+                <RoomCard
+                  key={room.code}
+                  room={room}
+                  onOpenCheckIn={setCheckInModalData}
+                  onOpenCheckOut={setCheckOutModalData}
+                  onOpenReceipt={setReceiptModalData}
+                  onOpenSettlement={setSettlementModalData}
+                  onMarkClean={handleMarkClean}
+                  onFinishMaintenance={handleFinishMaintenance}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
