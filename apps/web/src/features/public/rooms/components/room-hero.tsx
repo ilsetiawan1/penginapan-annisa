@@ -9,7 +9,7 @@ interface RoomHeroProps {
 
 export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
   return (
-    <section className="relative w-full h-[320px] sm:h-[420px] lg:h-[460px] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
       <Image
         src="/rooms/JMP-Ambon-baru.webp"
         alt="Jembatan Merah Putih Ambon"
@@ -18,39 +18,40 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
         priority
       />
       {/* Top dark overlay for text contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/45 to-transparent" />
       {/* Smooth Bottom White Fade Transition */}
-      <div className="absolute inset-x-0 bottom-0 h-32 sm:h-44 bg-gradient-to-t from-[#faf9fc] via-[#faf9fc]/85 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-36 sm:h-48 bg-gradient-to-t from-[#faf9fc] via-[#faf9fc]/85 to-transparent pointer-events-none" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-12 sm:pt-16">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-2 shadow-sm">
-          <Bed className="w-3 h-3 text-purple-300" />
+      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-14 sm:pt-16">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-3 sm:mb-4 shadow-sm">
+          <Bed className="w-3.5 h-3.5 text-purple-300" />
           <span>KATALOG 8 UNIT KAMAR</span>
         </div>
 
-        <h1 className="text-xl sm:text-3xl lg:text-4xl font-serif font-black tracking-tight leading-tight mb-1.5 drop-shadow-md">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow-md">
           Pilihan Kamar Transit Nyaman
         </h1>
 
-        <p className="text-[11px] sm:text-sm text-slate-200 font-normal max-w-lg mx-auto leading-relaxed drop-shadow-sm mb-4 sm:mb-6 hidden xs:block">
-          8 unit kamar bersih &amp; terawat, 100% kamar mandi dalam, 750m dari Bandara Pattimura.
+        <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
+          Kamar bersih &amp; tenang, 100% kamar mandi dalam pribadi, hanya 750 meter (2–3 menit)
+          dari Bandara Pattimura.
         </p>
 
         {/* Floating Search Bar */}
-        <div className="max-w-md sm:max-w-lg mx-auto bg-white rounded-full p-1 sm:p-1.5 shadow-2xl flex items-center gap-2 border border-white/80">
-          <div className="pl-3 text-slate-400">
-            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />
+        <div className="max-w-xl mx-auto bg-white rounded-full p-1.5 sm:p-2 shadow-2xl flex items-center gap-2 border border-white/80">
+          <div className="pl-3.5 sm:pl-4 text-slate-400">
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
           </div>
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Cari kamar (A1, AC, Kipas)..."
-            className="w-full bg-transparent text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm font-medium outline-none py-0.5"
+            placeholder="Cari kamar (misal: A1, Tipe AC, Kipas, Kasur Besar)..."
+            className="w-full bg-transparent text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm font-medium outline-none py-1"
           />
           <Button
             type="button"
-            className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs px-4 sm:px-5 py-1.5 h-8 sm:h-9 shrink-0 shadow-md transition-all cursor-pointer"
+            className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 h-9 sm:h-10 shrink-0 shadow-md transition-all cursor-pointer"
           >
             Cari
           </Button>
