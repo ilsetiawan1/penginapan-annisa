@@ -37,14 +37,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
     <div className="space-y-3 sm:space-y-3.5">
       {/* 1. Header Toolbar Ringkas & Minimalis */}
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
-            Dashboard Operasional
-          </h2>
-          <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-2 py-0.5 rounded-full">
-            8 Kamar
-          </span>
-        </div>
+        <h2 className="text-xs sm:text-base font-black text-slate-900 tracking-tight shrink-0">
+          Dashboard Operasional
+        </h2>
 
         {/* Filter Periode & Refresh */}
         <div className="flex items-center gap-1.5 shrink-0">
