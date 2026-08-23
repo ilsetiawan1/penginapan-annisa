@@ -1,66 +1,82 @@
-import { Phone } from "lucide-react";
+"use client";
+
+import { Tag } from "lucide-react";
 import Image from "next/image";
+import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 import { Card } from "../../../../components/ui/card";
-import { getSouvenirOrderWhatsAppUrl } from "../../../../lib/whatsapp";
+import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
+import type { SouvenirProduct } from "../data";
 
-export interface SouvenirItem {
-  name: string;
-  category: string;
-  price: string;
-  desc: string;
-  image: string;
-  origin: string;
-}
+export type SouvenirItem = SouvenirProduct;
 
 interface SouvenirCardProps {
-  item: SouvenirItem;
+  item: SouvenirProduct;
 }
 
 export function SouvenirCard({ item }: SouvenirCardProps) {
+  const waText = `Halo Resepsionis Penginapan Annisa, saya ingin pesan/titip oleh-oleh:
+• Produk: *${item.name}*
+• Kategori: *${item.categoryLabel}*
+• Asal: *${item.origin}*
+• Harga: *${item.price}*
+• Pengambilan: *Self Pick-Up di Resepsionis Annisa (750m Bandara Pattimura)*
+
+Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
+
+  const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waText)}`;
+
   return (
-    <Card className="overflow-hidden p-0 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-md transition-all flex flex-col justify-between group">
+    <Card className="overflow-hidden p-0 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group h-full">
       <div>
-        <div className="relative h-48 sm:h-52 w-full bg-slate-100 overflow-hidden">
+        {/* Foto Produk Bersih & Luas */}
+        <div className="relative h-28 xs:h-36 sm:h-44 md:h-48 w-full bg-slate-100 overflow-hidden">
           <Image
             src={item.image}
             alt={item.name}
             fill
-            className="object-cover group-hover:scale-105 transition duration-300"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute top-3 left-3">
-            <span className="bg-slate-900/90 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white shadow-xs">
-              {item.category}
-            </span>
-          </div>
         </div>
 
-        <div className="p-4 sm:p-5">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 block mb-1">
-            📍 {item.origin}
-          </span>
-          <h3 className="font-extrabold text-sm sm:text-base text-slate-900 mb-1 leading-snug group-hover:text-purple-700 transition">
+        {/* Info Konten Produk */}
+        <div className="p-2.5 sm:p-4 md:p-4.5 space-y-1 sm:space-y-2 text-left">
+          {/* Kategori Oleh-Oleh */}
+          <div className="flex items-center gap-1 text-purple-700 font-bold text-[9px] sm:text-[11px] leading-tight">
+            <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-purple-600 shrink-0" />
+            <span className="truncate">{item.categoryLabel}</span>
+          </div>
+
+          {/* Nama Produk (Poppins Font) */}
+          <h3 className="font-extrabold text-[11px] xs:text-xs sm:text-sm md:text-base text-slate-900 leading-snug line-clamp-2 group-hover:text-purple-700 transition">
             {item.name}
           </h3>
-          <p className="text-base sm:text-lg font-black text-purple-700 mb-2">{item.price}</p>
-          <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">{item.desc}</p>
+
+          {/* Deskripsi Singkat */}
+          <p className="text-[10px] sm:text-xs text-slate-500 leading-relaxed line-clamp-2 hidden xs:block">
+            {item.desc}
+          </p>
         </div>
       </div>
 
-      <div className="p-4 sm:p-5 pt-0">
+      {/* Harga & Tombol Titip Ambil via WhatsApp */}
+      <div className="p-2.5 sm:p-4 md:p-4.5 pt-0 border-t border-slate-100 mt-1 flex flex-col gap-1.5 sm:gap-2">
+        <div className="flex items-baseline justify-between gap-1 pt-1.5 sm:pt-2">
+          <span className="text-[8px] sm:text-[9px] text-slate-400 font-bold uppercase leading-none hidden sm:inline-block">
+            DI RESEPSIONIS
+          </span>
+          <span className="text-xs xs:text-sm sm:text-base md:text-lg font-black text-purple-700 leading-none">
+            {item.price}
+          </span>
+        </div>
+
         <Button
           asChild
-          variant="primary"
-          size="sm"
-          className="w-full justify-center gap-2 rounded-xl font-bold text-xs bg-purple-700 hover:bg-purple-800 text-white shadow-xs h-10 cursor-pointer"
+          className="w-full rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-[10px] sm:text-xs h-7 xs:h-8 sm:h-9 px-2 gap-1 sm:gap-1.5 shadow-2xs hover:shadow-md transition-all cursor-pointer"
         >
-          <a
-            href={getSouvenirOrderWhatsAppUrl(item.name, item.price, item.origin)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Phone className="w-3.5 h-3.5" />
-            <span>Pesan / Tanya Stok via WA</span>
+          <a href={waUrl} target="_blank" rel="noreferrer">
+            <FaWhatsapp className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
+            <span className="truncate">Titip Ambil</span>
           </a>
         </Button>
       </div>

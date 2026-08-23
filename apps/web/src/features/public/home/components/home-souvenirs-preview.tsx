@@ -13,85 +13,25 @@ import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
-
-interface SouvenirProduct {
-  id: number;
-  name: string;
-  category: string;
-  price: string;
-  priceNum: number;
-  desc: string;
-  image: string;
-}
-
-const SOUVENIR_COLLECTION: SouvenirProduct[] = [
-  {
-    id: 1,
-    name: "Minyak Cengkeh Asli",
-    category: "Minyak & Herbal Alami",
-    price: "Rp 55.000",
-    priceNum: 55000,
-    desc: "Ekstraksi murni bunga cengkeh pilihan tanah Maluku, hangat & berkhasiat.",
-    image:
-      "https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    name: "Minyak Kayu Putih Namlea",
-    category: "Minyak & Herbal Alami",
-    price: "Rp 65.000",
-    priceNum: 65000,
-    desc: "Penyulingan murni tradisional kualitas nomor satu, aroma khas menenangkan.",
-    image:
-      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: 3,
-    name: "Kue Sagu Bagea Kenari",
-    category: "Camilan Khas Maluku",
-    price: "Rp 35.000",
-    priceNum: 35000,
-    desc: "Kue sagu renyah bertabur kenari gurih, teman kopi & teh saat transit.",
-    image:
-      "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: 4,
-    name: "Kacang Botol Gurih Ambon",
-    category: "Camilan Khas Maluku",
-    price: "Rp 45.000",
-    priceNum: 45000,
-    desc: "Kacang renyah bumbu rempah khas Ambon Manise dalam botol praktis.",
-    image:
-      "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: 5,
-    name: "Abon Ikan Cakalang Asap",
-    category: "Olahan Ikan Laut",
-    price: "Rp 50.000",
-    priceNum: 50000,
-    desc: "Abon cakalang asap gurih rempah asli Maluku, siap santap & tahan lama.",
-    image:
-      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=600&auto=format&fit=crop",
-  },
-];
+import { SOUVENIR_COLLECTION, type SouvenirProduct } from "../../souvenirs/data";
 
 export function HomeSouvenirsPreview() {
+  const featuredSouvenirs = SOUVENIR_COLLECTION.slice(0, 5);
   const [activeIndex, setActiveIndex] = useState<number>(2); // Default Tengah
 
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? SOUVENIR_COLLECTION.length - 1 : prev - 1));
+    setActiveIndex((prev) => (prev === 0 ? featuredSouvenirs.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev === SOUVENIR_COLLECTION.length - 1 ? 0 : prev + 1));
+    setActiveIndex((prev) => (prev === featuredSouvenirs.length - 1 ? 0 : prev + 1));
   };
 
   const getItemWaUrl = (item: SouvenirProduct) => {
     const text = `Halo Resepsionis Penginapan Annisa, saya ingin pesan/titip oleh-oleh:
 • Produk: *${item.name}*
-• Kategori: *${item.category}*
+• Kategori: *${item.categoryLabel}*
+• Asal: *${item.origin}*
 • Harga: *${item.price}*
 • Pengambilan: *Self Pick-Up di Resepsionis Annisa (750m Bandara Pattimura)*
 
@@ -145,7 +85,7 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
               transform: `translateX(calc(${(2 - activeIndex) * 316}px))`,
             }}
           >
-            {SOUVENIR_COLLECTION.map((item, idx) => {
+            {featuredSouvenirs.map((item, idx) => {
               const isCenter = idx === activeIndex;
               const distance = Math.abs(idx - activeIndex);
 
@@ -182,7 +122,7 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
                         {/* Kategori Oleh-Oleh (Menggantikan Rating Bintang) */}
                         <div className="flex items-center gap-1.5 text-purple-700 font-bold text-[11px] mb-1">
                           <Tag className="w-3 h-3 text-purple-600 shrink-0" />
-                          <span className="truncate">{item.category}</span>
+                          <span className="truncate">{item.categoryLabel}</span>
                         </div>
 
                         {/* Nama Produk (Font Poppins Sesuai Request) */}
@@ -232,7 +172,7 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
 
         {/* Pagination Dots Slider Indicator */}
         <div className="flex items-center justify-center gap-1.5 mt-2 sm:mt-3">
-          {SOUVENIR_COLLECTION.map((item, idx) => (
+          {featuredSouvenirs.map((item, idx) => (
             <button
               key={item.id}
               type="button"
