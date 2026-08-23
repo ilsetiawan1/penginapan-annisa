@@ -11,7 +11,7 @@ export function RoomGuideCard() {
               <span className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-4 h-4" />
               </span>
-              <h2 className="text-base sm:text-lg font-extrabold text-slate-950 leading-tight">
+              <h2 className="text-base sm:text-lg font-serif font-black text-slate-950 leading-tight">
                 Standar Kenyamanan Penginapan Annisa
               </h2>
             </div>

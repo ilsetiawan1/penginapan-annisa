@@ -28,7 +28,7 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
           <span>KATALOG 8 UNIT KAMAR</span>
         </div>
 
-        <h1 className="text-xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight mb-1.5 drop-shadow-md">
+        <h1 className="text-xl sm:text-3xl lg:text-4xl font-serif font-black tracking-tight leading-tight mb-1.5 drop-shadow-md">
           Pilihan Kamar Transit Nyaman
         </h1>
 

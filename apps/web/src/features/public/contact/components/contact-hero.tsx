@@ -9,7 +9,7 @@ export function ContactHero() {
           <span>LAYANAN BANTUAN &amp; RESERVASI 24 JAM</span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-black text-slate-950 tracking-tight leading-tight">
           Hubungi Penginapan Annisa
         </h1>
 

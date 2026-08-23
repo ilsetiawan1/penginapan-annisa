@@ -21,7 +21,7 @@ export function Footer() {
           {/* Content inside Floating Glass Card */}
           <div className="relative z-10 max-w-xl mx-auto text-center space-y-3 sm:space-y-4">
             {/* Headline */}
-            <h2 className="text-xl sm:text-3xl font-black text-white leading-tight drop-shadow-md tracking-tight">
+            <h2 className="text-xl sm:text-3xl font-serif font-black text-white leading-tight drop-shadow-md tracking-tight">
               Istirahat Nyaman Dekat Bandara Pattimura
             </h2>
 

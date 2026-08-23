@@ -28,7 +28,7 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
           <span>ETALASE RESEPSIONIS ANNISA</span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow-md">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow-md">
           Oleh-oleh Khas Ambon &amp; Maluku
         </h1>
 

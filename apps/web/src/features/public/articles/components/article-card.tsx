@@ -51,7 +51,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
             </span>
           </div>
 
-          <h3 className="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-purple-700 transition leading-snug line-clamp-2 mb-2">
+          <h3 className="font-serif font-black text-sm sm:text-base text-slate-900 group-hover:text-purple-700 transition leading-snug line-clamp-2 mb-2">
             {article.title}
           </h3>
           <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">{article.desc}</p>

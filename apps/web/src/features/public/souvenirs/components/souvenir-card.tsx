@@ -39,7 +39,7 @@ export function SouvenirCard({ item }: SouvenirCardProps) {
           <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 block mb-1">
             📍 {item.origin}
           </span>
-          <h3 className="font-extrabold text-sm sm:text-base text-slate-900 mb-1 leading-snug group-hover:text-purple-700 transition">
+          <h3 className="font-serif font-black text-sm sm:text-base text-slate-900 mb-1 leading-snug group-hover:text-purple-700 transition">
             {item.name}
           </h3>
           <p className="text-base sm:text-lg font-black text-purple-700 mb-2">{item.price}</p>
