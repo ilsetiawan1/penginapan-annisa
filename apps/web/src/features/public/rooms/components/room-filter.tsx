@@ -59,7 +59,7 @@ export function RoomFilter({
                 LAMA MENGINAP
               </span>
               <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
-                {nights} Malam {nights === 1 ? "(Transit)" : ""}
+                {nights} Malam {nights === 1 ? "Transit" : ""}
               </span>
             </div>
             <Moon className="w-4 h-4 text-purple-700 shrink-0" />
@@ -69,7 +69,7 @@ export function RoomFilter({
               onChange={(e) => onNightsChange(Number(e.target.value))}
               className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
             >
-              <option value={1}>1 Malam (Transit)</option>
+              <option value={1}>1 Malam Transit</option>
               <option value={2}>2 Malam</option>
               <option value={3}>3 Malam</option>
               <option value={4}>4 Malam</option>
@@ -99,29 +99,31 @@ export function RoomFilter({
                 : "bg-slate-100 text-slate-600 hover:text-purple-700"
             }`}
           >
-            Semua (8 Unit)
+            Semua Kamar
           </button>
           <button
             type="button"
             onClick={() => onFilterChange("ac")}
-            className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer ${
+            className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
               activeFilter === "ac"
                 ? "bg-purple-700 text-white shadow-xs"
                 : "bg-slate-100 text-slate-600 hover:text-purple-700"
             }`}
           >
-            Tipe AC (Rp 275rb)
+            <span>Tipe AC</span>
+            <span className="font-normal opacity-80 text-[10px] sm:text-[11px]">Rp 275.000</span>
           </button>
           <button
             type="button"
             onClick={() => onFilterChange("kipas")}
-            className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer ${
+            className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
               activeFilter === "kipas"
                 ? "bg-purple-700 text-white shadow-xs"
                 : "bg-slate-100 text-slate-600 hover:text-purple-700"
             }`}
           >
-            Tipe Kipas (Rp 200rb)
+            <span>Tipe Kipas</span>
+            <span className="font-normal opacity-80 text-[10px] sm:text-[11px]">Rp 200.000</span>
           </button>
           <button
             type="button"

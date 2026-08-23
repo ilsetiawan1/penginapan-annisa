@@ -169,7 +169,7 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
               onChange={(e) => setNights(Number(e.target.value))}
               className="w-full bg-transparent text-xs sm:text-sm font-extrabold text-slate-950 outline-none cursor-pointer"
             >
-              <option value={1}>1 Malam (Transit)</option>
+              <option value={1}>1 Malam Transit</option>
               <option value={2}>2 Malam</option>
               <option value={3}>3 Malam</option>
               <option value={4}>4 Malam</option>
