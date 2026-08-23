@@ -34,7 +34,7 @@ export function BookingProcessSection() {
           <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block mb-1">
             ALUR RESERVASI
           </span>
-          <h2 className="text-sm sm:text-lg font-bold text-slate-900 leading-tight">
+          <h2 className="text-xl sm:text-3xl font-serif font-black text-slate-900 leading-tight">
             3 Langkah Mudah Booking Kamar Transit
           </h2>
           <p className="text-xs text-slate-500 mt-1">

@@ -68,7 +68,7 @@ export function HomeRoomsPreview() {
         <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block mb-1">
           PILIHAN KAMAR
         </span>
-        <h2 className="text-sm sm:text-lg font-bold text-slate-900 leading-tight">
+        <h2 className="text-xl sm:text-3xl font-serif font-black text-slate-900 leading-tight">
           Unit Kamar Bersih &amp; Terawat
         </h2>
         <p className="text-xs text-slate-500 mt-1">
