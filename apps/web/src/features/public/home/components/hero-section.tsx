@@ -35,7 +35,7 @@ export function HeroSection() {
             <span>Rute ke Bandara di Google Maps ➔</span>
           </a>
 
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight sm:leading-[1.15] drop-shadow-md">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight sm:leading-[1.15] drop-shadow-md">
             Penginapan Transit Nyaman Dekat{" "}
             <span className="text-purple-300">Bandara Pattimura</span>
           </h1>
