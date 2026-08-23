@@ -42,8 +42,8 @@ export function SouvenirGrid({ items, searchQuery, onReset }: SouvenirGridProps)
           </Button>
         </div>
       ) : (
-        /* Grid Layout: 3 Kolom di Mobile, 4 Kolom di Tablet & Desktop */
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-5">
+        /* Grid Layout: 2 Kolom di Mobile, 3 Kolom di Tablet, 4 Kolom di Desktop */
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
           {items.map((item) => (
             <SouvenirCard key={item.id} item={item} />
           ))}
