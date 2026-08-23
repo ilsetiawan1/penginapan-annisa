@@ -13,7 +13,7 @@ const ROOMS_DATA: RoomItem[] = [
   // BANGUNAN A
   {
     number: "A1",
-    name: "Kamar A1 — Tipe AC",
+    name: "Kamar A1",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -31,7 +31,7 @@ const ROOMS_DATA: RoomItem[] = [
   },
   {
     number: "A2",
-    name: "Kamar A2 — Tipe AC",
+    name: "Kamar A2",
     type: "ac",
     status: "terisi",
     price: "275.000",
@@ -49,7 +49,7 @@ const ROOMS_DATA: RoomItem[] = [
   },
   {
     number: "A3",
-    name: "Kamar A3 — Tipe Kipas",
+    name: "Kamar A3",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -67,7 +67,7 @@ const ROOMS_DATA: RoomItem[] = [
   },
   {
     number: "A4",
-    name: "Kamar A4 — Tipe Kipas",
+    name: "Kamar A4",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -87,7 +87,7 @@ const ROOMS_DATA: RoomItem[] = [
   // BANGUNAN B
   {
     number: "B1",
-    name: "Kamar B1 — Tipe AC",
+    name: "Kamar B1",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -105,7 +105,7 @@ const ROOMS_DATA: RoomItem[] = [
   },
   {
     number: "B2",
-    name: "Kamar B2 — Tipe AC",
+    name: "Kamar B2",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -123,7 +123,7 @@ const ROOMS_DATA: RoomItem[] = [
   },
   {
     number: "B3",
-    name: "Kamar B3 — Tipe Kipas",
+    name: "Kamar B3",
     type: "kipas",
     status: "terisi",
     price: "200.000",
@@ -141,7 +141,7 @@ const ROOMS_DATA: RoomItem[] = [
   },
   {
     number: "B4",
-    name: "Kamar B4 — Tipe Kipas",
+    name: "Kamar B4",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
