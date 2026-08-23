@@ -59,14 +59,9 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
 
         {/* Price & Pick-Up Action (Horizontal sejajar persis seperti di Beranda) */}
         <div className="pt-2.5 border-t border-slate-100 mt-2 flex items-center justify-between gap-2">
-          <div>
-            <span className="text-[9px] text-slate-400 font-bold block uppercase leading-none">
-              HARGA DI RESEPSIONIS
-            </span>
-            <span className="text-base sm:text-lg font-black text-purple-700 leading-tight block mt-0.5">
-              {item.price}
-            </span>
-          </div>
+          <span className="text-base sm:text-lg font-black text-purple-700 leading-none">
+            {item.price}
+          </span>
 
           <Button
             asChild
