@@ -5,27 +5,28 @@ import {
   ChevronLeft,
   ChevronRight,
   Heart,
+  MapPin,
+  Package,
   ShoppingBag,
-  Star,
+  Sparkles,
+  Tag,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
-import { getSouvenirOrderWhatsAppUrl } from "../../../../lib/whatsapp";
+import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
 
 interface SouvenirProduct {
   id: number;
   name: string;
   category: string;
-  tag: string;
-  tagColor: string;
+  badge: string;
+  badgeColor: string;
   price: string;
   priceNum: number;
   desc: string;
-  rating: number;
-  reviews: number;
   image: string;
 }
 
@@ -33,79 +34,68 @@ const SOUVENIR_COLLECTION: SouvenirProduct[] = [
   {
     id: 1,
     name: "Minyak Cengkeh Asli",
-    category: "Minyak & Herbal",
-    tag: "TRENDING",
-    tagColor: "bg-amber-100 text-amber-900 border-amber-200",
+    category: "Minyak & Herbal Alami",
+    badge: "100% Ekstrak Murni",
+    badgeColor: "bg-teal-50 text-teal-800 border-teal-200/80",
     price: "Rp 55.000",
     priceNum: 55000,
-    desc: "Ekstraksi murni bunga cengkeh pilihan tanah Maluku.",
-    rating: 4.8,
-    reviews: 98,
+    desc: "Ekstraksi murni bunga cengkeh pilihan tanah Maluku, hangat & berkhasiat.",
     image:
       "https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: 2,
     name: "Minyak Kayu Putih Namlea",
-    category: "Minyak & Herbal",
-    tag: "BEST SELLER",
-    tagColor: "bg-purple-100 text-purple-900 border-purple-200",
+    category: "Minyak & Herbal Alami",
+    badge: "Asli Pulau Buru",
+    badgeColor: "bg-purple-50 text-purple-800 border-purple-200/80",
     price: "Rp 65.000",
     priceNum: 65000,
-    desc: "Penyulingan murni Pulau Buru kualitas nomor satu.",
-    rating: 4.9,
-    reviews: 142,
+    desc: "Penyulingan murni tradisional kualitas nomor satu, aroma khas menenangkan.",
     image:
       "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: 3,
     name: "Kue Sagu Bagea Kenari",
-    category: "Camilan Khas",
-    tag: "POPULAR",
-    tagColor: "bg-amber-100 text-amber-900 border-amber-200",
+    category: "Camilan Khas Maluku",
+    badge: "Favorit Tamu Transit",
+    badgeColor: "bg-amber-50 text-amber-900 border-amber-200/80",
     price: "Rp 35.000",
     priceNum: 35000,
-    desc: "Kue sagu renyah bertabur kenari gurih oleh-oleh favorit.",
-    rating: 4.9,
-    reviews: 120,
+    desc: "Kue sagu renyah bertabur kenari gurih, teman kopi & teh saat transit.",
     image:
       "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: 4,
     name: "Kacang Botol Gurih Ambon",
-    category: "Camilan Khas",
-    tag: "FAVORIT",
-    tagColor: "bg-emerald-100 text-emerald-900 border-emerald-200",
+    category: "Camilan Khas Maluku",
+    badge: "Kemasan Aman Bagasi",
+    badgeColor: "bg-blue-50 text-blue-800 border-blue-200/80",
     price: "Rp 45.000",
     priceNum: 45000,
-    desc: "Kacang renyah bumbu rempah khas Ambon Manise.",
-    rating: 4.7,
-    reviews: 65,
+    desc: "Kacang renyah bumbu rempah khas Ambon Manise dalam botol praktis.",
     image:
       "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=600&auto=format&fit=crop",
   },
   {
     id: 5,
     name: "Abon Ikan Cakalang Asap",
-    category: "Olahan Ikan",
-    tag: "NEW",
-    tagColor: "bg-rose-100 text-rose-900 border-rose-200",
+    category: "Olahan Ikan Laut",
+    badge: "Resep Asli Laut Banda",
+    badgeColor: "bg-rose-50 text-rose-800 border-rose-200/80",
     price: "Rp 50.000",
     priceNum: 50000,
-    desc: "Abon cakalang asap gurih rempah asli laut Banda.",
-    rating: 4.8,
-    reviews: 75,
+    desc: "Abon cakalang asap gurih rempah asli Maluku, siap santap & tahan lama.",
     image:
       "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=600&auto=format&fit=crop",
   },
 ];
 
 export function HomeSouvenirsPreview() {
-  const [activeIndex, setActiveIndex] = useState<number>(2); // Default Bagea / Tengah
+  const [activeIndex, setActiveIndex] = useState<number>(2); // Default Tengah
   const [likedIds, setLikedIds] = useState<number[]>([2]);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? SOUVENIR_COLLECTION.length - 1 : prev - 1));
@@ -122,10 +112,21 @@ export function HomeSouvenirsPreview() {
     );
   };
 
+  const getItemWaUrl = (item: SouvenirProduct) => {
+    const text = `Halo Resepsionis Penginapan Annisa, saya ingin pesan/titip oleh-oleh:
+• Produk: *${item.name}*
+• Kategori: *${item.category}*
+• Harga: *${item.price}*
+• Pengambilan: *Self Pick-Up di Resepsionis Annisa (750m Bandara Pattimura)*
+
+Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
+    return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
+  };
+
   return (
     <div className="w-full relative overflow-hidden py-4 sm:py-6">
       {/* Header Elegan dengan Font Serif */}
-      <div className="text-center max-w-xl mx-auto mb-6 sm:mb-10 px-4">
+      <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8 px-4">
         <span className="text-[11px] font-black uppercase tracking-widest text-purple-700 block mb-1.5">
           OLEH-OLEH KHAS RESEPSIONIS
         </span>
@@ -133,19 +134,19 @@ export function HomeSouvenirsPreview() {
           Produk Unggulan &amp; Paling Dicari
         </h2>
         <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
-          Minyak kayu putih Namlea murni, minyak cengkeh, dan camilan khas Maluku tersedia langsung
-          di etalase meja resepsionis.
+          Tersedia langsung di etalase meja resepsionis. Anda bisa titip stok lebih awal via WhatsApp
+          dan ambil langsung saat transit di penginapan.
         </p>
       </div>
 
       {/* 3D Smooth Sliding Carousel Track */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-14">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-12">
         {/* Tombol Navigasi Kiri */}
         <button
           type="button"
           onClick={handlePrev}
           aria-label="Produk Sebelumnya"
-          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-xl flex items-center justify-center transition-all cursor-pointer"
+          className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
@@ -155,17 +156,17 @@ export function HomeSouvenirsPreview() {
           type="button"
           onClick={handleNext}
           aria-label="Produk Berikutnya"
-          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-xl flex items-center justify-center transition-all cursor-pointer"
+          className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Viewport & Sliding Track Container */}
-        <div ref={containerRef} className="overflow-hidden w-full py-6 sm:py-8">
+        {/* Viewport Track (Translasi Berbasis Lebar Tetap = Nol Glitch) */}
+        <div className="overflow-hidden w-full py-6">
           <div
-            className="flex items-center justify-center transition-transform duration-500 ease-out will-change-transform"
+            className="flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
             style={{
-              transform: `translateX(calc(${(2 - activeIndex) * 280}px))`,
+              transform: `translateX(calc(${(2 - activeIndex) * 316}px))`,
             }}
           >
             {SOUVENIR_COLLECTION.map((item, idx) => {
@@ -176,112 +177,103 @@ export function HomeSouvenirsPreview() {
                 <div
                   key={item.id}
                   onClick={() => setActiveIndex(idx)}
-                  className={`shrink-0 mx-2 sm:mx-3 transition-all duration-500 ease-out cursor-pointer rounded-3xl overflow-hidden flex flex-col justify-between select-none ${
-                    isCenter
-                      ? "w-[270px] sm:w-[310px] lg:w-[325px] scale-100 sm:scale-105 z-20 bg-white border-2 border-purple-400 shadow-2xl shadow-purple-900/20 opacity-100"
-                      : distance === 1
-                        ? "w-[240px] sm:w-[270px] scale-95 z-10 bg-white/95 border border-slate-200/90 shadow-lg opacity-75 hover:opacity-95"
-                        : "w-[220px] sm:w-[250px] scale-90 z-0 bg-white/80 border border-slate-200/60 shadow-md opacity-40 hover:opacity-75"
-                  }`}
+                  className="w-[280px] sm:w-[300px] shrink-0 mx-2 select-none cursor-pointer"
                 >
-                  {/* Image Container */}
-                  <div className="relative h-44 sm:h-52 lg:h-56 w-full bg-slate-100 overflow-hidden">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      className={`object-cover transition-transform duration-700 ${
-                        isCenter ? "scale-105" : "scale-100"
-                      }`}
-                    />
-
-                    {/* Gradient Shadow Top */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/30 pointer-events-none" />
-
-                    {/* Tag Badge */}
-                    <div className="absolute top-3 left-3 z-10">
-                      <span
-                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border shadow-xs ${item.tagColor}`}
-                      >
-                        {item.tag}
-                      </span>
-                    </div>
-
-                    {/* Heart Button */}
-                    <button
-                      type="button"
-                      onClick={(e) => toggleLike(item.id, e)}
-                      aria-label="Sukai produk"
-                      className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-600 hover:text-rose-500 transition-all shadow-xs"
-                    >
-                      <Heart
-                        className={`w-4 h-4 ${
-                          likedIds.includes(item.id)
-                            ? "fill-rose-500 text-rose-500"
-                            : "text-slate-600"
+                  <div
+                    className={`rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                      isCenter
+                        ? "bg-white border-2 border-purple-400 shadow-2xl shadow-purple-900/20 scale-100 sm:scale-105 opacity-100 ring-4 ring-purple-100/50"
+                        : distance === 1
+                          ? "bg-white/95 border border-slate-200/90 shadow-md scale-95 opacity-75 hover:opacity-95"
+                          : "bg-white/80 border border-slate-200/60 shadow-xs scale-90 opacity-40 hover:opacity-70"
+                    }`}
+                  >
+                    {/* Image Box */}
+                    <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className={`object-cover transition-transform duration-700 ${
+                          isCenter ? "scale-105" : "scale-100"
                         }`}
                       />
-                    </button>
-                  </div>
 
-                  {/* Content Body */}
-                  <div className="p-4 sm:p-5 space-y-2 text-left flex-1 flex flex-col justify-between">
-                    <div>
-                      {/* Rating */}
-                      <div className="flex items-center gap-1.5 text-xs text-amber-500 mb-1">
-                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                        <span className="font-extrabold text-slate-800 text-[11px]">
-                          {item.rating}
+                      {/* Soft Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/25 pointer-events-none" />
+
+                      {/* Badge Keaslian / Lokasi (Menggantikan Best Seller/Popular yang kaku) */}
+                      <div className="absolute top-3 left-3 z-10">
+                        <span
+                          className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border shadow-xs ${item.badgeColor}`}
+                        >
+                          {item.badge}
                         </span>
-                        <span className="text-slate-400 text-[10px]">({item.reviews})</span>
                       </div>
 
-                      <h3
-                        className={`font-extrabold text-slate-900 leading-snug line-clamp-1 ${
-                          isCenter ? "text-base sm:text-lg" : "text-sm sm:text-base"
-                        }`}
+                      {/* Heart Button */}
+                      <button
+                        type="button"
+                        onClick={(e) => toggleLike(item.id, e)}
+                        aria-label="Sukai produk"
+                        className="absolute top-3 right-3 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-600 hover:text-rose-500 transition-all shadow-xs"
                       >
-                        {item.name}
-                      </h3>
-                      <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed mt-0.5">
-                        {item.desc}
-                      </p>
+                        <Heart
+                          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
+                            likedIds.includes(item.id)
+                              ? "fill-rose-500 text-rose-500"
+                              : "text-slate-600"
+                          }`}
+                        />
+                      </button>
                     </div>
 
-                    {/* Price & Action */}
-                    <div className="pt-2.5 border-t border-slate-100 mt-2 flex items-center justify-between gap-2">
+                    {/* Body Info */}
+                    <div className="p-4 sm:p-5 text-left flex-1 flex flex-col justify-between space-y-2">
                       <div>
-                        <span className="text-[9px] text-slate-400 font-bold block uppercase leading-none">
-                          HARGA
-                        </span>
-                        <span
-                          className={`font-black text-purple-700 ${
-                            isCenter ? "text-base sm:text-lg" : "text-sm sm:text-base"
-                          }`}
-                        >
-                          {item.price}
-                        </span>
+                        {/* Kategori Oleh-Oleh (Menggantikan Rating Bintang) */}
+                        <div className="flex items-center gap-1.5 text-purple-700 font-bold text-[11px] mb-1">
+                          <Tag className="w-3 h-3 text-purple-600 shrink-0" />
+                          <span className="truncate">{item.category}</span>
+                        </div>
+
+                        {/* Nama Produk (Font Poppins Sesuai Request) */}
+                        <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug line-clamp-1">
+                          {item.name}
+                        </h3>
+
+                        <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">
+                          {item.desc}
+                        </p>
                       </div>
 
-                      {isCenter ? (
-                        <Button
-                          asChild
-                          className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer"
-                        >
-                          <a
-                            href={getSouvenirOrderWhatsAppUrl(item.name, item.price)}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <FaWhatsapp className="w-4 h-4" />
-                            <span>Pesan via WA</span>
-                          </a>
-                        </Button>
-                      ) : (
-                        <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-700">
-                          <ShoppingBag className="w-4 h-4" />
+                      {/* Price & Pick-Up Action */}
+                      <div className="pt-2.5 border-t border-slate-100 mt-2 flex items-center justify-between gap-2">
+                        <div>
+                          <span className="text-[9px] text-slate-400 font-bold block uppercase leading-none">
+                            HARGA DI RESEPSIONIS
+                          </span>
+                          <span className="text-base sm:text-lg font-black text-purple-700 leading-tight block mt-0.5">
+                            {item.price}
+                          </span>
                         </div>
-                      )}
+
+                        {isCenter ? (
+                          <Button
+                            asChild
+                            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
+                          >
+                            <a href={getItemWaUrl(item)} target="_blank" rel="noreferrer">
+                              <FaWhatsapp className="w-4 h-4" />
+                              <span>Titip Ambil</span>
+                            </a>
+                          </Button>
+                        ) : (
+                          <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-700 shrink-0">
+                            <ShoppingBag className="w-4 h-4" />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -291,7 +283,7 @@ export function HomeSouvenirsPreview() {
         </div>
 
         {/* Pagination Dots Slider Indicator */}
-        <div className="flex items-center justify-center gap-1.5 mt-2 sm:mt-4">
+        <div className="flex items-center justify-center gap-1.5 mt-2 sm:mt-3">
           {SOUVENIR_COLLECTION.map((item, idx) => (
             <button
               key={item.id}
