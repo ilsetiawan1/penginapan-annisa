@@ -84,7 +84,7 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
         <div className="p-4 sm:p-5 space-y-3">
           <div className="flex items-start justify-between gap-2">
             <div>
-              <h3 className="font-serif font-black text-sm sm:text-base text-slate-900 leading-snug">
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug">
                 {room.name}
               </h3>
               <p className="text-xs text-purple-700 font-bold mt-0.5">{room.bed}</p>

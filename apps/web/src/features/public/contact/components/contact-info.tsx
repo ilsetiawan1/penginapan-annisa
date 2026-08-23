@@ -5,7 +5,7 @@ export function ContactInfo() {
   return (
     <div className="space-y-4 text-left">
       <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-purple-100 shadow-2xs">
-        <h3 className="font-serif font-black text-base text-slate-950 mb-3">Informasi Kontak Langsung</h3>
+        <h3 className="font-extrabold text-base text-slate-950 mb-3">Informasi Kontak Langsung</h3>
 
         <ul className="space-y-3.5 text-xs text-slate-700">
           <li className="flex items-start gap-3">

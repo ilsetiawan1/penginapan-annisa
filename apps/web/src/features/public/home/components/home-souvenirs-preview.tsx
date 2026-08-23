@@ -237,7 +237,7 @@ export function HomeSouvenirsPreview() {
                       </div>
 
                       <h3
-                        className={`font-serif font-black text-slate-900 leading-snug line-clamp-1 ${
+                        className={`font-extrabold text-slate-900 leading-snug line-clamp-1 ${
                           isCenter ? "text-base sm:text-lg" : "text-sm sm:text-base"
                         }`}
                       >
