@@ -1,11 +1,11 @@
 "use client";
 
 import {
+  ArrowRight,
   Bed,
   Calendar,
   CheckCircle2,
-  Gift,
-  LayoutDashboard,
+  Clock,
   LogOut,
   RotateCw,
   Sparkles,
@@ -13,10 +13,9 @@ import {
   Wind,
 } from "lucide-react";
 import { useState } from "react";
+import { FaWhatsapp } from "react-icons/fa6";
 import { toast } from "sonner";
-import { ChannelDistributionCard } from "./channel-distribution-card";
 import { OccupancyTrendChart } from "./occupancy-trend-chart";
-import { TodayTasksPanel } from "./today-tasks-panel";
 
 interface OperationalDashboardProps {
   onNavigateTab: (tab: string) => void;
@@ -30,32 +29,32 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
     setIsRefreshing(true);
     setTimeout(() => {
       setIsRefreshing(false);
-      toast.success("Data dashboard operasional telah di-refresh!");
-    }, 300);
+      toast.success("Dashboard diperbarui!");
+    }, 250);
   };
 
   return (
-    <div className="space-y-3 sm:space-y-4">
-      {/* 1. Header Toolbar Ringkas (Mobile-First) */}
-      <div className="bg-white p-3 sm:py-2.5 sm:px-4 rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
-        <div className="flex items-center gap-2 flex-wrap">
+    <div className="space-y-3 sm:space-y-3.5">
+      {/* 1. Header Toolbar Ringkas & Minimalis */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
           <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
             Dashboard Operasional
           </h2>
           <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-2 py-0.5 rounded-full">
-            8 Kamar Transit
+            8 Kamar
           </span>
         </div>
 
         {/* Filter Periode & Refresh */}
-        <div className="flex items-center gap-1.5 self-start sm:self-auto shrink-0">
-          <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/70 text-[11px] font-bold">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/80 text-[10px] sm:text-[11px] font-bold">
             <button
               type="button"
               onClick={() => setSelectedPeriod("today")}
               className={`px-2.5 py-1 rounded-lg transition cursor-pointer ${
                 selectedPeriod === "today"
-                  ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+                  ? "bg-purple-700 text-white shadow-2xs font-black"
                   : "text-slate-600 hover:text-slate-900"
               }`}
             >
@@ -66,7 +65,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
               onClick={() => setSelectedPeriod("week")}
               className={`px-2.5 py-1 rounded-lg transition cursor-pointer ${
                 selectedPeriod === "week"
-                  ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+                  ? "bg-purple-700 text-white shadow-2xs font-black"
                   : "text-slate-600 hover:text-slate-900"
               }`}
             >
@@ -77,7 +76,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
               onClick={() => setSelectedPeriod("month")}
               className={`px-2.5 py-1 rounded-lg transition cursor-pointer ${
                 selectedPeriod === "month"
-                  ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+                  ? "bg-purple-700 text-white shadow-2xs font-black"
                   : "text-slate-600 hover:text-slate-900"
               }`}
             >
@@ -89,19 +88,19 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             type="button"
             onClick={handleRefresh}
             title="Refresh Data Dashboard"
-            className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs"
+            className="p-1 sm:p-1.5 rounded-xl border border-slate-200 bg-white hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs"
           >
             <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
           </button>
         </div>
       </div>
 
-      {/* 2. Top 4 Metric Cards Ringkas (2 Col Mobile, 4 Col Desktop) */}
+      {/* 2. Top 4 Metric Cards (Clean, Compact, 2 Kolom di Mobile & 4 Kolom di Desktop) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
         {/* KPI 1: Okupansi */}
         <div
           onClick={() => onNavigateTab("matrix")}
-          className="bg-white rounded-2xl p-3 sm:p-3.5 border border-purple-200/90 shadow-2xs hover:shadow-md hover:border-purple-400 transition cursor-pointer group"
+          className="bg-white rounded-2xl p-3 sm:p-3.5 border border-purple-200/80 shadow-2xs hover:shadow-xs hover:border-purple-400 transition cursor-pointer flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-1">
             <span className="text-[10px] font-black text-purple-700 uppercase tracking-wider">
@@ -121,7 +120,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         {/* KPI 2: Tiba Hari Ini */}
         <div
           onClick={() => onNavigateTab("bookings")}
-          className="bg-white rounded-2xl p-3 sm:p-3.5 border border-blue-200/90 shadow-2xs hover:shadow-md hover:border-blue-400 transition cursor-pointer group"
+          className="bg-white rounded-2xl p-3 sm:p-3.5 border border-blue-200/80 shadow-2xs hover:shadow-xs hover:border-blue-400 transition cursor-pointer flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-1">
             <span className="text-[10px] font-black text-blue-700 uppercase tracking-wider">
@@ -134,14 +133,14 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             <span className="text-[10px] font-bold text-purple-700">Booking WA</span>
           </div>
           <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">
-            #B1 (Hendra Pratama)
+            #B1 • Hendra Pratama
           </p>
         </div>
 
         {/* KPI 3: Jadwal Check-Out */}
         <div
           onClick={() => onNavigateTab("matrix")}
-          className="bg-white rounded-2xl p-3 sm:p-3.5 border border-amber-200/90 shadow-2xs hover:shadow-md hover:border-amber-400 transition cursor-pointer group"
+          className="bg-white rounded-2xl p-3 sm:p-3.5 border border-amber-200/80 shadow-2xs hover:shadow-xs hover:border-amber-400 transition cursor-pointer flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-1">
             <span className="text-[10px] font-black text-amber-800 uppercase tracking-wider">
@@ -154,14 +153,14 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             <span className="text-[10px] font-bold text-slate-500">Maks 12.00</span>
           </div>
           <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">
-            #A2 (Budi Santoso)
+            #A2 • Budi Santoso
           </p>
         </div>
 
         {/* KPI 4: Housekeeping */}
         <div
           onClick={() => onNavigateTab("matrix")}
-          className="bg-white rounded-2xl p-3 sm:p-3.5 border border-rose-200/90 shadow-2xs hover:shadow-md hover:border-rose-400 transition cursor-pointer group"
+          className="bg-white rounded-2xl p-3 sm:p-3.5 border border-rose-200/80 shadow-2xs hover:shadow-xs hover:border-rose-400 transition cursor-pointer flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-1">
             <span className="text-[10px] font-black text-rose-700 uppercase tracking-wider">
@@ -171,54 +170,116 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
           </div>
           <div className="flex items-baseline gap-1.5">
             <span className="text-xl sm:text-2xl font-black text-rose-700">1 Kamar</span>
-            <span className="text-[10px] font-bold text-slate-500">Kotor</span>
+            <span className="text-[10px] font-bold text-slate-500">Perlu Bersih</span>
           </div>
           <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">
-            #A3 (Ganti sprei &amp; cuci)
+            #A3 • Ganti sprei kasur
           </p>
         </div>
       </div>
 
-      {/* 3. Quick Navigation Ribbon (Ramping & Mobile-Friendly) */}
-      <div className="bg-purple-900 text-white rounded-2xl p-2.5 sm:p-3 flex items-center justify-between gap-2 overflow-x-auto no-scrollbar shadow-xs">
-        <span className="text-xs font-black text-white shrink-0 hidden md:inline">
-          Pintasan Cepat:
-        </span>
-        <div className="flex items-center gap-1.5 w-full sm:w-auto justify-between sm:justify-start">
-          <button
-            type="button"
-            onClick={() => onNavigateTab("matrix")}
-            className="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-50 text-purple-950 text-[11px] font-extrabold transition cursor-pointer shadow-xs flex items-center gap-1 shrink-0"
-          >
-            <Bed className="w-3.5 h-3.5 text-purple-700" />
-            <span>Status 8 Kamar</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onNavigateTab("bookings")}
-            className="px-3 py-1.5 rounded-xl bg-purple-800 hover:bg-purple-700 text-white text-[11px] font-extrabold transition cursor-pointer shadow-xs flex items-center gap-1 border border-white/20 shrink-0"
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Jadwal Booking WA</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onNavigateTab("pos")}
-            className="px-3 py-1.5 rounded-xl bg-purple-800 hover:bg-purple-700 text-white text-[11px] font-extrabold transition cursor-pointer shadow-xs flex items-center gap-1 border border-white/20 shrink-0"
-          >
-            <Gift className="w-3.5 h-3.5" />
-            <span>Kasir Oleh-Oleh</span>
-          </button>
+      {/* 3. Dua Kolom Seimbang: Trend Okupansi (Kiri) & Agenda Operasional Harian (Kanan) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-3.5">
+        {/* Kiri: Grafik Trend Okupansi 7 Hari (Col 7 di Desktop) */}
+        <div className="lg:col-span-7">
+          <OccupancyTrendChart />
         </div>
-      </div>
 
-      {/* 4. Agenda Tugas Hari Ini (Checklist Ringkas) */}
-      <TodayTasksPanel onNavigateTab={onNavigateTab} />
+        {/* Kanan: Agenda Ringkas Hari Ini (Col 5 di Desktop) */}
+        <div className="lg:col-span-5 bg-white rounded-2xl p-3 sm:p-4 border border-slate-200/80 shadow-2xs space-y-2.5 flex flex-col justify-between">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs sm:text-sm font-black text-slate-900 tracking-tight">
+              Agenda Hari Ini
+            </h3>
+            <button
+              type="button"
+              onClick={() => onNavigateTab("matrix")}
+              className="text-[11px] font-black text-purple-700 hover:text-purple-900 flex items-center gap-0.5 cursor-pointer"
+            >
+              <span>Status Kamar</span>
+              <ArrowRight className="w-3 h-3" />
+            </button>
+          </div>
 
-      {/* 5. Grafik Produktivitas & Distribusi (2 Kolom di Desktop/Tablet) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-        <OccupancyTrendChart />
-        <ChannelDistributionCard />
+          {/* List Ringkas 3 Aktivitas Utama */}
+          <div className="space-y-2">
+            {/* 1. Kedatangan */}
+            <div
+              onClick={() => onNavigateTab("matrix")}
+              className="p-2 sm:p-2.5 rounded-xl bg-purple-50/70 border border-purple-200/80 flex items-center justify-between gap-2 hover:bg-purple-100/70 transition cursor-pointer"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-6 h-6 rounded-lg bg-purple-700 text-white flex items-center justify-center font-black text-[10px] shrink-0">
+                  #B1
+                </span>
+                <div className="min-w-0">
+                  <span className="text-xs font-black text-slate-900 block truncate">
+                    Hendra Pratama
+                  </span>
+                  <span className="text-[10px] text-purple-800 font-bold block">
+                    Kedatangan WA • Landing 14.30 WIT
+                  </span>
+                </div>
+              </div>
+              <span className="bg-purple-700 text-white text-[9px] font-black px-2 py-0.5 rounded-md shrink-0">
+                Check-In
+              </span>
+            </div>
+
+            {/* 2. Check-Out */}
+            <div
+              onClick={() => onNavigateTab("matrix")}
+              className="p-2 sm:p-2.5 rounded-xl bg-blue-50/70 border border-blue-200/80 flex items-center justify-between gap-2 hover:bg-blue-100/70 transition cursor-pointer"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-[10px] shrink-0">
+                  #A2
+                </span>
+                <div className="min-w-0">
+                  <span className="text-xs font-black text-slate-900 block truncate">
+                    Budi Santoso
+                  </span>
+                  <span className="text-[10px] text-blue-800 font-bold block">
+                    Jadwal Check-Out • Maks 12.00 WIT
+                  </span>
+                </div>
+              </div>
+              <span className="bg-blue-600 text-white text-[9px] font-black px-2 py-0.5 rounded-md shrink-0">
+                Check-Out
+              </span>
+            </div>
+
+            {/* 3. Housekeeping */}
+            <div
+              onClick={() => onNavigateTab("matrix")}
+              className="p-2 sm:p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/80 flex items-center justify-between gap-2 hover:bg-amber-100/70 transition cursor-pointer"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-6 h-6 rounded-lg bg-amber-500 text-white flex items-center justify-center font-black text-[10px] shrink-0">
+                  #A3
+                </span>
+                <div className="min-w-0">
+                  <span className="text-xs font-black text-slate-900 block truncate">
+                    Kamar Kipas
+                  </span>
+                  <span className="text-[10px] text-amber-800 font-bold block">
+                    Perlu Bersih &amp; Ganti Sprei
+                  </span>
+                </div>
+              </div>
+              <span className="bg-amber-600 text-white text-[9px] font-black px-2 py-0.5 rounded-md shrink-0">
+                Bersihkan
+              </span>
+            </div>
+          </div>
+
+          {/* Distribusi Tipe Kamar Ringkas di Bawahnya */}
+          <div className="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+            <span>Tipe AC: <strong className="text-purple-950 font-black">3/4 Terisi</strong></span>
+            <span>•</span>
+            <span>Tipe Kipas: <strong className="text-purple-950 font-black">2/4 Terisi</strong></span>
+          </div>
+        </div>
       </div>
     </div>
   );
