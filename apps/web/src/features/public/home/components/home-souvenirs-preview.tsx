@@ -200,16 +200,7 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
                       />
 
                       {/* Soft Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/25 pointer-events-none" />
-
-                      {/* Badge Keaslian / Lokasi (Menggantikan Best Seller/Popular yang kaku) */}
-                      <div className="absolute top-3 left-3 z-10">
-                        <span
-                          className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border shadow-xs ${item.badgeColor}`}
-                        >
-                          {item.badge}
-                        </span>
-                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20 pointer-events-none" />
 
                       {/* Heart Button */}
                       <button
