@@ -146,24 +146,24 @@ export function HomeRoomsPreview() {
                           isCenter ? "scale-105" : "scale-100"
                         }`}
                       />
+                      {/* Badge Tipe Kamar di Pojok Kanan Atas */}
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className="bg-white/95 backdrop-blur-md text-purple-900 border border-purple-200/90 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-xs">
+                          {room.typeLabel}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Body Info */}
                     <div className="p-4 sm:p-5 text-left flex-1 flex flex-col justify-between space-y-2">
                       <div>
-                        {/* Kategori Tipe Kamar */}
-                        <div className="flex items-center gap-1.5 text-purple-700 font-bold text-[11px] mb-1">
-                          <Tag className="w-3 h-3 text-purple-600 shrink-0" />
-                          <span className="truncate">{room.typeLabel}</span>
-                        </div>
-
                         {/* Nama Kamar (Poppins Font) */}
-                        <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug line-clamp-1">
+                        <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug line-clamp-1 mb-1">
                           {room.name}
                         </h3>
 
                         {/* Deskripsi Singkat */}
-                        <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">
+                        <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed">
                           {room.desc}
                         </p>
                       </div>
