@@ -93,14 +93,14 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         </div>
       </div>
 
-      {/* 2. Top 4 Metric Cards (Taskora Aesthetic: Rounded 3D Soft Icon Box on Left + Stat on Right) */}
+      {/* 2. Top 4 Metric Cards (Taskora Aesthetic diselaraskan dengan Warna Status Operasional) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
         {/* KPI 1: Okupansi (Purple Theme) */}
         <div
           onClick={() => onNavigateTab("matrix")}
           className="bg-purple-50/40 hover:bg-purple-50/80 border border-purple-100/80 rounded-3xl p-3 sm:p-4 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center gap-2.5 sm:gap-3.5 group"
         >
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-purple-300/60 shrink-0 group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex items-center justify-center shadow-md shadow-purple-300/60 shrink-0 group-hover:scale-105 transition-transform">
             <ClipboardList className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex-1">
@@ -116,64 +116,64 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
           </div>
         </div>
 
-        {/* KPI 2: Tiba Hari Ini (Emerald Theme) */}
+        {/* KPI 2: Tiba Hari Ini (Warna Ungu - Sesuai Status Booking WA) */}
         <div
           onClick={() => onNavigateTab("bookings")}
-          className="bg-emerald-50/40 hover:bg-emerald-50/80 border border-emerald-100/80 rounded-3xl p-3 sm:p-4 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center gap-2.5 sm:gap-3.5 group"
+          className="bg-purple-50/40 hover:bg-purple-50/80 border border-purple-100/80 rounded-3xl p-3 sm:p-4 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center gap-2.5 sm:gap-3.5 group"
         >
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-white flex items-center justify-center shadow-md shadow-emerald-300/60 shrink-0 group-hover:scale-105 transition-transform">
-            <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 text-white flex items-center justify-center shadow-md shadow-purple-300/60 shrink-0 group-hover:scale-105 transition-transform">
+            <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex-1">
             <span className="text-[11px] sm:text-xs font-bold text-slate-500 block truncate leading-tight">
               Tiba Hari Ini
             </span>
-            <span className="text-lg sm:text-2xl font-black text-slate-900 leading-none block my-0.5 sm:my-1">
+            <span className="text-lg sm:text-2xl font-black text-purple-950 leading-none block my-0.5 sm:my-1">
               1 Tamu
             </span>
-            <span className="text-[10px] sm:text-[11px] font-bold text-emerald-700 flex items-center gap-0.5 leading-tight truncate">
+            <span className="text-[10px] sm:text-[11px] font-bold text-purple-700 flex items-center gap-0.5 leading-tight truncate">
               <span>↑</span> <span>Booking WA (#B1)</span>
             </span>
           </div>
         </div>
 
-        {/* KPI 3: Jadwal Check-Out (Amber Theme) */}
+        {/* KPI 3: Jadwal Check-Out (Warna Biru - Sesuai Status Terisi & Tombol Check-Out) */}
         <div
           onClick={() => onNavigateTab("matrix")}
-          className="bg-amber-50/40 hover:bg-amber-50/80 border border-amber-100/80 rounded-3xl p-3 sm:p-4 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center gap-2.5 sm:gap-3.5 group"
+          className="bg-blue-50/40 hover:bg-blue-50/80 border border-blue-100/80 rounded-3xl p-3 sm:p-4 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center gap-2.5 sm:gap-3.5 group"
         >
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-300/60 shrink-0 group-hover:scale-105 transition-transform">
-            <Hourglass className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-300/60 shrink-0 group-hover:scale-105 transition-transform">
+            <LogOut className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex-1">
             <span className="text-[11px] sm:text-xs font-bold text-slate-500 block truncate leading-tight">
               Jadwal Check-Out
             </span>
-            <span className="text-lg sm:text-2xl font-black text-slate-900 leading-none block my-0.5 sm:my-1">
+            <span className="text-lg sm:text-2xl font-black text-blue-950 leading-none block my-0.5 sm:my-1">
               1 Kamar
             </span>
-            <span className="text-[10px] sm:text-[11px] font-bold text-amber-700 flex items-center gap-0.5 leading-tight truncate">
+            <span className="text-[10px] sm:text-[11px] font-bold text-blue-700 flex items-center gap-0.5 leading-tight truncate">
               <span>→</span> <span>Maks 12.00 (#A2)</span>
             </span>
           </div>
         </div>
 
-        {/* KPI 4: Housekeeping (Rose Theme) */}
+        {/* KPI 4: Housekeeping (Warna Kuning/Amber - Sesuai Status Perlu Bersih/Kotor) */}
         <div
           onClick={() => onNavigateTab("matrix")}
-          className="bg-rose-50/40 hover:bg-rose-50/80 border border-rose-100/80 rounded-3xl p-3 sm:p-4 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center gap-2.5 sm:gap-3.5 group"
+          className="bg-amber-50/40 hover:bg-amber-50/80 border border-amber-100/80 rounded-3xl p-3 sm:p-4 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center gap-2.5 sm:gap-3.5 group"
         >
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-rose-400 to-rose-500 text-white flex items-center justify-center shadow-md shadow-rose-300/60 shrink-0 group-hover:scale-105 transition-transform">
-            <Flag className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-300/60 shrink-0 group-hover:scale-105 transition-transform">
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex-1">
             <span className="text-[11px] sm:text-xs font-bold text-slate-500 block truncate leading-tight">
               Housekeeping
             </span>
-            <span className="text-lg sm:text-2xl font-black text-rose-600 leading-none block my-0.5 sm:my-1">
+            <span className="text-lg sm:text-2xl font-black text-amber-900 leading-none block my-0.5 sm:my-1">
               1 Kamar
             </span>
-            <span className="text-[10px] sm:text-[11px] font-bold text-rose-600 flex items-center gap-0.5 leading-tight truncate">
+            <span className="text-[10px] sm:text-[11px] font-bold text-amber-700 flex items-center gap-0.5 leading-tight truncate">
               <span>↓</span> <span>Perlu Bersih (#A3)</span>
             </span>
           </div>
