@@ -4,11 +4,7 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  Heart,
-  MapPin,
-  Package,
   ShoppingBag,
-  Sparkles,
   Tag,
 } from "lucide-react";
 import Image from "next/image";
@@ -22,8 +18,6 @@ interface SouvenirProduct {
   id: number;
   name: string;
   category: string;
-  badge: string;
-  badgeColor: string;
   price: string;
   priceNum: number;
   desc: string;
@@ -35,8 +29,6 @@ const SOUVENIR_COLLECTION: SouvenirProduct[] = [
     id: 1,
     name: "Minyak Cengkeh Asli",
     category: "Minyak & Herbal Alami",
-    badge: "100% Ekstrak Murni",
-    badgeColor: "bg-teal-50 text-teal-800 border-teal-200/80",
     price: "Rp 55.000",
     priceNum: 55000,
     desc: "Ekstraksi murni bunga cengkeh pilihan tanah Maluku, hangat & berkhasiat.",
@@ -47,8 +39,6 @@ const SOUVENIR_COLLECTION: SouvenirProduct[] = [
     id: 2,
     name: "Minyak Kayu Putih Namlea",
     category: "Minyak & Herbal Alami",
-    badge: "Asli Pulau Buru",
-    badgeColor: "bg-purple-50 text-purple-800 border-purple-200/80",
     price: "Rp 65.000",
     priceNum: 65000,
     desc: "Penyulingan murni tradisional kualitas nomor satu, aroma khas menenangkan.",
@@ -59,8 +49,6 @@ const SOUVENIR_COLLECTION: SouvenirProduct[] = [
     id: 3,
     name: "Kue Sagu Bagea Kenari",
     category: "Camilan Khas Maluku",
-    badge: "Favorit Tamu Transit",
-    badgeColor: "bg-amber-50 text-amber-900 border-amber-200/80",
     price: "Rp 35.000",
     priceNum: 35000,
     desc: "Kue sagu renyah bertabur kenari gurih, teman kopi & teh saat transit.",
@@ -71,8 +59,6 @@ const SOUVENIR_COLLECTION: SouvenirProduct[] = [
     id: 4,
     name: "Kacang Botol Gurih Ambon",
     category: "Camilan Khas Maluku",
-    badge: "Kemasan Aman Bagasi",
-    badgeColor: "bg-blue-50 text-blue-800 border-blue-200/80",
     price: "Rp 45.000",
     priceNum: 45000,
     desc: "Kacang renyah bumbu rempah khas Ambon Manise dalam botol praktis.",
@@ -83,8 +69,6 @@ const SOUVENIR_COLLECTION: SouvenirProduct[] = [
     id: 5,
     name: "Abon Ikan Cakalang Asap",
     category: "Olahan Ikan Laut",
-    badge: "Resep Asli Laut Banda",
-    badgeColor: "bg-rose-50 text-rose-800 border-rose-200/80",
     price: "Rp 50.000",
     priceNum: 50000,
     desc: "Abon cakalang asap gurih rempah asli Maluku, siap santap & tahan lama.",
@@ -95,7 +79,6 @@ const SOUVENIR_COLLECTION: SouvenirProduct[] = [
 
 export function HomeSouvenirsPreview() {
   const [activeIndex, setActiveIndex] = useState<number>(2); // Default Tengah
-  const [likedIds, setLikedIds] = useState<number[]>([2]);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? SOUVENIR_COLLECTION.length - 1 : prev - 1));
@@ -103,13 +86,6 @@ export function HomeSouvenirsPreview() {
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev === SOUVENIR_COLLECTION.length - 1 ? 0 : prev + 1));
-  };
-
-  const toggleLike = (id: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setLikedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
   };
 
   const getItemWaUrl = (item: SouvenirProduct) => {
@@ -198,25 +174,6 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
                           isCenter ? "scale-105" : "scale-100"
                         }`}
                       />
-
-                      {/* Soft Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20 pointer-events-none" />
-
-                      {/* Heart Button */}
-                      <button
-                        type="button"
-                        onClick={(e) => toggleLike(item.id, e)}
-                        aria-label="Sukai produk"
-                        className="absolute top-3 right-3 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-600 hover:text-rose-500 transition-all shadow-xs"
-                      >
-                        <Heart
-                          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
-                            likedIds.includes(item.id)
-                              ? "fill-rose-500 text-rose-500"
-                              : "text-slate-600"
-                          }`}
-                        />
-                      </button>
                     </div>
 
                     {/* Body Info */}
