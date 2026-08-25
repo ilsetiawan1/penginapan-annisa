@@ -12,10 +12,15 @@ export function ArticleGrid({ articles, searchQuery, onReset }: ArticleGridProps
   return (
     <section className="max-w-5xl mx-auto px-4 pt-2 pb-16 sm:pb-20">
       {/* Section Header with Sort Option */}
-      <div className="flex items-center justify-between mb-5 sm:mb-6">
-        <h2 className="text-lg sm:text-2xl font-black text-slate-950 tracking-tight">
-          Artikel Terbaru
-        </h2>
+      <div className="flex items-center justify-between mt-6 sm:mt-10 mb-4 sm:mb-6">
+        <div>
+          <h2 className="text-xl sm:text-3xl font-serif font-black text-slate-950 tracking-tight leading-tight">
+            Artikel Terbaru
+          </h2>
+          <p className="text-xs text-slate-500 mt-0.5 hidden sm:block">
+            Panduan wisata, kuliner, dan tips transit nyaman di sekitar Kota Ambon &amp; Bandara Pattimura.
+          </p>
+        </div>
         <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold cursor-pointer hover:text-purple-700 transition">
           <span>URUTKAN:</span>
           <span className="text-purple-700 font-bold flex items-center gap-0.5">
