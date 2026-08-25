@@ -7,7 +7,6 @@ import type { ArticleItem } from "../../features/public/articles/components/arti
 import { ArticleFilter } from "../../features/public/articles/components/article-filter";
 import { ArticleGrid } from "../../features/public/articles/components/article-grid";
 import { ArticleHero } from "../../features/public/articles/components/article-hero";
-import { ExplorationCard } from "../../features/public/articles/components/exploration-card";
 
 const CATEGORIES = [
   "Semua",
@@ -86,7 +85,6 @@ export default function ArtikelPage() {
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
-      <ExplorationCard />
       <ArticleGrid
         articles={filteredArticles}
         searchQuery={searchQuery}

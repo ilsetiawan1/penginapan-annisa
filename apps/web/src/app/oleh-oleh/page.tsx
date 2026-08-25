@@ -5,7 +5,6 @@ import { Footer } from "../../components/layout/footer";
 import { Navbar } from "../../components/layout/navbar";
 import { SouvenirFilter } from "../../features/public/souvenirs/components/souvenir-filter";
 import { SouvenirGrid } from "../../features/public/souvenirs/components/souvenir-grid";
-import { SouvenirGuideCard } from "../../features/public/souvenirs/components/souvenir-guide-card";
 import { SouvenirHero } from "../../features/public/souvenirs/components/souvenir-hero";
 import { SOUVENIR_COLLECTION } from "../../features/public/souvenirs/data";
 
@@ -42,7 +41,6 @@ export default function OlehOlehPage() {
           setActiveCategory("Semua");
         }}
       />
-      <SouvenirGuideCard />
       <Footer />
     </div>
   );
