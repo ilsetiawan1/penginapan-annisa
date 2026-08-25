@@ -1,5 +1,4 @@
 import {
-  Car,
   Clock,
   ExternalLink,
   MapPin,
@@ -16,7 +15,7 @@ export default function ContactPage() {
   return (
     <div className="relative min-h-dvh w-full bg-[#faf9fc] flex flex-col justify-between overflow-x-hidden selection:bg-purple-200 selection:text-purple-900 pb-8 sm:pb-12">
       {/* Scenic Ambient Half-Hero Background (Konsisten dengan Halaman Lain) */}
-      <div className="absolute inset-x-0 top-0 h-[48%] sm:h-[52%] overflow-hidden z-0">
+      <div className="absolute inset-x-0 top-0 h-[52%] sm:h-[58%] overflow-hidden z-0">
         <Image
           src="/contact/bg-gong-perdamaian-kota-ambon.webp"
           alt="Gong Perdamaian Nusantara Kota Ambon - Penginapan Annisa"
@@ -50,20 +49,20 @@ export default function ContactPage() {
           </p>
         </div>
 
-        {/* Showcase Box (Gaya Desain Referensi: Kartu Brand Solid di Kiri + Visual Peta di Kanan) */}
-        <div className="bg-white/95 backdrop-blur-2xl rounded-3xl p-3.5 sm:p-6 lg:p-7 border border-purple-100/90 shadow-2xl shadow-purple-950/10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
-          {/* Kolom Kiri: Kartu Brand Solid Ungu dengan Lingkaran Dekoratif Modern */}
-          <div className="lg:col-span-5 bg-gradient-to-br from-purple-700 via-purple-800 to-indigo-900 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden shadow-lg shadow-purple-900/30">
-            {/* Lingkaran Dekoratif Elegan di Sudut Bawah (Seperti Referensi) */}
-            <div className="absolute -bottom-16 -right-16 w-52 h-52 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-36 h-36 bg-purple-400/20 rounded-full blur-md pointer-events-none" />
+        {/* Showcase Box dengan Efek Glassmorphism Mewah (Backdrop Blur Transparan) */}
+        <div className="bg-white/80 backdrop-blur-3xl rounded-3xl p-3.5 sm:p-6 lg:p-7 border border-white/90 shadow-2xl shadow-purple-950/15 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
+          {/* Kolom Kiri: Kartu Informasi Kontak Glassmorphism White Blur */}
+          <div className="lg:col-span-5 bg-white/70 backdrop-blur-2xl text-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden border border-purple-100/90 shadow-md shadow-purple-900/5">
+            {/* Ornamen Glow Halus di Sudut Kartu */}
+            <div className="absolute -bottom-12 -right-12 w-44 h-44 bg-purple-300/25 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -top-10 -left-10 w-36 h-36 bg-purple-200/20 rounded-full blur-xl pointer-events-none" />
 
             <div className="relative z-10 space-y-5">
               <div>
-                <h2 className="text-xl sm:text-2xl font-serif font-black tracking-tight leading-tight text-white mb-1.5">
+                <h2 className="text-xl sm:text-2xl font-serif font-black tracking-tight leading-tight text-slate-900 mb-1.5">
                   Informasi Kontak
                 </h2>
-                <p className="text-xs text-purple-200 leading-relaxed font-normal">
+                <p className="text-xs text-slate-500 leading-relaxed font-normal">
                   Layanan resepsionis ramah, reservasi kamar transit, dan titip ambil oleh-oleh
                   khas Maluku.
                 </p>
@@ -73,18 +72,18 @@ export default function ContactPage() {
               <div className="space-y-4 pt-1">
                 {/* 1. Telepon / WhatsApp */}
                 <div className="flex items-start gap-3.5">
-                  <div className="w-8 h-8 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center shrink-0 text-purple-200 border border-white/20">
+                  <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-purple-200 uppercase tracking-wider block">
+                    <span className="text-[10px] font-black text-purple-800 uppercase tracking-wider block">
                       Telepon / WhatsApp
                     </span>
                     <a
                       href={`https://wa.me/${ANNISA_WA_NUMBER}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-xs sm:text-sm font-extrabold text-white hover:text-purple-200 transition-colors"
+                      className="text-xs sm:text-sm font-extrabold text-slate-900 hover:text-purple-700 transition-colors"
                     >
                       0812-4216-3116
                     </a>
@@ -93,17 +92,17 @@ export default function ContactPage() {
 
                 {/* 2. Jam Operasional */}
                 <div className="flex items-start gap-3.5">
-                  <div className="w-8 h-8 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center shrink-0 text-purple-200 border border-white/20">
+                  <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
                     <Clock className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-purple-200 uppercase tracking-wider block">
+                    <span className="text-[10px] font-black text-purple-800 uppercase tracking-wider block">
                       Jam Resepsionis
                     </span>
-                    <p className="text-xs sm:text-sm font-extrabold text-white">
+                    <p className="text-xs sm:text-sm font-extrabold text-slate-900">
                       06:00 – 22:00 WIT
                     </p>
-                    <span className="text-[11px] text-purple-200 block mt-0.5">
+                    <span className="text-[11px] text-slate-500 font-medium block mt-0.5">
                       Check-in fleksibel penerbangan
                     </span>
                   </div>
@@ -111,17 +110,17 @@ export default function ContactPage() {
 
                 {/* 3. Alamat Lengkap */}
                 <div className="flex items-start gap-3.5">
-                  <div className="w-8 h-8 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center shrink-0 text-purple-200 border border-white/20">
+                  <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-purple-200 uppercase tracking-wider block">
+                    <span className="text-[10px] font-black text-purple-800 uppercase tracking-wider block">
                       Alamat Penginapan
                     </span>
-                    <p className="text-xs sm:text-sm font-bold text-white leading-snug">
+                    <p className="text-xs sm:text-sm font-extrabold text-slate-900 leading-snug">
                       Jl. Bandara Pattimura, Tawiri, Ambon
                     </p>
-                    <span className="text-[11px] text-purple-200 block mt-0.5">
+                    <span className="text-[11px] text-slate-500 font-medium block mt-0.5">
                       750 meter dari gerbang bandara
                     </span>
                   </div>
@@ -129,25 +128,25 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Tombol Aksi WhatsApp di Bagian Bawah Kartu Ungu */}
-            <div className="relative z-10 pt-6 mt-4 border-t border-white/15">
+            {/* Tombol Aksi WhatsApp Bergradasi Mewah */}
+            <div className="relative z-10 pt-6 mt-4 border-t border-purple-100/90">
               <Button
                 asChild
-                className="w-full rounded-xl sm:rounded-2xl bg-white hover:bg-purple-50 text-purple-900 font-extrabold text-xs sm:text-sm h-11 gap-2 shadow-lg transition-all cursor-pointer"
+                className="w-full rounded-xl sm:rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-11 gap-2 shadow-md shadow-purple-900/20 hover:shadow-lg transition-all cursor-pointer"
               >
                 <a
                   href={`https://wa.me/${ANNISA_WA_NUMBER}?text=Halo%20Penginapan%20Annisa,%20saya%20ingin%20tanya%20informasi%20kamar%20dan%20lokasi`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <FaWhatsapp className="w-4 h-4 text-purple-700" />
+                  <FaWhatsapp className="w-4 h-4" />
                   <span>Chat WhatsApp Resmi</span>
                 </a>
               </Button>
             </div>
           </div>
 
-          {/* Kolom Kanan: Frame Visual Google Maps (Menggantikan Form Sesuai Permintaan) */}
+          {/* Kolom Kanan: Frame Visual Google Maps */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-3 p-1 sm:p-2">
             <div className="flex items-center justify-between px-1">
               <div>
