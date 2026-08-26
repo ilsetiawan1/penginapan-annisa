@@ -1,8 +1,9 @@
 "use client";
 
-import { Calendar, RotateCw } from "lucide-react";
+import { Calendar, Plus, RotateCw } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Button } from "../../../../components/ui/button";
 import {
   AdvanceBookingData,
   AdvanceBookingModal,
@@ -112,6 +113,7 @@ const INITIAL_ROOMS: RoomItem[] = [
 
 export function RoomMatrix() {
   const [rooms, setRooms] = useState<RoomItem[]>(INITIAL_ROOMS);
+  const [filterStatus, setFilterStatus] = useState<string>("all");
 
   // Modal State
   const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(null);
@@ -122,16 +124,17 @@ export function RoomMatrix() {
   const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
-  // Pisahkan Kamar Bangunan A & Bangunan B
-  const roomsA = rooms.filter((r) => r.building === "A");
-  const roomsB = rooms.filter((r) => r.building === "B");
+  // Pisahkan Kamar Bangunan A & Bangunan B dengan Filter
+  const filteredRooms = filterStatus === "all" ? rooms : rooms.filter((r) => r.status === filterStatus);
+  const roomsA = filteredRooms.filter((r) => r.building === "A");
+  const roomsB = filteredRooms.filter((r) => r.building === "B");
 
   // Reset / Refresh Data Kamar ke kondisi awal
   const handleResetRooms = () => {
     setIsRefreshing(true);
     setRooms(INITIAL_ROOMS);
     toast.success("Data status 8 kamar telah di-refresh ke kondisi awal!");
-    setTimeout(() => setIsRefreshing(false), 500);
+    setTimeout(() => setIsRefreshing(false), 300);
   };
 
   // Ringkasan Status Keseluruhan
@@ -139,7 +142,6 @@ export function RoomMatrix() {
   const occupiedCount = rooms.filter((r) => r.status === "occupied").length;
   const bookedCount = rooms.filter((r) => r.status === "booked").length;
   const dirtyCount = rooms.filter((r) => r.status === "dirty").length;
-  const maintenanceCount = rooms.filter((r) => r.status === "maintenance").length;
 
   // Handle Check-In Tamu Walk-In
   const handleConfirmCheckIn = (data: CheckInFormData) => {
@@ -173,8 +175,8 @@ export function RoomMatrix() {
           return {
             ...r,
             status: "occupied",
-            dpPaid: r.totalAmount || r.price, // Sudah bayar full (DP 50% + Pelunasan 50%)
-            remainingAmount: 0, // Sisa Rp 0 (Lunas 100%)
+            dpPaid: r.totalAmount || r.price,
+            remainingAmount: 0,
           };
         }
         return r;
@@ -230,225 +232,260 @@ export function RoomMatrix() {
   };
 
   return (
-    <div className="space-y-3 sm:space-y-3.5">
-      {/* Top Header Strip: Status Kamar + Counter Badges + Tombol Catat Booking WA */}
-      <div className="bg-white p-3 sm:py-2.5 sm:px-4 rounded-2xl border border-slate-200/80 shadow-2xs space-y-2.5 sm:space-y-2">
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          {/* Judul & Total Unit */}
-          <div className="flex items-center gap-2">
-            <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
-              Status Kamar
-            </h2>
-            <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-2 py-0.5 rounded-full">
-              8 Unit Total
-            </span>
-          </div>
-
-          {/* Tombol Aksi Cepat */}
-          <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={() => setIsAdvanceBookingOpen(true)}
-              className="px-2.5 sm:px-3 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-[10px] sm:text-[11px] font-extrabold flex items-center gap-1 shadow-xs cursor-pointer transition"
-            >
-              <Calendar className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
-              <span>+ Booking WA</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleResetRooms}
-              title="Refresh & Reset Data Demo Kamar"
-              className="p-1 sm:p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1"
-            >
-              <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
-              <span className="text-[10px] sm:text-[11px] font-extrabold hidden xs:inline">Refresh</span>
-            </button>
-          </div>
+    <div className="space-y-6">
+      {/* 1. HEADER SECTION: Editorial Georgia + Aksi Cepat */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-black text-slate-900 tracking-tight leading-tight">
+            Status 8 Kamar Transit
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
+            Matriks ketersediaan kamar Bangunan A (Kiri) &amp; Bangunan B (Kanan).
+          </p>
         </div>
 
-        {/* Baris Status Pills Horizontal (Rapi & Responsif) */}
-        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 text-xs font-bold shrink-0">
-          <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>
-              Tersedia: <strong>{readyCount}</strong>
-            </span>
-          </span>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2 shrink-0">
+          <Button
+            onClick={() => setIsAdvanceBookingOpen(true)}
+            className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs h-10 px-4 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
+          >
+            <Calendar className="w-3.5 h-3.5" />
+            <span>+ Catat Booking WA</span>
+          </Button>
 
-          {bookedCount > 0 && (
-            <span className="bg-purple-50 text-purple-900 border border-purple-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
-              <span className="w-2 h-2 rounded-full bg-purple-700" />
-              <span>
-                Booking WA: <strong>{bookedCount}</strong>
-              </span>
-            </span>
-          )}
-
-          <span className="bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
-            <span className="w-2 h-2 rounded-full bg-blue-600" />
-            <span>
-              Terisi: <strong>{occupiedCount}</strong>
-            </span>
-          </span>
-
-          <span className="bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
-            <span className="w-2 h-2 rounded-full bg-amber-500" />
-            <span>
-              Kotor: <strong>{dirtyCount}</strong>
-            </span>
-          </span>
-
-          <span className="bg-rose-50 text-rose-800 border border-rose-200 px-2 py-0.5 rounded-lg flex items-center gap-1.5 text-[11px] shrink-0">
-            <span className="w-2 h-2 rounded-full bg-rose-500" />
-            <span>
-              Servis: <strong>{maintenanceCount}</strong>
-            </span>
-          </span>
+          <button
+            type="button"
+            onClick={handleResetRooms}
+            title="Refresh Data Kamar"
+            className="w-10 h-10 rounded-full border border-purple-100 bg-white hover:bg-purple-50 text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
+          >
+            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
+          </button>
         </div>
       </div>
 
-      {/* 2 BANGUNAN DENGAN GARIS PEMISAH DASHED LINE (VERTIKAL DI LANDSCAPE/DESKTOP & HORIZONTAL DI PORTRAIT) */}
-      <div className="bg-white/70 backdrop-blur-md rounded-3xl p-3.5 sm:p-4.5 border border-slate-200/90 shadow-2xs">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-stretch">
-          {/* ====================================================
-              BANGUNAN A (4 KAMAR: #A1 s/d #A4)
-              ==================================================== */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 px-1">
+      {/* 2. CAPSULE FILTER BAR (Tri-Color dengan Micro Dot) */}
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+        <button
+          type="button"
+          onClick={() => setFilterStatus("all")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+            filterStatus === "all"
+              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+              : "bg-white text-slate-600 hover:bg-purple-50 border border-purple-100"
+          }`}
+        >
+          Semua (8 Kamar)
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFilterStatus("ready")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            filterStatus === "ready"
+              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <span>Tersedia ({readyCount})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFilterStatus("booked")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            filterStatus === "booked"
+              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-purple-600" />
+          <span>Booking WA ({bookedCount})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFilterStatus("occupied")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            filterStatus === "occupied"
+              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-blue-500" />
+          <span>Terisi ({occupiedCount})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFilterStatus("dirty")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            filterStatus === "dirty"
+              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-amber-500" />
+          <span>Perlu Bersih ({dirtyCount})</span>
+        </button>
+      </div>
+
+      {/* 3. GRID 2 BANGUNAN DENGAN KARTU TRI-COLOR ELEGAN */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        {/* ====================================================
+            BANGUNAN A (4 KAMAR: #A1 s/d #A4)
+            ==================================================== */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
-              <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
-                BANGUNAN A
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
+                Bangunan A (Sisi Kiri)
               </h3>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-              {roomsA.map((room) => (
-                <RoomCard
-                  key={room.code}
-                  room={room}
-                  onOpenCheckIn={setCheckInModalData}
-                  onOpenCheckOut={setCheckOutModalData}
-                  onOpenReceipt={setReceiptModalData}
-                  onOpenSettlement={setSettlementModalData}
-                  onOpenDetail={setDetailModalData}
-                  onMarkClean={handleMarkClean}
-                  onFinishMaintenance={handleFinishMaintenance}
-                />
-              ))}
-            </div>
+            <span className="text-[11px] font-bold text-slate-400">2 AC • 2 Kipas</span>
           </div>
 
-          {/* ====================================================
-              TENGAH: ELEMEN DASHED LINE PEMISAH (VERTIKAL DI LANDSCAPE)
-              ==================================================== */}
-          <div className="hidden lg:flex items-center justify-center px-1">
-            <div className="w-[1px] h-full border-r-2 border-dashed border-slate-300 my-1" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {roomsA.map((room) => (
+              <RoomCard
+                key={room.code}
+                room={room}
+                onOpenCheckIn={setCheckInModalData}
+                onOpenCheckOut={setCheckOutModalData}
+                onOpenReceipt={setReceiptModalData}
+                onOpenSettlement={setSettlementModalData}
+                onOpenDetail={setDetailModalData}
+                onMarkClean={handleMarkClean}
+                onFinishMaintenance={handleFinishMaintenance}
+              />
+            ))}
           </div>
+        </div>
 
-          {/* ====================================================
-              BANGUNAN B (4 KAMAR: #B1 s/d #B4)
-              ==================================================== */}
-          <div className="space-y-3 pt-3 border-t-2 border-dashed border-slate-300 lg:border-t-0 lg:pt-0">
-            <div className="flex items-center gap-2 px-1">
+        {/* ====================================================
+            BANGUNAN B (4 KAMAR: #B1 s/d #B4)
+            ==================================================== */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
-              <h3 className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
-                BANGUNAN B
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
+                Bangunan B (Sisi Kanan)
               </h3>
             </div>
+            <span className="text-[11px] font-bold text-slate-400">2 AC • 2 Kipas</span>
+          </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-              {roomsB.map((room) => (
-                <RoomCard
-                  key={room.code}
-                  room={room}
-                  onOpenCheckIn={setCheckInModalData}
-                  onOpenCheckOut={setCheckOutModalData}
-                  onOpenReceipt={setReceiptModalData}
-                  onOpenSettlement={setSettlementModalData}
-                  onOpenDetail={setDetailModalData}
-                  onMarkClean={handleMarkClean}
-                  onFinishMaintenance={handleFinishMaintenance}
-                />
-              ))}
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {roomsB.map((room) => (
+              <RoomCard
+                key={room.code}
+                room={room}
+                onOpenCheckIn={setCheckInModalData}
+                onOpenCheckOut={setCheckOutModalData}
+                onOpenReceipt={setReceiptModalData}
+                onOpenSettlement={setSettlementModalData}
+                onOpenDetail={setDetailModalData}
+                onMarkClean={handleMarkClean}
+                onFinishMaintenance={handleFinishMaintenance}
+              />
+            ))}
           </div>
         </div>
       </div>
 
-      {/* MODAL DETAIL LENGKAP KAMAR & RESERVASI (QUICK VIEW) */}
+      {/* ====================================================
+          MODAL-MODAL INTERAKTIF OPERASIONAL
+          ==================================================== */}
+      {checkInModalData && (
+        <CheckInModal
+          isOpen={!!checkInModalData}
+          onClose={() => setCheckInModalData(null)}
+          onConfirm={handleConfirmCheckIn}
+          initialRoomNumber={checkInModalData.code}
+          availableRooms={rooms.filter((r) => r.status === "ready").map((r) => r.code)}
+        />
+      )}
+
+      {checkOutModalData && (
+        <CheckOutModal
+          isOpen={!!checkOutModalData}
+          onClose={() => setCheckOutModalData(null)}
+          onConfirm={handleConfirmCheckOut}
+          roomCode={checkOutModalData.code}
+          guestName={checkOutModalData.guestName || "Tamu"}
+          remainingPayment={checkOutModalData.remainingAmount || 0}
+        />
+      )}
+
+      {receiptModalData && (
+        <ReceiptModal
+          isOpen={!!receiptModalData}
+          onClose={() => setReceiptModalData(null)}
+          transaction={{
+            id: `REC-${receiptModalData.code}-${Date.now().toString().slice(-4)}`,
+            guestName: receiptModalData.guestName || "Tamu",
+            roomNumber: receiptModalData.code,
+            roomType: receiptModalData.typeName,
+            checkInDate: receiptModalData.checkInDate || "22 Agu 2026",
+            checkOutDate: receiptModalData.checkOutDate || "23 Agu 2026",
+            durationNights: receiptModalData.totalNights || 1,
+            ratePerNight: receiptModalData.price,
+            totalPayment: receiptModalData.totalAmount || receiptModalData.price,
+            paymentMethod: "Tunai / QRIS",
+            createdAt: "22 Agu 2026, 14:00 WIT",
+          }}
+        />
+      )}
+
+      {settlementModalData && (
+        <BookingSettlementModal
+          isOpen={!!settlementModalData}
+          onClose={() => setSettlementModalData(null)}
+          onConfirm={handleConfirmSettlement}
+          booking={{
+            roomCode: settlementModalData.code,
+            guestName: settlementModalData.guestName || "Tamu",
+            guestPhone: settlementModalData.guestPhone || "081234567890",
+            checkInDate: settlementModalData.checkInDate || "22 Agu 2026",
+            totalAmount: settlementModalData.totalAmount || settlementModalData.price,
+            dpPaid: settlementModalData.dpPaid || settlementModalData.price / 2,
+            remainingAmount: settlementModalData.remainingAmount || settlementModalData.price / 2,
+          }}
+        />
+      )}
+
       {detailModalData && (
         <RoomDetailModal
           isOpen={!!detailModalData}
           onClose={() => setDetailModalData(null)}
           room={detailModalData}
-          onOpenCheckIn={setCheckInModalData}
-          onOpenCheckOut={setCheckOutModalData}
-          onOpenSettlement={setSettlementModalData}
-          onOpenReceipt={setReceiptModalData}
-          onMarkClean={handleMarkClean}
-          onFinishMaintenance={handleFinishMaintenance}
+          onCheckIn={(room) => {
+            setDetailModalData(null);
+            setCheckInModalData(room);
+          }}
+          onCheckOut={(room) => {
+            setDetailModalData(null);
+            setCheckOutModalData(room);
+          }}
+          onPrintReceipt={(room) => {
+            setDetailModalData(null);
+            setReceiptModalData(room);
+          }}
+          onMarkClean={(roomCode) => {
+            setDetailModalData(null);
+            handleMarkClean(roomCode);
+          }}
+          onFinishMaintenance={(roomCode) => {
+            setDetailModalData(null);
+            handleFinishMaintenance(roomCode);
+          }}
         />
       )}
 
-      {/* MODAL CHECK-IN REGULER */}
-      {checkInModalData && (
-        <CheckInModal
-          isOpen={!!checkInModalData}
-          onClose={() => setCheckInModalData(null)}
-          roomNumber={checkInModalData.code}
-          roomPrice={checkInModalData.price}
-          roomTypeName={checkInModalData.typeName}
-          onConfirm={handleConfirmCheckIn}
-        />
-      )}
-
-      {/* MODAL PELUNASAN & CHECK-IN KHUSUS TAMU BOOKING WA (HARI H) */}
-      {settlementModalData && (
-        <BookingSettlementModal
-          isOpen={!!settlementModalData}
-          onClose={() => setSettlementModalData(null)}
-          room={settlementModalData}
-          onConfirmSettlement={handleConfirmSettlement}
-        />
-      )}
-
-      {/* MODAL CHECK-OUT */}
-      {checkOutModalData && (
-        <CheckOutModal
-          isOpen={!!checkOutModalData}
-          onClose={() => setCheckOutModalData(null)}
-          roomNumber={checkOutModalData.code}
-          roomTypeName={checkOutModalData.typeName}
-          guestName={checkOutModalData.guestName || "Tamu"}
-          guestPhone={checkOutModalData.guestPhone}
-          totalNights={checkOutModalData.totalNights || 1}
-          totalAmount={checkOutModalData.totalAmount || checkOutModalData.price}
-          dpPaid={checkOutModalData.dpPaid || 0}
-          remainingAmount={checkOutModalData.remainingAmount || 0}
-          onConfirmCheckOut={handleConfirmCheckOut}
-        />
-      )}
-
-      {/* MODAL NOTA DIGITAL WA */}
-      {receiptModalData && (
-        <ReceiptModal
-          isOpen={!!receiptModalData}
-          onClose={() => setReceiptModalData(null)}
-          roomNumber={receiptModalData.code}
-          roomTypeName={receiptModalData.typeName}
-          guestName={receiptModalData.guestName || "Tamu"}
-          guestPhone={receiptModalData.guestPhone || ""}
-          checkInDate={receiptModalData.checkInDate || "22 Agu 2026"}
-          checkOutDate={receiptModalData.checkOutDate || "23 Agu 2026"}
-          totalNights={receiptModalData.totalNights || 1}
-          totalAmount={receiptModalData.totalAmount || receiptModalData.price}
-          dpPaid={receiptModalData.dpPaid || 0}
-          remainingAmount={receiptModalData.remainingAmount || 0}
-        />
-      )}
-
-      {/* MODAL BOOKING WA MENDATANG */}
       {isAdvanceBookingOpen && (
         <AdvanceBookingModal
           isOpen={isAdvanceBookingOpen}
