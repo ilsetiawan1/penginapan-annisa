@@ -39,36 +39,36 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
         </div>
 
         {/* Body Info */}
-        <div className="p-2.5 sm:p-4 md:p-5 text-left flex-1 flex flex-col justify-between space-y-1 sm:space-y-1.5">
+        <div className="p-2.5 sm:p-3.5 md:p-4 text-left flex-1 flex flex-col justify-between space-y-1 sm:space-y-1.5">
           <div>
             {/* Kategori Oleh-Oleh */}
-            <div className="flex items-center gap-1 text-purple-700 font-bold text-[9px] sm:text-[11px] mb-0.5">
+            <div className="flex items-center gap-1 text-purple-700 font-bold text-[9px] sm:text-[10px] md:text-[11px] mb-0.5">
               <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-purple-600 shrink-0" />
               <span className="truncate">{item.categoryLabel}</span>
             </div>
 
             {/* Nama Produk (Poppins Font, 2 baris agar nama terbaca utuh) */}
-            <h3 className="font-extrabold text-xs sm:text-sm md:text-base text-slate-900 leading-snug line-clamp-2 min-h-[30px] sm:min-h-[38px] group-hover:text-purple-700 transition">
+            <h3 className="font-extrabold text-xs sm:text-[13px] md:text-sm lg:text-base text-slate-900 leading-snug line-clamp-2 min-h-[30px] sm:min-h-[36px] group-hover:text-purple-700 transition">
               {item.name}
             </h3>
 
             {/* Deskripsi Singkat */}
-            <p className="text-[10px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed mt-0.5">
+            <p className="text-[10px] sm:text-[11px] md:text-xs text-slate-500 line-clamp-2 leading-relaxed mt-0.5">
               {item.desc}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Baris Bawah: Harga & Aksi WhatsApp (Responsif: Rapi Vertikal di Mobile 2-Col, Horizontal di Layar Besar) */}
-      <div className="p-2.5 sm:p-4 md:p-5 pt-0 border-t border-slate-100 mt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2">
-        <span className="text-xs xs:text-sm sm:text-base md:text-lg font-black text-purple-700 leading-none">
+      {/* Baris Bawah: Harga & Aksi WhatsApp (Responsif: Rapi Vertikal di Mobile, Pas & Non-Breaking di Tablet & Desktop) */}
+      <div className="p-2.5 sm:p-3.5 md:p-4 pt-0 border-t border-slate-100 mt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2">
+        <span className="text-xs sm:text-xs md:text-sm lg:text-base font-black text-purple-700 leading-none whitespace-nowrap">
           {item.price}
         </span>
 
         <Button
           asChild
-          className="w-full sm:w-auto rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-[10px] xs:text-[11px] sm:text-xs h-7 xs:h-8 sm:h-9 px-2 sm:px-3 gap-1 sm:gap-1.5 shadow-2xs hover:shadow-md transition-all cursor-pointer shrink-0"
+          className="w-full sm:w-auto rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-[10px] sm:text-[10px] md:text-[11px] lg:text-xs h-7 sm:h-7.5 md:h-8 lg:h-9 px-2 sm:px-2.5 md:px-3 gap-1 shadow-2xs hover:shadow-md transition-all cursor-pointer shrink-0"
         >
           <a href={waUrl} target="_blank" rel="noreferrer">
             <FaWhatsapp className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
