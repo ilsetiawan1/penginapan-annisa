@@ -17,55 +17,58 @@ export default function AdminDashboardPage() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-[#f7f6f9] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-5 lg:p-6">
-      {/* 1. Topbar Horizontal Navbar (Persis di Bagian Atas Kanvas Referensi) */}
-      <AdminTopbar
-        currentRole={currentRole}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        onRoleChange={(newRole) => {
-          setCurrentRole(newRole);
-          if (newRole === "staff" && !["dashboard", "matrix", "bookings", "pos"].includes(activeTab)) {
-            setActiveTab("dashboard");
-          }
-        }}
-        onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
-      />
-
-      {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas (Natural Side-by-Side Flexbox) */}
-      <div className="flex-1 flex gap-3.5 sm:gap-5 min-w-0 items-start">
-        {/* Left Floating Icon Dock (Tablet & Desktop md:flex) */}
-        <AdminSidebar
+    <div className="min-h-screen bg-[#f7f6f9] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-5 lg:p-6 items-center">
+      {/* Container Terpusat (Bounded Canvas) Mobile -> Tablet -> Desktop Max-W-7xl */}
+      <div className="w-full max-w-7xl flex flex-col flex-1">
+        {/* 1. Topbar Horizontal Navbar */}
+        <AdminTopbar
           currentRole={currentRole}
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          isMobileOpen={isMobileSidebarOpen}
-          onCloseMobile={() => setIsMobileSidebarOpen(false)}
+          onRoleChange={(newRole) => {
+            setCurrentRole(newRole);
+            if (newRole === "staff" && !["dashboard", "matrix", "bookings", "pos"].includes(activeTab)) {
+              setActiveTab("dashboard");
+            }
+          }}
+          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
         />
 
-        {/* Dynamic Main Workspace Content */}
-        <main className="flex-1 min-w-0 w-full overflow-hidden">
-          {/* TAB 0: Dashboard Utama Operasional & Produktivitas (Owner & Staf) */}
-          {activeTab === "dashboard" && <OperationalDashboard onNavigateTab={setActiveTab} />}
+        {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas */}
+        <div className="flex-1 flex gap-4 sm:gap-5 min-w-0 items-start w-full">
+          {/* Left Floating Icon Dock (Tablet & Desktop md:flex) */}
+          <AdminSidebar
+            currentRole={currentRole}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            isMobileOpen={isMobileSidebarOpen}
+            onCloseMobile={() => setIsMobileSidebarOpen(false)}
+          />
 
-          {/* TAB 1: Status Kamar (Matriks 8 Kamar PMS) (Owner & Staf) */}
-          {activeTab === "matrix" && <RoomMatrix />}
+          {/* Dynamic Main Workspace Content */}
+          <main className="flex-1 min-w-0 w-full overflow-hidden">
+            {/* TAB 0: Dashboard Utama Operasional & Produktivitas (Owner & Staf) */}
+            {activeTab === "dashboard" && <OperationalDashboard onNavigateTab={setActiveTab} />}
 
-          {/* TAB 2: Jadwal Booking Mendatang WA (Owner & Staf) */}
-          {activeTab === "bookings" && <AdvanceBookingList />}
+            {/* TAB 1: Status Kamar (Matriks 8 Kamar PMS) (Owner & Staf) */}
+            {activeTab === "matrix" && <RoomMatrix />}
 
-          {/* TAB 3: Kasir & Stok Oleh-oleh (Owner & Staf) */}
-          {activeTab === "pos" && <SouvenirPos />}
+            {/* TAB 2: Jadwal Booking Mendatang WA (Owner & Staf) */}
+            {activeTab === "bookings" && <AdvanceBookingList />}
 
-          {/* TAB 4: Manajemen Tarif & Kamar (Khusus Owner) */}
-          {activeTab === "rooms" && currentRole === "owner" && <RoomManagement />}
+            {/* TAB 3: Kasir & Stok Oleh-oleh (Owner & Staf) */}
+            {activeTab === "pos" && <SouvenirPos />}
 
-          {/* TAB 5: Laporan Omzet & Okupansi (Khusus Owner) */}
-          {activeTab === "reports" && currentRole === "owner" && <FinancialReports />}
+            {/* TAB 4: Manajemen Tarif & Kamar (Khusus Owner) */}
+            {activeTab === "rooms" && currentRole === "owner" && <RoomManagement />}
 
-          {/* TAB 6: Kelola Akun Staf (Khusus Owner) */}
-          {activeTab === "staff" && currentRole === "owner" && <StaffManagement />}
-        </main>
+            {/* TAB 5: Laporan Omzet & Okupansi (Khusus Owner) */}
+            {activeTab === "reports" && currentRole === "owner" && <FinancialReports />}
+
+            {/* TAB 6: Kelola Akun Staf (Khusus Owner) */}
+            {activeTab === "staff" && currentRole === "owner" && <StaffManagement />}
+          </main>
+        </div>
       </div>
     </div>
   );
