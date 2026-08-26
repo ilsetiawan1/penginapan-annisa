@@ -149,10 +149,10 @@ export default function ContactPage() {
 
           {/* Kolom Kanan: Frame Visual Google Maps */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-3 p-1 sm:p-2">
-            <div className="flex items-center justify-between px-1">
+            <div className="flex items-center justify-between gap-2 px-1">
               <div>
-                <span className="text-sm sm:text-base font-serif font-black text-slate-900 flex items-center gap-1.5">
-                  <Navigation className="w-4 h-4 text-purple-700" />
+                <span className="text-xs sm:text-base font-serif font-black text-slate-900 flex items-center gap-1.5 whitespace-nowrap">
+                  <Navigation className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-700 shrink-0" />
                   <span>Peta Lokasi Google Maps</span>
                 </span>
                 <p className="text-xs text-slate-500 hidden sm:block mt-0.5">
@@ -164,10 +164,10 @@ export default function ContactPage() {
                 href="https://maps.app.goo.gl/PskXAUZuGD7NeMoL7"
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs font-extrabold text-purple-700 hover:text-purple-900 flex items-center gap-1 hover:underline transition-colors shrink-0"
+                className="text-[11px] sm:text-xs font-extrabold text-purple-700 hover:text-purple-900 flex items-center gap-1 hover:underline transition-colors shrink-0 whitespace-nowrap"
               >
-                <span>Buka Petunjuk Arah</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Petunjuk Arah</span>
+                <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </a>
             </div>
 
