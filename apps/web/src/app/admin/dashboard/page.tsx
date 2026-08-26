@@ -14,42 +14,37 @@ import { StaffManagement } from "../../../features/admin/staff/components/staff-
 export default function AdminDashboardPage() {
   const [currentRole, setCurrentRole] = useState<AdminRole>("owner");
   const [activeTab, setActiveTab] = useState<string>("dashboard");
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-[#f7f6f9] text-slate-900 font-sans flex antialiased">
-      {/* 1. Left Sidebar Navigation */}
-      <AdminSidebar
+    <div className="min-h-screen bg-[#f7f6f9] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-5 lg:p-6">
+      {/* 1. Topbar Horizontal Navbar (Persis di Bagian Atas Kanvas Referensi) */}
+      <AdminTopbar
         currentRole={currentRole}
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        isCollapsed={isSidebarCollapsed}
-        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-        isMobileOpen={isMobileSidebarOpen}
-        onCloseMobile={() => setIsMobileSidebarOpen(false)}
+        onRoleChange={(newRole) => {
+          setCurrentRole(newRole);
+          if (newRole === "staff" && !["dashboard", "matrix", "bookings", "pos"].includes(activeTab)) {
+            setActiveTab("dashboard");
+          }
+        }}
+        onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
       />
 
-      {/* 2. Main Workspace Layout Area */}
-      <div
-        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-          isSidebarCollapsed ? "lg:pl-20" : "lg:pl-64"
-        }`}
-      >
-        {/* Top Header & Greeting Bar */}
-        <AdminTopbar
+      {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas */}
+      <div className="flex-1 flex gap-5 min-w-0">
+        {/* Left Floating Icon Dock (Desktop) */}
+        <AdminSidebar
           currentRole={currentRole}
-          onRoleChange={(newRole) => {
-            setCurrentRole(newRole);
-            if (newRole === "staff" && !["dashboard", "matrix", "bookings", "pos"].includes(activeTab)) {
-              setActiveTab("dashboard");
-            }
-          }}
-          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          isMobileOpen={isMobileSidebarOpen}
+          onCloseMobile={() => setIsMobileSidebarOpen(false)}
         />
 
         {/* Dynamic Main Workspace Content */}
-        <main className="flex-1 max-w-7xl w-full mx-auto p-2.5 sm:p-4 lg:p-5">
+        <main className="flex-1 min-w-0 lg:pl-22">
           {/* TAB 0: Dashboard Utama Operasional & Produktivitas (Owner & Staf) */}
           {activeTab === "dashboard" && <OperationalDashboard onNavigateTab={setActiveTab} />}
 

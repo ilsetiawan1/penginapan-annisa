@@ -1,16 +1,37 @@
 "use client";
 
-import { Bell, Clock, Menu, ShieldCheck, UserCheck } from "lucide-react";
+import {
+  Bed,
+  Bell,
+  Calendar,
+  Clock,
+  Gift,
+  Home,
+  Menu,
+  ShieldCheck,
+  TrendingUp,
+  UserCheck,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { AdminRole } from "../../../../components/layout/admin-sidebar";
 
 interface AdminTopbarProps {
   currentRole: AdminRole;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
   onRoleChange: (role: AdminRole) => void;
   onOpenMobileSidebar: () => void;
 }
 
-export function AdminTopbar({ currentRole, onRoleChange, onOpenMobileSidebar }: AdminTopbarProps) {
+export function AdminTopbar({
+  currentRole,
+  activeTab,
+  onTabChange,
+  onRoleChange,
+  onOpenMobileSidebar,
+}: AdminTopbarProps) {
   const [timeStr, setTimeStr] = useState<string>("");
 
   useEffect(() => {
@@ -31,58 +52,86 @@ export function AdminTopbar({ currentRole, onRoleChange, onOpenMobileSidebar }: 
     return () => clearInterval(interval);
   }, []);
 
+  const navPills = [
+    { id: "dashboard", label: "Dashboard", roles: ["owner", "staff"] },
+    { id: "matrix", label: "Status Kamar", roles: ["owner", "staff"] },
+    { id: "bookings", label: "Booking WA", roles: ["owner", "staff"] },
+    { id: "pos", label: "Kasir Oleh-Oleh", roles: ["owner", "staff"] },
+    { id: "reports", label: "Laporan Omzet", roles: ["owner"] },
+  ].filter((p) => p.roles.includes(currentRole));
+
   return (
-    <header className="h-16 w-full flex items-center justify-between px-3.5 sm:px-6 border-b border-purple-100/90 bg-white/95 backdrop-blur-xl sticky top-0 z-30 shrink-0 shadow-2xs">
-      {/* Kiri: Hamburger Menu Mobile & Sapaan Admin */}
-      <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+    <header className="w-full bg-white rounded-3xl p-3 sm:p-4 mb-4 sm:mb-6 flex items-center justify-between shadow-xs border border-purple-100/80">
+      {/* 1. KIRI: Brand Logo & Identitas (Persis Posisi Logo Quixotic di Referensi) */}
+      <div className="flex items-center gap-3 shrink-0">
+        {/* Tombol Hamburger di Mobile */}
         <button
           type="button"
           onClick={onOpenMobileSidebar}
-          aria-label="Buka navigasi menu"
+          aria-label="Buka menu navigasi"
           className="lg:hidden p-2 rounded-2xl bg-purple-50 text-purple-800 hover:bg-purple-100 border border-purple-200/60 cursor-pointer shrink-0 transition"
         >
           <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
-        <div className="min-w-0">
-          <h1 className="text-sm sm:text-base lg:text-lg font-serif font-black text-slate-900 tracking-tight leading-tight truncate">
-            {currentRole === "owner" ? (
-              <>
-                <span className="sm:hidden">Halo, Pemilik!</span>
-                <span className="hidden sm:inline">Selamat Datang, Pemilik Penginapan!</span>
-              </>
-            ) : (
-              <>
-                <span className="sm:hidden">Halo, Resepsionis!</span>
-                <span className="hidden sm:inline">Selamat Datang, Staf Resepsionis!</span>
-              </>
-            )}
-          </h1>
-          <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:block">
-            Operasional 8 Kamar Transit Bandara Pattimura Ambon (750m)
-          </p>
-          <span className="text-[9px] font-bold text-purple-700 sm:hidden block leading-none">
-            Penginapan Annisa
-          </span>
-        </div>
+        <Link href="/admin/dashboard" className="flex items-center gap-2.5 group">
+          <div className="relative w-9 h-9 rounded-2xl bg-purple-50 p-1.5 border border-purple-200/80 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+            <Image
+              src="/logo-penginapan-annisa.png"
+              alt="Logo Penginapan Annisa"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+          <div>
+            <h1 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight leading-tight group-hover:text-purple-700 transition">
+              Penginapan Annisa
+            </h1>
+            <span className="text-[10px] text-purple-700 font-bold tracking-wider uppercase block leading-none">
+              Sistem Resepsionis
+            </span>
+          </div>
+        </Link>
       </div>
 
-      {/* Kanan: Jam Real-time WIT, Pilihan Peran, Notifikasi & Profil */}
+      {/* 2. TENGAH: Capsule Navigation Pill Bar (Persis Gaya Pill Tab Menu di Referensi) */}
+      <nav className="hidden xl:flex items-center bg-[#f4f2f8] p-1 rounded-full border border-purple-100/70 shadow-inner">
+        {navPills.map((pill) => {
+          const isActive = activeTab === pill.id;
+          return (
+            <button
+              key={pill.id}
+              type="button"
+              onClick={() => onTabChange(pill.id)}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                isActive
+                  ? "bg-white text-purple-950 shadow-sm font-extrabold"
+                  : "text-slate-500 hover:text-purple-900 hover:bg-white/50"
+              }`}
+            >
+              {pill.label}
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* 3. KANAN: Jam Real-Time, Role Switcher, Notifikasi & Profil */}
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-        {/* Jam Real-time WIT (Ambon) - Kapsul Lavender Elegan */}
-        <div className="hidden md:flex items-center gap-1.5 bg-purple-50/80 border border-purple-150 px-3 py-1.5 rounded-full text-purple-900 text-xs font-bold shadow-2xs">
+        {/* Jam Real-time WIT Ambon */}
+        <div className="hidden md:flex items-center gap-1.5 bg-purple-50/80 border border-purple-150/80 px-3 py-1.5 rounded-full text-purple-900 text-xs font-bold shadow-2xs">
           <Clock className="w-3.5 h-3.5 text-purple-700" />
           <span>{timeStr || "Memuat WIT..."}</span>
         </div>
 
-        {/* Tombol Alih Peran (Owner <-> Staf) Kapsul Modern */}
-        <div className="flex items-center bg-purple-50/90 p-0.5 sm:p-1 rounded-full border border-purple-150">
+        {/* Capsule Role Switcher (Owner <-> Staf) */}
+        <div className="flex items-center bg-[#f4f2f8] p-1 rounded-full border border-purple-100/80">
           <button
             type="button"
             onClick={() => onRoleChange("owner")}
             className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
               currentRole === "owner"
-                ? "bg-purple-700 text-white shadow-xs"
+                ? "bg-purple-700 text-white shadow-2xs"
                 : "text-slate-600 hover:text-purple-900"
             }`}
           >
@@ -95,7 +144,7 @@ export function AdminTopbar({ currentRole, onRoleChange, onOpenMobileSidebar }: 
             onClick={() => onRoleChange("staff")}
             className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
               currentRole === "staff"
-                ? "bg-purple-700 text-white shadow-xs"
+                ? "bg-purple-700 text-white shadow-2xs"
                 : "text-slate-600 hover:text-purple-900"
             }`}
           >
@@ -108,15 +157,15 @@ export function AdminTopbar({ currentRole, onRoleChange, onOpenMobileSidebar }: 
         <button
           type="button"
           aria-label="Pemberitahuan masuk"
-          className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-purple-50 hover:bg-purple-100/80 border border-purple-150 flex items-center justify-center text-purple-800 transition cursor-pointer shrink-0"
+          className="relative w-9 h-9 rounded-full bg-purple-50/80 hover:bg-purple-100 border border-purple-150/80 flex items-center justify-center text-purple-800 transition cursor-pointer shrink-0 shadow-2xs"
         >
-          <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
+          <Bell className="w-4 h-4" />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
         </button>
 
-        {/* Avatar Profil Modern */}
+        {/* User Profile Avatar */}
         <div className="flex items-center shrink-0">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 text-white flex items-center justify-center font-black text-xs shadow-xs ring-2 ring-purple-200">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 text-white flex items-center justify-center font-black text-xs shadow-xs ring-2 ring-purple-200">
             {currentRole === "owner" ? "O" : "S"}
           </div>
         </div>
