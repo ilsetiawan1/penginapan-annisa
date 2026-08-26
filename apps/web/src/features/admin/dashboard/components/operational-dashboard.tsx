@@ -106,8 +106,8 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         </div>
       </div>
 
-      {/* 2. 12-COLUMN MODERN GRID LAYOUT DENGAN GAP-6 KONSISTEN */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-start">
+      {/* 2. 12-COLUMN MODERN GRID LAYOUT (Batas Bawah Rata Mengikuti Housekeeping dengan items-stretch) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-stretch">
         {/* ========================================================= */}
         {/* KOLOM KIRI (lg:col-span-4): HERO CARD & KPI OPERASIONAL */}
         {/* ========================================================= */}
@@ -174,7 +174,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-purple-700 transition" />
           </div>
 
-          {/* KPI 2: Housekeeping / Kebersihan */}
+          {/* KPI 2: Housekeeping / Kebersihan (Penentu Batas Bawah) */}
           <div
             onClick={() => onNavigateTab("matrix")}
             className="bg-white rounded-3xl p-5 md:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex items-center justify-between"
@@ -279,37 +279,53 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             </div>
           </div>
 
-          {/* STATUS KETERISIAN TIPE KAMAR (Kini Berada di Kolom Tengah) */}
-          <div className="bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs space-y-3.5">
-            <div className="flex items-center justify-between">
-              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400">
-                Rasio Keterisian Tipe
-              </h4>
-              <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-100">
-                6 / 8 Terisi
-              </span>
+          {/* STATUS KETERISIAN TIPE KAMAR (Menyesuaikan Tinggi agar Rata Bawah dengan Housekeeping) */}
+          <div className="flex-1 bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs flex flex-col justify-between space-y-4">
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 block">
+                    Rasio Keterisian Tipe
+                  </h4>
+                  <span className="text-sm font-extrabold text-slate-900">Distribusi Keterisian Unit</span>
+                </div>
+                <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
+                  6 / 8 Terisi
+                </span>
+              </div>
+
+              {/* Tipe AC */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-slate-800 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-purple-700" />
+                    Tipe AC (4 Unit)
+                  </span>
+                  <span className="text-purple-700 font-black">3 Terisi • 1 Kosong (75%)</span>
+                </div>
+                <div className="w-full h-3 bg-[#f4f2f8] rounded-full overflow-hidden p-0.5">
+                  <div className="w-3/4 h-full bg-purple-700 rounded-full" />
+                </div>
+              </div>
+
+              {/* Tipe Kipas */}
+              <div className="space-y-1.5 pt-1">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-slate-800 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-purple-400" />
+                    Tipe Kipas (4 Unit)
+                  </span>
+                  <span className="text-purple-700 font-black">2 Terisi • 2 Kosong (50%)</span>
+                </div>
+                <div className="w-full h-3 bg-[#f4f2f8] rounded-full overflow-hidden p-0.5">
+                  <div className="w-2/4 h-full bg-purple-400 rounded-full" />
+                </div>
+              </div>
             </div>
 
-            {/* Tipe AC */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-slate-800">Tipe AC (4 Unit)</span>
-                <span className="text-purple-700 font-black">3 / 4 (75%)</span>
-              </div>
-              <div className="w-full h-2.5 bg-[#f4f2f8] rounded-full overflow-hidden">
-                <div className="w-3/4 h-full bg-purple-700 rounded-full" />
-              </div>
-            </div>
-
-            {/* Tipe Kipas */}
-            <div className="space-y-1 pt-1">
-              <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-slate-800">Tipe Kipas (4 Unit)</span>
-                <span className="text-purple-700 font-black">2 / 4 (50%)</span>
-              </div>
-              <div className="w-full h-2.5 bg-[#f4f2f8] rounded-full overflow-hidden">
-                <div className="w-2/4 h-full bg-purple-400 rounded-full" />
-              </div>
+            <div className="pt-3 border-t border-purple-50 flex items-center justify-between text-[11px] text-slate-400 font-medium">
+              <span>8 Kamar Transit Standar Sama</span>
+              <span className="text-purple-700 font-bold">2 Kamar Tersedia</span>
             </div>
           </div>
         </div>
@@ -345,63 +361,73 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             </div>
           </div>
 
-          {/* TABEL AKTIVITAS TAMU & AGENDA HARI INI (Kini Berada di Kolom Kanan) */}
-          <div className="bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
-                Agenda &amp; Transaksi Hari Ini
-              </h3>
-              <button
-                type="button"
-                onClick={() => onNavigateTab("matrix")}
-                className="text-xs font-extrabold text-purple-700 hover:text-purple-900 flex items-center gap-0.5 cursor-pointer"
-              >
-                <span>Semua Kamar</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+          {/* TABEL AKTIVITAS TAMU & AGENDA HARI INI (Menyesuaikan Tinggi agar Rata Bawah dengan Housekeeping) */}
+          <div className="flex-1 bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs flex flex-col justify-between space-y-3">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                  Agenda &amp; Transaksi Hari Ini
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => onNavigateTab("matrix")}
+                  className="text-xs font-extrabold text-purple-700 hover:text-purple-900 flex items-center gap-0.5 cursor-pointer"
+                >
+                  <span>Semua Kamar</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              <div className="space-y-2.5">
+                {/* Row 1: Hendra Pratama */}
+                <div className="p-3 rounded-2xl bg-[#faf9fd] border border-purple-50 flex items-center justify-between gap-2 hover:bg-purple-50/50 transition">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-xl bg-purple-700 text-white font-black text-xs flex items-center justify-center shrink-0">
+                      B1
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs font-bold text-slate-900 truncate">Hendra Pratama</h4>
+                      <p className="text-[10px] text-slate-500 font-medium">Landing 14.30 WIT • DP 50%</p>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={() => handleCheckIn("Hendra Pratama", "#B1")}
+                    className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-bold text-[11px] h-7 px-3 shrink-0 cursor-pointer shadow-2xs"
+                  >
+                    Check-In
+                  </Button>
+                </div>
+
+                {/* Row 2: Budi Santoso */}
+                <div className="p-3 rounded-2xl bg-[#faf9fd] border border-purple-50 flex items-center justify-between gap-2 hover:bg-purple-50/50 transition">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 font-black text-xs flex items-center justify-center shrink-0 border border-purple-200/60">
+                      A2
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs font-bold text-slate-900 truncate">Budi Santoso</h4>
+                      <p className="text-[10px] text-slate-500 font-medium">Maks 12.00 WIT • Lunas</p>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleCheckOut("Budi Santoso", "#A2")}
+                    className="rounded-full border border-purple-200 bg-white hover:bg-purple-50 text-purple-900 font-bold text-[11px] h-7 px-3 shrink-0 cursor-pointer"
+                  >
+                    Check-Out
+                  </Button>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-2.5">
-              {/* Row 1: Hendra Pratama */}
-              <div className="p-3 rounded-2xl bg-[#faf9fd] border border-purple-50 flex items-center justify-between gap-2 hover:bg-purple-50/50 transition">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-8 h-8 rounded-xl bg-purple-700 text-white font-black text-xs flex items-center justify-center shrink-0">
-                    B1
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="text-xs font-bold text-slate-900 truncate">Hendra Pratama</h4>
-                    <p className="text-[10px] text-slate-500 font-medium">Landing 14.30 WIT • DP 50%</p>
-                  </div>
-                </div>
-                <Button
-                  size="sm"
-                  onClick={() => handleCheckIn("Hendra Pratama", "#B1")}
-                  className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-bold text-[11px] h-7 px-3 shrink-0 cursor-pointer shadow-2xs"
-                >
-                  Check-In
-                </Button>
-              </div>
-
-              {/* Row 2: Budi Santoso */}
-              <div className="p-3 rounded-2xl bg-[#faf9fd] border border-purple-50 flex items-center justify-between gap-2 hover:bg-purple-50/50 transition">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 font-black text-xs flex items-center justify-center shrink-0 border border-purple-200/60">
-                    A2
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="text-xs font-bold text-slate-900 truncate">Budi Santoso</h4>
-                    <p className="text-[10px] text-slate-500 font-medium">Maks 12.00 WIT • Lunas</p>
-                  </div>
-                </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleCheckOut("Budi Santoso", "#A2")}
-                  className="rounded-full border border-purple-200 bg-white hover:bg-purple-50 text-purple-900 font-bold text-[11px] h-7 px-3 shrink-0 cursor-pointer"
-                >
-                  Check-Out
-                </Button>
-              </div>
+            <div className="pt-2 border-t border-purple-50 flex items-center justify-between text-[11px] text-slate-400">
+              <span>Status Pembayaran Terverifikasi</span>
+              <span className="text-emerald-700 font-bold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Resepsionis Aktif
+              </span>
             </div>
           </div>
         </div>
