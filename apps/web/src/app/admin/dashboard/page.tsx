@@ -8,6 +8,7 @@ import { FinancialReports } from "../../../features/admin/reports/components/fin
 import { AdvanceBookingList } from "../../../features/admin/reservations/components/advance-booking-list";
 import { RoomManagement } from "../../../features/admin/rooms/components/room-management";
 import { RoomMatrix } from "../../../features/admin/rooms/components/room-matrix";
+import { AdminSettings } from "../../../features/admin/settings/components/admin-settings";
 import { SouvenirPos } from "../../../features/admin/souvenirs/components/souvenir-pos";
 import { StaffManagement } from "../../../features/admin/staff/components/staff-management";
 
@@ -18,19 +19,14 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased px-3 py-3 sm:px-5 sm:py-4 lg:px-6 lg:py-5 items-center">
-      {/* Container Terpusat Proporsional (Mengisi Desktop Lebar dengan Seimbang tanpa Padding Berlebih) */}
+      {/* Container Terpusat Proporsional Mobile-First */}
       <div className="w-full max-w-[1600px] flex flex-col flex-1">
-        {/* 1. Topbar Horizontal Navbar */}
+        {/* 1. Topbar Sticky Glassmorphism Header */}
         <AdminTopbar
           currentRole={currentRole}
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          onRoleChange={(newRole) => {
-            setCurrentRole(newRole);
-            if (newRole === "staff" && !["dashboard", "matrix", "bookings", "pos"].includes(activeTab)) {
-              setActiveTab("dashboard");
-            }
-          }}
+          onRoleChange={setCurrentRole}
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
         />
 
@@ -47,16 +43,16 @@ export default function AdminDashboardPage() {
 
           {/* Dynamic Main Workspace Content */}
           <main className="flex-1 min-w-0 w-full overflow-hidden">
-            {/* TAB 0: Dashboard Utama Operasional & Produktivitas (Owner & Staf) */}
+            {/* TAB 0: Dashboard Utama Operasional & Produktivitas */}
             {activeTab === "dashboard" && <OperationalDashboard onNavigateTab={setActiveTab} />}
 
-            {/* TAB 1: Status Kamar (Matriks 8 Kamar PMS) (Owner & Staf) */}
+            {/* TAB 1: Status Kamar (Matriks 8 Kamar PMS) */}
             {activeTab === "matrix" && <RoomMatrix />}
 
-            {/* TAB 2: Jadwal Booking Mendatang WA (Owner & Staf) */}
+            {/* TAB 2: Jadwal Booking Mendatang WA */}
             {activeTab === "bookings" && <AdvanceBookingList />}
 
-            {/* TAB 3: Kasir & Stok Oleh-oleh (Owner & Staf) */}
+            {/* TAB 3: Kasir & Stok Oleh-oleh */}
             {activeTab === "pos" && <SouvenirPos />}
 
             {/* TAB 4: Manajemen Tarif & Kamar (Khusus Owner) */}
@@ -67,6 +63,11 @@ export default function AdminDashboardPage() {
 
             {/* TAB 6: Kelola Akun Staf (Khusus Owner) */}
             {activeTab === "staff" && currentRole === "owner" && <StaffManagement />}
+
+            {/* TAB 7: Pengaturan Sistem & Peran (Baru) */}
+            {activeTab === "settings" && (
+              <AdminSettings currentRole={currentRole} onRoleChange={setCurrentRole} />
+            )}
           </main>
         </div>
       </div>

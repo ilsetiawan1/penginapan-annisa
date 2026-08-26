@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Bell,
-  Menu,
-  ShieldCheck,
-  UserCheck,
-} from "lucide-react";
+import { Bell, Menu, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { AdminRole } from "../../../../components/layout/admin-sidebar";
@@ -14,7 +9,6 @@ interface AdminTopbarProps {
   currentRole: AdminRole;
   activeTab: string;
   onTabChange: (tab: string) => void;
-  onRoleChange: (role: AdminRole) => void;
   onOpenMobileSidebar: () => void;
 }
 
@@ -22,7 +16,6 @@ export function AdminTopbar({
   currentRole,
   activeTab,
   onTabChange,
-  onRoleChange,
   onOpenMobileSidebar,
 }: AdminTopbarProps) {
   const navPills = [
@@ -34,8 +27,8 @@ export function AdminTopbar({
   ].filter((p) => p.roles.includes(currentRole));
 
   return (
-    <header className="w-full bg-white rounded-3xl p-3 sm:p-4 mb-4 sm:mb-6 flex items-center justify-between shadow-xs border border-purple-100/80">
-      {/* 1. KIRI: Brand Logo & Identitas (Persis Logo Quixotic di Referensi) */}
+    <header className="w-full bg-white/95 backdrop-blur-xl rounded-3xl p-3 sm:p-4 mb-4 sm:mb-6 flex items-center justify-between shadow-xs border border-purple-100/80 sticky top-3 sm:top-4 z-40">
+      {/* 1. KIRI: Brand Logo & Identitas */}
       <div className="flex items-center gap-3 shrink-0">
         {/* Tombol Hamburger di Layar HP */}
         <button
@@ -68,7 +61,7 @@ export function AdminTopbar({
         </Link>
       </div>
 
-      {/* 2. TENGAH: Capsule Navigation Pill Bar (Persis Tab Nav di Referensi) */}
+      {/* 2. TENGAH: Capsule Navigation Pill Bar */}
       <nav className="hidden lg:flex items-center bg-[#f4f2f8] p-1 rounded-full border border-purple-100/70 shadow-inner">
         {navPills.map((pill) => {
           const isActive = activeTab === pill.id;
@@ -89,37 +82,8 @@ export function AdminTopbar({
         })}
       </nav>
 
-      {/* 3. KANAN: Role Switcher Kapsul, Notifikasi, dan Avatar Profil (Minimalis & Ringkas) */}
+      {/* 3. KANAN: Lonceng Notifikasi & User Profile / Settings Link (Bersih & Ringkas Tanpa Toggle) */}
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-        {/* Capsule Role Switcher (Owner <-> Staf) */}
-        <div className="flex items-center bg-[#f4f2f8] p-0.5 sm:p-1 rounded-full border border-purple-100/80">
-          <button
-            type="button"
-            onClick={() => onRoleChange("owner")}
-            className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
-              currentRole === "owner"
-                ? "bg-purple-700 text-white shadow-2xs"
-                : "text-slate-600 hover:text-purple-900"
-            }`}
-          >
-            <ShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-            <span className="hidden xs:inline sm:inline">Owner</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onRoleChange("staff")}
-            className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
-              currentRole === "staff"
-                ? "bg-purple-700 text-white shadow-2xs"
-                : "text-slate-600 hover:text-purple-900"
-            }`}
-          >
-            <UserCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-            <span className="hidden xs:inline sm:inline">Staf</span>
-          </button>
-        </div>
-
         {/* Lonceng Notifikasi */}
         <button
           type="button"
@@ -130,12 +94,20 @@ export function AdminTopbar({
           <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
         </button>
 
-        {/* User Profile Avatar */}
-        <div className="flex items-center shrink-0">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 text-white flex items-center justify-center font-black text-xs shadow-xs ring-2 ring-purple-200">
+        {/* User Profile Avatar with Clickable Settings Link */}
+        <button
+          type="button"
+          onClick={() => onTabChange("settings")}
+          title="Buka Pengaturan Sistem"
+          className="flex items-center gap-2 p-1 pr-2.5 rounded-full bg-purple-50 hover:bg-purple-100 border border-purple-150/80 transition cursor-pointer"
+        >
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 text-white flex items-center justify-center font-black text-xs shadow-xs ring-2 ring-purple-200">
             {currentRole === "owner" ? "O" : "S"}
           </div>
-        </div>
+          <span className="text-xs font-extrabold text-purple-950 hidden sm:inline">
+            {currentRole === "owner" ? "Owner" : "Staf"}
+          </span>
+        </button>
       </div>
     </header>
   );

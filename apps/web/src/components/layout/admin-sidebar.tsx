@@ -8,6 +8,7 @@ import {
   Home,
   LayoutDashboard,
   LogOut,
+  Settings,
   TrendingUp,
   Users,
   X,
@@ -43,6 +44,7 @@ export function AdminSidebar({
   ].filter((m) => m.roles.includes(currentRole));
 
   const bottomItems = [
+    { id: "settings", label: "Pengaturan Sistem", icon: Settings, roles: ["owner", "staff"] },
     { id: "staff", label: "Kelola Staf", icon: Users, roles: ["owner"] },
   ].filter((m) => m.roles.includes(currentRole));
 
@@ -210,6 +212,29 @@ export function AdminSidebar({
 
           <nav className="space-y-1.5">
             {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    onTabChange(item.id);
+                    onCloseMobile();
+                  }}
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all ${
+                    isActive
+                      ? "bg-purple-700 text-white shadow-md shadow-purple-900/20"
+                      : "text-slate-600 hover:bg-purple-50 hover:text-purple-900"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+
+            {bottomItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
               return (
