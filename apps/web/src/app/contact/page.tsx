@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Clock,
   ExternalLink,
@@ -13,56 +15,55 @@ import { ANNISA_WA_NUMBER } from "../../lib/whatsapp";
 
 export default function ContactPage() {
   return (
-    <div className="relative min-h-dvh w-full bg-[#faf9fc] flex flex-col justify-between overflow-x-hidden selection:bg-purple-200 selection:text-purple-900 pb-8 sm:pb-12">
-      {/* Scenic Ambient Half-Hero Background (Konsisten dengan Halaman Lain) */}
-      <div className="absolute inset-x-0 top-0 h-[52%] sm:h-[58%] overflow-hidden z-0">
+    <div className="min-h-screen bg-[#faf9fc] text-slate-900 font-sans selection:bg-purple-200 selection:text-purple-900">
+      {/* 1. Navbar Floating Konsisten */}
+      <Navbar />
+
+      {/* 2. Hero Section Standar Konsisten dengan /artikel, /oleh-oleh, dan /kamar */}
+      <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
         <Image
           src="/contact/bg-gong-perdamaian-kota-ambon.webp"
           alt="Gong Perdamaian Nusantara Kota Ambon - Penginapan Annisa"
           fill
-          className="object-cover object-center scale-105"
+          className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/50 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-36 sm:h-48 bg-gradient-to-t from-[#faf9fc] via-[#faf9fc]/90 to-transparent pointer-events-none" />
-      </div>
+        {/* Top Dark Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/45 to-transparent" />
+        {/* Smooth Bottom White Fade Transition */}
+        <div className="absolute inset-x-0 bottom-0 h-36 sm:h-48 bg-gradient-to-t from-[#faf9fc] via-[#faf9fc]/85 to-transparent pointer-events-none" />
 
-      {/* Floating Modern Navbar */}
-      <Navbar />
-
-      {/* Main Content Showcase */}
-      <main className="relative z-10 max-w-6xl mx-auto w-full px-3.5 sm:px-6 pt-16 sm:pt-20 lg:pt-24 flex-1 flex flex-col justify-center min-h-0">
-        {/* Header Section (Font Serif Georgia Mewah) */}
-        <div className="text-center text-white mb-5 sm:mb-8 shrink-0">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-2 shadow-xs">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-14 sm:pt-16">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-3 sm:mb-4 shadow-sm">
             <MapPin className="w-3.5 h-3.5 text-purple-300" />
             <span>PENGINAPAN ANNISA AMBON</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight leading-tight drop-shadow-md">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow-md">
             Hubungi Kami
           </h1>
 
-          <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-lg mx-auto leading-relaxed drop-shadow-xs mt-1.5">
+          <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
             Hanya 750 meter atau 2–3 menit dari Bandara Pattimura. Resepsionis kami siap melayani
             reservasi dan pertanyaan Anda.
           </p>
         </div>
+      </section>
 
-        {/* Showcase Box dengan Efek Glassmorphism Mewah (Backdrop Blur Transparan) */}
-        <div className="bg-white/80 backdrop-blur-3xl rounded-3xl p-3.5 sm:p-6 lg:p-7 border border-white/90 shadow-2xl shadow-purple-950/15 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
-          {/* Kolom Kiri: Kartu Informasi Kontak Glassmorphism White Blur */}
-          <div className="lg:col-span-5 bg-white/70 backdrop-blur-2xl text-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden border border-purple-100/90 shadow-md shadow-purple-900/5">
-            {/* Ornamen Glow Halus di Sudut Kartu */}
-            <div className="absolute -bottom-12 -right-12 w-44 h-44 bg-purple-300/25 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute -top-10 -left-10 w-36 h-36 bg-purple-200/20 rounded-full blur-xl pointer-events-none" />
+      {/* 3. Main Showcase Section (Konsisten dengan Padding & Container /artikel dan /oleh-oleh) */}
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-14 relative z-20 pb-16 sm:pb-20">
+        <div className="bg-white/95 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 lg:p-8 border border-purple-100/90 shadow-2xl shadow-purple-950/10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          {/* Kolom Kiri: Kartu Informasi Kontak Glassmorphism */}
+          <div className="lg:col-span-5 bg-[#f8f5fd] backdrop-blur-md text-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden border border-purple-100 shadow-sm">
+            {/* Ornamen Glow Halus */}
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-purple-300/20 rounded-full blur-2xl pointer-events-none" />
 
-            <div className="relative z-10 space-y-5">
+            <div className="relative z-10 space-y-6">
               <div>
                 <h2 className="text-xl sm:text-2xl font-serif font-black tracking-tight leading-tight text-slate-900 mb-1.5">
                   Informasi Kontak
                 </h2>
-                <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
                   Layanan resepsionis ramah, reservasi kamar transit, dan titip ambil oleh-oleh
                   khas Maluku.
                 </p>
@@ -72,8 +73,8 @@ export default function ContactPage() {
               <div className="space-y-4 pt-1">
                 {/* 1. Telepon / WhatsApp */}
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
-                    <Phone className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
+                    <Phone className="w-4.5 h-4.5" />
                   </div>
                   <div>
                     <span className="text-[10px] font-black text-purple-800 uppercase tracking-wider block">
@@ -92,8 +93,8 @@ export default function ContactPage() {
 
                 {/* 2. Jam Operasional */}
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
-                    <Clock className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
+                    <Clock className="w-4.5 h-4.5" />
                   </div>
                   <div>
                     <span className="text-[10px] font-black text-purple-800 uppercase tracking-wider block">
@@ -110,8 +111,8 @@ export default function ContactPage() {
 
                 {/* 3. Alamat Lengkap */}
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
-                    <MapPin className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
+                    <MapPin className="w-4.5 h-4.5" />
                   </div>
                   <div>
                     <span className="text-[10px] font-black text-purple-800 uppercase tracking-wider block">
@@ -128,18 +129,18 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Tombol Aksi WhatsApp Bergradasi Mewah */}
-            <div className="relative z-10 pt-6 mt-4 border-t border-purple-100/90">
+            {/* Tombol Aksi WhatsApp */}
+            <div className="relative z-10 pt-6 mt-4 border-t border-purple-100">
               <Button
                 asChild
-                className="w-full rounded-xl sm:rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-11 gap-2 shadow-md shadow-purple-900/20 hover:shadow-lg transition-all cursor-pointer"
+                className="w-full rounded-xl sm:rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-11 sm:h-12 gap-2 shadow-md shadow-purple-900/20 hover:shadow-lg transition-all cursor-pointer"
               >
                 <a
                   href={`https://wa.me/${ANNISA_WA_NUMBER}?text=Halo%20Penginapan%20Annisa,%20saya%20ingin%20tanya%20informasi%20kamar%20dan%20lokasi`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <FaWhatsapp className="w-4 h-4" />
+                  <FaWhatsapp className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                   <span>Chat WhatsApp Resmi</span>
                 </a>
               </Button>
@@ -150,11 +151,11 @@ export default function ContactPage() {
           <div className="lg:col-span-7 flex flex-col justify-between space-y-3 p-1 sm:p-2">
             <div className="flex items-center justify-between px-1">
               <div>
-                <span className="text-xs sm:text-sm font-serif font-black text-slate-900 flex items-center gap-1.5">
-                  <Navigation className="w-3.5 h-3.5 text-purple-700" />
+                <span className="text-sm sm:text-base font-serif font-black text-slate-900 flex items-center gap-1.5">
+                  <Navigation className="w-4 h-4 text-purple-700" />
                   <span>Peta Lokasi Google Maps</span>
                 </span>
-                <p className="text-[11px] text-slate-500 hidden sm:block mt-0.5">
+                <p className="text-xs text-slate-500 hidden sm:block mt-0.5">
                   Petunjuk rute langsung 750 meter dari terminal Bandara Pattimura.
                 </p>
               </div>
@@ -163,15 +164,15 @@ export default function ContactPage() {
                 href="https://maps.app.goo.gl/PskXAUZuGD7NeMoL7"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[11px] font-extrabold text-purple-700 hover:text-purple-900 flex items-center gap-1 hover:underline transition-colors shrink-0"
+                className="text-xs font-extrabold text-purple-700 hover:text-purple-900 flex items-center gap-1 hover:underline transition-colors shrink-0"
               >
                 <span>Buka Petunjuk Arah</span>
-                <ExternalLink className="w-3 h-3" />
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
 
             {/* Embedded Google Maps Frame */}
-            <div className="relative h-64 sm:h-80 lg:h-full min-h-[260px] sm:min-h-[340px] w-full rounded-2xl overflow-hidden border border-slate-200/90 shadow-inner">
+            <div className="relative h-72 sm:h-84 lg:h-full min-h-[280px] sm:min-h-[360px] w-full rounded-2xl overflow-hidden border border-slate-200/90 shadow-inner">
               <iframe
                 title="Peta Lokasi Penginapan Annisa Ambon"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4629.6179207921805!2d128.08701762720418!3d-3.7074615396397355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d6ce7a259d48e1b%3A0x304cec63773e589e!2sPenginapan%20Annisa!5e0!3m2!1sid!2sid!4v1787323500248!5m2!1sid!2sid"
