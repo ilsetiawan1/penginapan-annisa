@@ -54,32 +54,41 @@ export function AdminSidebar({
           role="presentation"
           aria-hidden="true"
           onClick={onCloseMobile}
-          className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-40 md:hidden transition-opacity"
+          className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 md:hidden transition-opacity"
         />
       )}
 
-      {/* 1. DESKTOP & TABLET VIEW: Natural Flex Dock (Tidak menutupi konten, sticky mengalir di samping) */}
-      <aside className="hidden md:flex flex-col items-center justify-between w-16 shrink-0 bg-white rounded-3xl border border-purple-100/90 shadow-xl shadow-purple-950/5 py-5 self-start sticky top-4 max-h-[calc(100vh-6rem)]">
+      {/* 1. DESKTOP & TABLET VIEW: Natural Flex Dock dengan Bubble Chat Tooltip */}
+      <aside className="hidden md:flex flex-col items-center justify-between w-16 shrink-0 bg-white rounded-3xl border border-purple-100/90 shadow-xl shadow-purple-950/5 py-5 self-start sticky top-4 max-h-[calc(100vh-6rem)] z-40">
         {/* Atas: Launcher Icon + Ikon Navigasi */}
         <div className="flex flex-col items-center gap-4 w-full">
-          {/* Main App Grid Launcher Active Button (Persis Ikon Launcher di Referensi) */}
-          <button
-            type="button"
-            onClick={() => onTabChange("dashboard")}
-            title="Dashboard Utama"
-            className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all cursor-pointer ${
-              activeTab === "dashboard"
-                ? "bg-purple-700 text-white shadow-lg shadow-purple-900/30 scale-105"
-                : "bg-purple-50 text-purple-700 hover:bg-purple-100"
-            }`}
-          >
-            <div className="grid grid-cols-2 gap-0.5 w-4 h-4">
-              <span className="w-1.5 h-1.5 rounded-xs bg-current" />
-              <span className="w-1.5 h-1.5 rounded-xs bg-current" />
-              <span className="w-1.5 h-1.5 rounded-xs bg-current" />
-              <span className="w-1.5 h-1.5 rounded-xs bg-current" />
+          {/* Main App Grid Launcher Active Button */}
+          <div className="relative group">
+            <button
+              type="button"
+              onClick={() => onTabChange("dashboard")}
+              className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all cursor-pointer ${
+                activeTab === "dashboard"
+                  ? "bg-purple-700 text-white shadow-lg shadow-purple-900/30 scale-105"
+                  : "bg-purple-50 text-purple-700 hover:bg-purple-100"
+              }`}
+            >
+              <div className="grid grid-cols-2 gap-0.5 w-4 h-4">
+                <span className="w-1.5 h-1.5 rounded-xs bg-current" />
+                <span className="w-1.5 h-1.5 rounded-xs bg-current" />
+                <span className="w-1.5 h-1.5 rounded-xs bg-current" />
+                <span className="w-1.5 h-1.5 rounded-xs bg-current" />
+              </div>
+            </button>
+
+            {/* Bubble Chat Tooltip White Blur */}
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-xl text-slate-900 border border-purple-200/90 shadow-2xl px-3 py-1.5 rounded-2xl whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 z-[100] flex items-center scale-95 group-hover:scale-100 group-hover:translate-x-1">
+              <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white border-l border-b border-purple-200/90 rotate-45" />
+              <span className="relative z-10 text-xs font-black text-slate-900 tracking-tight">
+                Dashboard Ringkasan
+              </span>
             </div>
-          </button>
+          </div>
 
           {/* Pemisah Halus */}
           <div className="w-8 h-px bg-purple-100 my-1" />
@@ -92,23 +101,27 @@ export function AdminSidebar({
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
                 return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => onTabChange(item.id)}
-                    title={item.label}
-                    className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all cursor-pointer group relative ${
-                      isActive
-                        ? "bg-purple-700 text-white shadow-md shadow-purple-900/20 scale-105"
-                        : "text-slate-400 hover:text-purple-900 hover:bg-purple-50"
-                    }`}
-                  >
-                    <Icon className="w-4.5 h-4.5" />
-                    {/* Tooltip Hover Modern */}
-                    <span className="absolute left-14 bg-slate-900 text-white text-[11px] font-bold px-2.5 py-1 rounded-xl shadow-lg whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50">
-                      {item.label}
-                    </span>
-                  </button>
+                  <div key={item.id} className="relative group w-full flex justify-center">
+                    <button
+                      type="button"
+                      onClick={() => onTabChange(item.id)}
+                      className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all cursor-pointer ${
+                        isActive
+                          ? "bg-purple-700 text-white shadow-md shadow-purple-900/20 scale-105"
+                          : "text-slate-400 hover:text-purple-900 hover:bg-purple-50"
+                      }`}
+                    >
+                      <Icon className="w-4.5 h-4.5" />
+                    </button>
+
+                    {/* Bubble Chat Tooltip White Blur */}
+                    <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-xl text-slate-900 border border-purple-200/90 shadow-2xl px-3 py-1.5 rounded-2xl whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 z-[100] flex items-center scale-95 group-hover:scale-100 group-hover:translate-x-1">
+                      <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white border-l border-b border-purple-200/90 rotate-45" />
+                      <span className="relative z-10 text-xs font-black text-slate-900 tracking-tight">
+                        {item.label}
+                      </span>
+                    </div>
+                  </div>
                 );
               })}
           </div>
@@ -120,36 +133,47 @@ export function AdminSidebar({
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onTabChange(item.id)}
-                title={item.label}
-                className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all cursor-pointer group relative ${
-                  isActive
-                    ? "bg-purple-700 text-white shadow-md shadow-purple-900/20"
-                    : "text-slate-400 hover:text-purple-900 hover:bg-purple-50"
-                }`}
-              >
-                <Icon className="w-4.5 h-4.5" />
-                <span className="absolute left-14 bg-slate-900 text-white text-[11px] font-bold px-2.5 py-1 rounded-xl shadow-lg whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50">
-                  {item.label}
-                </span>
-              </button>
+              <div key={item.id} className="relative group w-full flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => onTabChange(item.id)}
+                  className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-purple-700 text-white shadow-md shadow-purple-900/20"
+                      : "text-slate-400 hover:text-purple-900 hover:bg-purple-50"
+                  }`}
+                >
+                  <Icon className="w-4.5 h-4.5" />
+                </button>
+
+                {/* Bubble Chat Tooltip White Blur */}
+                <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-xl text-slate-900 border border-purple-200/90 shadow-2xl px-3 py-1.5 rounded-2xl whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 z-[100] flex items-center scale-95 group-hover:scale-100 group-hover:translate-x-1">
+                  <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white border-l border-b border-purple-200/90 rotate-45" />
+                  <span className="relative z-10 text-xs font-black text-slate-900 tracking-tight">
+                    {item.label}
+                  </span>
+                </div>
+              </div>
             );
           })}
 
-          <Link
-            href="/"
-            target="_blank"
-            title="Lihat Website Tamu"
-            className="w-10 h-10 rounded-2xl flex items-center justify-center text-slate-400 hover:text-purple-900 hover:bg-purple-50 transition-all group relative"
-          >
-            <ExternalLink className="w-4.5 h-4.5" />
-            <span className="absolute left-14 bg-slate-900 text-white text-[11px] font-bold px-2.5 py-1 rounded-xl shadow-lg whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50">
-              Lihat Web Tamu
-            </span>
-          </Link>
+          <div className="relative group w-full flex justify-center">
+            <Link
+              href="/"
+              target="_blank"
+              className="w-10 h-10 rounded-2xl flex items-center justify-center text-slate-400 hover:text-purple-900 hover:bg-purple-50 transition-all"
+            >
+              <ExternalLink className="w-4.5 h-4.5" />
+            </Link>
+
+            {/* Bubble Chat Tooltip White Blur */}
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-xl text-slate-900 border border-purple-200/90 shadow-2xl px-3 py-1.5 rounded-2xl whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 z-[100] flex items-center scale-95 group-hover:scale-100 group-hover:translate-x-1">
+              <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white border-l border-b border-purple-200/90 rotate-45" />
+              <span className="relative z-10 text-xs font-black text-slate-900 tracking-tight">
+                Lihat Web Tamu
+              </span>
+            </div>
+          </div>
         </div>
       </aside>
 
