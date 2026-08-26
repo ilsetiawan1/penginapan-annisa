@@ -8,14 +8,12 @@ import {
   Home,
   LayoutDashboard,
   LogOut,
-  Sliders,
   TrendingUp,
   Users,
   X,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
 
 export type AdminRole = "owner" | "staff";
 
@@ -23,8 +21,6 @@ interface AdminSidebarProps {
   currentRole: AdminRole;
   activeTab: string;
   onTabChange: (tab: string) => void;
-  isCollapsed?: boolean;
-  onToggleCollapse?: () => void;
   isMobileOpen: boolean;
   onCloseMobile: () => void;
 }
@@ -52,21 +48,21 @@ export function AdminSidebar({
 
   return (
     <>
-      {/* Overlay Layar Sentuh Mobile / Tablet */}
+      {/* Overlay Layar Sentuh Mobile */}
       {isMobileOpen && (
         <div
           role="presentation"
           aria-hidden="true"
           onClick={onCloseMobile}
-          className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-40 lg:hidden transition-opacity"
+          className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-40 md:hidden transition-opacity"
         />
       )}
 
-      {/* 1. DESKTOP VIEW: Sleek Floating Vertical Icon Dock (Persis di Referensi Kiri) */}
-      <aside className="hidden lg:flex fixed left-5 top-24 bottom-6 z-40 w-16 bg-white rounded-3xl border border-purple-100/90 shadow-xl shadow-purple-950/5 flex-col items-center justify-between py-5">
+      {/* 1. DESKTOP & TABLET VIEW: Natural Flex Dock (Tidak menutupi konten, sticky mengalir di samping) */}
+      <aside className="hidden md:flex flex-col items-center justify-between w-16 shrink-0 bg-white rounded-3xl border border-purple-100/90 shadow-xl shadow-purple-950/5 py-5 self-start sticky top-4 max-h-[calc(100vh-6rem)]">
         {/* Atas: Launcher Icon + Ikon Navigasi */}
         <div className="flex flex-col items-center gap-4 w-full">
-          {/* Main App Grid Launcher Active Button (Persis Ikon Hijau/Ungu di Sudut Kiri Atas Referensi) */}
+          {/* Main App Grid Launcher Active Button (Persis Ikon Launcher di Referensi) */}
           <button
             type="button"
             onClick={() => onTabChange("dashboard")}
@@ -157,9 +153,9 @@ export function AdminSidebar({
         </div>
       </aside>
 
-      {/* 2. MOBILE VIEW: Slide-over Drawer Saat Layar HP / Tablet Dibuka */}
+      {/* 2. MOBILE VIEW: Slide-over Drawer Saat Layar HP Dibuka */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 bg-white border-r border-purple-100 w-72 flex flex-col justify-between p-5 transition-all duration-300 ease-in-out lg:hidden shadow-2xl ${
+        className={`fixed top-0 bottom-0 left-0 z-50 bg-white border-r border-purple-100 w-72 flex flex-col justify-between p-5 transition-all duration-300 ease-in-out md:hidden shadow-2xl ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

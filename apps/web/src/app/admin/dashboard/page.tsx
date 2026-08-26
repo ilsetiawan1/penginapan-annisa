@@ -32,9 +32,9 @@ export default function AdminDashboardPage() {
         onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
       />
 
-      {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas */}
-      <div className="flex-1 flex gap-5 min-w-0">
-        {/* Left Floating Icon Dock (Desktop) */}
+      {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas (Natural Side-by-Side Flexbox) */}
+      <div className="flex-1 flex gap-3.5 sm:gap-5 min-w-0 items-start">
+        {/* Left Floating Icon Dock (Tablet & Desktop md:flex) */}
         <AdminSidebar
           currentRole={currentRole}
           activeTab={activeTab}
@@ -44,7 +44,7 @@ export default function AdminDashboardPage() {
         />
 
         {/* Dynamic Main Workspace Content */}
-        <main className="flex-1 min-w-0 lg:pl-22">
+        <main className="flex-1 min-w-0 w-full overflow-hidden">
           {/* TAB 0: Dashboard Utama Operasional & Produktivitas (Owner & Staf) */}
           {activeTab === "dashboard" && <OperationalDashboard onNavigateTab={setActiveTab} />}
 
