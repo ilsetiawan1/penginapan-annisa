@@ -73,8 +73,8 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
   };
 
   return (
-    <div className="space-y-4 md:space-y-5 lg:space-y-6">
-      {/* 1. HEADER SECTION ALA REFERENSI: Greeting / Judul di Kiri + Date & Clock Capsule di Kanan */}
+    <div className="space-y-6">
+      {/* 1. HEADER SECTION: Greeting di Kiri + Date & Clock Capsule di Kanan */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-black text-slate-900 tracking-tight leading-tight">
@@ -106,16 +106,16 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         </div>
       </div>
 
-      {/* 2. 12-COLUMN MODERN GRID LAYOUT (Simetris 4-4-4: gap-4 md:gap-5 lg:gap-6, card p-4 md:p-5 lg:p-6) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-5 lg:gap-6 items-stretch">
+      {/* 2. 12-COLUMN MODERN GRID LAYOUT DENGAN GAP-6 KONSISTEN */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-start">
         {/* ========================================================= */}
         {/* KOLOM KIRI (lg:col-span-4): HERO CARD & KPI OPERASIONAL */}
         {/* ========================================================= */}
-        <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5 lg:gap-6 justify-between">
+        <div className="lg:col-span-4 flex flex-col gap-6">
           {/* HERO CARD UNGU (Persis Kartu VISA Hijau di Referensi, versi Ungu Elegan Annisa) */}
           <div
             onClick={() => onNavigateTab("reports")}
-            className="bg-gradient-to-br from-purple-700 via-purple-800 to-indigo-950 text-white rounded-3xl p-5 md:p-6 shadow-xl shadow-purple-950/15 relative overflow-hidden flex flex-col justify-between group cursor-pointer hover:shadow-2xl transition-all duration-300 min-h-[190px]"
+            className="bg-gradient-to-br from-purple-700 via-purple-800 to-indigo-950 text-white rounded-3xl p-6 shadow-xl shadow-purple-950/15 relative overflow-hidden flex flex-col justify-between group cursor-pointer hover:shadow-2xl transition-all duration-300 min-h-[190px]"
           >
             {/* Ornamen Glow Halus di Sudut */}
             <div className="absolute -bottom-10 -right-10 w-44 h-44 bg-white/10 rounded-full blur-2xl pointer-events-none" />
@@ -153,7 +153,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
           {/* KPI 1: Tiba Hari Ini (Booking WA) */}
           <div
             onClick={() => onNavigateTab("bookings")}
-            className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex items-center justify-between"
+            className="bg-white rounded-3xl p-5 md:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex items-center justify-between"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-2xl bg-purple-50 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
@@ -177,7 +177,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
           {/* KPI 2: Housekeeping / Kebersihan */}
           <div
             onClick={() => onNavigateTab("matrix")}
-            className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex items-center justify-between"
+            className="bg-white rounded-3xl p-5 md:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex items-center justify-between"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-2xl bg-purple-50 text-purple-700 border border-purple-200/60 flex items-center justify-center shrink-0 shadow-2xs">
@@ -202,9 +202,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         {/* ========================================================= */}
         {/* KOLOM TENGAH (lg:col-span-4): GRAFIK KAPSUL & RASIO TIPE */}
         {/* ========================================================= */}
-        <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5 lg:gap-6 justify-between">
-          {/* GRAFIK BATANG KAPSUL 7 HARI (Persis Grafik Bar Hijau Bergaris di Referensi) */}
-          <div className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs">
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          {/* GRAFIK BATANG KAPSUL 7 HARI */}
+          <div className="bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
@@ -243,7 +243,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             </div>
 
             {/* Visual Kapsul 7 Hari (Sen - Min) Bergaris Lembut */}
-            <div className="h-32 sm:h-36 flex items-end justify-between gap-1.5 sm:gap-2 pt-2 px-1">
+            <div className="h-36 flex items-end justify-between gap-1.5 sm:gap-2 pt-2 px-1">
               {[
                 { day: "Sen", occ: 62.5, count: "5/8" },
                 { day: "Sel", occ: 75.0, count: "6/8" },
@@ -280,7 +280,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
           </div>
 
           {/* STATUS KETERISIAN TIPE KAMAR (Kini Berada di Kolom Tengah) */}
-          <div className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs space-y-3">
+          <div className="bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs space-y-3.5">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400">
                 Rasio Keterisian Tipe
@@ -317,11 +317,11 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         {/* ========================================================= */}
         {/* KOLOM KANAN (lg:col-span-4): ETALASE POS & AGENDA TAMU */}
         {/* ========================================================= */}
-        <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5 lg:gap-6 justify-between">
+        <div className="lg:col-span-4 flex flex-col gap-6">
           {/* WIDGET ETALASE KASIR POS / TITIP AMBIL */}
           <div
             onClick={() => onNavigateTab("pos")}
-            className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
+            className="bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -346,7 +346,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
           </div>
 
           {/* TABEL AKTIVITAS TAMU & AGENDA HARI INI (Kini Berada di Kolom Kanan) */}
-          <div className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs">
+          <div className="bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
                 Agenda &amp; Transaksi Hari Ini
