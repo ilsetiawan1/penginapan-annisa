@@ -15,7 +15,7 @@ import {
   TrendingUp,
   Wind,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { toast } from "sonner";
 import { OccupancyTrendChart } from "./occupancy-trend-chart";
