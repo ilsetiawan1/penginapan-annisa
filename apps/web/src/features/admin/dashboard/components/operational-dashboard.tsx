@@ -106,7 +106,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         </div>
       </div>
 
-      {/* 2. 12-COLUMN MODERN GRID LAYOUT (Sesuai Spesifikasi: gap-4 md:gap-5 lg:gap-6, card p-4 md:p-5 lg:p-6) */}
+      {/* 2. 12-COLUMN MODERN GRID LAYOUT (Simetris 4-4-4: gap-4 md:gap-5 lg:gap-6, card p-4 md:p-5 lg:p-6) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-5 lg:gap-6 items-stretch">
         {/* ========================================================= */}
         {/* KOLOM KIRI (lg:col-span-4): HERO CARD & KPI OPERASIONAL */}
@@ -200,9 +200,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         </div>
 
         {/* ========================================================= */}
-        {/* KOLOM TENGAH (lg:col-span-5): GRAFIK KAPSUL & AGENDA TAMU */}
+        {/* KOLOM TENGAH (lg:col-span-4): GRAFIK KAPSUL & RASIO TIPE */}
         {/* ========================================================= */}
-        <div className="lg:col-span-5 flex flex-col gap-4 md:gap-5 lg:gap-6 justify-between">
+        <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5 lg:gap-6 justify-between">
           {/* GRAFIK BATANG KAPSUL 7 HARI (Persis Grafik Bar Hijau Bergaris di Referensi) */}
           <div className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs">
             <div className="flex items-center justify-between mb-4">
@@ -279,7 +279,73 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             </div>
           </div>
 
-          {/* TABEL AKTIVITAS TAMU & AGENDA HARI INI */}
+          {/* STATUS KETERISIAN TIPE KAMAR (Kini Berada di Kolom Tengah) */}
+          <div className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400">
+                Rasio Keterisian Tipe
+              </h4>
+              <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-100">
+                6 / 8 Terisi
+              </span>
+            </div>
+
+            {/* Tipe AC */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs font-bold">
+                <span className="text-slate-800">Tipe AC (4 Unit)</span>
+                <span className="text-purple-700 font-black">3 / 4 (75%)</span>
+              </div>
+              <div className="w-full h-2.5 bg-[#f4f2f8] rounded-full overflow-hidden">
+                <div className="w-3/4 h-full bg-purple-700 rounded-full" />
+              </div>
+            </div>
+
+            {/* Tipe Kipas */}
+            <div className="space-y-1 pt-1">
+              <div className="flex items-center justify-between text-xs font-bold">
+                <span className="text-slate-800">Tipe Kipas (4 Unit)</span>
+                <span className="text-purple-700 font-black">2 / 4 (50%)</span>
+              </div>
+              <div className="w-full h-2.5 bg-[#f4f2f8] rounded-full overflow-hidden">
+                <div className="w-2/4 h-full bg-purple-400 rounded-full" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ========================================================= */}
+        {/* KOLOM KANAN (lg:col-span-4): ETALASE POS & AGENDA TAMU */}
+        {/* ========================================================= */}
+        <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5 lg:gap-6 justify-between">
+          {/* WIDGET ETALASE KASIR POS / TITIP AMBIL */}
+          <div
+            onClick={() => onNavigateTab("pos")}
+            className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
+                  Kasir &amp; Oleh-Oleh
+                </span>
+                <div className="w-7 h-7 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
+                  <ShoppingBag className="w-3.5 h-3.5" />
+                </div>
+              </div>
+
+              <div className="text-xl sm:text-2xl font-black text-slate-900 leading-none mb-1">
+                Rp 285.000
+              </div>
+              <p className="text-xs text-slate-500 font-medium">5 Produk Terjual Hari Ini</p>
+            </div>
+
+            <div className="pt-3 mt-3 border-t border-purple-50 flex items-center justify-between text-xs">
+              <span className="text-purple-700 font-extrabold">2 Titip Ambil Siap</span>
+              <ArrowRight className="w-3.5 h-3.5 text-purple-700" />
+            </div>
+          </div>
+
+          {/* TABEL AKTIVITAS TAMU & AGENDA HARI INI (Kini Berada di Kolom Kanan) */}
           <div className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
@@ -335,67 +401,6 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                 >
                   Check-Out
                 </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ========================================================= */}
-        {/* KOLOM KANAN (lg:col-span-3): ETALASE POS & STATUS TIPE */}
-        {/* ========================================================= */}
-        <div className="lg:col-span-3 flex flex-col gap-4 md:gap-5 lg:gap-6 justify-between">
-          {/* WIDGET ETALASE KASIR POS / TITIP AMBIL */}
-          <div
-            onClick={() => onNavigateTab("pos")}
-            className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                  Kasir &amp; Oleh-Oleh
-                </span>
-                <div className="w-7 h-7 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
-                  <ShoppingBag className="w-3.5 h-3.5" />
-                </div>
-              </div>
-
-              <div className="text-xl sm:text-2xl font-black text-slate-900 leading-none mb-1">
-                Rp 285.000
-              </div>
-              <p className="text-xs text-slate-500 font-medium">5 Produk Terjual Hari Ini</p>
-            </div>
-
-            <div className="pt-3 mt-3 border-t border-purple-50 flex items-center justify-between text-xs">
-              <span className="text-purple-700 font-extrabold">2 Titip Ambil Siap</span>
-              <ArrowRight className="w-3.5 h-3.5 text-purple-700" />
-            </div>
-          </div>
-
-          {/* STATUS KETERISIAN TIPE KAMAR (AC VS KIPAS) */}
-          <div className="bg-white rounded-3xl p-4 md:p-5 lg:p-6 border border-purple-100/90 shadow-2xs space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400">
-              Rasio Keterisian Tipe
-            </h4>
-
-            {/* Tipe AC */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-slate-800">Tipe AC (4 Unit)</span>
-                <span className="text-purple-700 font-black">3 / 4 (75%)</span>
-              </div>
-              <div className="w-full h-2 bg-[#f4f2f8] rounded-full overflow-hidden">
-                <div className="w-3/4 h-full bg-purple-700 rounded-full" />
-              </div>
-            </div>
-
-            {/* Tipe Kipas */}
-            <div className="space-y-1 pt-1">
-              <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-slate-800">Tipe Kipas (4 Unit)</span>
-                <span className="text-purple-700 font-black">2 / 4 (50%)</span>
-              </div>
-              <div className="w-full h-2 bg-[#f4f2f8] rounded-full overflow-hidden">
-                <div className="w-2/4 h-full bg-purple-400 rounded-full" />
               </div>
             </div>
           </div>
