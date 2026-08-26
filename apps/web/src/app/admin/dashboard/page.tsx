@@ -17,8 +17,8 @@ export default function AdminDashboardPage() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-[#f7f6f9] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-5 lg:p-6 items-center">
-      {/* Container Terpusat (Bounded Canvas) Mobile -> Tablet -> Desktop Max-W-7xl */}
+    <div className="min-h-screen bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased p-4 md:p-6 lg:p-8 xl:p-10 items-center">
+      {/* Container Terpusat Mobile-First: Mobile (p-4) -> Tablet (md:p-6) -> Desktop (lg:p-8 / xl:p-10) */}
       <div className="w-full max-w-7xl flex flex-col flex-1">
         {/* 1. Topbar Horizontal Navbar */}
         <AdminTopbar
@@ -34,8 +34,8 @@ export default function AdminDashboardPage() {
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
         />
 
-        {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas */}
-        <div className="flex-1 flex gap-4 sm:gap-5 min-w-0 items-start w-full">
+        {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas (Grid Gap: gap-4 md:gap-5 lg:gap-6) */}
+        <div className="flex-1 flex gap-4 md:gap-5 lg:gap-6 min-w-0 items-start w-full">
           {/* Left Floating Icon Dock (Tablet & Desktop md:flex) */}
           <AdminSidebar
             currentRole={currentRole}
