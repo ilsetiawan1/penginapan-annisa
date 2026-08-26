@@ -27,6 +27,34 @@ interface OperationalDashboardProps {
 export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProps) {
   const [selectedPeriod, setSelectedPeriod] = useState<"today" | "week" | "month">("today");
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [timeStr, setTimeStr] = useState<string>("");
+  const [dateStr, setDateStr] = useState<string>("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const timeOptions: Intl.DateTimeFormatOptions = {
+        timeZone: "Asia/Jayapura",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      };
+      const dateOptions: Intl.DateTimeFormatOptions = {
+        timeZone: "Asia/Jayapura",
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      };
+      setTimeStr(`${new Intl.DateTimeFormat("id-ID", timeOptions).format(now)} WIT`);
+      setDateStr(new Intl.DateTimeFormat("id-ID", dateOptions).format(now));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -37,58 +65,35 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
   };
 
   return (
-    <div className="space-y-3 sm:space-y-3.5">
-      {/* 1. Header Toolbar Ringkas & Minimalis */}
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="text-xs sm:text-base font-black text-slate-900 tracking-tight shrink-0">
-          Dashboard Operasional
-        </h2>
+    <div className="space-y-4 sm:space-y-5">
+      {/* 1. Header Toolbar Ala Referensi: Title di Kiri + Date/Time Pill di Kanan */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-serif font-black text-slate-900 tracking-tight leading-tight">
+            Ringkasan Operasional
+          </h2>
+          <p className="text-xs text-slate-500 font-medium mt-0.5">
+            Pantau status 8 kamar, kedatangan tamu bandara, dan kas masuk harian.
+          </p>
+        </div>
 
-        {/* Filter Periode & Refresh */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/80 text-[10px] sm:text-[11px] font-bold">
-            <button
-              type="button"
-              onClick={() => setSelectedPeriod("today")}
-              className={`px-2.5 py-1 rounded-lg transition cursor-pointer ${
-                selectedPeriod === "today"
-                  ? "bg-purple-700 text-white shadow-2xs font-black"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Hari Ini
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedPeriod("week")}
-              className={`px-2.5 py-1 rounded-lg transition cursor-pointer ${
-                selectedPeriod === "week"
-                  ? "bg-purple-700 text-white shadow-2xs font-black"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              7 Hari
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedPeriod("month")}
-              className={`px-2.5 py-1 rounded-lg transition cursor-pointer ${
-                selectedPeriod === "month"
-                  ? "bg-purple-700 text-white shadow-2xs font-black"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Bulan Ini
-            </button>
+        {/* Date & Real-time Live Clock Pill + Refresh Button */}
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-purple-100/90 shadow-2xs text-xs font-bold text-slate-700">
+            <Calendar className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+            <span className="text-slate-900 font-extrabold">{dateStr || "Hari Ini"}</span>
+            <span className="text-purple-200 font-bold">•</span>
+            <Clock className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+            <span className="text-purple-900 font-black">{timeStr || "Memuat WIT..."}</span>
           </div>
 
           <button
             type="button"
             onClick={handleRefresh}
             title="Refresh Data Dashboard"
-            className="p-1 sm:p-1.5 rounded-xl border border-slate-200 bg-white hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs"
+            className="w-9 h-9 rounded-full border border-purple-100 bg-white hover:bg-purple-50 text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
           >
-            <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
           </button>
         </div>
       </div>

@@ -1,20 +1,13 @@
 "use client";
 
 import {
-  Bed,
   Bell,
-  Calendar,
-  Clock,
-  Gift,
-  Home,
   Menu,
   ShieldCheck,
-  TrendingUp,
   UserCheck,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import type { AdminRole } from "../../../../components/layout/admin-sidebar";
 
 interface AdminTopbarProps {
@@ -32,26 +25,6 @@ export function AdminTopbar({
   onRoleChange,
   onOpenMobileSidebar,
 }: AdminTopbarProps) {
-  const [timeStr, setTimeStr] = useState<string>("");
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const options: Intl.DateTimeFormatOptions = {
-        timeZone: "Asia/Jayapura", // UTC+9 WIT
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      };
-      setTimeStr(`${new Intl.DateTimeFormat("id-ID", options).format(now)} WIT`);
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
   const navPills = [
     { id: "dashboard", label: "Dashboard", roles: ["owner", "staff"] },
     { id: "matrix", label: "Status Kamar", roles: ["owner", "staff"] },
@@ -62,14 +35,14 @@ export function AdminTopbar({
 
   return (
     <header className="w-full bg-white rounded-3xl p-3 sm:p-4 mb-4 sm:mb-6 flex items-center justify-between shadow-xs border border-purple-100/80">
-      {/* 1. KIRI: Brand Logo & Identitas (Persis Posisi Logo Quixotic di Referensi) */}
+      {/* 1. KIRI: Brand Logo & Identitas (Persis Logo Quixotic di Referensi) */}
       <div className="flex items-center gap-3 shrink-0">
-        {/* Tombol Hamburger di Mobile */}
+        {/* Tombol Hamburger di Layar HP */}
         <button
           type="button"
           onClick={onOpenMobileSidebar}
           aria-label="Buka menu navigasi"
-          className="lg:hidden p-2 rounded-2xl bg-purple-50 text-purple-800 hover:bg-purple-100 border border-purple-200/60 cursor-pointer shrink-0 transition"
+          className="md:hidden p-2 rounded-2xl bg-purple-50 text-purple-800 hover:bg-purple-100 border border-purple-200/60 cursor-pointer shrink-0 transition"
         >
           <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
@@ -95,8 +68,8 @@ export function AdminTopbar({
         </Link>
       </div>
 
-      {/* 2. TENGAH: Capsule Navigation Pill Bar (Persis Gaya Pill Tab Menu di Referensi) */}
-      <nav className="hidden xl:flex items-center bg-[#f4f2f8] p-1 rounded-full border border-purple-100/70 shadow-inner">
+      {/* 2. TENGAH: Capsule Navigation Pill Bar (Persis Tab Nav di Referensi) */}
+      <nav className="hidden lg:flex items-center bg-[#f4f2f8] p-1 rounded-full border border-purple-100/70 shadow-inner">
         {navPills.map((pill) => {
           const isActive = activeTab === pill.id;
           return (
@@ -116,16 +89,10 @@ export function AdminTopbar({
         })}
       </nav>
 
-      {/* 3. KANAN: Jam Real-Time, Role Switcher, Notifikasi & Profil */}
+      {/* 3. KANAN: Role Switcher Kapsul, Notifikasi, dan Avatar Profil (Minimalis & Ringkas) */}
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-        {/* Jam Real-time WIT Ambon */}
-        <div className="hidden md:flex items-center gap-1.5 bg-purple-50/80 border border-purple-150/80 px-3 py-1.5 rounded-full text-purple-900 text-xs font-bold shadow-2xs">
-          <Clock className="w-3.5 h-3.5 text-purple-700" />
-          <span>{timeStr || "Memuat WIT..."}</span>
-        </div>
-
         {/* Capsule Role Switcher (Owner <-> Staf) */}
-        <div className="flex items-center bg-[#f4f2f8] p-1 rounded-full border border-purple-100/80">
+        <div className="flex items-center bg-[#f4f2f8] p-0.5 sm:p-1 rounded-full border border-purple-100/80">
           <button
             type="button"
             onClick={() => onRoleChange("owner")}
