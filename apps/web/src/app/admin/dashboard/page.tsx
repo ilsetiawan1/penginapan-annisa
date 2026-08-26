@@ -17,9 +17,9 @@ export default function AdminDashboardPage() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased p-4 md:p-6 lg:p-8 xl:p-10 items-center">
-      {/* Container Terpusat Mobile-First: Mobile (p-4) -> Tablet (md:p-6) -> Desktop (lg:p-8 / xl:p-10) */}
-      <div className="w-full max-w-7xl flex flex-col flex-1">
+    <div className="min-h-screen bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased px-3 py-3 sm:px-5 sm:py-4 lg:px-6 lg:py-5 items-center">
+      {/* Container Terpusat Proporsional (Mengisi Desktop Lebar dengan Seimbang tanpa Padding Berlebih) */}
+      <div className="w-full max-w-[1600px] flex flex-col flex-1">
         {/* 1. Topbar Horizontal Navbar */}
         <AdminTopbar
           currentRole={currentRole}
@@ -34,8 +34,8 @@ export default function AdminDashboardPage() {
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
         />
 
-        {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas (Grid Gap: gap-4 md:gap-5 lg:gap-6) */}
-        <div className="flex-1 flex gap-4 md:gap-5 lg:gap-6 min-w-0 items-start w-full">
+        {/* 2. Workspace Body: Left Floating Icon Dock + Main Content Canvas */}
+        <div className="flex-1 flex gap-3.5 sm:gap-4 lg:gap-5 min-w-0 items-start w-full">
           {/* Left Floating Icon Dock (Tablet & Desktop md:flex) */}
           <AdminSidebar
             currentRole={currentRole}
