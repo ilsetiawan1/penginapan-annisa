@@ -405,8 +405,9 @@ export function RoomMatrix() {
           isOpen={!!checkInModalData}
           onClose={() => setCheckInModalData(null)}
           onConfirm={handleConfirmCheckIn}
-          initialRoomNumber={checkInModalData.code}
-          availableRooms={rooms.filter((r) => r.status === "ready").map((r) => r.code)}
+          roomNumber={checkInModalData.code}
+          roomPrice={checkInModalData.price}
+          roomTypeName={checkInModalData.typeName}
         />
       )}
 

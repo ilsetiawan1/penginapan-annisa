@@ -37,18 +37,19 @@ interface CheckInModalProps {
 export function CheckInModal({
   isOpen,
   onClose,
-  roomNumber,
-  roomPrice,
-  roomTypeName,
+  roomNumber = "A1",
+  roomPrice = 200000,
+  roomTypeName = "Kamar Standar",
   onConfirm,
 }: CheckInModalProps) {
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
   const [nights, setNights] = useState<number>(1);
-  const [dpPaid, setDpPaid] = useState<number>(() => Math.round(roomPrice * 0.5));
+  const [dpPaid, setDpPaid] = useState<number>(() => Math.round((roomPrice || 200000) * 0.5));
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "qris" | "transfer">("cash");
 
-  const totalAmount = roomPrice * nights;
+  const safePrice = roomPrice || 200000;
+  const totalAmount = safePrice * nights;
   const remainingAmount = Math.max(0, totalAmount - dpPaid);
 
   const handleSubmit = (e: React.FormEvent) => {
