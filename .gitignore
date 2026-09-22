@@ -28,6 +28,6 @@ bun.lockb
 Thumbs.db
 *.tsbuildinfo
 
-# Documentation
-docs/
+# Documentation (Root only)
+/docs/
 
