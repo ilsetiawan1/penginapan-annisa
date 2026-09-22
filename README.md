@@ -31,33 +31,37 @@ penginapan-annisa/
 
 ## 🛠️ Modul & Tech Stack
 
-| Layer | Teknologi | Keterangan |
-| :--- | :--- | :--- |
-| **Runtime & Workspaces** | **Bun 1.3+** | Workspace manager, script runner & test runner super cepat |
-| **Frontend Web** | **Next.js 15 (App Router)** | Tailwind CSS + Radix UI + TanStack Query v5 + Lucide Icons |
-| **Backend REST API** | **Express.js (TypeScript)** | Berjalan di atas Bun Runtime + Pino Logger + JWT Auth |
-| **Database & ORM** | **Prisma v6 + PostgreSQL (Neon.tech)** | 8 Unit Kamar (4 AC + 4 Kipas), Tamu, Reservasi, Oleh-oleh |
-| **API Documentation** | **Scalar API Reference** | Dokumentasi interaktif via Scalar (`/docs` port 4000) |
-| **Cloud Target** | **Vercel + Neon + Cloudinary** | Hosting serverless hemat biaya (Target biaya server Rp 0/bulan) |
+| Layer                    | Teknologi                              | Keterangan                                                      |
+| :----------------------- | :------------------------------------- | :-------------------------------------------------------------- |
+| **Runtime & Workspaces** | **Bun 1.3+**                           | Workspace manager, script runner & test runner super cepat      |
+| **Frontend Web**         | **Next.js 15 (App Router)**            | Tailwind CSS + Radix UI + TanStack Query v5 + Lucide Icons      |
+| **Backend REST API**     | **Express.js (TypeScript)**            | Berjalan di atas Bun Runtime + Pino Logger + JWT Auth           |
+| **Database & ORM**       | **Prisma v6 + PostgreSQL (Neon.tech)** | 8 Unit Kamar (4 AC + 4 Kipas), Tamu, Reservasi, Oleh-oleh       |
+| **API Documentation**    | **Scalar API Reference**               | Dokumentasi interaktif via Scalar (`/docs` port 4000)           |
+| **Cloud Target**         | **Vercel + Neon + Cloudinary**         | Hosting serverless hemat biaya (Target biaya server Rp 0/bulan) |
 
 ---
 
 ## ⚡ Panduan Memulai (Quick Start)
 
 ### 1. Prasyarat:
-* Install [Bun](https://bun.sh) (`curl -fsSL https://bun.sh/install | bash` atau via Powershell)
+
+- Install [Bun](https://bun.sh) (`curl -fsSL https://bun.sh/install | bash` atau via Powershell)
 
 ### 2. Install Dependensi:
+
 ```bash
 bun install
 ```
 
 ### 3. Setup Environment:
+
 ```bash
 cp .env.example .env
 ```
 
 ### 4. Database Setup & Seeder:
+
 ```bash
 # Generate Prisma Client
 bun db:generate
@@ -70,6 +74,7 @@ bun db:seed
 ```
 
 ### 5. Menjalankan Mode Development:
+
 ```bash
 # Menjalankan frontend dan backend secara bersamaan
 bun dev
@@ -79,14 +84,15 @@ bun dev:web   # Frontend Web di http://localhost:3000
 bun dev:api   # Backend API di http://localhost:4000
 ```
 
-* **Frontend Web:** `http://localhost:3000`
-* **Backend API & Health:** `http://localhost:4000/health`
-* **Scalar API Reference:** `http://localhost:4000/docs`
+- **Frontend Web:** `http://localhost:3000`
+- **Backend API & Health:** `http://localhost:4000/health`
+- **Scalar API Reference:** `http://localhost:4000/docs`
 
 ---
 
 ## 📍 Informasi Bisnis Penginapan Annisa
-* **Lokasi:** 750 meter dari Bandara Internasional Pattimura Ambon ([Google Maps](https://maps.app.goo.gl/PskXAUZuGD7NeMoL7))
-* **Kapasitas:** 8 Kamar (4 Kamar AC @ Rp 275.000 + 4 Kamar Kipas @ Rp 200.000)
-* **Kontak WhatsApp:** `081242163116` (`6281242163116`)
-* **Kebijakan DP:** 50% Transfer Bank untuk Reservasi Online
+
+- **Lokasi:** 750 meter dari Bandara Internasional Pattimura Ambon ([Google Maps](https://maps.app.goo.gl/PskXAUZuGD7NeMoL7))
+- **Kapasitas:** 8 Kamar (4 Kamar AC @ Rp 275.000 + 4 Kamar Kipas @ Rp 200.000)
+- **Kontak WhatsApp:** `081242163116` (`6281242163116`)
+- **Kebijakan DP:** 50% Transfer Bank untuk Reservasi Online

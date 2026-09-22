@@ -1,26 +1,28 @@
 # ⚙️ Technical Requirements Document (TRD)
+
 ## Sistem Informasi Manajemen Operasional Kamar, Reservasi & Katalog Penginapan Annisa
 
 ---
 
-| Dokumen | Spesifikasi Teknis |
-| :--- | :--- |
-| **Proyek** | Penginapan Annisa Management & Portal System |
-| **Arsitektur Monorepo**| Bun Workspaces / Turborepo |
-| **Frontend Framework**| Next.js 16 (App Router) + React 19 + Tailwind CSS + Lucide Icons |
-| **Backend Framework** | Node.js / Bun + Express (REST API) / Next.js Server Actions |
-| **Database & ORM**    | PostgreSQL (Neon.tech Serverless) + Prisma ORM v6 |
-| **State & Data Fetch**| TanStack Query v5 + Zod + React Hook Form |
-| **Pola Arsitektur**   | **Feature-Driven Architecture** (Frontend) & **3-Tier Repository Pattern** (Backend) |
-| **Dokumentasi API**   | **Scalar Interactive API Reference** (`@scalar/express-api-reference`) + OpenAPI 3.1 |
-| **Testing Runner**    | **Bun Test Runner** (`bun:test`) + Supertest |
-| **Versi Dokumen**     | 1.1.0 (Technical Production Blueprint - Final) |
+| Dokumen                 | Spesifikasi Teknis                                                                   |
+| :---------------------- | :----------------------------------------------------------------------------------- |
+| **Proyek**              | Penginapan Annisa Management & Portal System                                         |
+| **Arsitektur Monorepo** | Bun Workspaces / Turborepo                                                           |
+| **Frontend Framework**  | Next.js 16 (App Router) + React 19 + Tailwind CSS + Lucide Icons                     |
+| **Backend Framework**   | Node.js / Bun + Express (REST API) / Next.js Server Actions                          |
+| **Database & ORM**      | PostgreSQL (Lokal Dev $\rightarrow$ Self-Hosted VPS Prod) + Prisma ORM v6            |
+| **Media & Storage**     | ImageKit.io CDN (Free Tier 20GB/bulan, Auto WebP, No Inactivity Pause)               |
+| **State & Data Fetch**  | TanStack Query v5 + Zod + React Hook Form                                            |
+| **Pola Arsitektur**     | **Feature-Driven Architecture** (Frontend) & **3-Tier Repository Pattern** (Backend) |
+| **Dokumentasi API**     | **Scalar Interactive API Reference** (`@scalar/express-api-reference`) + OpenAPI 3.1 |
+| **Testing Runner**      | **Bun Test Runner** (`bun:test`) + Supertest                                         |
+| **Versi Dokumen**       | 1.2.0 (Technical Production Blueprint - Updated with ImageKit & VPS)                 |
 
 ---
 
 ## 1. 🏗️ High-Level Monorepo Architecture
 
-Sistem Penginapan Annisa menggunakan arsitektur **Monorepo** untuk memisahkan tanggung jawab antara Frontend UI, Backend API, dan Pustaka Bersama (*Shared Packages*).
+Sistem Penginapan Annisa menggunakan arsitektur **Monorepo** untuk memisahkan tanggung jawab antara Frontend UI, Backend API, dan Pustaka Bersama (_Shared Packages_).
 
 ```text
 penginapan-annisa/
@@ -65,7 +67,7 @@ penginapan-annisa/
 
 ## 2. 📦 Frontend: Dual-Zone Feature-Driven Architecture (`apps/web`)
 
-Struktur frontend dibagi secara **simetris dan tegas menjadi 2 Zona Utama** (*Public Portal vs Admin PMS*) untuk memastikan pemisahan tanggung jawab yang rapi, teratur, dan mudah di-maintain:
+Struktur frontend dibagi secara **simetris dan tegas menjadi 2 Zona Utama** (_Public Portal vs Admin PMS_) untuk memastikan pemisahan tanggung jawab yang rapi, teratur, dan mudah di-maintain:
 
 ```text
 apps/web/src/
@@ -137,7 +139,7 @@ apps/web/src/
 
 ## 3. ⚙️ Backend: 3-Tier Repository Pattern (`apps/api`)
 
-Backend memisahkan logika ke dalam 3 lapisan (*Controller $\rightarrow$ Service $\rightarrow$ Repository*) untuk memastikan pengujian unit (*Unit Testing / Mocking*) yang mudah dan pemisahan tanggung jawab yang bersih.
+Backend memisahkan logika ke dalam 3 lapisan (_Controller $\rightarrow$ Service $\rightarrow$ Repository_) untuk memastikan pengujian unit (_Unit Testing / Mocking_) yang mudah dan pemisahan tanggung jawab yang bersih.
 
 ```text
 apps/api/src/modules/room/
@@ -156,6 +158,7 @@ apps/api/src/modules/room/
 ```
 
 ### 🔄 Diagram Alur Eksekusi:
+
 ```
 [ Client Request ] ➔ [ room.routes.ts ] ➔ [ room.controller.ts ]
                                                    │
@@ -166,7 +169,7 @@ apps/api/src/modules/room/
                                          [ room.repository.ts ] ◄── (Prisma ORM: db.room.findMany)
                                                    │
                                                    ▼
-                                        [ Neon.tech PostgreSQL ]
+                                         [ PostgreSQL (Lokal / VPS) ]
 ```
 
 ---
@@ -354,30 +357,30 @@ model Article {
 
 Semua model TypeScript di-export secara terpusat di `@annisa/types`:
 
-* `Room`, `RoomType`, `RoomStatus` (`ready` | `occupied` | `dirty` | `maintenance`)
-* `Reservation`, `ReservationStatus`, `PaymentStatus`, `PaymentMethod`
-* `Guest`, `User`, `UserRole` (`owner` | `staff`)
-* `Souvenir`, `SouvenirCategory`
-* `Article`, `ArticleCategory`
-* `OccupancyStats` (Data agregat dashboard)
+- `Room`, `RoomType`, `RoomStatus` (`ready` | `occupied` | `dirty` | `maintenance`)
+- `Reservation`, `ReservationStatus`, `PaymentStatus`, `PaymentMethod`
+- `Guest`, `User`, `UserRole` (`owner` | `staff`)
+- `Souvenir`, `SouvenirCategory`
+- `Article`, `ArticleCategory`
+- `OccupancyStats` (Data agregat dashboard)
 
 ---
 
 ## 6. 🌐 API Endpoints Specification
 
-| Method | Endpoint | Deskripsi | Akses |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/rooms` | Mengambil daftar 8 unit kamar & status terkini | Publik / Staf / Owner |
-| `GET` | `/api/v1/rooms/:id` | Detail spesifik kamar | Publik / Staf / Owner |
-| `PATCH` | `/api/v1/rooms/:id/status` | Update status kamar (4 warna) | Staf / Owner |
-| `POST` | `/api/v1/reservations/walkin` | Check-in cepat tamu walk-in (< 1 menit) | Staf / Owner |
-| `POST` | `/api/v1/reservations/confirm-dp` | Konfirmasi pembayaran DP 50% | Staf / Owner |
-| `PATCH` | `/api/v1/reservations/:id/checkout` | Check-out 1-klik (kamar jadi *dirty*) | Staf / Owner |
-| `GET` | `/api/v1/souvenirs` | Mengambil katalog oleh-oleh | Publik / Staf / Owner |
-| `POST` | `/api/v1/souvenirs` | Tambah produk oleh-oleh baru | Owner |
-| `GET` | `/api/v1/articles` | Mengambil artikel panduan wisata | Publik / Staf / Owner |
-| `POST` | `/api/v1/articles` | Publikasi artikel baru | Owner |
-| `GET` | `/api/v1/reports/monthly` | Rekapitulasi bulanan & omzet | Owner |
+| Method  | Endpoint                            | Deskripsi                                      | Akses                 |
+| :------ | :---------------------------------- | :--------------------------------------------- | :-------------------- |
+| `GET`   | `/api/v1/rooms`                     | Mengambil daftar 8 unit kamar & status terkini | Publik / Staf / Owner |
+| `GET`   | `/api/v1/rooms/:id`                 | Detail spesifik kamar                          | Publik / Staf / Owner |
+| `PATCH` | `/api/v1/rooms/:id/status`          | Update status kamar (4 warna)                  | Staf / Owner          |
+| `POST`  | `/api/v1/reservations/walkin`       | Check-in cepat tamu walk-in (< 1 menit)        | Staf / Owner          |
+| `POST`  | `/api/v1/reservations/confirm-dp`   | Konfirmasi pembayaran DP 50%                   | Staf / Owner          |
+| `PATCH` | `/api/v1/reservations/:id/checkout` | Check-out 1-klik (kamar jadi _dirty_)          | Staf / Owner          |
+| `GET`   | `/api/v1/souvenirs`                 | Mengambil katalog oleh-oleh                    | Publik / Staf / Owner |
+| `POST`  | `/api/v1/souvenirs`                 | Tambah produk oleh-oleh baru                   | Owner                 |
+| `GET`   | `/api/v1/articles`                  | Mengambil artikel panduan wisata               | Publik / Staf / Owner |
+| `POST`  | `/api/v1/articles`                  | Publikasi artikel baru                         | Owner                 |
+| `GET`   | `/api/v1/reports/monthly`           | Rekapitulasi bulanan & omzet                   | Owner                 |
 
 ---
 
@@ -386,10 +389,12 @@ Semua model TypeScript di-export secara terpusat di `@annisa/types`:
 Backend mengimplementasikan dokumentasi API interaktif modern menggunakan **Scalar** (`@scalar/express-api-reference`) yang di-generate otomatis dari skema Zod OpenAPI (`@asteasolutions/zod-to-openapi`).
 
 ### 🌐 Akses Endpoint Dokumentasi:
-* **Interactive UI:** `http://localhost:4000/docs` (Scalar Modern Documentation UI)
-* **Raw OpenAPI JSON Spec:** `http://localhost:4000/api-docs.json` (OpenAPI v3.1 Specification)
+
+- **Interactive UI:** `http://localhost:4000/docs` (Scalar Modern Documentation UI)
+- **Raw OpenAPI JSON Spec:** `http://localhost:4000/api-docs.json` (OpenAPI v3.1 Specification)
 
 ### 📦 Konfigurasi Integrasi Scalar (`apps/api/src/server.ts`):
+
 ```typescript
 import { apiReference } from "@scalar/express-api-reference";
 import express from "express";
@@ -410,9 +415,10 @@ app.use(
     },
     metaData: {
       title: "Penginapan Annisa API Reference",
-      description: "Dokumentasi RESTful API untuk Sistem Reservasi, PMS Kamar, dan Katalog Oleh-Oleh",
+      description:
+        "Dokumentasi RESTful API untuk Sistem Reservasi, PMS Kamar, dan Katalog Oleh-Oleh",
     },
-  })
+  }),
 );
 ```
 
@@ -420,7 +426,7 @@ app.use(
 
 ## 8. 🧪 Testing Strategy & Quality Assurance
 
-Sistem Penginapan Annisa menerapkan strategi pengujian berlapis (*Testing Pyramid*) untuk menjamin keandalan sistem operasional kamar dan kalkulasi keuangan:
+Sistem Penginapan Annisa menerapkan strategi pengujian berlapis (_Testing Pyramid_) untuk menjamin keandalan sistem operasional kamar dan kalkulasi keuangan:
 
 ```text
                ▲
@@ -434,14 +440,15 @@ Sistem Penginapan Annisa menerapkan strategi pengujian berlapis (*Testing Pyrami
 
 ### A. Pembagian Layer Pengujian:
 
-| Layer Testing | Target / Modul | Runner / Tools | Cakupan |
-| :--- | :--- | :--- | :--- |
-| **Unit Test** | `*.service.ts` | `bun:test` | Kalkulasi DP 50%, validasi tanggal check-in/out, konflik nomor kamar. |
-| **Integration Test** | `*.routes.ts` & `*.repository.ts` | `bun:test` + `supertest` | Validasi response status HTTP (200, 201, 400, 404) dan Prisma query. |
-| **Form & Hook Test** | `*.schema.ts` & `useRooms.ts` | `@testing-library/react` | Validasi input form Zod, parsing nomor HP WhatsApp Indonesia. |
-| **E2E Smoke Test** | User Flow Booking & Walk-in | `Playwright` (Opsional) | Simulasi pemesanan tamu dari katalog hingga draf pesan WhatsApp. |
+| Layer Testing        | Target / Modul                    | Runner / Tools           | Cakupan                                                               |
+| :------------------- | :-------------------------------- | :----------------------- | :-------------------------------------------------------------------- |
+| **Unit Test**        | `*.service.ts`                    | `bun:test`               | Kalkulasi DP 50%, validasi tanggal check-in/out, konflik nomor kamar. |
+| **Integration Test** | `*.routes.ts` & `*.repository.ts` | `bun:test` + `supertest` | Validasi response status HTTP (200, 201, 400, 404) dan Prisma query.  |
+| **Form & Hook Test** | `*.schema.ts` & `useRooms.ts`     | `@testing-library/react` | Validasi input form Zod, parsing nomor HP WhatsApp Indonesia.         |
+| **E2E Smoke Test**   | User Flow Booking & Walk-in       | `Playwright` (Opsional)  | Simulasi pemesanan tamu dari katalog hingga draf pesan WhatsApp.      |
 
 ### B. Daftar Test Suites Kritis:
+
 1. `apps/api/src/modules/room/__tests__/room.service.test.ts`:
    - [x] Harus memvalidasi status 4 warna kamar (`ready`, `occupied`, `dirty`, `maintenance`).
    - [x] Harus menolak pembuatan nomor kamar duplikat pada gedung yang sama.
@@ -452,6 +459,7 @@ Sistem Penginapan Annisa menerapkan strategi pengujian berlapis (*Testing Pyrami
    - [x] Harus memformat nomor HP internasional `0852...` ➔ `62852...` dan generate URL `wa.me` yang valid.
 
 ### C. Perintah Menjalankan Testing:
+
 ```bash
 # Menjalankan seluruh test suite di Monorepo
 bun test
@@ -467,9 +475,10 @@ bun test apps/api/src/modules/reservation
 
 ## 9. 📱 Progressive Web App (PWA) & Mobile Viewport Configuration
 
-Untuk mengunci tampilan antarmuka agar tidak mengalami *accidental pinch-to-zoom*, delay sentuhan, dan dapat di-install sebagai aplikasi mobile (*App-Like Experience*):
+Untuk mengunci tampilan antarmuka agar tidak mengalami _accidental pinch-to-zoom_, delay sentuhan, dan dapat di-install sebagai aplikasi mobile (_App-Like Experience_):
 
 ### A. Next.js 16 Viewport Export (`apps/web/src/app/layout.tsx`)
+
 ```typescript
 import type { Viewport } from "next";
 
@@ -483,6 +492,7 @@ export const viewport: Viewport = {
 ```
 
 ### B. Web App Manifest (`apps/web/src/app/manifest.ts`)
+
 ```typescript
 import type { MetadataRoute } from "next";
 
@@ -490,7 +500,8 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Penginapan Annisa Ambon",
     short_name: "Annisa PMS",
-    description: "Sistem Manajemen Kamar Transit & Katalog Penginapan Annisa (750m Bandara Pattimura)",
+    description:
+      "Sistem Manajemen Kamar Transit & Katalog Penginapan Annisa (750m Bandara Pattimura)",
     start_url: "/",
     display: "standalone", // Mode fullscreen tanpa address bar browser
     background_color: "#faf9fc",
@@ -510,4 +521,3 @@ export default function manifest(): MetadataRoute.Manifest {
   };
 }
 ```
-
