@@ -4,16 +4,13 @@ import express, { type Request, type Response } from "express";
 import pino from "pino";
 import pinoHttp from "pino-http";
 
-export const logger = pino({
-  level: process.env.NODE_ENV === "production" ? "info" : "debug",
-  transport:
-    process.env.NODE_ENV !== "production"
-      ? {
-          target: "pino-pretty",
-          options: { colorize: true },
-        }
-      : undefined,
-});
+import { generateOpenApiSpec } from "./docs/openapi";
+import { errorHandler } from "./middlewares/error.middleware";
+import { authRouter } from "./modules/auth/auth.routes";
+import { roomRouter } from "./modules/room/room.routes";
+
+import { logger } from "./utils/logger.util";
+export { logger };
 
 export const app = express();
 
@@ -32,40 +29,27 @@ app.get("/health", (_req: Request, res: Response) => {
   });
 });
 
-// OpenAPI Spec Placeholder for Scalar API Reference (Expanded in Phase 4)
-const openApiSpec = {
-  openapi: "3.0.0",
-  info: {
-    title: "Penginapan Annisa PMS & Reservation API",
-    version: "1.0.0",
-    description:
-      "Dokumentasi REST API resmi untuk Sistem Informasi Manajemen Kamar, Reservasi & Katalog Penginapan Annisa (Ambon, Maluku).",
-  },
-  servers: [
-    { url: "http://localhost:4000", description: "Development Server" },
-  ],
-  paths: {
-    "/health": {
-      get: {
-        summary: "Health Check Server",
-        responses: {
-          200: {
-            description: "Server berjalan normal",
-          },
-        },
-      },
-    },
-  },
-};
+// JSON Raw OpenAPI Spec
+app.get("/docs.json", (_req: Request, res: Response) => {
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).json(generateOpenApiSpec());
+});
 
 // Interactive Scalar API Docs UI
 app.use(
   "/docs",
   apiReference({
     spec: {
-      content: openApiSpec,
+      content: () => generateOpenApiSpec() as any,
     },
     theme: "purple",
     pageTitle: "Penginapan Annisa — API Reference",
   }),
 );
+
+// Mount API Routes
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/rooms", roomRouter);
+
+// Centralized Error Handling
+app.use(errorHandler);

@@ -201,7 +201,7 @@ async function main() {
       description:
         "Minyak kayu putih murni penyulingan tradisional Pulau Buru (Namlea). Aroma segar alami dan hangat tahan lama.",
       imageUrl:
-        "https://ik.imagekit.io/annisa_pms/souvenirs/minyak-kayu-putih-100ml.webp",
+        "https://ik.imagekit.io/penginapanannisa/souvenirs/minyak-kayu-putih-100ml.webp",
     },
     {
       name: "Minyak Kayu Putih Namlea Super 250ml",
@@ -211,7 +211,7 @@ async function main() {
       description:
         "Kemasan botol besar hemat untuk persediaan keluarga atau oleh-oleh premium khas Maluku.",
       imageUrl:
-        "https://ik.imagekit.io/annisa_pms/souvenirs/minyak-kayu-putih-250ml.webp",
+        "https://ik.imagekit.io/penginapanannisa/souvenirs/minyak-kayu-putih-250ml.webp",
     },
     {
       name: "Kue Sagu Bagea Kenari Ambon",
@@ -221,7 +221,7 @@ async function main() {
       description:
         "Kue tradisional Maluku berbahan dasar tepung sagu murni dengan potongan biji kenari gurih dan renyah.",
       imageUrl:
-        "https://ik.imagekit.io/annisa_pms/souvenirs/kue-bagea-kenari.webp",
+        "https://ik.imagekit.io/penginapanannisa/souvenirs/kue-bagea-kenari.webp",
     },
     {
       name: "Roti Kenari Panggang Crispy",
@@ -230,7 +230,7 @@ async function main() {
       stock: 20,
       description:
         "Roti kering renyah dengan taburan gula aren dan kenari khas Ambon. Teman terbaik minum kopi dan teh.",
-      imageUrl: "https://ik.imagekit.io/annisa_pms/souvenirs/roti-kenari.webp",
+      imageUrl: "https://ik.imagekit.io/penginapanannisa/souvenirs/roti-kenari.webp",
     },
     {
       name: "Halua Kenari Gula Aren Murni",
@@ -239,7 +239,7 @@ async function main() {
       stock: 18,
       description:
         "Camilan manis legit terbuat dari paduan kenari pilihan dan gula aren asli Kepulauan Banda.",
-      imageUrl: "https://ik.imagekit.io/annisa_pms/souvenirs/halua-kenari.webp",
+      imageUrl: "https://ik.imagekit.io/penginapanannisa/souvenirs/halua-kenari.webp",
     },
     {
       name: "Kopi Rarobang Rempah Khas Maluku",
@@ -249,7 +249,7 @@ async function main() {
       description:
         "Kopi robusta khas Ambon berpadu jahe, kayu manis, cengkeh, dan taburan kenari sangrai yang menghangatkan tubuh.",
       imageUrl:
-        "https://ik.imagekit.io/annisa_pms/souvenirs/kopi-rarobang.webp",
+        "https://ik.imagekit.io/penginapanannisa/souvenirs/kopi-rarobang.webp",
     },
   ];
 
@@ -316,7 +316,7 @@ Bandara Pattimura berlokasi di Laha, Teluk Ambon. Bagi penumpang dengan jadwal p
 3. **Biaya Transportasi Hemat:** Tidak perlu sewa taksi bandara dengan tarif mahal.
       `,
       coverImage:
-        "https://ik.imagekit.io/annisa_pms/articles/bandara-pattimura-transit.webp",
+        "https://ik.imagekit.io/penginapanannisa/articles/bandara-pattimura-transit.webp",
       isPublished: true,
       views: 142,
     },
@@ -336,7 +336,7 @@ Ambon Manise terkenal dengan kekayaan rempah-rempah yang menghasilkan aneka kuli
 3. **Kopi Rarobang:** Kopi hangat berempah jahe dan cengkeh.
       `,
       coverImage:
-        "https://ik.imagekit.io/annisa_pms/articles/kuliner-khas-ambon.webp",
+        "https://ik.imagekit.io/penginapanannisa/articles/kuliner-khas-ambon.webp",
       isPublished: true,
       views: 89,
     },

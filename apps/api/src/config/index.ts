@@ -16,8 +16,14 @@ export const config = {
     officialNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281242163116",
   },
   bank: {
-    name: process.env.NEXT_PUBLIC_BANK_NAME || "BCA / BRI",
+    name: process.env.NEXT_PUBLIC_BANK_NAME || "BCA / BRI / Mandiri",
     account: process.env.NEXT_PUBLIC_BANK_ACCOUNT || "1234567890",
     holder: process.env.NEXT_PUBLIC_BANK_HOLDER || "Penginapan Annisa",
+  },
+  imagekit: {
+    publicKey: process.env.IMAGEKIT_PUBLIC_KEY || "public_sample_annisa",
+    privateKey: process.env.IMAGEKIT_PRIVATE_KEY || "private_sample_annisa",
+    urlEndpoint:
+      process.env.IMAGEKIT_URL_ENDPOINT || "https://ik.imagekit.io/penginapanannisa",
   },
 };
