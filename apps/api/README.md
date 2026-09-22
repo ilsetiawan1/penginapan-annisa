@@ -22,7 +22,7 @@ Backend REST API untuk **Penginapan Annisa PMS & Reservation System** yang berja
 ## ⚡ Development Commands
 
 ```bash
-# Jalankan Dev Server dengan Bun Watch Mode (Port 4000)
+# Jalankan Dev Server Monorepo (Port 3000 & 4000)
 bun dev
 
 # Jalankan API saja dari root monorepo
@@ -34,6 +34,17 @@ bun run build
 # Menjalankan Seluruh Unit Tests
 bun test
 ```
+
+---
+
+## 🔑 Default Accounts (Seeded Demo Credentials)
+
+Gunakan akun berikut untuk login ke PMS dan mencoba endpoint autentikasi:
+
+| Role        | Email                         | Password   | Akses & Izin                                                |
+| :---------- | :---------------------------- | :--------- | :---------------------------------------------------------- |
+| **Owner**   | `owner@penginapan-annisa.com` | `admin123` | Akses penuh: Laporan omzet, ubah tarif, kelola produk & CMS |
+| **Staff**   | `staff@penginapan-annisa.com` | `staff123` | Akses operasional: Matriks kamar, reservasi, & kasir POS    |
 
 ---
 
