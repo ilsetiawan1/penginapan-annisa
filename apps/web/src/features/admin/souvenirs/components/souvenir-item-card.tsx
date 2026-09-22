@@ -19,13 +19,22 @@ interface SouvenirItemCardProps {
   onAddStock: (id: string) => void;
 }
 
-export function SouvenirItemCard({ item, onSell, onAddStock }: SouvenirItemCardProps) {
+export function SouvenirItemCard({
+  item,
+  onSell,
+  onAddStock,
+}: SouvenirItemCardProps) {
   return (
     <div className="bg-white rounded-3xl border-2 border-slate-200/90 hover:border-purple-300 shadow-2xs hover:shadow-md transition-all overflow-hidden flex flex-col justify-between">
       <div>
         {/* Product Thumbnail */}
         <div className="relative h-36 w-full bg-slate-100 overflow-hidden">
-          <Image src={item.image} alt={item.name} fill className="object-cover" />
+          <Image
+            src={item.image}
+            alt={item.name}
+            fill
+            className="object-cover"
+          />
           <div className="absolute top-2.5 left-2.5">
             <span className="bg-slate-950/80 text-white px-2 py-0.5 rounded-md text-[9px] font-bold">
               {item.category}
@@ -34,7 +43,9 @@ export function SouvenirItemCard({ item, onSell, onAddStock }: SouvenirItemCardP
           <div className="absolute top-2.5 right-2.5">
             <span
               className={`px-2 py-0.5 rounded-md text-[10px] font-black shadow-xs ${
-                item.stock <= 5 ? "bg-rose-600 text-white" : "bg-emerald-600 text-white"
+                item.stock <= 5
+                  ? "bg-rose-600 text-white"
+                  : "bg-emerald-600 text-white"
               }`}
             >
               Stok: {item.stock}

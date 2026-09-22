@@ -24,7 +24,8 @@ export function OccupancyTrendChart() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(5); // Default Sab (Hari Ini)
 
   const avgOccupancy = (
-    WEEKLY_DATA.reduce((acc, curr) => acc + curr.ratePercent, 0) / WEEKLY_DATA.length
+    WEEKLY_DATA.reduce((acc, curr) => acc + curr.ratePercent, 0) /
+    WEEKLY_DATA.length
   ).toFixed(1);
 
   return (
@@ -36,7 +37,11 @@ export function OccupancyTrendChart() {
             Trend Okupansi 7 Hari
           </h3>
           <p className="text-[10px] text-slate-500 mt-0.5">
-            Rata-rata: <strong className="text-emerald-700 font-extrabold">{avgOccupancy}%</strong> (8 Kamar Total)
+            Rata-rata:{" "}
+            <strong className="text-emerald-700 font-extrabold">
+              {avgOccupancy}%
+            </strong>{" "}
+            (8 Kamar Total)
           </p>
         </div>
 
@@ -88,7 +93,9 @@ export function OccupancyTrendChart() {
                 <div className="text-center">
                   <span
                     className={`text-[10px] font-black block leading-none ${
-                      isToday ? "text-purple-900 font-extrabold" : "text-slate-600"
+                      isToday
+                        ? "text-purple-900 font-extrabold"
+                        : "text-slate-600"
                     }`}
                   >
                     {item.day}

@@ -13,7 +13,8 @@ import {
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 
-export type RoomStatus = "ready" | "occupied" | "dirty" | "maintenance" | "booked";
+export type RoomStatus =
+  "ready" | "occupied" | "dirty" | "maintenance" | "booked";
 
 export interface RoomItem {
   code: string; // "A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"
@@ -76,7 +77,10 @@ export function RoomCard({
                 {room.typeName}
               </h3>
               <span className="text-xs text-purple-700 font-bold">
-                Rp {(room.price / 1000).toFixed(0)}.000 <span className="text-[10px] text-slate-400 font-normal">/ malam</span>
+                Rp {(room.price / 1000).toFixed(0)}.000{" "}
+                <span className="text-[10px] text-slate-400 font-normal">
+                  / malam
+                </span>
               </span>
             </div>
           </div>
@@ -136,12 +140,16 @@ export function RoomCard({
             <div className="space-y-1">
               <div className="flex items-center justify-between font-bold text-slate-900">
                 <span className="truncate">{room.guestName}</span>
-                <span className="text-[11px] text-purple-700">{room.totalNights || 1} Malam</span>
+                <span className="text-[11px] text-purple-700">
+                  {room.totalNights || 1} Malam
+                </span>
               </div>
               <div className="flex items-center justify-between text-[11px] text-slate-500">
                 <span>Check-out maks 12.00 WIT</span>
                 <span className="text-emerald-700 font-extrabold">
-                  {room.remainingAmount === 0 ? "Lunas (Rp 0)" : `Sisa Rp ${(room.remainingAmount || 0).toLocaleString("id-ID")}`}
+                  {room.remainingAmount === 0
+                    ? "Lunas (Rp 0)"
+                    : `Sisa Rp ${(room.remainingAmount || 0).toLocaleString("id-ID")}`}
                 </span>
               </div>
             </div>

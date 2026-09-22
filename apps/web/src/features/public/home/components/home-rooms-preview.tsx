@@ -64,11 +64,15 @@ export function HomeRoomsPreview() {
   const [activeIndex, setActiveIndex] = useState<number>(1);
 
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? FEATURED_ROOMS_COLLECTION.length - 1 : prev - 1));
+    setActiveIndex((prev) =>
+      prev === 0 ? FEATURED_ROOMS_COLLECTION.length - 1 : prev - 1,
+    );
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev === FEATURED_ROOMS_COLLECTION.length - 1 ? 0 : prev + 1));
+    setActiveIndex((prev) =>
+      prev === FEATURED_ROOMS_COLLECTION.length - 1 ? 0 : prev + 1,
+    );
   };
 
   return (
@@ -82,8 +86,8 @@ export function HomeRoomsPreview() {
           Unit Kamar Bersih &amp; Terawat
         </h2>
         <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
-          100% kamar mandi dalam pribadi, kasur besar muat 2–3 tamu, TV layar datar, dan WiFi gratis
-          kencang.
+          100% kamar mandi dalam pribadi, kasur besar muat 2–3 tamu, TV layar
+          datar, dan WiFi gratis kencang.
         </p>
       </div>
 

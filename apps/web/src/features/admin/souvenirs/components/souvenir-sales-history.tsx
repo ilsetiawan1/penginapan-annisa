@@ -22,10 +22,15 @@ export function SouvenirSalesHistory({ sales }: SouvenirSalesHistoryProps) {
       </h3>
       <div className="divide-y divide-slate-100 text-xs">
         {sales.map((sale) => (
-          <div key={sale.id} className="py-2.5 flex items-center justify-between">
+          <div
+            key={sale.id}
+            className="py-2.5 flex items-center justify-between"
+          >
             <div>
               <strong className="text-slate-900 font-bold">{sale.name}</strong>
-              <span className="text-slate-400 text-[11px] ml-2">({sale.time} WIT)</span>
+              <span className="text-slate-400 text-[11px] ml-2">
+                ({sale.time} WIT)
+              </span>
             </div>
             <span className="font-black text-purple-700">
               + Rp {sale.total.toLocaleString("id-ID")}

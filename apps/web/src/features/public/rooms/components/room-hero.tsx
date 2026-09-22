@@ -33,8 +33,8 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
         </h1>
 
         <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
-          Kamar bersih &amp; tenang, 100% kamar mandi dalam pribadi, hanya 750 meter atau 2–3 menit
-          dari Bandara Pattimura.
+          Kamar bersih &amp; tenang, 100% kamar mandi dalam pribadi, hanya 750
+          meter atau 2–3 menit dari Bandara Pattimura.
         </p>
 
         {/* Floating Search Bar */}

@@ -41,7 +41,9 @@ const openApiSpec = {
     description:
       "Dokumentasi REST API resmi untuk Sistem Informasi Manajemen Kamar, Reservasi & Katalog Penginapan Annisa (Ambon, Maluku).",
   },
-  servers: [{ url: "http://localhost:4000", description: "Development Server" }],
+  servers: [
+    { url: "http://localhost:4000", description: "Development Server" },
+  ],
   paths: {
     "/health": {
       get: {

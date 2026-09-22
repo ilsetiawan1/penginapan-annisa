@@ -102,7 +102,8 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
 
             {/* Deskripsi Fasilitas Singkat & Bersih */}
             <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed line-clamp-2">
-              1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.
+              1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan
+              WiFi kencang.
             </p>
           </div>
         </div>
@@ -114,7 +115,9 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
               Rp {totalPrice.toLocaleString("id-ID")}
             </span>
             <span className="text-[10px] text-slate-400 font-semibold mt-0.5 block">
-              {nights > 1 ? `DP 50%: Rp ${dpPrice.toLocaleString("id-ID")}` : `DP 50%: Rp ${room.dp}`}
+              {nights > 1
+                ? `DP 50%: Rp ${dpPrice.toLocaleString("id-ID")}`
+                : `DP 50%: Rp ${room.dp}`}
             </span>
           </div>
 

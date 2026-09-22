@@ -41,8 +41,8 @@ export function HeroSection() {
           </h1>
 
           <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal leading-relaxed max-w-xl drop-shadow-sm">
-            Solusi istirahat ideal untuk penerbangan subuh, transit dinas, dan wisata di Ambon.
-            Bersih, tenang, dan bebas macet.
+            Solusi istirahat ideal untuk penerbangan subuh, transit dinas, dan
+            wisata di Ambon. Bersih, tenang, dan bebas macet.
           </p>
 
           {/* 4 Quick Info Cards (2x2 Grid) */}
@@ -52,7 +52,9 @@ export function HeroSection() {
                 <Plane className="w-4 h-4" />
               </div>
               <div>
-                <p className="font-extrabold text-xs text-white leading-tight">3 Mnt Bandara</p>
+                <p className="font-extrabold text-xs text-white leading-tight">
+                  3 Mnt Bandara
+                </p>
                 <p className="text-[10px] text-slate-200">750m ke terminal</p>
               </div>
             </div>
@@ -62,7 +64,9 @@ export function HeroSection() {
                 <Bed className="w-4 h-4" />
               </div>
               <div>
-                <p className="font-extrabold text-xs text-white leading-tight">8 Unit Kamar</p>
+                <p className="font-extrabold text-xs text-white leading-tight">
+                  8 Unit Kamar
+                </p>
                 <p className="text-[10px] text-slate-200">4 AC &amp; 4 Kipas</p>
               </div>
             </div>
@@ -77,9 +81,13 @@ export function HeroSection() {
               <div className="flex-1">
                 <p className="font-extrabold text-xs leading-tight flex items-center gap-1 text-white">
                   <span>Lihat Kamar</span>
-                  <span className="group-hover:translate-x-1 transition-transform text-xs">➔</span>
+                  <span className="group-hover:translate-x-1 transition-transform text-xs">
+                    ➔
+                  </span>
                 </p>
-                <p className="text-[10px] text-purple-100 font-medium">8 Unit AC &amp; Kipas</p>
+                <p className="text-[10px] text-purple-100 font-medium">
+                  8 Unit AC &amp; Kipas
+                </p>
               </div>
             </Link>
 
@@ -88,7 +96,9 @@ export function HeroSection() {
                 <Clock className="w-4 h-4" />
               </div>
               <div>
-                <p className="font-extrabold text-xs text-white leading-tight">06:00–22:00 WIT</p>
+                <p className="font-extrabold text-xs text-white leading-tight">
+                  06:00–22:00 WIT
+                </p>
                 <p className="text-[10px] text-slate-200">Buka Tiap Hari</p>
               </div>
             </div>

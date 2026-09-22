@@ -2,13 +2,15 @@ import type * as React from "react";
 import { cn } from "../../lib/cn";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "lilac" | "purple" | "lavender" | "amber" | "blue" | "slate" | "danger";
+  variant?:
+    "lilac" | "purple" | "lavender" | "amber" | "blue" | "slate" | "danger";
 }
 
 export function Badge({ className, variant = "purple", ...props }: BadgeProps) {
   const variants = {
     lilac: "bg-purple-50 text-purple-700 border-purple-200 shadow-2xs",
-    purple: "bg-purple-100/90 text-purple-800 border-purple-200 shadow-2xs font-semibold",
+    purple:
+      "bg-purple-100/90 text-purple-800 border-purple-200 shadow-2xs font-semibold",
     lavender: "bg-purple-50 text-purple-800 border-purple-200/80 font-medium",
     amber: "bg-amber-50 text-amber-800 border-amber-200",
     blue: "bg-blue-50 text-blue-800 border-blue-200",

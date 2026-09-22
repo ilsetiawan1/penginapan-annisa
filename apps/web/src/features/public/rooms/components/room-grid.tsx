@@ -25,7 +25,8 @@ export function RoomGrid({
             Daftar Unit Kamar
           </h2>
           <p className="text-xs text-slate-500 mt-0.5 hidden sm:block">
-            Semua kamar dilengkapi kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.
+            Semua kamar dilengkapi kasur besar muat 2–3 tamu, kamar mandi dalam
+            pribadi, TV, dan WiFi kencang.
           </p>
         </div>
         <span className="text-[11px] bg-purple-50 text-purple-800 font-bold px-2.5 py-1 rounded-full border border-purple-100 hidden sm:inline-block">
@@ -35,7 +36,8 @@ export function RoomGrid({
       {rooms.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-3xl border border-slate-200 p-6 shadow-2xs">
           <p className="text-slate-500 text-sm font-medium">
-            Tidak ditemukan unit kamar dengan kata kunci &quot;{searchQuery}&quot;.
+            Tidak ditemukan unit kamar dengan kata kunci &quot;{searchQuery}
+            &quot;.
           </p>
           <Button
             variant="outline"

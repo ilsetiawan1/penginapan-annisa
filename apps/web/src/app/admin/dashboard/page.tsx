@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { type AdminRole, AdminSidebar } from "../../../components/layout/admin-sidebar";
+import {
+  type AdminRole,
+  AdminSidebar,
+} from "../../../components/layout/admin-sidebar";
 import { AdminTopbar } from "../../../features/admin/dashboard/components/admin-topbar";
 import { OperationalDashboard } from "../../../features/admin/dashboard/components/operational-dashboard";
 import { FinancialReports } from "../../../features/admin/reports/components/financial-reports";
@@ -15,7 +18,8 @@ import { StaffManagement } from "../../../features/admin/staff/components/staff-
 export default function AdminDashboardPage() {
   const [currentRole, setCurrentRole] = useState<AdminRole>("owner");
   const [activeTab, setActiveTab] = useState<string>("dashboard");
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] =
+    useState<boolean>(false);
 
   return (
     <div className="min-h-screen bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased px-3 py-3 sm:px-5 sm:py-4 lg:px-6 lg:py-5 items-center">
@@ -44,7 +48,9 @@ export default function AdminDashboardPage() {
           {/* Dynamic Main Workspace Content */}
           <main className="flex-1 min-w-0 w-full overflow-hidden">
             {/* TAB 0: Dashboard Utama Operasional & Produktivitas */}
-            {activeTab === "dashboard" && <OperationalDashboard onNavigateTab={setActiveTab} />}
+            {activeTab === "dashboard" && (
+              <OperationalDashboard onNavigateTab={setActiveTab} />
+            )}
 
             {/* TAB 1: Status Kamar (Matriks 8 Kamar PMS) */}
             {activeTab === "matrix" && <RoomMatrix />}
@@ -56,17 +62,26 @@ export default function AdminDashboardPage() {
             {activeTab === "pos" && <SouvenirPos />}
 
             {/* TAB 4: Manajemen Tarif & Kamar (Khusus Owner) */}
-            {activeTab === "rooms" && currentRole === "owner" && <RoomManagement />}
+            {activeTab === "rooms" && currentRole === "owner" && (
+              <RoomManagement />
+            )}
 
             {/* TAB 5: Laporan Omzet & Okupansi (Khusus Owner) */}
-            {activeTab === "reports" && currentRole === "owner" && <FinancialReports />}
+            {activeTab === "reports" && currentRole === "owner" && (
+              <FinancialReports />
+            )}
 
             {/* TAB 6: Kelola Akun Staf (Khusus Owner) */}
-            {activeTab === "staff" && currentRole === "owner" && <StaffManagement />}
+            {activeTab === "staff" && currentRole === "owner" && (
+              <StaffManagement />
+            )}
 
             {/* TAB 7: Pengaturan Sistem & Peran (Baru) */}
             {activeTab === "settings" && (
-              <AdminSettings currentRole={currentRole} onRoleChange={setCurrentRole} />
+              <AdminSettings
+                currentRole={currentRole}
+                onRoleChange={setCurrentRole}
+              />
             )}
           </main>
         </div>

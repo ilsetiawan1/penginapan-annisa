@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Clock,
-  ExternalLink,
-  MapPin,
-  Navigation,
-  Phone,
-} from "lucide-react";
+import { Clock, ExternalLink, MapPin, Navigation, Phone } from "lucide-react";
 import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Navbar } from "../../components/layout/navbar";
@@ -44,8 +38,8 @@ export default function ContactPage() {
           </h1>
 
           <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
-            Hanya 750 meter atau 2–3 menit dari Bandara Pattimura. Resepsionis kami siap melayani
-            reservasi dan pertanyaan Anda.
+            Hanya 750 meter atau 2–3 menit dari Bandara Pattimura. Resepsionis
+            kami siap melayani reservasi dan pertanyaan Anda.
           </p>
         </div>
       </section>
@@ -64,8 +58,8 @@ export default function ContactPage() {
                   Informasi Kontak
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
-                  Layanan resepsionis ramah, reservasi kamar transit, dan titip ambil oleh-oleh
-                  khas Maluku.
+                  Layanan resepsionis ramah, reservasi kamar transit, dan titip
+                  ambil oleh-oleh khas Maluku.
                 </p>
               </div>
 
@@ -156,7 +150,8 @@ export default function ContactPage() {
                   <span>Peta Lokasi Google Maps</span>
                 </span>
                 <p className="text-xs text-slate-500 hidden sm:block mt-0.5">
-                  Petunjuk rute langsung 750 meter dari terminal Bandara Pattimura.
+                  Petunjuk rute langsung 750 meter dari terminal Bandara
+                  Pattimura.
                 </p>
               </div>
 

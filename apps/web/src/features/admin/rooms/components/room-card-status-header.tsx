@@ -8,7 +8,10 @@ interface RoomCardStatusHeaderProps {
   onOpenDetail?: (room: RoomItem) => void;
 }
 
-export function RoomCardStatusHeader({ room, onOpenDetail }: RoomCardStatusHeaderProps) {
+export function RoomCardStatusHeader({
+  room,
+  onOpenDetail,
+}: RoomCardStatusHeaderProps) {
   const isReady = room.status === "ready";
   const isOccupied = room.status === "occupied";
   const isDirty = room.status === "dirty";

@@ -59,7 +59,9 @@ export function FinancialReports() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handleExport = () => {
-    toast.success("File laporan omzet bulan ini berhasil digenerate dan siap diunduh! 📊");
+    toast.success(
+      "File laporan omzet bulan ini berhasil digenerate dan siap diunduh! 📊",
+    );
   };
 
   const handleRefresh = () => {
@@ -80,7 +82,8 @@ export function FinancialReports() {
             Rekapitulasi Pendapatan &amp; Okupansi Kamar
           </h2>
           <p className="text-xs text-slate-500">
-            Laporan pendapatan sewa 8 kamar transit dan penjualan oleh-oleh khas Maluku.
+            Laporan pendapatan sewa 8 kamar transit dan penjualan oleh-oleh khas
+            Maluku.
           </p>
         </div>
 
@@ -91,7 +94,9 @@ export function FinancialReports() {
             title="Perbarui Data Laporan"
             className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
           >
-            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <RotateCw
+              className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`}
+            />
             <span className="text-xs font-black hidden sm:inline">Refresh</span>
           </button>
 

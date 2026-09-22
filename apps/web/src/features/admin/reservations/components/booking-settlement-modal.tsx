@@ -36,7 +36,8 @@ export function BookingSettlementModal({
 
   const total = room.totalAmount || room.price;
   const dp = room.dpPaid || Math.round(total * 0.5);
-  const remaining = room.remainingAmount !== undefined ? room.remainingAmount : total - dp;
+  const remaining =
+    room.remainingAmount !== undefined ? room.remainingAmount : total - dp;
 
   const handleConfirm = () => {
     onConfirmSettlement(room.code, paymentMethod);
@@ -77,15 +78,23 @@ export function BookingSettlementModal({
           {/* Data Tamu Booking */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3 space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-500 font-medium">Nama Tamu Pemesan:</span>
-              <strong className="text-slate-900 font-black">{room.guestName || "Hendra Pratama"}</strong>
+              <span className="text-slate-500 font-medium">
+                Nama Tamu Pemesan:
+              </span>
+              <strong className="text-slate-900 font-black">
+                {room.guestName || "Hendra Pratama"}
+              </strong>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-500 font-medium">No. WhatsApp:</span>
-              <strong className="text-slate-900 font-bold">{room.guestPhone || "081399881122"}</strong>
+              <strong className="text-slate-900 font-bold">
+                {room.guestPhone || "081399881122"}
+              </strong>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-500 font-medium">Tipe Kamar &amp; Durasi:</span>
+              <span className="text-slate-500 font-medium">
+                Tipe Kamar &amp; Durasi:
+              </span>
               <strong className="text-purple-950 font-bold">
                 {room.typeName} • {room.totalNights || 1} Malam
               </strong>
@@ -96,15 +105,21 @@ export function BookingSettlementModal({
           <div className="bg-purple-50/70 border border-purple-100 rounded-2xl p-3 space-y-1.5 text-xs">
             <div className="flex items-center justify-between text-slate-600">
               <span>Total Tarif Sewa:</span>
-              <span className="font-bold text-slate-900">Rp {total.toLocaleString("id-ID")}</span>
+              <span className="font-bold text-slate-900">
+                Rp {total.toLocaleString("id-ID")}
+              </span>
             </div>
             <div className="flex items-center justify-between text-emerald-800">
               <span>DP 50% yang Sudah Masuk (Transfer WA):</span>
-              <strong className="font-black text-emerald-700">- Rp {dp.toLocaleString("id-ID")}</strong>
+              <strong className="font-black text-emerald-700">
+                - Rp {dp.toLocaleString("id-ID")}
+              </strong>
             </div>
 
             <div className="pt-2 border-t border-purple-200 flex items-center justify-between text-sm">
-              <span className="font-black text-purple-950">SISA WAJIB DIBAYAR SEKARANG:</span>
+              <span className="font-black text-purple-950">
+                SISA WAJIB DIBAYAR SEKARANG:
+              </span>
               <strong className="text-base font-black text-purple-900">
                 Rp {remaining.toLocaleString("id-ID")}
               </strong>

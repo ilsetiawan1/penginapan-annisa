@@ -27,8 +27,8 @@ export function Footer() {
 
             {/* Concise Subtitle */}
             <p className="text-xs sm:text-sm text-slate-100/90 font-normal leading-relaxed drop-shadow-xs max-w-md mx-auto">
-              Solusi penginapan transit bebas macet di Ambon dengan kamar bersih, tenang, dan
-              fasilitas lengkap.
+              Solusi penginapan transit bebas macet di Ambon dengan kamar
+              bersih, tenang, dan fasilitas lengkap.
             </p>
 
             {/* CTA Button */}
@@ -79,8 +79,8 @@ export function Footer() {
             </Link>
 
             <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed max-w-sm">
-              Pilihan akomodasi transit nyaman, bersih, dan terjangkau untuk kebutuhan istirahat
-              setiba atau sebelum penerbangan Anda.
+              Pilihan akomodasi transit nyaman, bersih, dan terjangkau untuk
+              kebutuhan istirahat setiba atau sebelum penerbangan Anda.
             </p>
           </div>
 
@@ -98,22 +98,34 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/kamar" className="hover:text-purple-700 transition">
+                  <Link
+                    href="/kamar"
+                    className="hover:text-purple-700 transition"
+                  >
                     Pilihan Kamar
                   </Link>
                 </li>
                 <li>
-                  <Link href="/oleh-oleh" className="hover:text-purple-700 transition">
+                  <Link
+                    href="/oleh-oleh"
+                    className="hover:text-purple-700 transition"
+                  >
                     Oleh-oleh Khas
                   </Link>
                 </li>
                 <li>
-                  <Link href="/artikel" className="hover:text-purple-700 transition">
+                  <Link
+                    href="/artikel"
+                    className="hover:text-purple-700 transition"
+                  >
                     Artikel Wisata
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-purple-700 transition">
+                  <Link
+                    href="/contact"
+                    className="hover:text-purple-700 transition"
+                  >
                     Kontak &amp; Peta
                   </Link>
                 </li>

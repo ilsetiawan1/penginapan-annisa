@@ -15,7 +15,8 @@ export default function OlehOlehPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredSouvenirs = SOUVENIR_COLLECTION.filter((item) => {
-    const matchCategory = activeCategory === "Semua" || item.category === activeCategory;
+    const matchCategory =
+      activeCategory === "Semua" || item.category === activeCategory;
     const matchSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||

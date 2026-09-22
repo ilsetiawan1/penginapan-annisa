@@ -7,7 +7,10 @@ interface SouvenirHeroProps {
   onSearchChange: (value: string) => void;
 }
 
-export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps) {
+export function SouvenirHero({
+  searchQuery,
+  onSearchChange,
+}: SouvenirHeroProps) {
   return (
     <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
       <Image
@@ -33,7 +36,8 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
         </h1>
 
         <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
-          Minyak kayu putih, minyak cengkeh, dan aneka camilan khas Maluku di resepsionis.
+          Minyak kayu putih, minyak cengkeh, dan aneka camilan khas Maluku di
+          resepsionis.
         </p>
 
         {/* Floating Search Bar */}

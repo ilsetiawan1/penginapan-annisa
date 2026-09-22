@@ -26,13 +26,16 @@ export function BookingDateDetailsPanel({
 
   const dayNum = selectedDate.getDate();
   const year = selectedDate.getFullYear();
-  const monthShort = selectedDate.toLocaleDateString("id-ID", { month: "short" });
+  const monthShort = selectedDate.toLocaleDateString("id-ID", {
+    month: "short",
+  });
   const targetDateStr = `${dayNum} ${monthShort} ${year}`;
 
   const selectedDateBookings = bookings.filter(
     (b) =>
       b.checkInDate.toLowerCase().includes(targetDateStr.toLowerCase()) ||
-      (b.checkInDate.startsWith(`${dayNum} `) && b.checkInDate.endsWith(`${year}`))
+      (b.checkInDate.startsWith(`${dayNum} `) &&
+        b.checkInDate.endsWith(`${year}`)),
   );
 
   return (
@@ -86,7 +89,9 @@ export function BookingDateDetailsPanel({
                 <div className="bg-purple-50/50 backdrop-blur-xs rounded-xl p-2.5 border border-purple-100/60 space-y-1 text-[11px]">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500">No. WhatsApp:</span>
-                    <strong className="text-slate-800 font-bold">{b.guestPhone}</strong>
+                    <strong className="text-slate-800 font-bold">
+                      {b.guestPhone}
+                    </strong>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500">DP Ditransfer:</span>
@@ -95,7 +100,9 @@ export function BookingDateDetailsPanel({
                     </strong>
                   </div>
                   <div className="flex items-center justify-between pt-1 border-t border-purple-100/80">
-                    <span className="text-slate-500">Sisa Pelunasan di Lokasi:</span>
+                    <span className="text-slate-500">
+                      Sisa Pelunasan di Lokasi:
+                    </span>
                     <strong className="text-purple-950 font-black">
                       Rp {b.remainingAmount.toLocaleString("id-ID")}
                     </strong>
@@ -135,7 +142,8 @@ export function BookingDateDetailsPanel({
               Belum ada booking di tanggal ini
             </p>
             <p className="text-[10px] text-slate-500">
-              Seluruh 8 unit kamar bebas untuk menerima reservasi atau tamu walk-in.
+              Seluruh 8 unit kamar bebas untuk menerima reservasi atau tamu
+              walk-in.
             </p>
           </div>
         )}

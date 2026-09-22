@@ -68,7 +68,9 @@ export function Navbar() {
         {/* Desktop Center Navigation (Tampil pada Desktop lg: 1024px+ agar tidak sesak di Tablet Portrait) */}
         <nav
           className={`hidden lg:flex items-center gap-1 p-1 rounded-full border backdrop-blur-md transition-colors ${
-            isScrolled ? "bg-white/10 border-white/15" : "bg-white/15 border-white/20"
+            isScrolled
+              ? "bg-white/10 border-white/15"
+              : "bg-white/15 border-white/20"
           }`}
         >
           {navLinks.map((link) => {
@@ -118,7 +120,11 @@ export function Navbar() {
             className="lg:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center border border-white/30 transition-colors cursor-pointer"
             aria-label="Toggle Menu"
           >
-            {isMobileMenuOpen ? <X className="w-4 h-4 text-white" /> : <Menu className="w-4 h-4" />}
+            {isMobileMenuOpen ? (
+              <X className="w-4 h-4 text-white" />
+            ) : (
+              <Menu className="w-4 h-4" />
+            )}
           </button>
         </div>
       </header>
@@ -149,7 +155,9 @@ export function Navbar() {
                         : "bg-white/10 text-white hover:bg-white/20 border border-white/15 backdrop-blur-md"
                     }`}
                   >
-                    <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${isActive ? "text-white" : "text-purple-300"}`} />
+                    <Icon
+                      className={`w-4 h-4 sm:w-5 sm:h-5 ${isActive ? "text-white" : "text-purple-300"}`}
+                    />
                     <span>{link.label}</span>
                   </Link>
                 );
@@ -158,7 +166,9 @@ export function Navbar() {
 
             <div className="mt-3 pt-2.5 border-t border-white/15 px-2 flex items-center justify-between text-[11px] sm:text-xs text-slate-200 font-semibold">
               <span>Buka 06:00 – 22:00 WIT</span>
-              <span className="text-purple-300 font-extrabold">750m Bandara</span>
+              <span className="text-purple-300 font-extrabold">
+                750m Bandara
+              </span>
             </div>
           </div>
         </>

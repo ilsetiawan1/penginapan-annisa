@@ -14,8 +14,8 @@ export function ContactHero() {
         </h1>
 
         <p className="text-xs sm:text-sm md:text-base text-slate-600 font-normal max-w-xl mx-auto leading-relaxed">
-          Punya pertanyaan seputar ketersediaan kamar, penjemputan bandara, atau oleh-oleh khas
-          Maluku? Staf resepsionis kami siap melayani Anda.
+          Punya pertanyaan seputar ketersediaan kamar, penjemputan bandara, atau
+          oleh-oleh khas Maluku? Staf resepsionis kami siap melayani Anda.
         </p>
       </div>
     </section>

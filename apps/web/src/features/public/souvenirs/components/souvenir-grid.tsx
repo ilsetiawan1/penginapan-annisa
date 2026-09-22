@@ -10,7 +10,11 @@ interface SouvenirGridProps {
   onReset: () => void;
 }
 
-export function SouvenirGrid({ items, searchQuery, onReset }: SouvenirGridProps) {
+export function SouvenirGrid({
+  items,
+  searchQuery,
+  onReset,
+}: SouvenirGridProps) {
   return (
     <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 pb-16 sm:pb-20">
       <div className="flex items-center justify-between mt-6 sm:mt-10 mb-4 sm:mb-6">
@@ -19,7 +23,8 @@ export function SouvenirGrid({ items, searchQuery, onReset }: SouvenirGridProps)
             Daftar Produk Oleh-oleh
           </h2>
           <p className="text-xs text-slate-500 mt-0.5 hidden sm:block">
-            Semua produk etalase siap diambil langsung di meja resepsionis (750m Bandara Pattimura).
+            Semua produk etalase siap diambil langsung di meja resepsionis (750m
+            Bandara Pattimura).
           </p>
         </div>
         <span className="text-[11px] bg-purple-50 text-purple-800 font-bold px-2.5 py-1 rounded-full border border-purple-100 hidden sm:inline-block">
@@ -30,7 +35,8 @@ export function SouvenirGrid({ items, searchQuery, onReset }: SouvenirGridProps)
       {items.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-3xl border border-slate-200 p-6 max-w-md mx-auto">
           <p className="text-slate-500 text-xs sm:text-sm font-medium">
-            Tidak ditemukan produk oleh-oleh dengan kata kunci &quot;{searchQuery}&quot;.
+            Tidak ditemukan produk oleh-oleh dengan kata kunci &quot;
+            {searchQuery}&quot;.
           </p>
           <Button
             variant="outline"

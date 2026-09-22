@@ -36,7 +36,9 @@ export function AdminHeader({
         month: "short",
         year: "numeric",
       };
-      setTimeStr(`${new Intl.DateTimeFormat("id-ID", options).format(now)} WIT`);
+      setTimeStr(
+        `${new Intl.DateTimeFormat("id-ID", options).format(now)} WIT`,
+      );
     };
 
     updateTime();
@@ -45,8 +47,18 @@ export function AdminHeader({
   }, []);
 
   const navTabs = [
-    { id: "matrix", label: "Matriks 8 Kamar", icon: "🛎️", roles: ["owner", "staff"] },
-    { id: "pos", label: "Kasir Oleh-oleh", icon: "🎁", roles: ["owner", "staff"] },
+    {
+      id: "matrix",
+      label: "Matriks 8 Kamar",
+      icon: "🛎️",
+      roles: ["owner", "staff"],
+    },
+    {
+      id: "pos",
+      label: "Kasir Oleh-oleh",
+      icon: "🎁",
+      roles: ["owner", "staff"],
+    },
     { id: "rooms", label: "Tarif & Kamar", icon: "🛏️", roles: ["owner"] },
     { id: "reports", label: "Laporan Omzet", icon: "📊", roles: ["owner"] },
     { id: "staff", label: "Kelola Staf", icon: "👥", roles: ["owner"] },

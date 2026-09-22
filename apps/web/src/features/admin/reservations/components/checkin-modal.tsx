@@ -44,8 +44,12 @@ export function CheckInModal({
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
   const [nights, setNights] = useState<number>(1);
-  const [dpPaid, setDpPaid] = useState<number>(() => Math.round((roomPrice || 200000) * 0.5));
-  const [paymentMethod, setPaymentMethod] = useState<"cash" | "qris" | "transfer">("cash");
+  const [dpPaid, setDpPaid] = useState<number>(() =>
+    Math.round((roomPrice || 200000) * 0.5),
+  );
+  const [paymentMethod, setPaymentMethod] = useState<
+    "cash" | "qris" | "transfer"
+  >("cash");
 
   const safePrice = roomPrice || 200000;
   const totalAmount = safePrice * nights;
@@ -97,7 +101,11 @@ export function CheckInModal({
                 Check-In Walk-In
               </span>
               <span className="text-xs font-bold text-slate-500">
-                Tarif: <span className="text-purple-700 font-extrabold">Rp {safePrice.toLocaleString("id-ID")}</span>/malam
+                Tarif:{" "}
+                <span className="text-purple-700 font-extrabold">
+                  Rp {safePrice.toLocaleString("id-ID")}
+                </span>
+                /malam
               </span>
             </div>
             <DialogTitle className="text-lg sm:text-xl font-serif font-black text-slate-900 tracking-tight leading-tight">
@@ -122,7 +130,8 @@ export function CheckInModal({
                   htmlFor="checkin-guest-name"
                   className="text-xs font-bold text-slate-700 block whitespace-nowrap"
                 >
-                  Nama Lengkap Tamu <span className="text-purple-700 font-bold">*</span>
+                  Nama Lengkap Tamu{" "}
+                  <span className="text-purple-700 font-bold">*</span>
                 </label>
                 <div className="relative flex items-center">
                   <div className="absolute left-3.5 text-purple-700">
@@ -258,7 +267,11 @@ export function CheckInModal({
                           : "text-slate-600 hover:text-purple-900"
                       }`}
                     >
-                      {m === "cash" ? "Tunai" : m === "qris" ? "QRIS" : "Transfer"}
+                      {m === "cash"
+                        ? "Tunai"
+                        : m === "qris"
+                          ? "QRIS"
+                          : "Transfer"}
                     </button>
                   ))}
                 </div>
@@ -276,11 +289,15 @@ export function CheckInModal({
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] text-slate-400 font-medium block">
-                    {remainingAmount === 0 ? "Status Pelunasan:" : "Sisa Bayar saat Out:"}
+                    {remainingAmount === 0
+                      ? "Status Pelunasan:"
+                      : "Sisa Bayar saat Out:"}
                   </span>
                   <strong
                     className={`text-xs sm:text-sm font-black ${
-                      remainingAmount === 0 ? "text-purple-700" : "text-amber-700"
+                      remainingAmount === 0
+                        ? "text-purple-700"
+                        : "text-amber-700"
                     }`}
                   >
                     {remainingAmount === 0

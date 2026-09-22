@@ -36,17 +36,61 @@ interface AdvanceBookingModalProps {
 }
 
 const ROOM_OPTIONS = [
-  { code: "A1", building: "A", name: "Kamar #A1 (Bangunan A - Tipe AC)", price: 275000 },
-  { code: "A2", building: "A", name: "Kamar #A2 (Bangunan A - Tipe AC)", price: 275000 },
-  { code: "A3", building: "A", name: "Kamar #A3 (Bangunan A - Tipe Kipas)", price: 200000 },
-  { code: "A4", building: "A", name: "Kamar #A4 (Bangunan A - Tipe Kipas)", price: 200000 },
-  { code: "B1", building: "B", name: "Kamar #B1 (Bangunan B - Tipe AC)", price: 275000 },
-  { code: "B2", building: "B", name: "Kamar #B2 (Bangunan B - Tipe AC)", price: 275000 },
-  { code: "B3", building: "B", name: "Kamar #B3 (Bangunan B - Tipe Kipas)", price: 200000 },
-  { code: "B4", building: "B", name: "Kamar #B4 (Bangunan B - Tipe Kipas)", price: 200000 },
+  {
+    code: "A1",
+    building: "A",
+    name: "Kamar #A1 (Bangunan A - Tipe AC)",
+    price: 275000,
+  },
+  {
+    code: "A2",
+    building: "A",
+    name: "Kamar #A2 (Bangunan A - Tipe AC)",
+    price: 275000,
+  },
+  {
+    code: "A3",
+    building: "A",
+    name: "Kamar #A3 (Bangunan A - Tipe Kipas)",
+    price: 200000,
+  },
+  {
+    code: "A4",
+    building: "A",
+    name: "Kamar #A4 (Bangunan A - Tipe Kipas)",
+    price: 200000,
+  },
+  {
+    code: "B1",
+    building: "B",
+    name: "Kamar #B1 (Bangunan B - Tipe AC)",
+    price: 275000,
+  },
+  {
+    code: "B2",
+    building: "B",
+    name: "Kamar #B2 (Bangunan B - Tipe AC)",
+    price: 275000,
+  },
+  {
+    code: "B3",
+    building: "B",
+    name: "Kamar #B3 (Bangunan B - Tipe Kipas)",
+    price: 200000,
+  },
+  {
+    code: "B4",
+    building: "B",
+    name: "Kamar #B4 (Bangunan B - Tipe Kipas)",
+    price: 200000,
+  },
 ];
 
-export function AdvanceBookingModal({ isOpen, onClose, onConfirm }: AdvanceBookingModalProps) {
+export function AdvanceBookingModal({
+  isOpen,
+  onClose,
+  onConfirm,
+}: AdvanceBookingModalProps) {
   const [selectedRoomCode, setSelectedRoomCode] = useState<string>("A1");
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
@@ -58,11 +102,16 @@ export function AdvanceBookingModal({ isOpen, onClose, onConfirm }: AdvanceBooki
   });
   const [nights, setNights] = useState<number>(1);
 
-  const selectedRoom = ROOM_OPTIONS.find((r) => r.code === selectedRoomCode) || ROOM_OPTIONS[0];
+  const selectedRoom =
+    ROOM_OPTIONS.find((r) => r.code === selectedRoomCode) || ROOM_OPTIONS[0];
   const totalAmount = selectedRoom.price * nights;
-  const [dpPaid, setDpPaid] = useState<number>(() => Math.round(selectedRoom.price * 0.5));
+  const [dpPaid, setDpPaid] = useState<number>(() =>
+    Math.round(selectedRoom.price * 0.5),
+  );
   const remainingAmount = Math.max(0, totalAmount - dpPaid);
-  const [paymentMethod, setPaymentMethod] = useState<"transfer" | "qris" | "cash">("transfer");
+  const [paymentMethod, setPaymentMethod] = useState<
+    "transfer" | "qris" | "cash"
+  >("transfer");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -144,7 +193,9 @@ export function AdvanceBookingModal({ isOpen, onClose, onConfirm }: AdvanceBooki
                   value={selectedRoomCode}
                   onChange={(e) => {
                     setSelectedRoomCode(e.target.value);
-                    const room = ROOM_OPTIONS.find((r) => r.code === e.target.value);
+                    const room = ROOM_OPTIONS.find(
+                      (r) => r.code === e.target.value,
+                    );
                     if (room) setDpPaid(Math.round(room.price * nights * 0.5));
                   }}
                   className="w-full bg-slate-50 border-2 border-slate-200 focus:border-purple-600 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-900 outline-none cursor-pointer"
@@ -303,7 +354,11 @@ export function AdvanceBookingModal({ isOpen, onClose, onConfirm }: AdvanceBooki
                           : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                       }`}
                     >
-                      {m === "transfer" ? "🏦 Transfer" : m === "qris" ? "📱 QRIS" : "💵 Tunai"}
+                      {m === "transfer"
+                        ? "🏦 Transfer"
+                        : m === "qris"
+                          ? "📱 QRIS"
+                          : "💵 Tunai"}
                     </button>
                   ))}
                 </div>

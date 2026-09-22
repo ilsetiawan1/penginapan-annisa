@@ -4,7 +4,10 @@ import { RotateCw, Search } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { SouvenirItemCard, type SouvenirProduct } from "./souvenir-item-card";
-import { type SaleRecord, SouvenirSalesHistory } from "./souvenir-sales-history";
+import {
+  type SaleRecord,
+  SouvenirSalesHistory,
+} from "./souvenir-sales-history";
 
 // PRODUK ETALASE OLEH-OLEH KHAS MALUKU (SESUAI PRD & TRD)
 const INITIAL_SOUVENIRS: SouvenirProduct[] = [
@@ -47,7 +50,8 @@ const INITIAL_SOUVENIRS: SouvenirProduct[] = [
 ];
 
 export function SouvenirPos() {
-  const [products, setProducts] = useState<SouvenirProduct[]>(INITIAL_SOUVENIRS);
+  const [products, setProducts] =
+    useState<SouvenirProduct[]>(INITIAL_SOUVENIRS);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [recentSales, setRecentSales] = useState<SaleRecord[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -63,7 +67,10 @@ export function SouvenirPos() {
     );
 
     const now = new Date();
-    const timeStr = now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+    const timeStr = now.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
     setRecentSales((prev) => [
       {
         id: `${Date.now()}-${Math.random()}`,
@@ -81,7 +88,9 @@ export function SouvenirPos() {
   };
 
   const handleAddStock = (id: string) => {
-    setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, stock: p.stock + 5 } : p)));
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, stock: p.stock + 5 } : p)),
+    );
     toast.success("Stok berhasil ditambah +5 unit!");
   };
 
@@ -93,7 +102,10 @@ export function SouvenirPos() {
     setTimeout(() => setIsRefreshing(false), 500);
   };
 
-  const totalSalesToday = recentSales.reduce((acc, curr) => acc + curr.total, 0);
+  const totalSalesToday = recentSales.reduce(
+    (acc, curr) => acc + curr.total,
+    0,
+  );
 
   const filteredProducts = products.filter(
     (p) =>
@@ -113,8 +125,8 @@ export function SouvenirPos() {
             Penjualan Oleh-Oleh Khas di Meja Depan
           </h2>
           <p className="text-xs text-slate-500">
-            Klik tombol &quot;Catat Terjual&quot; saat tamu membeli oleh-oleh langsung di lobi
-            penginapan.
+            Klik tombol &quot;Catat Terjual&quot; saat tamu membeli oleh-oleh
+            langsung di lobi penginapan.
           </p>
         </div>
 
@@ -125,7 +137,9 @@ export function SouvenirPos() {
             title="Refresh Katalog Oleh-Oleh"
             className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
           >
-            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <RotateCw
+              className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`}
+            />
             <span className="text-xs font-black hidden sm:inline">Refresh</span>
           </button>
 

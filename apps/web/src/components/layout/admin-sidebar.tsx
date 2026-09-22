@@ -35,16 +35,51 @@ export function AdminSidebar({
 }: AdminSidebarProps) {
   // Navigasi Ikon Dock (Sleek Vertical Dock Ala Referensi Quixotic)
   const menuItems = [
-    { id: "dashboard", label: "Dashboard Ringkasan", icon: Home, roles: ["owner", "staff"] },
-    { id: "matrix", label: "Status 8 Kamar", icon: Bed, roles: ["owner", "staff"] },
-    { id: "bookings", label: "Jadwal Booking WA", icon: Calendar, roles: ["owner", "staff"] },
-    { id: "pos", label: "Kasir Oleh-Oleh", icon: Gift, roles: ["owner", "staff"] },
-    { id: "reports", label: "Laporan Omzet & Okupansi", icon: TrendingUp, roles: ["owner"] },
-    { id: "rooms", label: "Pengaturan Tarif Kamar", icon: LayoutDashboard, roles: ["owner"] },
+    {
+      id: "dashboard",
+      label: "Dashboard Ringkasan",
+      icon: Home,
+      roles: ["owner", "staff"],
+    },
+    {
+      id: "matrix",
+      label: "Status 8 Kamar",
+      icon: Bed,
+      roles: ["owner", "staff"],
+    },
+    {
+      id: "bookings",
+      label: "Jadwal Booking WA",
+      icon: Calendar,
+      roles: ["owner", "staff"],
+    },
+    {
+      id: "pos",
+      label: "Kasir Oleh-Oleh",
+      icon: Gift,
+      roles: ["owner", "staff"],
+    },
+    {
+      id: "reports",
+      label: "Laporan Omzet & Okupansi",
+      icon: TrendingUp,
+      roles: ["owner"],
+    },
+    {
+      id: "rooms",
+      label: "Pengaturan Tarif Kamar",
+      icon: LayoutDashboard,
+      roles: ["owner"],
+    },
   ].filter((m) => m.roles.includes(currentRole));
 
   const bottomItems = [
-    { id: "settings", label: "Pengaturan Sistem", icon: Settings, roles: ["owner", "staff"] },
+    {
+      id: "settings",
+      label: "Pengaturan Sistem",
+      icon: Settings,
+      roles: ["owner", "staff"],
+    },
     { id: "staff", label: "Kelola Staf", icon: Users, roles: ["owner"] },
   ].filter((m) => m.roles.includes(currentRole));
 
@@ -103,7 +138,10 @@ export function AdminSidebar({
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
                 return (
-                  <div key={item.id} className="relative group w-full flex justify-center">
+                  <div
+                    key={item.id}
+                    className="relative group w-full flex justify-center"
+                  >
                     <button
                       type="button"
                       onClick={() => onTabChange(item.id)}
@@ -135,7 +173,10 @@ export function AdminSidebar({
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
-              <div key={item.id} className="relative group w-full flex justify-center">
+              <div
+                key={item.id}
+                className="relative group w-full flex justify-center"
+              >
                 <button
                   type="button"
                   onClick={() => onTabChange(item.id)}
@@ -197,8 +238,12 @@ export function AdminSidebar({
                 />
               </div>
               <div>
-                <h2 className="font-extrabold text-sm text-slate-900 leading-tight">Penginapan Annisa</h2>
-                <span className="text-[10px] text-purple-700 font-bold uppercase">Sistem Resepsionis</span>
+                <h2 className="font-extrabold text-sm text-slate-900 leading-tight">
+                  Penginapan Annisa
+                </h2>
+                <span className="text-[10px] text-purple-700 font-bold uppercase">
+                  Sistem Resepsionis
+                </span>
               </div>
             </div>
             <button

@@ -53,7 +53,8 @@ export function BookingCalendarGrid({
       (b) =>
         b.checkInDate.toLowerCase().includes(targetDateStr.toLowerCase()) ||
         // Cek format tanggal alternatif
-        (b.checkInDate.startsWith(`${dayNumber} `) && b.checkInDate.endsWith(`${year}`)),
+        (b.checkInDate.startsWith(`${dayNumber} `) &&
+          b.checkInDate.endsWith(`${year}`)),
     );
   };
 
@@ -94,7 +95,9 @@ export function BookingCalendarGrid({
               className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1"
             >
               <RotateCw className="w-3.5 h-3.5" />
-              <span className="text-[11px] font-extrabold hidden sm:inline">Refresh</span>
+              <span className="text-[11px] font-extrabold hidden sm:inline">
+                Refresh
+              </span>
             </button>
           )}
 
@@ -155,8 +158,8 @@ export function BookingCalendarGrid({
                 isSelected
                   ? "bg-purple-50/90 border-purple-600 ring-2 ring-purple-400/50 shadow-xs"
                   : hasBookings
-                  ? "bg-purple-50/40 border-purple-200 hover:border-purple-300"
-                  : "bg-white border-slate-100 hover:border-slate-300 hover:bg-slate-50/50"
+                    ? "bg-purple-50/40 border-purple-200 hover:border-purple-300"
+                    : "bg-white border-slate-100 hover:border-slate-300 hover:bg-slate-50/50"
               }`}
             >
               {/* Nomor Tanggal & Indikator Titik */}
@@ -173,7 +176,9 @@ export function BookingCalendarGrid({
                   {dayNum}
                 </span>
 
-                {hasBookings && <span className="w-1.5 h-1.5 rounded-full bg-purple-700" />}
+                {hasBookings && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-700" />
+                )}
               </div>
 
               {/* Event Pill Badges (Ringkas & Bersih dengan Icon User) */}
@@ -191,7 +196,9 @@ export function BookingCalendarGrid({
                       title={`#${bk.roomCode} - ${bk.guestName} (${isLunas ? "Lunas 100%" : "DP 50%"})`}
                     >
                       <span className="font-black">#{bk.roomCode}</span>
-                      <User className={`w-2.5 h-2.5 shrink-0 ${isLunas ? "text-blue-700" : "text-purple-700"}`} />
+                      <User
+                        className={`w-2.5 h-2.5 shrink-0 ${isLunas ? "text-blue-700" : "text-purple-700"}`}
+                      />
                     </div>
                   );
                 })}

@@ -88,7 +88,9 @@ Ada pertanyaan atau butuh petunjuk arah dari bandara? Silakan balas pesan ini ya
             <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
               Nota Digital WhatsApp
             </span>
-            <span className="text-xs font-extrabold text-slate-500">Kamar #{roomNumber}</span>
+            <span className="text-xs font-extrabold text-slate-500">
+              Kamar #{roomNumber}
+            </span>
           </div>
           <DialogTitle className="text-lg sm:text-xl font-black text-slate-900 leading-tight">
             Kirim Bukti Pembayaran ke Tamu

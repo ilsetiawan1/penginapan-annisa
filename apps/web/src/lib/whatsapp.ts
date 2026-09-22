@@ -17,7 +17,8 @@ export function getRoomBookingWhatsAppUrl(params: {
   total?: string;
   dp?: string;
 }) {
-  const { roomNumber, roomName, price, checkInDate, nights, total, dp } = params;
+  const { roomNumber, roomName, price, checkInDate, nights, total, dp } =
+    params;
 
   let text = `Halo Penginapan Annisa, saya tertarik memesan ${
     roomNumber ? `Kamar #${roomNumber} (${roomName})` : roomName
@@ -44,7 +45,10 @@ export function getRoomBookingWhatsAppUrl(params: {
 /**
  * Generates WhatsApp URL when asking for room availability on occupied rooms.
  */
-export function getRoomAvailabilityInquiryUrl(roomNumber: string, roomName: string) {
+export function getRoomAvailabilityInquiryUrl(
+  roomNumber: string,
+  roomName: string,
+) {
   const text = `Halo Penginapan Annisa, saya ingin tanya kapan Kamar #${roomNumber} (${roomName}) bisa dipesan kembali untuk transit?`;
   return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
 }
@@ -52,7 +56,11 @@ export function getRoomAvailabilityInquiryUrl(roomNumber: string, roomName: stri
 /**
  * Generates WhatsApp order URL for authentic Maluku souvenirs.
  */
-export function getSouvenirOrderWhatsAppUrl(itemName: string, price: string, origin?: string) {
+export function getSouvenirOrderWhatsAppUrl(
+  itemName: string,
+  price: string,
+  origin?: string,
+) {
   let text = `Halo Penginapan Annisa, saya tertarik membeli oleh-oleh: ${itemName} (${price}).`;
   if (origin) {
     text += ` [Asal: ${origin}]`;
@@ -75,7 +83,12 @@ export function getGeneralContactWhatsAppUrl(message?: string) {
 /**
  * Generates WhatsApp Digital Receipt URL (used by staff/admin).
  */
-export function getDigitalReceiptWhatsAppUrl(guestPhone: string, receiptContent: string) {
-  const cleanPhone = guestPhone.startsWith("0") ? `62${guestPhone.slice(1)}` : guestPhone;
+export function getDigitalReceiptWhatsAppUrl(
+  guestPhone: string,
+  receiptContent: string,
+) {
+  const cleanPhone = guestPhone.startsWith("0")
+    ? `62${guestPhone.slice(1)}`
+    : guestPhone;
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(receiptContent)}`;
 }

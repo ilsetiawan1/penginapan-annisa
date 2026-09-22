@@ -24,7 +24,9 @@ interface OperationalDashboardProps {
   onNavigateTab: (tab: string) => void;
 }
 
-export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProps) {
+export function OperationalDashboard({
+  onNavigateTab,
+}: OperationalDashboardProps) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [timeStr, setTimeStr] = useState<string>("");
   const [dateStr, setDateStr] = useState<string>("");
@@ -47,7 +49,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         month: "short",
         year: "numeric",
       };
-      setTimeStr(`${new Intl.DateTimeFormat("id-ID", timeOptions).format(now)} WIT`);
+      setTimeStr(
+        `${new Intl.DateTimeFormat("id-ID", timeOptions).format(now)} WIT`,
+      );
       setDateStr(new Intl.DateTimeFormat("id-ID", dateOptions).format(now));
     };
 
@@ -81,7 +85,8 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             Ringkasan Operasional
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
-            Pantau status 8 kamar, kedatangan tamu bandara, dan kas masuk harian.
+            Pantau status 8 kamar, kedatangan tamu bandara, dan kas masuk
+            harian.
           </p>
         </div>
 
@@ -89,10 +94,14 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
         <div className="flex items-center gap-2 shrink-0">
           <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-purple-100/90 shadow-2xs text-xs font-bold text-slate-700">
             <Calendar className="w-3.5 h-3.5 text-purple-700 shrink-0" />
-            <span className="text-slate-900 font-extrabold">{dateStr || "Hari Ini"}</span>
+            <span className="text-slate-900 font-extrabold">
+              {dateStr || "Hari Ini"}
+            </span>
             <span className="text-purple-200 font-bold">•</span>
             <Clock className="w-3.5 h-3.5 text-purple-700 shrink-0" />
-            <span className="text-purple-900 font-black">{timeStr || "Memuat WIT..."}</span>
+            <span className="text-purple-900 font-black">
+              {timeStr || "Memuat WIT..."}
+            </span>
           </div>
 
           <button
@@ -101,7 +110,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
             title="Refresh Data Dashboard"
             className="w-9 h-9 rounded-full border border-purple-100 bg-white hover:bg-purple-50 text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
           >
-            <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
+            <RotateCw
+              className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`}
+            />
           </button>
         </div>
       </div>
@@ -211,7 +222,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                   Tren Okupansi 7 Hari
                 </h3>
                 <p className="text-xs text-slate-400 font-medium">
-                  Rata-rata: <span className="text-purple-700 font-bold">75.0%</span> (8 Kamar Total)
+                  Rata-rata:{" "}
+                  <span className="text-purple-700 font-bold">75.0%</span> (8
+                  Kamar Total)
                 </p>
               </div>
 
@@ -253,7 +266,10 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                 { day: "Sab", occ: 87.5, count: "7/8" },
                 { day: "Min", occ: 75.0, count: "6/8", today: true },
               ].map((bar) => (
-                <div key={bar.day} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
+                <div
+                  key={bar.day}
+                  className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group"
+                >
                   {/* Capsule Track & Fill */}
                   <div className="w-full max-w-[28px] h-full bg-[#f4f2f8] rounded-full p-0.5 flex flex-col justify-end overflow-hidden relative">
                     <div
@@ -262,14 +278,16 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                         bar.highlight
                           ? "bg-gradient-to-t from-purple-800 to-purple-600 shadow-md shadow-purple-900/20"
                           : bar.today
-                          ? "bg-purple-700"
-                          : "bg-purple-300 group-hover:bg-purple-400"
+                            ? "bg-purple-700"
+                            : "bg-purple-300 group-hover:bg-purple-400"
                       }`}
                     />
                   </div>
                   <span
                     className={`text-[10px] font-bold ${
-                      bar.today ? "text-purple-900 font-black" : "text-slate-400"
+                      bar.today
+                        ? "text-purple-900 font-black"
+                        : "text-slate-400"
                     }`}
                   >
                     {bar.day}
@@ -287,7 +305,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                   <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 block">
                     Rasio Keterisian Tipe
                   </h4>
-                  <span className="text-sm font-extrabold text-slate-900">Distribusi Keterisian Unit</span>
+                  <span className="text-sm font-extrabold text-slate-900">
+                    Distribusi Keterisian Unit
+                  </span>
                 </div>
                 <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
                   6 / 8 Terisi
@@ -301,7 +321,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                     <span className="w-2 h-2 rounded-full bg-purple-700" />
                     Tipe AC (4 Unit)
                   </span>
-                  <span className="text-purple-700 font-black">3 Terisi • 1 Kosong (75%)</span>
+                  <span className="text-purple-700 font-black">
+                    3 Terisi • 1 Kosong (75%)
+                  </span>
                 </div>
                 <div className="w-full h-3 bg-[#f4f2f8] rounded-full overflow-hidden p-0.5">
                   <div className="w-3/4 h-full bg-purple-700 rounded-full" />
@@ -315,7 +337,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                     <span className="w-2 h-2 rounded-full bg-purple-400" />
                     Tipe Kipas (4 Unit)
                   </span>
-                  <span className="text-purple-700 font-black">2 Terisi • 2 Kosong (50%)</span>
+                  <span className="text-purple-700 font-black">
+                    2 Terisi • 2 Kosong (50%)
+                  </span>
                 </div>
                 <div className="w-full h-3 bg-[#f4f2f8] rounded-full overflow-hidden p-0.5">
                   <div className="w-2/4 h-full bg-purple-400 rounded-full" />
@@ -325,7 +349,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
 
             <div className="pt-3 border-t border-purple-50 flex items-center justify-between text-[11px] text-slate-400 font-medium">
               <span>8 Kamar Transit Standar Sama</span>
-              <span className="text-purple-700 font-bold">2 Kamar Tersedia</span>
+              <span className="text-purple-700 font-bold">
+                2 Kamar Tersedia
+              </span>
             </div>
           </div>
         </div>
@@ -352,11 +378,15 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
               <div className="text-xl sm:text-2xl font-black text-slate-900 leading-none mb-1">
                 Rp 285.000
               </div>
-              <p className="text-xs text-slate-500 font-medium">5 Produk Terjual Hari Ini</p>
+              <p className="text-xs text-slate-500 font-medium">
+                5 Produk Terjual Hari Ini
+              </p>
             </div>
 
             <div className="pt-3 mt-3 border-t border-purple-50 flex items-center justify-between text-xs">
-              <span className="text-purple-700 font-extrabold">2 Titip Ambil Siap</span>
+              <span className="text-purple-700 font-extrabold">
+                2 Titip Ambil Siap
+              </span>
               <ArrowRight className="w-3.5 h-3.5 text-purple-700" />
             </div>
           </div>
@@ -386,8 +416,12 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                       B1
                     </div>
                     <div className="min-w-0">
-                      <h4 className="text-xs font-bold text-slate-900 truncate">Hendra Pratama</h4>
-                      <p className="text-[10px] text-slate-500 font-medium">Landing 14.30 WIT • DP 50%</p>
+                      <h4 className="text-xs font-bold text-slate-900 truncate">
+                        Hendra Pratama
+                      </h4>
+                      <p className="text-[10px] text-slate-500 font-medium">
+                        Landing 14.30 WIT • DP 50%
+                      </p>
                     </div>
                   </div>
                   <Button
@@ -406,8 +440,12 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
                       A2
                     </div>
                     <div className="min-w-0">
-                      <h4 className="text-xs font-bold text-slate-900 truncate">Budi Santoso</h4>
-                      <p className="text-[10px] text-slate-500 font-medium">Maks 12.00 WIT • Lunas</p>
+                      <h4 className="text-xs font-bold text-slate-900 truncate">
+                        Budi Santoso
+                      </h4>
+                      <p className="text-[10px] text-slate-500 font-medium">
+                        Maks 12.00 WIT • Lunas
+                      </p>
                     </div>
                   </div>
                   <Button

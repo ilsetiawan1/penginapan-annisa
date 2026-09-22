@@ -49,14 +49,18 @@ export function ArticleCard({ article }: ArticleCardProps) {
           <h3 className="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-purple-700 transition leading-snug line-clamp-2 mb-1.5">
             {article.title}
           </h3>
-          <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">{article.desc}</p>
+          <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
+            {article.desc}
+          </p>
         </div>
       </div>
 
       {/* Bottom Read More Action */}
       <div className="p-4 sm:p-5 pt-0">
         <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-700 group-hover:text-purple-800">
-          <span className="text-[11px] text-slate-400 font-normal">{article.author}</span>
+          <span className="text-[11px] text-slate-400 font-normal">
+            {article.author}
+          </span>
           <span className="inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform cursor-pointer">
             <span>Baca Selengkapnya</span>
             <ArrowRight className="w-3.5 h-3.5" />

@@ -9,7 +9,10 @@ import {
   AdvanceBookingModal,
 } from "../../reservations/components/advance-booking-modal";
 import { BookingSettlementModal } from "../../reservations/components/booking-settlement-modal";
-import { CheckInFormData, CheckInModal } from "../../reservations/components/checkin-modal";
+import {
+  CheckInFormData,
+  CheckInModal,
+} from "../../reservations/components/checkin-modal";
 import { CheckOutModal } from "../../reservations/components/checkout-modal";
 import { ReceiptModal } from "../../reservations/components/receipt-modal";
 import { RoomCard, RoomItem } from "./room-card";
@@ -116,16 +119,27 @@ export function RoomMatrix() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
 
   // Modal State
-  const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(null);
-  const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(null);
-  const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
-  const [settlementModalData, setSettlementModalData] = useState<RoomItem | null>(null);
+  const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(
+    null,
+  );
+  const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(
+    null,
+  );
+  const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(
+    null,
+  );
+  const [settlementModalData, setSettlementModalData] =
+    useState<RoomItem | null>(null);
   const [detailModalData, setDetailModalData] = useState<RoomItem | null>(null);
-  const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] = useState<boolean>(false);
+  const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] =
+    useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   // Pisahkan Kamar Bangunan A & Bangunan B dengan Filter
-  const filteredRooms = filterStatus === "all" ? rooms : rooms.filter((r) => r.status === filterStatus);
+  const filteredRooms =
+    filterStatus === "all"
+      ? rooms
+      : rooms.filter((r) => r.status === filterStatus);
   const roomsA = filteredRooms.filter((r) => r.building === "A");
   const roomsB = filteredRooms.filter((r) => r.building === "B");
 
@@ -162,9 +176,11 @@ export function RoomMatrix() {
           };
         }
         return r;
-      })
+      }),
     );
-    toast.success(`Check-In Berhasil! Kamar #${data.roomNumber} kini Terisi untuk ${data.guestName}.`);
+    toast.success(
+      `Check-In Berhasil! Kamar #${data.roomNumber} kini Terisi untuk ${data.guestName}.`,
+    );
   };
 
   // Handle Pelunasan & Check-In Tamu Booking WA yang Baru Saja Tiba di Resepsionis
@@ -180,10 +196,10 @@ export function RoomMatrix() {
           };
         }
         return r;
-      })
+      }),
     );
     toast.success(
-      `Pelunasan Berhasil (${paymentMethod.toUpperCase()})! Kamar #${roomCode} kini Lunas 100% dan Siap Ditempati.`
+      `Pelunasan Berhasil (${paymentMethod.toUpperCase()})! Kamar #${roomCode} kini Lunas 100% dan Siap Ditempati.`,
     );
   };
 
@@ -207,27 +223,37 @@ export function RoomMatrix() {
           };
         }
         return r;
-      })
+      }),
     );
-    toast.info(`Check-Out Berhasil! Kamar #${checkOutModalData.code} kini masuk status Perlu Bersih.`);
+    toast.info(
+      `Check-Out Berhasil! Kamar #${checkOutModalData.code} kini masuk status Perlu Bersih.`,
+    );
   };
 
   // Handle Tandai Kamar Bersih (Housekeeping Selesai)
   const handleMarkClean = (roomCode: string) => {
-    setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
-    toast.success(`Kamar #${roomCode} telah bersih dan siap disewakan kembali! 🟢`);
+    setRooms((prev) =>
+      prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)),
+    );
+    toast.success(
+      `Kamar #${roomCode} telah bersih dan siap disewakan kembali! 🟢`,
+    );
   };
 
   // Handle Selesai Perbaikan
   const handleFinishMaintenance = (roomCode: string) => {
-    setRooms((prev) => prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)));
-    toast.success(`Kamar #${roomCode} telah selesai perbaikan dan Siap Pakai! 🟢`);
+    setRooms((prev) =>
+      prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)),
+    );
+    toast.success(
+      `Kamar #${roomCode} telah selesai perbaikan dan Siap Pakai! 🟢`,
+    );
   };
 
   // Handle Simpan Advance Booking WA
   const handleConfirmAdvanceBooking = (data: AdvanceBookingData) => {
     toast.success(
-      `Jadwal Booking Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")}`
+      `Jadwal Booking Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")}`,
     );
   };
 
@@ -240,7 +266,8 @@ export function RoomMatrix() {
             Status 8 Kamar Transit
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
-            Matriks ketersediaan kamar Bangunan A (Kiri) &amp; Bangunan B (Kanan).
+            Matriks ketersediaan kamar Bangunan A (Kiri) &amp; Bangunan B
+            (Kanan).
           </p>
         </div>
 
@@ -260,7 +287,9 @@ export function RoomMatrix() {
             title="Refresh Data Kamar"
             className="w-10 h-10 rounded-full border border-purple-100 bg-white hover:bg-purple-50 text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
           >
-            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
+            <RotateCw
+              className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
+            />
           </button>
         </div>
       </div>
@@ -345,7 +374,9 @@ export function RoomMatrix() {
                 Bangunan A (Sisi Kiri)
               </h3>
             </div>
-            <span className="text-[11px] font-bold text-slate-400">2 AC • 2 Kipas</span>
+            <span className="text-[11px] font-bold text-slate-400">
+              2 AC • 2 Kipas
+            </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -376,7 +407,9 @@ export function RoomMatrix() {
                 Bangunan B (Sisi Kanan)
               </h3>
             </div>
-            <span className="text-[11px] font-bold text-slate-400">2 AC • 2 Kipas</span>
+            <span className="text-[11px] font-bold text-slate-400">
+              2 AC • 2 Kipas
+            </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -435,7 +468,8 @@ export function RoomMatrix() {
             checkOutDate: receiptModalData.checkOutDate || "23 Agu 2026",
             durationNights: receiptModalData.totalNights || 1,
             ratePerNight: receiptModalData.price,
-            totalPayment: receiptModalData.totalAmount || receiptModalData.price,
+            totalPayment:
+              receiptModalData.totalAmount || receiptModalData.price,
             paymentMethod: "Tunai / QRIS",
             createdAt: "22 Agu 2026, 14:00 WIT",
           }}
@@ -452,9 +486,12 @@ export function RoomMatrix() {
             guestName: settlementModalData.guestName || "Tamu",
             guestPhone: settlementModalData.guestPhone || "081234567890",
             checkInDate: settlementModalData.checkInDate || "22 Agu 2026",
-            totalAmount: settlementModalData.totalAmount || settlementModalData.price,
+            totalAmount:
+              settlementModalData.totalAmount || settlementModalData.price,
             dpPaid: settlementModalData.dpPaid || settlementModalData.price / 2,
-            remainingAmount: settlementModalData.remainingAmount || settlementModalData.price / 2,
+            remainingAmount:
+              settlementModalData.remainingAmount ||
+              settlementModalData.price / 2,
           }}
         />
       )}

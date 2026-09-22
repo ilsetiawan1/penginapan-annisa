@@ -160,7 +160,9 @@ const ROOMS_DATA: RoomItem[] = [
 ];
 
 export default function KamarPage() {
-  const [filter, setFilter] = useState<"all" | "ac" | "kipas" | "tersedia">("all");
+  const [filter, setFilter] = useState<"all" | "ac" | "kipas" | "tersedia">(
+    "all",
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [checkInDate, setCheckInDate] = useState<string>(() => {
     return new Date().toISOString().split("T")[0];
@@ -169,7 +171,11 @@ export default function KamarPage() {
 
   const filteredRooms = ROOMS_DATA.filter((r) => {
     const matchCategory =
-      filter === "all" ? true : filter === "tersedia" ? r.status === "tersedia" : r.type === filter;
+      filter === "all"
+        ? true
+        : filter === "tersedia"
+          ? r.status === "tersedia"
+          : r.type === filter;
 
     const matchSearch =
       r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

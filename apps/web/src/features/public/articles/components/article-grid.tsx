@@ -8,7 +8,11 @@ interface ArticleGridProps {
   onReset: () => void;
 }
 
-export function ArticleGrid({ articles, searchQuery, onReset }: ArticleGridProps) {
+export function ArticleGrid({
+  articles,
+  searchQuery,
+  onReset,
+}: ArticleGridProps) {
   return (
     <section className="max-w-5xl mx-auto px-4 pt-2 pb-16 sm:pb-20">
       {/* Section Header with Sort Option */}
@@ -18,7 +22,8 @@ export function ArticleGrid({ articles, searchQuery, onReset }: ArticleGridProps
             Artikel Terbaru
           </h2>
           <p className="text-xs text-slate-500 mt-0.5 hidden sm:block">
-            Panduan wisata, kuliner, dan tips transit nyaman di sekitar Kota Ambon &amp; Bandara Pattimura.
+            Panduan wisata, kuliner, dan tips transit nyaman di sekitar Kota
+            Ambon &amp; Bandara Pattimura.
           </p>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold cursor-pointer hover:text-purple-700 transition">

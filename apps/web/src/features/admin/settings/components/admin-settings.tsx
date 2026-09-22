@@ -26,10 +26,15 @@ interface AdminSettingsProps {
   onRoleChange: (role: AdminRole) => void;
 }
 
-export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps) {
+export function AdminSettings({
+  currentRole,
+  onRoleChange,
+}: AdminSettingsProps) {
   const [waNumber, setWaNumber] = useState(ANNISA_WA_NUMBER);
   const [lodgingName, setLodgingName] = useState("Penginapan Annisa");
-  const [distanceText, setDistanceText] = useState("750 meter atau 2–3 menit dari Bandara Pattimura");
+  const [distanceText, setDistanceText] = useState(
+    "750 meter atau 2–3 menit dari Bandara Pattimura",
+  );
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = () => {
@@ -49,7 +54,8 @@ export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps)
             Pengaturan Sistem &amp; Akun
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
-            Kelola peran akses aktif, kontak WhatsApp resmi, dan parameter operasional penginapan.
+            Kelola peran akses aktif, kontak WhatsApp resmi, dan parameter
+            operasional penginapan.
           </p>
         </div>
 
@@ -72,7 +78,9 @@ export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps)
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
                 Hak Akses Sistem
               </span>
-              <h3 className="text-base font-extrabold text-slate-900">Peran Aktif Pengguna</h3>
+              <h3 className="text-base font-extrabold text-slate-900">
+                Peran Aktif Pengguna
+              </h3>
             </div>
             <span className="text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
               {currentRole === "owner" ? "Mode Owner" : "Mode Staf"}
@@ -80,8 +88,8 @@ export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps)
           </div>
 
           <p className="text-xs text-slate-500 leading-relaxed">
-            Pilih peran aktif untuk menguji tampilan dashboard dan batasan fitur menu antara
-            Pemilik Penginapan (Owner) dan Staf Resepsionis.
+            Pilih peran aktif untuk menguji tampilan dashboard dan batasan fitur
+            menu antara Pemilik Penginapan (Owner) dan Staf Resepsionis.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
@@ -106,9 +114,12 @@ export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps)
                 )}
               </div>
               <div>
-                <h4 className="text-sm font-bold text-slate-900">Pemilik (Owner)</h4>
+                <h4 className="text-sm font-bold text-slate-900">
+                  Pemilik (Owner)
+                </h4>
                 <p className="text-[11px] text-slate-500 font-medium mt-0.5">
-                  Akses penuh: Laporan keuangan, tarif kamar, kelola staf, &amp; operasional.
+                  Akses penuh: Laporan keuangan, tarif kamar, kelola staf, &amp;
+                  operasional.
                 </p>
               </div>
             </div>
@@ -134,9 +145,12 @@ export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps)
                 )}
               </div>
               <div>
-                <h4 className="text-sm font-bold text-slate-900">Staf Resepsionis</h4>
+                <h4 className="text-sm font-bold text-slate-900">
+                  Staf Resepsionis
+                </h4>
                 <p className="text-[11px] text-slate-500 font-medium mt-0.5">
-                  Akses operasional: Check-In/Out kamar, Kasir Oleh-Oleh, &amp; Booking WA.
+                  Akses operasional: Check-In/Out kamar, Kasir Oleh-Oleh, &amp;
+                  Booking WA.
                 </p>
               </div>
             </div>
@@ -149,7 +163,9 @@ export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps)
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
               Parameter Komunikasi
             </span>
-            <h3 className="text-base font-extrabold text-slate-900">Kontak WhatsApp Resepsionis</h3>
+            <h3 className="text-base font-extrabold text-slate-900">
+              Kontak WhatsApp Resepsionis
+            </h3>
           </div>
 
           <div className="space-y-3">
@@ -170,7 +186,8 @@ export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps)
                 />
               </div>
               <span className="text-[10px] text-slate-400 mt-1 block">
-                Format: 62812... (Digunakan pada seluruh tombol reservasi dan titip ambil publik).
+                Format: 62812... (Digunakan pada seluruh tombol reservasi dan
+                titip ambil publik).
               </span>
             </div>
 
@@ -218,26 +235,34 @@ export function AdminSettings({ currentRole, onRoleChange }: AdminSettingsProps)
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
             <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100">
-              <h5 className="font-bold text-purple-950 mb-1">1. Jam Check-In &amp; Check-Out</h5>
+              <h5 className="font-bold text-purple-950 mb-1">
+                1. Jam Check-In &amp; Check-Out
+              </h5>
               <p className="text-slate-600 leading-relaxed">
-                Check-in standar mulai 14.00 WIT (fleksibel sesuai jadwal penerbangan transit).
-                Batas maksimal check-out pukul 12.00 WIT.
+                Check-in standar mulai 14.00 WIT (fleksibel sesuai jadwal
+                penerbangan transit). Batas maksimal check-out pukul 12.00 WIT.
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100">
-              <h5 className="font-bold text-purple-950 mb-1">2. Standar Fasilitas 8 Kamar</h5>
+              <h5 className="font-bold text-purple-950 mb-1">
+                2. Standar Fasilitas 8 Kamar
+              </h5>
               <p className="text-slate-600 leading-relaxed">
-                Semua kamar memiliki fasilitas identik: Kasur besar muat 2–3 tamu, kamar mandi
-                dalam pribadi, TV, WiFi, dan handuk bersih (tanpa air mineral gratis).
+                Semua kamar memiliki fasilitas identik: Kasur besar muat 2–3
+                tamu, kamar mandi dalam pribadi, TV, WiFi, dan handuk bersih
+                (tanpa air mineral gratis).
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100">
-              <h5 className="font-bold text-purple-950 mb-1">3. Kebijakan DP &amp; Pelunasan</h5>
+              <h5 className="font-bold text-purple-950 mb-1">
+                3. Kebijakan DP &amp; Pelunasan
+              </h5>
               <p className="text-slate-600 leading-relaxed">
-                Reservasi WA mewajibkan DP 50% (AC: Rp 137.500, Kipas: Rp 100.000). Pelunasan
-                dilakukan saat tamu tiba di meja resepsionis.
+                Reservasi WA mewajibkan DP 50% (AC: Rp 137.500, Kipas: Rp
+                100.000). Pelunasan dilakukan saat tamu tiba di meja
+                resepsionis.
               </p>
             </div>
           </div>

@@ -18,7 +18,9 @@ export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
     <div
       onClick={() => onOpenDetail && onOpenDetail(room)}
       className={`p-3 sm:p-3.5 space-y-2 text-left ${
-        onOpenDetail ? "cursor-pointer hover:bg-slate-50/60 transition rounded-xl" : ""
+        onOpenDetail
+          ? "cursor-pointer hover:bg-slate-50/60 transition rounded-xl"
+          : ""
       }`}
       title="Klik untuk lihat rincian lengkap kamar"
     >
@@ -90,7 +92,9 @@ export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
             <div className="flex items-center justify-between pt-0.5 border-t border-purple-200/60 text-[10px]">
               <span className="text-slate-500">Sisa Pelunasan:</span>
               <strong className="text-purple-950 font-black">
-                Rp {room.remainingAmount?.toLocaleString("id-ID") || (room.price / 2).toLocaleString("id-ID")}
+                Rp{" "}
+                {room.remainingAmount?.toLocaleString("id-ID") ||
+                  (room.price / 2).toLocaleString("id-ID")}
               </strong>
             </div>
           </div>
@@ -102,7 +106,9 @@ export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
             <p className="text-[10px] font-extrabold text-amber-950 leading-tight">
               Menunggu Housekeeping
             </p>
-            <p className="text-[9px] text-amber-800/80 mt-0.5">Ganti sprei &amp; cuci kamar mandi</p>
+            <p className="text-[9px] text-amber-800/80 mt-0.5">
+              Ganti sprei &amp; cuci kamar mandi
+            </p>
           </div>
         )}
 
@@ -112,7 +118,9 @@ export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
             <p className="text-[10px] font-extrabold text-rose-950 leading-tight">
               Sedang Diperbaiki Teknisi
             </p>
-            <p className="text-[9px] text-rose-800/80 mt-0.5">Pengecekan fasilitas / servis</p>
+            <p className="text-[9px] text-rose-800/80 mt-0.5">
+              Pengecekan fasilitas / servis
+            </p>
           </div>
         )}
       </div>

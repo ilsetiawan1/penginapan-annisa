@@ -24,8 +24,12 @@ export function StatsOverview({
           <span className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl sm:text-3xl font-black text-purple-700">{readyCount}</span>
-          <span className="text-xs text-slate-500 font-medium">Kamar Kosong &amp; Bersih</span>
+          <span className="text-2xl sm:text-3xl font-black text-purple-700">
+            {readyCount}
+          </span>
+          <span className="text-xs text-slate-500 font-medium">
+            Kamar Kosong &amp; Bersih
+          </span>
         </div>
       </div>
 
@@ -38,8 +42,12 @@ export function StatsOverview({
           <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl sm:text-3xl font-black text-blue-700">{occupiedCount}</span>
-          <span className="text-xs text-slate-500 font-medium">Tamu Sedang Menginap</span>
+          <span className="text-2xl sm:text-3xl font-black text-blue-700">
+            {occupiedCount}
+          </span>
+          <span className="text-xs text-slate-500 font-medium">
+            Tamu Sedang Menginap
+          </span>
         </div>
       </div>
 
@@ -52,8 +60,12 @@ export function StatsOverview({
           <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl sm:text-3xl font-black text-amber-700">{dirtyCount}</span>
-          <span className="text-xs text-slate-500 font-medium">Menunggu Housekeeping</span>
+          <span className="text-2xl sm:text-3xl font-black text-amber-700">
+            {dirtyCount}
+          </span>
+          <span className="text-xs text-slate-500 font-medium">
+            Menunggu Housekeeping
+          </span>
         </div>
       </div>
 
@@ -66,8 +78,12 @@ export function StatsOverview({
           <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl sm:text-3xl font-black text-rose-700">{maintenanceCount}</span>
-          <span className="text-xs text-slate-500 font-medium">Out of Order</span>
+          <span className="text-2xl sm:text-3xl font-black text-rose-700">
+            {maintenanceCount}
+          </span>
+          <span className="text-xs text-slate-500 font-medium">
+            Out of Order
+          </span>
         </div>
       </div>
     </div>

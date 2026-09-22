@@ -30,7 +30,8 @@ export function BookingWidget() {
       year: "numeric",
     });
 
-    const typeName = selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas";
+    const typeName =
+      selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas";
 
     const waMessage = `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
 • Tipe: *${typeName}*
@@ -45,7 +46,7 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
 
     window.open(
       `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`,
-      "_blank"
+      "_blank",
     );
   };
 
@@ -74,7 +75,8 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
         </div>
 
         <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full text-slate-900 text-xs font-black shadow-xs">
-          Rp {pricePerNight.toLocaleString("id-ID")} <span className="text-[10px] font-normal text-slate-500">/ mlm</span>
+          Rp {pricePerNight.toLocaleString("id-ID")}{" "}
+          <span className="text-[10px] font-normal text-slate-500">/ mlm</span>
         </div>
 
         <div className="absolute bottom-3 left-3 right-3 text-white">
@@ -104,7 +106,9 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
           >
             <div>
               <p className="font-extrabold text-xs">Tipe AC</p>
-              <p className={`text-[10px] ${selectedType === "ac" ? "text-purple-200" : "text-purple-700 font-bold"}`}>
+              <p
+                className={`text-[10px] ${selectedType === "ac" ? "text-purple-200" : "text-purple-700 font-bold"}`}
+              >
                 Rp 275rb/mlm
               </p>
             </div>
@@ -126,7 +130,9 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
           >
             <div>
               <p className="font-extrabold text-xs">Tipe Kipas</p>
-              <p className={`text-[10px] ${selectedType === "kipas" ? "text-purple-200" : "text-purple-700 font-bold"}`}>
+              <p
+                className={`text-[10px] ${selectedType === "kipas" ? "text-purple-200" : "text-purple-700 font-bold"}`}
+              >
                 Rp 200rb/mlm
               </p>
             </div>
@@ -220,14 +226,18 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
           {/* Baris Rincian Harga & DP (Flex Horizontal Sejajar) */}
           <div className="flex items-center justify-between bg-purple-50/80 border border-purple-100/90 rounded-2xl px-3 py-1.5 text-xs">
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-600 font-medium text-[11px]">Total ({nights} Malam):</span>
+              <span className="text-slate-600 font-medium text-[11px]">
+                Total ({nights} Malam):
+              </span>
               <strong className="text-slate-950 font-black text-xs sm:text-sm">
                 Rp {totalPrice.toLocaleString("id-ID")}
               </strong>
             </div>
 
             <div className="flex items-center gap-1 bg-white/95 border border-purple-200/80 px-2 py-0.5 rounded-lg shadow-2xs">
-              <span className="text-purple-700 font-bold text-[10px]">DP 50%:</span>
+              <span className="text-purple-700 font-bold text-[10px]">
+                DP 50%:
+              </span>
               <strong className="text-purple-950 font-black text-[11px]">
                 Rp {dpPrice.toLocaleString("id-ID")}
               </strong>

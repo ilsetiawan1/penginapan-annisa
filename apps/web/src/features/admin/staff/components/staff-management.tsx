@@ -32,7 +32,9 @@ export function StaffManagement() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handleToggleActive = (id: string) => {
-    setStaffList((prev) => prev.map((s) => (s.id === id ? { ...s, isActive: !s.isActive } : s)));
+    setStaffList((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, isActive: !s.isActive } : s)),
+    );
     toast.success("Status keaktifan staf berhasil diperbarui!");
   };
 
@@ -60,7 +62,8 @@ export function StaffManagement() {
             Manajemen Akun Staf Resepsionis
           </h2>
           <p className="text-xs text-slate-500">
-            Kelola akses staf meja depan untuk mengoperasikan sistem kamar PMS dan kasir oleh-oleh.
+            Kelola akses staf meja depan untuk mengoperasikan sistem kamar PMS
+            dan kasir oleh-oleh.
           </p>
         </div>
 
@@ -71,7 +74,9 @@ export function StaffManagement() {
             title="Refresh Daftar Staf"
             className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
           >
-            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <RotateCw
+              className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`}
+            />
             <span className="text-xs font-black hidden sm:inline">Refresh</span>
           </button>
 
@@ -96,7 +101,11 @@ export function StaffManagement() {
       {/* Staff List Cards Sub-Components */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {staffList.map((staff) => (
-          <StaffCard key={staff.id} staff={staff} onToggleActive={handleToggleActive} />
+          <StaffCard
+            key={staff.id}
+            staff={staff}
+            onToggleActive={handleToggleActive}
+          />
         ))}
       </div>
     </div>

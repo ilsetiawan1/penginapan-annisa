@@ -3,14 +3,22 @@ import * as React from "react";
 import { cn } from "../../lib/cn";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "lavender" | "outline" | "ghost" | "danger";
+  variant?:
+    "primary" | "secondary" | "lavender" | "outline" | "ghost" | "danger";
   size?: "sm" | "md" | "lg" | "icon";
   asChild?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant = "primary", size = "md", asChild = false, type = "button", ...props },
+    {
+      className,
+      variant = "primary",
+      size = "md",
+      asChild = false,
+      type = "button",
+      ...props
+    },
     ref,
   ) => {
     const Comp = asChild ? Slot : "button";
@@ -27,7 +35,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       outline:
         "border border-purple-200/80 bg-white text-purple-900 hover:bg-purple-50/70 hover:border-purple-300 shadow-2xs",
       ghost: "text-purple-900 hover:bg-purple-100/60 hover:text-purple-950",
-      danger: "bg-red-600 text-white hover:bg-red-700 shadow-md shadow-red-600/20",
+      danger:
+        "bg-red-600 text-white hover:bg-red-700 shadow-md shadow-red-600/20",
     };
 
     const sizes = {

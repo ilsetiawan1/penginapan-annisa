@@ -32,7 +32,8 @@ const ARTICLES_DATA: ArticleItem[] = [
   {
     id: "2",
     slug: "kenikmatan-rujak-natsepa-tepi-pantai",
-    title: "Menikmati Gurih & Segarnya Rujak Natsepa Asli di Pinggir Pantai Ambon",
+    title:
+      "Menikmati Gurih & Segarnya Rujak Natsepa Asli di Pinggir Pantai Ambon",
     category: "Kuliner Khas",
     readTime: "3 Menit",
     date: "18 Agustus 2026",
@@ -43,7 +44,8 @@ const ARTICLES_DATA: ArticleItem[] = [
   {
     id: "3",
     slug: "menjelajah-tebing-eksotis-pintu-kota-ambon",
-    title: "Eksplorasi Tebing Karang Ikonik Pintu Kota dengan Pemandangan Laut Lepas",
+    title:
+      "Eksplorasi Tebing Karang Ikonik Pintu Kota dengan Pemandangan Laut Lepas",
     category: "Wisata Pantai",
     readTime: "4 Menit",
     date: "16 Agustus 2026",
@@ -54,7 +56,8 @@ const ARTICLES_DATA: ArticleItem[] = [
   {
     id: "4",
     slug: "tips-transit-nyaman-bandara-pattimura",
-    title: "Tips Transit Nyaman dan Bebas Ketinggalan Pesawat di Bandara Pattimura",
+    title:
+      "Tips Transit Nyaman dan Bebas Ketinggalan Pesawat di Bandara Pattimura",
     category: "Tips Transit",
     readTime: "3 Menit",
     date: "14 Agustus 2026",
@@ -69,7 +72,8 @@ export default function ArtikelPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredArticles = ARTICLES_DATA.filter((art) => {
-    const matchCategory = activeCategory === "Semua" || art.category === activeCategory;
+    const matchCategory =
+      activeCategory === "Semua" || art.category === activeCategory;
     const matchSearch =
       art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       art.desc.toLowerCase().includes(searchQuery.toLowerCase());

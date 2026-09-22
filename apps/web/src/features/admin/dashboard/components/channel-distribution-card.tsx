@@ -24,7 +24,9 @@ export function ChannelDistributionCard() {
               <Bed className="w-3 h-3 text-purple-700" />
               <span>Tipe Kamar</span>
             </span>
-            <span className="text-[9px] font-bold text-slate-500">8 Unit Total</span>
+            <span className="text-[9px] font-bold text-slate-500">
+              8 Unit Total
+            </span>
           </div>
 
           <div className="space-y-1 pt-0.5">
@@ -35,10 +37,15 @@ export function ChannelDistributionCard() {
                   <Wind className="w-2.5 h-2.5 text-purple-600" />
                   <span>Kamar AC</span>
                 </span>
-                <span className="text-[10px] font-black text-purple-950">3/4 (75%)</span>
+                <span className="text-[10px] font-black text-purple-950">
+                  3/4 (75%)
+                </span>
               </div>
               <div className="w-full h-1.5 bg-purple-200/70 rounded-full overflow-hidden">
-                <div className="h-full bg-purple-700 rounded-full" style={{ width: "75%" }} />
+                <div
+                  className="h-full bg-purple-700 rounded-full"
+                  style={{ width: "75%" }}
+                />
               </div>
             </div>
 
@@ -49,10 +56,15 @@ export function ChannelDistributionCard() {
                   <Sparkles className="w-2.5 h-2.5 text-amber-600" />
                   <span>Kamar Kipas</span>
                 </span>
-                <span className="text-[10px] font-black text-purple-950">2/4 (50%)</span>
+                <span className="text-[10px] font-black text-purple-950">
+                  2/4 (50%)
+                </span>
               </div>
               <div className="w-full h-1.5 bg-amber-100 rounded-full overflow-hidden">
-                <div className="h-full bg-amber-500 rounded-full" style={{ width: "50%" }} />
+                <div
+                  className="h-full bg-amber-500 rounded-full"
+                  style={{ width: "50%" }}
+                />
               </div>
             </div>
           </div>
@@ -65,7 +77,9 @@ export function ChannelDistributionCard() {
               <PhoneCall className="w-3 h-3 text-emerald-700" />
               <span>Saluran Tamu</span>
             </span>
-            <span className="text-[9px] font-bold text-emerald-800">5 Tamu</span>
+            <span className="text-[9px] font-bold text-emerald-800">
+              5 Tamu
+            </span>
           </div>
 
           <div className="space-y-1 pt-0.5">
@@ -76,10 +90,15 @@ export function ChannelDistributionCard() {
                   <FaWhatsapp className="w-2.5 h-2.5 text-emerald-600" />
                   <span>Booking WA</span>
                 </span>
-                <span className="text-[10px] font-black text-emerald-950">3 (60%)</span>
+                <span className="text-[10px] font-black text-emerald-950">
+                  3 (60%)
+                </span>
               </div>
               <div className="w-full h-1.5 bg-emerald-200/70 rounded-full overflow-hidden">
-                <div className="h-full bg-emerald-600 rounded-full" style={{ width: "60%" }} />
+                <div
+                  className="h-full bg-emerald-600 rounded-full"
+                  style={{ width: "60%" }}
+                />
               </div>
             </div>
 
@@ -90,10 +109,15 @@ export function ChannelDistributionCard() {
                   <Calendar className="w-2.5 h-2.5 text-blue-600" />
                   <span>Walk-In</span>
                 </span>
-                <span className="text-[10px] font-black text-blue-950">2 (40%)</span>
+                <span className="text-[10px] font-black text-blue-950">
+                  2 (40%)
+                </span>
               </div>
               <div className="w-full h-1.5 bg-blue-100 rounded-full overflow-hidden">
-                <div className="h-full bg-blue-600 rounded-full" style={{ width: "40%" }} />
+                <div
+                  className="h-full bg-blue-600 rounded-full"
+                  style={{ width: "40%" }}
+                />
               </div>
             </div>
           </div>

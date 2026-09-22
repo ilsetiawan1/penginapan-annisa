@@ -39,7 +39,9 @@ export function CheckOutModal({
   remainingAmount,
   onConfirmCheckOut,
 }: CheckOutModalProps) {
-  const [paymentMethod, setPaymentMethod] = useState<"cash" | "qris" | "transfer">("cash");
+  const [paymentMethod, setPaymentMethod] = useState<
+    "cash" | "qris" | "transfer"
+  >("cash");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +73,9 @@ export function CheckOutModal({
             <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3 space-y-2 text-xs">
               <div className="flex items-center justify-between">
                 <span className="text-slate-500">Durasi Menginap:</span>
-                <strong className="text-slate-900 font-bold">{totalNights} Malam</strong>
+                <strong className="text-slate-900 font-bold">
+                  {totalNights} Malam
+                </strong>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-500">Total Biaya Kamar:</span>
@@ -86,7 +90,9 @@ export function CheckOutModal({
                 </strong>
               </div>
               <div className="flex items-center justify-between pt-1.5 border-t border-slate-200 text-xs">
-                <span className="font-extrabold text-slate-700">Sisa Harus Dilunasi:</span>
+                <span className="font-extrabold text-slate-700">
+                  Sisa Harus Dilunasi:
+                </span>
                 <strong className="text-sm font-black text-amber-800">
                   Rp {remainingAmount.toLocaleString("id-ID")}
                 </strong>
@@ -111,15 +117,19 @@ export function CheckOutModal({
                           : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                       }`}
                     >
-                      {m === "cash" ? "💵 Tunai" : m === "qris" ? "📱 QRIS" : "🏦 Transfer"}
+                      {m === "cash"
+                        ? "💵 Tunai"
+                        : m === "qris"
+                          ? "📱 QRIS"
+                          : "🏦 Transfer"}
                     </button>
                   ))}
                 </div>
               </div>
 
               <div className="p-2 rounded-xl bg-amber-50/70 border border-amber-200/70 text-[11px] text-amber-900 font-medium">
-                Setelah check-out, status kamar otomatis berubah ke 🟡 <strong>Perlu Bersih</strong>{" "}
-                untuk housekeeping.
+                Setelah check-out, status kamar otomatis berubah ke 🟡{" "}
+                <strong>Perlu Bersih</strong> untuk housekeeping.
               </div>
             </div>
           </div>

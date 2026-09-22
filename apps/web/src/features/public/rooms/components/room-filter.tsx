@@ -111,7 +111,9 @@ export function RoomFilter({
             }`}
           >
             <span>Tipe AC</span>
-            <span className="font-normal opacity-80 text-[10px] sm:text-[11px]">Rp 275.000</span>
+            <span className="font-normal opacity-80 text-[10px] sm:text-[11px]">
+              Rp 275.000
+            </span>
           </button>
           <button
             type="button"
@@ -123,7 +125,9 @@ export function RoomFilter({
             }`}
           >
             <span>Tipe Kipas</span>
-            <span className="font-normal opacity-80 text-[10px] sm:text-[11px]">Rp 200.000</span>
+            <span className="font-normal opacity-80 text-[10px] sm:text-[11px]">
+              Rp 200.000
+            </span>
           </button>
           <button
             type="button"

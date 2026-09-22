@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { type AdvanceBookingData, AdvanceBookingModal } from "./advance-booking-modal";
+import {
+  type AdvanceBookingData,
+  AdvanceBookingModal,
+} from "./advance-booking-modal";
 import { BookingCalendarGrid } from "./booking-calendar-grid";
 import { BookingDateDetailsPanel } from "./booking-date-details-panel";
 
@@ -61,15 +64,20 @@ interface AdvanceBookingListProps {
 export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date(2026, 8, 1)); // September 2026
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(2026, 8, 5)); // 5 September 2026 (ada booking Pak Hendra)
-  const [bookings, setBookings] = useState<AdvanceBookingData[]>(INITIAL_BOOKINGS);
+  const [bookings, setBookings] =
+    useState<AdvanceBookingData[]>(INITIAL_BOOKINGS);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handlePrevMonth = () => {
-    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+    setCurrentMonth(
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1),
+    );
   };
 
   const handleNextMonth = () => {
-    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    setCurrentMonth(
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1),
+    );
   };
 
   const handleRefresh = () => {
@@ -79,7 +87,9 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
 
   const handleAddBooking = (newBooking: AdvanceBookingData) => {
     setBookings((prev) => [newBooking, ...prev]);
-    toast.success(`Booking baru #${newBooking.roomCode} (${newBooking.guestName}) berhasil dicatat!`);
+    toast.success(
+      `Booking baru #${newBooking.roomCode} (${newBooking.guestName}) berhasil dicatat!`,
+    );
   };
 
   return (

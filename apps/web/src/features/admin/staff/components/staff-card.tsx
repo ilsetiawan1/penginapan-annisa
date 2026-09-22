@@ -28,7 +28,9 @@ export function StaffCard({ staff, onToggleActive }: StaffCardProps) {
             <h3 className="font-black text-sm text-slate-900">{staff.name}</h3>
             <span
               className={`px-2 py-0.5 rounded-full text-[9px] font-black ${
-                staff.isActive ? "bg-emerald-100 text-emerald-800" : "bg-rose-100 text-rose-800"
+                staff.isActive
+                  ? "bg-emerald-100 text-emerald-800"
+                  : "bg-rose-100 text-rose-800"
               }`}
             >
               {staff.isActive ? "🟢 Aktif" : "🔴 Nonaktif"}
@@ -37,7 +39,9 @@ export function StaffCard({ staff, onToggleActive }: StaffCardProps) {
           <p className="text-xs text-slate-500 font-medium">
             @{staff.username} • {staff.phone}
           </p>
-          <p className="text-[11px] font-bold text-purple-700 pt-0.5">{staff.shift}</p>
+          <p className="text-[11px] font-bold text-purple-700 pt-0.5">
+            {staff.shift}
+          </p>
         </div>
       </div>
 

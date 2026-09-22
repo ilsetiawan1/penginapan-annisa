@@ -15,10 +15,7 @@ import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa6";
 import { MdOutlineShower, MdOutlineWash } from "react-icons/md";
 import { Button } from "../../../../components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-} from "../../../../components/ui/dialog";
+import { Dialog, DialogContent } from "../../../../components/ui/dialog";
 import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
 import type { RoomItem } from "./room-card";
 
@@ -68,7 +65,13 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
       <DialogContent className="max-w-lg max-h-[96dvh] sm:max-h-[90vh] overflow-hidden p-0 rounded-3xl border-0 shadow-2xl bg-[#faf9fc] flex flex-col justify-between">
         {/* Header Photo Banner (Compact & Crisp) */}
         <div className="relative h-36 sm:h-52 w-full bg-slate-900 overflow-hidden shrink-0">
-          <Image src={room.image} alt={room.name} fill className="object-cover" priority />
+          <Image
+            src={room.image}
+            alt={room.name}
+            fill
+            className="object-cover"
+            priority
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
 
           {/* Badges Status & Tipe di Foto */}

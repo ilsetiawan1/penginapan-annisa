@@ -38,7 +38,8 @@ export function BookingProcessSection() {
             3 Langkah Mudah Booking Kamar Transit
           </h2>
           <p className="text-xs text-slate-500 mt-1">
-            Proses kilat tanpa ribet, transparan, dan langsung terhubung dengan resepsionis.
+            Proses kilat tanpa ribet, transparan, dan langsung terhubung dengan
+            resepsionis.
           </p>
         </div>
 
@@ -53,12 +54,24 @@ export function BookingProcessSection() {
               className="w-full h-full"
             >
               <defs>
-                <linearGradient id="purpleCurveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient
+                  id="purpleCurveGrad"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
                   <stop offset="0%" stopColor="#C084FC" stopOpacity="0.5" />
                   <stop offset="50%" stopColor="#7E22CE" stopOpacity="1" />
                   <stop offset="100%" stopColor="#9333EA" stopOpacity="0.7" />
                 </linearGradient>
-                <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <filter
+                  id="softGlow"
+                  x="-20%"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
                   <feGaussianBlur stdDeviation="2.5" result="blur" />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
                 </filter>
@@ -152,7 +165,10 @@ export function BookingProcessSection() {
           {STEPS.map((step) => {
             const Icon = step.icon;
             return (
-              <div key={step.step} className="relative z-10 flex items-start gap-4 group">
+              <div
+                key={step.step}
+                className="relative z-10 flex items-start gap-4 group"
+              >
                 {/* Floating Icon Node anchored directly on dotted line */}
                 <div className="relative shrink-0">
                   <div className="w-12 h-12 rounded-2xl bg-white border-2 border-purple-200 text-purple-700 shadow-md shadow-purple-500/10 flex items-center justify-center">
@@ -168,7 +184,9 @@ export function BookingProcessSection() {
                   <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 mb-0.5 leading-tight">
                     {step.title}
                   </h3>
-                  <p className="text-[11px] text-slate-600 leading-relaxed">{step.desc}</p>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    {step.desc}
+                  </p>
                 </div>
               </div>
             );

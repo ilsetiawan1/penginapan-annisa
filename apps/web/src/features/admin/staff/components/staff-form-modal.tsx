@@ -10,7 +10,11 @@ interface StaffFormModalProps {
   onSubmit: (member: StaffMember) => void;
 }
 
-export function StaffFormModal({ isOpen, onClose, onSubmit }: StaffFormModalProps) {
+export function StaffFormModal({
+  isOpen,
+  onClose,
+  onSubmit,
+}: StaffFormModalProps) {
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
@@ -42,7 +46,9 @@ export function StaffFormModal({ isOpen, onClose, onSubmit }: StaffFormModalProp
       onSubmit={handleSubmit}
       className="bg-white rounded-3xl border-2 border-purple-300 p-5 sm:p-6 shadow-md space-y-4 animate-in fade-in"
     >
-      <h3 className="text-sm font-black text-slate-900">Formulir Pendaftaran Staf Baru</h3>
+      <h3 className="text-sm font-black text-slate-900">
+        Formulir Pendaftaran Staf Baru
+      </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1">
           <label

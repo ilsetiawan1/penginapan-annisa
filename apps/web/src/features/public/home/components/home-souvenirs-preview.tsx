@@ -13,18 +13,25 @@ import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
-import { SOUVENIR_COLLECTION, type SouvenirProduct } from "../../souvenirs/data";
+import {
+  SOUVENIR_COLLECTION,
+  type SouvenirProduct,
+} from "../../souvenirs/data";
 
 export function HomeSouvenirsPreview() {
   const featuredSouvenirs = SOUVENIR_COLLECTION.slice(0, 5);
   const [activeIndex, setActiveIndex] = useState<number>(2); // Default Tengah
 
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? featuredSouvenirs.length - 1 : prev - 1));
+    setActiveIndex((prev) =>
+      prev === 0 ? featuredSouvenirs.length - 1 : prev - 1,
+    );
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev === featuredSouvenirs.length - 1 ? 0 : prev + 1));
+    setActiveIndex((prev) =>
+      prev === featuredSouvenirs.length - 1 ? 0 : prev + 1,
+    );
   };
 
   const getItemWaUrl = (item: SouvenirProduct) => {
@@ -50,8 +57,8 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
           Produk Unggulan &amp; Paling Dicari
         </h2>
         <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
-          Tersedia langsung di etalase meja resepsionis. Anda bisa titip stok lebih awal via WhatsApp
-          dan ambil langsung saat transit di penginapan.
+          Tersedia langsung di etalase meja resepsionis. Anda bisa titip stok
+          lebih awal via WhatsApp dan ambil langsung saat transit di penginapan.
         </p>
       </div>
 
@@ -146,7 +153,11 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
                             asChild
                             className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
                           >
-                            <a href={getItemWaUrl(item)} target="_blank" rel="noreferrer">
+                            <a
+                              href={getItemWaUrl(item)}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
                               <FaWhatsapp className="w-4 h-4" />
                               <span>Titip Ambil</span>
                             </a>

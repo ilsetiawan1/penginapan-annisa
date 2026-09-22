@@ -56,7 +56,9 @@ export function RoomManagement() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handlePriceChange = (id: string, newPrice: number) => {
-    setTypes((prev) => prev.map((t) => (t.id === id ? { ...t, price: newPrice } : t)));
+    setTypes((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, price: newPrice } : t)),
+    );
   };
 
   const handleSave = () => {
@@ -82,8 +84,8 @@ export function RoomManagement() {
             Pengaturan Tarif &amp; Fasilitas 8 Kamar
           </h2>
           <p className="text-xs text-slate-500">
-            Perubahan harga di sini akan otomatis terhubung ke formulir pemesanan WhatsApp publik
-            dan sistem kasir staf resepsionis.
+            Perubahan harga di sini akan otomatis terhubung ke formulir
+            pemesanan WhatsApp publik dan sistem kasir staf resepsionis.
           </p>
         </div>
 
@@ -94,7 +96,9 @@ export function RoomManagement() {
             title="Refresh Data Tarif"
             className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
           >
-            <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
+            <RotateCw
+              className={`w-4 h-4 ${isRefreshing ? "animate-spin text-purple-700" : ""}`}
+            />
             <span className="text-xs font-black hidden sm:inline">Refresh</span>
           </button>
 
@@ -121,10 +125,16 @@ export function RoomManagement() {
                 <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-md">
                   {type.unitCount} Unit Kamar
                 </span>
-                <h3 className="text-base font-black text-slate-900 mt-1">{type.name}</h3>
+                <h3 className="text-base font-black text-slate-900 mt-1">
+                  {type.name}
+                </h3>
               </div>
               <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center">
-                {type.id === "ac" ? <Wind className="w-5 h-5" /> : <Bed className="w-5 h-5" />}
+                {type.id === "ac" ? (
+                  <Wind className="w-5 h-5" />
+                ) : (
+                  <Bed className="w-5 h-5" />
+                )}
               </div>
             </div>
 
@@ -159,7 +169,9 @@ export function RoomManagement() {
                   id={`price-${type.id}`}
                   type="number"
                   value={type.price}
-                  onChange={(e) => handlePriceChange(type.id, Number(e.target.value))}
+                  onChange={(e) =>
+                    handlePriceChange(type.id, Number(e.target.value))
+                  }
                   className="w-full bg-transparent text-lg font-black text-purple-700 outline-none"
                 />
               </div>

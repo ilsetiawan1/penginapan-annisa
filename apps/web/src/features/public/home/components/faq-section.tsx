@@ -67,7 +67,9 @@ export function FaqSection() {
                 <div className="flex items-center gap-3">
                   <div
                     className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                      isOpen ? "bg-purple-100 text-purple-700" : "bg-slate-100 text-slate-500"
+                      isOpen
+                        ? "bg-purple-100 text-purple-700"
+                        : "bg-slate-100 text-slate-500"
                     }`}
                   >
                     <HelpCircle className="w-4 h-4" />
@@ -83,7 +85,9 @@ export function FaqSection() {
 
                 <div
                   className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                    isOpen ? "rotate-180 text-purple-700 bg-purple-50" : "text-slate-400"
+                    isOpen
+                      ? "rotate-180 text-purple-700 bg-purple-50"
+                      : "text-slate-400"
                   }`}
                 >
                   <ChevronDown className="w-4 h-4" />

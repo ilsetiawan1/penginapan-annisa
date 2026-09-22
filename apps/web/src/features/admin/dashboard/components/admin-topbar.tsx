@@ -40,7 +40,10 @@ export function AdminTopbar({
           <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
-        <Link href="/admin/dashboard" className="flex items-center gap-2.5 group">
+        <Link
+          href="/admin/dashboard"
+          className="flex items-center gap-2.5 group"
+        >
           <div className="relative w-9 h-9 rounded-2xl bg-purple-50 p-1.5 border border-purple-200/80 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
             <Image
               src="/logo-penginapan-annisa.png"

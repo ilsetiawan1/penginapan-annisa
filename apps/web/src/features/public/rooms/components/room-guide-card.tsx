@@ -16,12 +16,18 @@ export function RoomGuideCard() {
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Seluruh 8 unit kamar kami dirancang khusus untuk kenyamanan istirahat transit Anda.
-              Dilengkapi{" "}
-              <strong className="text-slate-900 font-bold">1 kasur besar (muat 2–3 orang)</strong>,{" "}
-              <strong className="text-slate-900 font-bold">100% kamar mandi dalam pribadi</strong>,
-              TV layar datar, WiFi kencang, handuk bersih, dan air mineral. Pembedanya hanya pada
-              pendingin ruangan (Tipe AC &amp; Tipe Kipas).
+              Seluruh 8 unit kamar kami dirancang khusus untuk kenyamanan
+              istirahat transit Anda. Dilengkapi{" "}
+              <strong className="text-slate-900 font-bold">
+                1 kasur besar (muat 2–3 orang)
+              </strong>
+              ,{" "}
+              <strong className="text-slate-900 font-bold">
+                100% kamar mandi dalam pribadi
+              </strong>
+              , TV layar datar, WiFi kencang, handuk bersih, dan air mineral.
+              Pembedanya hanya pada pendingin ruangan (Tipe AC &amp; Tipe
+              Kipas).
             </p>
           </div>
 
@@ -34,23 +40,28 @@ export function RoomGuideCard() {
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  <strong className="text-slate-900">Jarak Kilat 750m</strong> dari pintu gerbang
-                  terminal Bandara Pattimura (bebas macet).
+                  <strong className="text-slate-900">Jarak Kilat 750m</strong>{" "}
+                  dari pintu gerbang terminal Bandara Pattimura (bebas macet).
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  <strong className="text-slate-900">Check-In Fleksibel (06:00 – 22:00 WIT)</strong>
-                  , bisa langsung masuk istirahat jika kamar telah selesai dibersihkan.
+                  <strong className="text-slate-900">
+                    Check-In Fleksibel (06:00 – 22:00 WIT)
+                  </strong>
+                  , bisa langsung masuk istirahat jika kamar telah selesai
+                  dibersihkan.
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
                   Kunci jadwal kamar dengan{" "}
-                  <strong className="text-slate-900">Transfer DP 50% via WhatsApp</strong>,
-                  pelunasan saat tiba di lokasi.
+                  <strong className="text-slate-900">
+                    Transfer DP 50% via WhatsApp
+                  </strong>
+                  , pelunasan saat tiba di lokasi.
                 </span>
               </li>
             </ul>

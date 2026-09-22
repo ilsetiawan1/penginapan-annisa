@@ -63,7 +63,9 @@ export function RoomDetailModal({
   const isBooked = room.status === "booked";
 
   const total = room.totalAmount || room.price;
-  const dp = room.dpPaid || (isBooked ? Math.round(total * 0.5) : isOccupied ? total : 0);
+  const dp =
+    room.dpPaid ||
+    (isBooked ? Math.round(total * 0.5) : isOccupied ? total : 0);
   const remaining =
     room.remainingAmount !== undefined
       ? room.remainingAmount
@@ -113,7 +115,9 @@ export function RoomDetailModal({
         <div className="p-4 sm:p-5 space-y-3.5 text-left overflow-y-auto">
           {/* Status Badge Strip */}
           <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200/80">
-            <span className="text-xs font-bold text-slate-500">Status Operasional:</span>
+            <span className="text-xs font-bold text-slate-500">
+              Status Operasional:
+            </span>
             {isReady && (
               <span className="bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-black px-3 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -154,13 +158,17 @@ export function RoomDetailModal({
               </span>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div>
-                  <span className="text-slate-500 block text-[10px]">Nama Lengkap:</span>
+                  <span className="text-slate-500 block text-[10px]">
+                    Nama Lengkap:
+                  </span>
                   <strong className="text-slate-900 font-extrabold text-sm">
                     {room.guestName || "Hendra Pratama"}
                   </strong>
                 </div>
                 <div>
-                  <span className="text-slate-500 block text-[10px]">No. WhatsApp:</span>
+                  <span className="text-slate-500 block text-[10px]">
+                    No. WhatsApp:
+                  </span>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <strong className="text-slate-900 font-bold">
                       {room.guestPhone || "081399881122"}
@@ -182,9 +190,13 @@ export function RoomDetailModal({
 
               <div className="pt-2 border-t border-purple-200/80 flex items-center justify-between text-xs">
                 <div>
-                  <span className="text-slate-500 text-[10px]">Durasi Menginap:</span>
+                  <span className="text-slate-500 text-[10px]">
+                    Durasi Menginap:
+                  </span>
                   <strong className="text-purple-950 font-bold block">
-                    {room.totalNights || 1} Malam ({room.checkInDate || "22 Agu"} – {room.checkOutDate || "23 Agu"})
+                    {room.totalNights || 1} Malam (
+                    {room.checkInDate || "22 Agu"} –{" "}
+                    {room.checkOutDate || "23 Agu"})
                   </strong>
                 </div>
                 <span className="bg-white border border-purple-200 text-purple-900 text-[10px] font-bold px-2 py-0.5 rounded-md">
@@ -201,14 +213,18 @@ export function RoomDetailModal({
             </span>
             <div className="flex items-center justify-between text-slate-600">
               <span>Total Tarif Sewa ({room.totalNights || 1} Malam):</span>
-              <strong className="text-slate-900">Rp {total.toLocaleString("id-ID")}</strong>
+              <strong className="text-slate-900">
+                Rp {total.toLocaleString("id-ID")}
+              </strong>
             </div>
 
             {isBooked && (
               <>
                 <div className="flex items-center justify-between text-emerald-800">
                   <span>DP 50% yang Sudah Masuk:</span>
-                  <strong className="text-emerald-700 font-bold">- Rp {dp.toLocaleString("id-ID")}</strong>
+                  <strong className="text-emerald-700 font-bold">
+                    - Rp {dp.toLocaleString("id-ID")}
+                  </strong>
                 </div>
                 <div className="pt-2 border-t border-slate-200 flex items-center justify-between font-black text-sm text-purple-950">
                   <span>SISA WAJIB SAAT TIBA:</span>
@@ -222,15 +238,27 @@ export function RoomDetailModal({
             {isOccupied && (
               <div className="pt-2 border-t border-slate-200 flex items-center justify-between font-black text-sm">
                 <span className="text-slate-700">Status Tagihan:</span>
-                <span className={remaining > 0 ? "text-rose-700" : "text-emerald-700"}>
-                  {remaining > 0 ? `Sisa Rp ${remaining.toLocaleString("id-ID")}` : "Lunas 100% (Rp 0)"}
+                <span
+                  className={
+                    remaining > 0 ? "text-rose-700" : "text-emerald-700"
+                  }
+                >
+                  {remaining > 0
+                    ? `Sisa Rp ${remaining.toLocaleString("id-ID")}`
+                    : "Lunas 100% (Rp 0)"}
                 </span>
               </div>
             )}
 
             {isReady && (
               <div className="pt-1 text-slate-500 text-[11px]">
-                <span>Tarif Standar: <strong>Rp {room.price.toLocaleString("id-ID")} / malam</strong> (DP 50% = Rp {(room.price * 0.5).toLocaleString("id-ID")})</span>
+                <span>
+                  Tarif Standar:{" "}
+                  <strong>
+                    Rp {room.price.toLocaleString("id-ID")} / malam
+                  </strong>{" "}
+                  (DP 50% = Rp {(room.price * 0.5).toLocaleString("id-ID")})
+                </span>
               </div>
             )}
           </div>
@@ -246,8 +274,14 @@ export function RoomDetailModal({
                 <span>1 Kasur Besar (Muat 2–3 Tamu)</span>
               </span>
               <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
-                {room.type === "ac" ? <Wind className="w-3 h-3 text-purple-700" /> : <Clock className="w-3 h-3 text-purple-700" />}
-                <span>{room.type === "ac" ? "AC Dingin" : "Kipas Angin Dinding"}</span>
+                {room.type === "ac" ? (
+                  <Wind className="w-3 h-3 text-purple-700" />
+                ) : (
+                  <Clock className="w-3 h-3 text-purple-700" />
+                )}
+                <span>
+                  {room.type === "ac" ? "AC Dingin" : "Kipas Angin Dinding"}
+                </span>
               </span>
               <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
                 <Wifi className="w-3 h-3 text-purple-700" />
