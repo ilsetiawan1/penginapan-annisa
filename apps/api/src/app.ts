@@ -35,12 +35,11 @@ app.get("/docs.json", (_req: Request, res: Response) => {
   res.status(200).json(generateOpenApiSpec());
 });
 
-// Interactive Scalar API Docs UI
 app.use(
   "/docs",
   apiReference({
     spec: {
-      content: () => generateOpenApiSpec() as any,
+      content: generateOpenApiSpec(),
     },
     theme: "purple",
     pageTitle: "Penginapan Annisa — API Reference",
