@@ -8,14 +8,14 @@ datasource db {
 }
 
 // ----------------------------------------------------
-// 1. PENGGUNA SISTEM (STAF & ADMIN)
+// 1. PENGGUNA SISTEM (STAF & OWNER RBAC)
 // ----------------------------------------------------
 model User {
   id           String        @id @default(uuid())
   name         String
   email        String        @unique
   passwordHash String        @map("password_hash")
-  role         String        @default("staff") // 'admin' | 'staff'
+  role         String        @default("staff") // 'owner' | 'staff'
   isActive     Boolean       @default(true) @map("is_active")
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
@@ -27,20 +27,21 @@ model User {
 }
 
 // ----------------------------------------------------
-// 2. TIPE KAMAR & UNIT 8 KAMAR
+// 2. TIPE KAMAR & 8 UNIT FISIK (A1-A4 & B1-B4)
 // ----------------------------------------------------
 model RoomType {
   id          String      @id @default(uuid())
   name        String      // "Kamar AC", "Kamar Kipas"
   slug        String      @unique // "kamar-ac", "kamar-kipas"
   description String?     @db.Text
-  basePrice   Decimal     @map("base_price") @db.Decimal(12, 2) // 275000 / 200000
+  basePrice   Int         @default(200000) @map("base_price") // 275000 (AC) / 200000 (Kipas)
   capacity    Int         @default(3) // 2-3 orang
   bedType     String      @map("bed_type") // "1 Double Bed", "2 Single Beds"
-  facilities  String      @default("[]") // JSON: ["Kamar Mandi Dalam", "AC / Kipas", "WiFi Gratis", "TV", "Handuk"]
+  facilities  String      @default("[]") // JSON String: ["AC Dingin", "KM Dalam", "WiFi", "TV LED", "Handuk Bersih"]
   images      RoomImage[]
   rooms       Room[]
   createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
 
   @@map("room_types")
 }
@@ -48,9 +49,9 @@ model RoomType {
 model Room {
   id           String        @id @default(uuid())
   roomTypeId   String        @map("room_type_id")
-  roomNumber   String        @unique @map("room_number") // "101", "102", "103", "104", "201", "202", "203", "204"
-  floor        Int           @default(1)
-  status       String        @default("ready") // 'ready' | 'occupied' | 'dirty' | 'maintenance'
+  roomNumber   String        @unique @map("room_number") // "A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"
+  building     String        @default("A") // "A" | "B" (Bangunan A & Bangunan B)
+  status       String        @default("ready") // 'ready' | 'occupied' | 'booked' | 'dirty' | 'maintenance'
   notes        String?
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
@@ -64,7 +65,7 @@ model Room {
 model RoomImage {
   id         String   @id @default(uuid())
   roomTypeId String   @map("room_type_id")
-  imageUrl   String   @map("image_url")
+  imageUrl   String   @map("image_url") // ImageKit.io CDN URL
   caption    String?
   isPrimary  Boolean  @default(false) @map("is_primary")
   createdAt  DateTime @default(now()) @map("created_at")
@@ -75,16 +76,17 @@ model RoomImage {
 }
 
 // ----------------------------------------------------
-// 3. TAMU & OPERASIONAL RESERVASI (PMS)
+// 3. TAMU & OPERASIONAL RESERVASI (PMS & FAST CHECK-IN)
 // ----------------------------------------------------
 model Guest {
   id           String        @id @default(uuid())
   name         String
-  phone        String        // Nomor WhatsApp
+  phone        String        // Nomor WhatsApp aktif (628xxx)
   email        String?
   idCardNumber String?       @map("id_card_number") // No KTP/Paspor (opsional)
   address      String?
   createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
 
   reservations Reservation[]
 
@@ -93,17 +95,17 @@ model Guest {
 
 model Reservation {
   id               String      @id @default(uuid())
-  code             String      @unique // e.g. "ANNISA-202608-001"
+  code             String      @unique // Format: "ANNISA-YYYYMM-XXX"
   roomId           String      @map("room_id")
   guestId          String      @map("guest_id")
   userId           String?     @map("user_id") // Staf penerima
   checkInDate      DateTime    @map("check_in_date")
   checkOutDate     DateTime    @map("check_out_date")
   totalNights      Int         @default(1) @map("total_nights")
-  roomRatePerNight Decimal     @map("room_rate_per_night") @db.Decimal(12, 2)
-  grandTotal       Decimal     @map("grand_total") @db.Decimal(12, 2)
-  dpAmount         Decimal     @default(0) @map("dp_amount") @db.Decimal(12, 2) // DP 50%
-  remainingAmount  Decimal     @default(0) @map("remaining_amount") @db.Decimal(12, 2) // Sisa Pelunasan
+  roomRatePerNight Int         @map("room_rate_per_night")
+  grandTotal       Int         @map("grand_total")
+  dpAmount         Int         @default(0) @map("dp_amount") // DP 50%
+  remainingAmount  Int         @default(0) @map("remaining_amount") // Sisa Pelunasan (Rp 0 saat lunas)
   status           String      @default("confirmed") // 'pending_dp' | 'confirmed' | 'checked_in' | 'checked_out' | 'cancelled'
   paymentStatus    String      @default("unpaid") // 'unpaid' | 'dp_paid' | 'paid'
   paymentMethod    String      @default("cash") @map("payment_method") // 'cash' | 'transfer' | 'qris'
@@ -119,12 +121,13 @@ model Reservation {
 }
 
 // ----------------------------------------------------
-// 4. ETALASE OLEH-OLEH KHAS AMBON (SHOWCASE PUBLIK)
+// 4. ETALASE & KASIR POS OLEH-OLEH KHAS AMBON
 // ----------------------------------------------------
 model SouvenirCategory {
   id        String     @id @default(uuid())
   name      String     // "Minyak Kayu Putih Asli", "Kue & Makanan Khas Maluku", "Kopi & Minuman Tradisional"
   slug      String     @unique
+  createdAt DateTime   @default(now()) @map("created_at")
   items     Souvenir[]
 
   @@map("souvenir_categories")
@@ -133,12 +136,14 @@ model SouvenirCategory {
 model Souvenir {
   id          String           @id @default(uuid())
   categoryId  String           @map("category_id")
-  name        String           // "Minyak Kayu Putih Asli Namlea/Ambon", "Kue Sagu Bagea Ambon", "Roti Kenari Khas Maluku", "Halua Kenari", "Kopi Rarobang"
-  price       Decimal          @db.Decimal(12, 2)
+  name        String           // "Minyak Kayu Putih Asli Namlea 100ml", "Kue Sagu Bagea", dll
+  price       Int              // Harga Jual (Rupiah)
+  stock       Int              @default(10) // Stok Fisik POS Kasir
   description String?          @db.Text
-  imageUrl    String?          @map("image_url")
+  imageUrl    String?          @map("image_url") // ImageKit.io CDN URL
   isAvailable Boolean          @default(true) @map("is_available")
   createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
 
   category    SouvenirCategory @relation(fields: [categoryId], references: [id])
 
@@ -149,10 +154,11 @@ model Souvenir {
 // 5. CMS ARTIKEL WISATA & PANDUAN TRANSIT AMBON
 // ----------------------------------------------------
 model ArticleCategory {
-  id       String    @id @default(uuid())
-  name     String    // "Wisata Dekat Bandara", "Kuliner Khas Ambon", "Tips Transit Pesawat"
-  slug     String    @unique
-  articles Article[]
+  id        String    @id @default(uuid())
+  name      String    // "Wisata Dekat Bandara", "Kuliner Khas Ambon", "Tips Transit Pesawat"
+  slug      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  articles  Article[]
 
   @@map("article_categories")
 }
@@ -165,7 +171,7 @@ model Article {
   slug        String          @unique
   summary     String          @db.Text
   content     String          @db.Text // Rich-Text / Markdown
-  coverImage  String?         @map("cover_image")
+  coverImage  String?         @map("cover_image") // ImageKit.io CDN URL
   isPublished Boolean         @default(true) @map("is_published")
   views       Int             @default(0)
   createdAt   DateTime        @default(now()) @map("created_at")
