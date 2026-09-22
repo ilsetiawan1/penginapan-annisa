@@ -24,7 +24,9 @@ export const dashboardOverviewStatsSchema = z.object({
   activeGuestsCount: z.number().int().nonnegative(),
   pendingDpBookingsCount: z.number().int().nonnegative(),
 });
-export type DashboardOverviewStats = z.infer<typeof dashboardOverviewStatsSchema>;
+export type DashboardOverviewStats = z.infer<
+  typeof dashboardOverviewStatsSchema
+>;
 
 export const monthlyRevenueReportSchema = z.object({
   month: z.string().regex(/^\d{4}-\d{2}$/, "Format bulan YYYY-MM"),

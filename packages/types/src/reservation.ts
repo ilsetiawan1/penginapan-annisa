@@ -64,11 +64,17 @@ export const createOnlineBookingInputSchema = z.object({
   guestName: z.string().min(2, "Nama wajib diisi"),
   guestPhone: z.string().min(8, "Nomor WhatsApp wajib diisi"),
   guestEmail: z.string().email("Format email salah").optional(),
-  checkInDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Format tanggal YYYY-MM-DD"),
-  checkOutDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Format tanggal YYYY-MM-DD"),
+  checkInDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Format tanggal YYYY-MM-DD"),
+  checkOutDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Format tanggal YYYY-MM-DD"),
   notes: z.string().optional(),
 });
-export type CreateOnlineBookingInput = z.infer<typeof createOnlineBookingInputSchema>;
+export type CreateOnlineBookingInput = z.infer<
+  typeof createOnlineBookingInputSchema
+>;
 
 export const createWalkInBookingInputSchema = z.object({
   roomId: z.string().uuid("Pilih kamar yang valid"),
@@ -81,7 +87,9 @@ export const createWalkInBookingInputSchema = z.object({
   isFullPayment: z.boolean().default(true),
   notes: z.string().optional(),
 });
-export type CreateWalkInBookingInput = z.infer<typeof createWalkInBookingInputSchema>;
+export type CreateWalkInBookingInput = z.infer<
+  typeof createWalkInBookingInputSchema
+>;
 
 export const confirmDpInputSchema = z.object({
   dpAmount: z.number().int().positive("Nominal DP harus lebih dari 0"),

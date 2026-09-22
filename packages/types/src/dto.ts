@@ -19,7 +19,9 @@ export interface ApiResponse<T = any> {
   error?: string;
 }
 
-export const paginatedResponseSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
+export const paginatedResponseSchema = <T extends z.ZodTypeAny>(
+  itemSchema: T,
+) =>
   z.object({
     items: z.array(itemSchema),
     total: z.number().int().nonnegative(),

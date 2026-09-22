@@ -61,12 +61,14 @@ export const posCartItemSchema = z.object({
 export type PosCartItem = z.infer<typeof posCartItemSchema>;
 
 export const posCheckoutInputSchema = z.object({
-  items: z.array(
-    z.object({
-      souvenirId: z.string().uuid(),
-      quantity: z.number().int().positive(),
-    })
-  ).min(1, "Keranjang belanja tidak boleh kosong"),
+  items: z
+    .array(
+      z.object({
+        souvenirId: z.string().uuid(),
+        quantity: z.number().int().positive(),
+      }),
+    )
+    .min(1, "Keranjang belanja tidak boleh kosong"),
   paymentMethod: paymentMethodSchema,
   guestId: z.string().uuid().optional(),
   cashReceived: z.number().int().nonnegative().optional(),

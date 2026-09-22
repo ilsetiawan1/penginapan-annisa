@@ -4,7 +4,13 @@ import { z } from "zod";
 // 2. SKEMA ZOD & TIPE INFER KAMAR (8 UNIT A1-B4)
 // ==========================================
 
-export const roomStatusSchema = z.enum(["ready", "occupied", "booked", "dirty", "maintenance"]);
+export const roomStatusSchema = z.enum([
+  "ready",
+  "occupied",
+  "booked",
+  "dirty",
+  "maintenance",
+]);
 export type RoomStatus = z.infer<typeof roomStatusSchema>;
 
 export const buildingBlockSchema = z.enum(["A", "B"]);
