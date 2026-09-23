@@ -17,6 +17,8 @@ import { CheckOutModal } from "../../reservations/components/checkout-modal";
 import { ReceiptModal } from "../../reservations/components/receipt-modal";
 import { RoomCard, RoomItem } from "./room-card";
 import { RoomDetailModal } from "./room-detail-modal";
+import { useRooms, useUpdateRoomStatus } from "@/features/rooms/hooks/use-rooms";
+import { useQueryClient } from "@tanstack/react-query";
 
 // 8 UNIT KAMAR RESMI PENGINAPAN ANNISA DENGAN SKENARIO REALISTIS
 const INITIAL_ROOMS: RoomItem[] = [
@@ -117,6 +119,8 @@ const INITIAL_ROOMS: RoomItem[] = [
 export function RoomMatrix() {
   const [rooms, setRooms] = useState<RoomItem[]>(INITIAL_ROOMS);
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const queryClient = useQueryClient();
+  const updateStatusMutation = useUpdateRoomStatus();
 
   // Modal State
   const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(
@@ -144,11 +148,11 @@ export function RoomMatrix() {
   const roomsB = filteredRooms.filter((r) => r.building === "B");
 
   // Reset / Refresh Data Kamar ke kondisi awal
-  const handleResetRooms = () => {
+  const handleResetRooms = async () => {
     setIsRefreshing(true);
-    setRooms(INITIAL_ROOMS);
-    toast.success("Data status 8 kamar telah di-refresh ke kondisi awal!");
-    setTimeout(() => setIsRefreshing(false), 300);
+    await queryClient.invalidateQueries();
+    toast.success("Data status 8 kamar telah di-refresh!");
+    setIsRefreshing(false);
   };
 
   // Ringkasan Status Keseluruhan
@@ -178,6 +182,10 @@ export function RoomMatrix() {
         return r;
       }),
     );
+    updateStatusMutation.mutate({
+      roomNumber: data.roomNumber,
+      input: { status: "occupied" },
+    });
     toast.success(
       `Check-In Berhasil! Kamar #${data.roomNumber} kini Terisi untuk ${data.guestName}.`,
     );
@@ -198,6 +206,10 @@ export function RoomMatrix() {
         return r;
       }),
     );
+    updateStatusMutation.mutate({
+      roomNumber: roomCode,
+      input: { status: "occupied" },
+    });
     toast.success(
       `Pelunasan Berhasil (${paymentMethod.toUpperCase()})! Kamar #${roomCode} kini Lunas 100% dan Siap Ditempati.`,
     );
@@ -206,9 +218,10 @@ export function RoomMatrix() {
   // Handle Check-Out Tamu
   const handleConfirmCheckOut = () => {
     if (!checkOutModalData) return;
+    const roomCode = checkOutModalData.code;
     setRooms((prev) =>
       prev.map((r) => {
-        if (r.code === checkOutModalData.code) {
+        if (r.code === roomCode) {
           return {
             ...r,
             status: "dirty",
@@ -225,8 +238,12 @@ export function RoomMatrix() {
         return r;
       }),
     );
+    updateStatusMutation.mutate({
+      roomNumber: roomCode,
+      input: { status: "dirty" },
+    });
     toast.info(
-      `Check-Out Berhasil! Kamar #${checkOutModalData.code} kini masuk status Perlu Bersih.`,
+      `Check-Out Berhasil! Kamar #${roomCode} kini masuk status Perlu Bersih.`,
     );
   };
 
@@ -235,6 +252,10 @@ export function RoomMatrix() {
     setRooms((prev) =>
       prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)),
     );
+    updateStatusMutation.mutate({
+      roomNumber: roomCode,
+      input: { status: "ready" },
+    });
     toast.success(
       `Kamar #${roomCode} telah bersih dan siap disewakan kembali! 🟢`,
     );
@@ -245,10 +266,16 @@ export function RoomMatrix() {
     setRooms((prev) =>
       prev.map((r) => (r.code === roomCode ? { ...r, status: "ready" } : r)),
     );
+    updateStatusMutation.mutate({
+      roomNumber: roomCode,
+      input: { status: "ready" },
+    });
     toast.success(
       `Kamar #${roomCode} telah selesai perbaikan dan Siap Pakai! 🟢`,
     );
   };
+
+
 
   // Handle Simpan Advance Booking WA
   const handleConfirmAdvanceBooking = (data: AdvanceBookingData) => {

@@ -8,6 +8,8 @@ import {
 } from "./advance-booking-modal";
 import { BookingCalendarGrid } from "./booking-calendar-grid";
 import { BookingDateDetailsPanel } from "./booking-date-details-panel";
+import { useReservations, useCreateWalkInBooking } from "@/features/reservations/hooks/use-reservations";
+import { useQueryClient } from "@tanstack/react-query";
 
 const INITIAL_BOOKINGS: AdvanceBookingData[] = [
   {
@@ -67,6 +69,8 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
   const [bookings, setBookings] =
     useState<AdvanceBookingData[]>(INITIAL_BOOKINGS);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+  const createBookingMutation = useCreateWalkInBooking();
 
   const handlePrevMonth = () => {
     setCurrentMonth(
@@ -80,8 +84,8 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
     );
   };
 
-  const handleRefresh = () => {
-    setBookings(INITIAL_BOOKINGS);
+  const handleRefresh = async () => {
+    await queryClient.invalidateQueries();
     toast.success("Jadwal reservasi booking WA telah di-refresh!");
   };
 
@@ -91,6 +95,7 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
       `Booking baru #${newBooking.roomCode} (${newBooking.guestName}) berhasil dicatat!`,
     );
   };
+
 
   return (
     <div className="space-y-3.5 max-w-7xl mx-auto">

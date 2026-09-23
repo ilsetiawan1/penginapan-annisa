@@ -8,6 +8,8 @@ import {
   type SaleRecord,
   SouvenirSalesHistory,
 } from "./souvenir-sales-history";
+import { useSouvenirs, usePosCheckout } from "@/features/souvenirs/hooks/use-souvenirs";
+import { useQueryClient } from "@tanstack/react-query";
 
 // PRODUK ETALASE OLEH-OLEH KHAS MALUKU (SESUAI PRD & TRD)
 const INITIAL_SOUVENIRS: SouvenirProduct[] = [
@@ -55,6 +57,8 @@ export function SouvenirPos() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [recentSales, setRecentSales] = useState<SaleRecord[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+  const posCheckoutMutation = usePosCheckout();
 
   const handleSell = (product: SouvenirProduct) => {
     if (product.stock <= 0) {
@@ -94,13 +98,13 @@ export function SouvenirPos() {
     toast.success("Stok berhasil ditambah +5 unit!");
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setIsRefreshing(true);
-    setProducts(INITIAL_SOUVENIRS);
-    setRecentSales([]);
+    await queryClient.invalidateQueries();
     toast.success("Katalog & stok oleh-oleh telah di-refresh!");
-    setTimeout(() => setIsRefreshing(false), 500);
+    setIsRefreshing(false);
   };
+
 
   const totalSalesToday = recentSales.reduce(
     (acc, curr) => acc + curr.total,

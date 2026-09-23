@@ -3,22 +3,22 @@
 import {
   ArrowRight,
   ArrowUpRight,
-  Bed,
-  Calendar,
-  CheckCircle2,
-  Clock,
-  ExternalLink,
-  Gift,
   RotateCw,
   ShoppingBag,
   Sparkles,
-  TrendingUp,
-  Wind,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { toast } from "sonner";
-import { Button } from "../../../../components/ui/button";
+import { Button } from "@/components/ui/button";
+import { LiveClockWIT } from "./live-clock-wit";
+import { useDashboardStats } from "../hooks/use-dashboard-stats";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  useReservations,
+  useCheckIn,
+  useCheckOut,
+} from "@/features/reservations/hooks/use-reservations";
 
 interface OperationalDashboardProps {
   onNavigateTab: (tab: string) => void;
@@ -27,54 +27,56 @@ interface OperationalDashboardProps {
 export function OperationalDashboard({
   onNavigateTab,
 }: OperationalDashboardProps) {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [timeStr, setTimeStr] = useState<string>("");
-  const [dateStr, setDateStr] = useState<string>("");
   const [chartView, setChartView] = useState<"weekly" | "monthly">("weekly");
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const timeOptions: Intl.DateTimeFormatOptions = {
-        timeZone: "Asia/Jayapura",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      };
-      const dateOptions: Intl.DateTimeFormatOptions = {
-        timeZone: "Asia/Jayapura",
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      };
-      setTimeStr(
-        `${new Intl.DateTimeFormat("id-ID", timeOptions).format(now)} WIT`,
-      );
-      setDateStr(new Intl.DateTimeFormat("id-ID", dateOptions).format(now));
-    };
+  const { data: stats, isLoading: isStatsLoading, isFetching } = useDashboardStats();
+  const { data: reservations } = useReservations();
+  const checkInMutation = useCheckIn();
+  const checkOutMutation = useCheckOut();
 
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    setTimeout(() => {
-      setIsRefreshing(false);
-      toast.success("Dashboard operasional diperbarui!");
-    }, 250);
+  const handleRefresh = async () => {
+    await queryClient.invalidateQueries();
+    toast.success("Dashboard operasional diperbarui!");
   };
 
-  const handleCheckIn = (guestName: string, roomNumber: string) => {
-    toast.success(`Check-In berhasil untuk ${guestName} (${roomNumber})!`);
+  const handleCheckInAction = (id: string, guestName: string, roomNumber: string) => {
+    checkInMutation.mutate(
+      { id, input: { notes: "Check-in resepsionis" } },
+      {
+        onSuccess: () => {
+          toast.success(`Check-In berhasil untuk ${guestName} (${roomNumber})!`);
+        },
+      },
+    );
   };
 
-  const handleCheckOut = (guestName: string, roomNumber: string) => {
-    toast.success(`Check-Out selesai untuk ${guestName} (${roomNumber})!`);
+  const handleCheckOutAction = (id: string, guestName: string, roomNumber: string) => {
+    checkOutMutation.mutate(
+      { id, input: { markAsDirty: true, notes: "Check-out resepsionis" } },
+      {
+        onSuccess: () => {
+          toast.success(`Check-Out selesai untuk ${guestName} (${roomNumber})!`);
+        },
+      },
+    );
   };
+
+  // Occupancy metrics
+  const totalRooms = stats?.occupancy?.totalRooms ?? 8;
+  const occupiedRooms = stats?.occupancy?.occupiedRooms ?? 6;
+  const availableRooms = stats?.occupancy?.readyRooms ?? 2;
+  const cleaningRooms = stats?.occupancy?.dirtyRooms ?? 0;
+  const occupancyRate = stats?.occupancy?.occupancyRate ?? 75.0;
+
+  // Financial summary
+  const todayRevenue = stats?.todayRevenue ?? 1275000;
+  const todayArrivals = stats?.occupancy?.todayCheckIns ?? 1;
+
+  // Active reservations
+  const todayReservations = reservations?.items?.slice(0, 3) || [];
+
+
 
   return (
     <div className="space-y-6">
@@ -90,19 +92,9 @@ export function OperationalDashboard({
           </p>
         </div>
 
-        {/* Date & Real-time Live Clock Pill + Refresh Button */}
+        {/* Date & Real-time Live Clock Pill (Isolated for Zero Re-render Lag) + Refresh Button */}
         <div className="flex items-center gap-2 shrink-0">
-          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-purple-100/90 shadow-2xs text-xs font-bold text-slate-700">
-            <Calendar className="w-3.5 h-3.5 text-purple-700 shrink-0" />
-            <span className="text-slate-900 font-extrabold">
-              {dateStr || "Hari Ini"}
-            </span>
-            <span className="text-purple-200 font-bold">•</span>
-            <Clock className="w-3.5 h-3.5 text-purple-700 shrink-0" />
-            <span className="text-purple-900 font-black">
-              {timeStr || "Memuat WIT..."}
-            </span>
-          </div>
+          <LiveClockWIT />
 
           <button
             type="button"
@@ -111,24 +103,24 @@ export function OperationalDashboard({
             className="w-9 h-9 rounded-full border border-purple-100 bg-white hover:bg-purple-50 text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
           >
             <RotateCw
-              className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`}
+              className={`w-3.5 h-3.5 ${isFetching ? "animate-spin" : ""}`}
             />
           </button>
         </div>
       </div>
 
-      {/* 2. 12-COLUMN MODERN GRID LAYOUT (Batas Bawah Rata Mengikuti Housekeeping dengan items-stretch) */}
+      {/* 2. 12-COLUMN MODERN GRID LAYOUT */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-stretch">
         {/* ========================================================= */}
         {/* KOLOM KIRI (lg:col-span-4): HERO CARD & KPI OPERASIONAL */}
         {/* ========================================================= */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          {/* HERO CARD UNGU (Persis Kartu VISA Hijau di Referensi, versi Ungu Elegan Annisa) */}
+          {/* HERO CARD UNGU */}
           <div
             onClick={() => onNavigateTab("reports")}
             className="bg-gradient-to-br from-purple-700 via-purple-800 to-indigo-950 text-white rounded-3xl p-6 shadow-xl shadow-purple-950/15 relative overflow-hidden flex flex-col justify-between group cursor-pointer hover:shadow-2xl transition-all duration-300 min-h-[190px]"
           >
-            {/* Ornamen Glow Halus di Sudut */}
+            {/* Ornamen Glow Halus */}
             <div className="absolute -bottom-10 -right-10 w-44 h-44 bg-white/10 rounded-full blur-2xl pointer-events-none" />
             <div className="absolute -top-12 -left-12 w-36 h-36 bg-purple-400/20 rounded-full blur-xl pointer-events-none" />
 
@@ -143,7 +135,7 @@ export function OperationalDashboard({
               </div>
 
               <div className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-none text-white mb-2">
-                Rp 1.275.000
+                Rp {todayRevenue.toLocaleString("id-ID")}
               </div>
               <p className="text-xs text-purple-200 font-medium">
                 Sewa Kamar + Penjualan Etalase Oleh-oleh
@@ -153,10 +145,10 @@ export function OperationalDashboard({
             <div className="relative z-10 pt-4 mt-2 border-t border-white/15 flex items-center justify-between text-xs">
               <span className="font-bold text-white flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                6/8 Kamar Terisi (75%)
+                {occupiedRooms}/{totalRooms} Kamar Terisi ({occupancyRate}%)
               </span>
               <span className="text-[11px] bg-white/20 px-2.5 py-0.5 rounded-full font-extrabold text-white">
-                8 Unit
+                {totalRooms} Unit
               </span>
             </div>
           </div>
@@ -175,7 +167,7 @@ export function OperationalDashboard({
                   Tiba Hari Ini (WA)
                 </span>
                 <h3 className="text-base sm:text-lg font-black text-slate-900 leading-tight">
-                  1 Tamu Booking
+                  {todayArrivals} Tamu Booking
                 </h3>
                 <p className="text-xs text-purple-700 font-bold mt-0.5">
                   #B1 Hendra P. • Landing 14.30 WIT
@@ -185,7 +177,7 @@ export function OperationalDashboard({
             <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-purple-700 transition" />
           </div>
 
-          {/* KPI 2: Housekeeping / Kebersihan (Penentu Batas Bawah) */}
+          {/* KPI 2: Housekeeping / Kebersihan */}
           <div
             onClick={() => onNavigateTab("matrix")}
             className="bg-white rounded-3xl p-5 md:p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex items-center justify-between"
@@ -199,10 +191,14 @@ export function OperationalDashboard({
                   Housekeeping
                 </span>
                 <h3 className="text-base sm:text-lg font-black text-slate-900 leading-tight">
-                  1 Kamar Siap Bersih
+                  {cleaningRooms > 0
+                    ? `${cleaningRooms} Kamar Siap Bersih`
+                    : "Semua Kamar Siap Huni"}
                 </h3>
                 <p className="text-xs text-slate-500 font-medium mt-0.5">
-                  Kamar #A3 • Ganti Sprei &amp; Handuk
+                  {cleaningRooms > 0
+                    ? "Kamar #A3 • Ganti Sprei & Handuk"
+                    : "Standar kebersihan prima"}
                 </p>
               </div>
             </div>
@@ -223,8 +219,10 @@ export function OperationalDashboard({
                 </h3>
                 <p className="text-xs text-slate-400 font-medium">
                   Rata-rata:{" "}
-                  <span className="text-purple-700 font-bold">75.0%</span> (8
-                  Kamar Total)
+                  <span className="text-purple-700 font-bold">
+                    {occupancyRate}%
+                  </span>{" "}
+                  ({totalRooms} Kamar Total)
                 </p>
               </div>
 
@@ -255,7 +253,7 @@ export function OperationalDashboard({
               </div>
             </div>
 
-            {/* Visual Kapsul 7 Hari (Sen - Min) Bergaris Lembut */}
+            {/* Visual Kapsul 7 Hari */}
             <div className="h-36 flex items-end justify-between gap-1.5 sm:gap-2 pt-2 px-1">
               {[
                 { day: "Sen", occ: 62.5, count: "5/8" },
@@ -270,7 +268,6 @@ export function OperationalDashboard({
                   key={bar.day}
                   className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group"
                 >
-                  {/* Capsule Track & Fill */}
                   <div className="w-full max-w-[28px] h-full bg-[#f4f2f8] rounded-full p-0.5 flex flex-col justify-end overflow-hidden relative">
                     <div
                       style={{ height: `${bar.occ}%` }}
@@ -297,7 +294,7 @@ export function OperationalDashboard({
             </div>
           </div>
 
-          {/* STATUS KETERISIAN TIPE KAMAR (Menyesuaikan Tinggi agar Rata Bawah dengan Housekeeping) */}
+          {/* STATUS KETERISIAN TIPE KAMAR */}
           <div className="flex-1 bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs flex flex-col justify-between space-y-4">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between">
@@ -310,7 +307,7 @@ export function OperationalDashboard({
                   </span>
                 </div>
                 <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
-                  6 / 8 Terisi
+                  {occupiedRooms} / {totalRooms} Terisi
                 </span>
               </div>
 
@@ -348,9 +345,9 @@ export function OperationalDashboard({
             </div>
 
             <div className="pt-3 border-t border-purple-50 flex items-center justify-between text-[11px] text-slate-400 font-medium">
-              <span>8 Kamar Transit Standar Sama</span>
+              <span>{totalRooms} Kamar Transit Standar Sama</span>
               <span className="text-purple-700 font-bold">
-                2 Kamar Tersedia
+                {availableRooms} Kamar Tersedia
               </span>
             </div>
           </div>
@@ -360,7 +357,7 @@ export function OperationalDashboard({
         {/* KOLOM KANAN (lg:col-span-4): ETALASE POS & AGENDA TAMU */}
         {/* ========================================================= */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          {/* WIDGET ETALASE KASIR POS / TITIP AMBIL */}
+          {/* WIDGET ETALASE KASIR POS */}
           <div
             onClick={() => onNavigateTab("pos")}
             className="bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
@@ -391,7 +388,7 @@ export function OperationalDashboard({
             </div>
           </div>
 
-          {/* TABEL AKTIVITAS TAMU & AGENDA HARI INI (Menyesuaikan Tinggi agar Rata Bawah dengan Housekeeping) */}
+          {/* TABEL AKTIVITAS TAMU & AGENDA HARI INI */}
           <div className="flex-1 bg-white rounded-3xl p-6 border border-purple-100/90 shadow-2xs flex flex-col justify-between space-y-3">
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -409,7 +406,7 @@ export function OperationalDashboard({
               </div>
 
               <div className="space-y-2.5">
-                {/* Row 1: Hendra Pratama */}
+                {/* Fallback item 1 */}
                 <div className="p-3 rounded-2xl bg-[#faf9fd] border border-purple-50 flex items-center justify-between gap-2 hover:bg-purple-50/50 transition">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="w-8 h-8 rounded-xl bg-purple-700 text-white font-black text-xs flex items-center justify-center shrink-0">
@@ -426,14 +423,16 @@ export function OperationalDashboard({
                   </div>
                   <Button
                     size="sm"
-                    onClick={() => handleCheckIn("Hendra Pratama", "#B1")}
+                    onClick={() =>
+                      handleCheckInAction("demo-1", "Hendra Pratama", "#B1")
+                    }
                     className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-bold text-[11px] h-7 px-3 shrink-0 cursor-pointer shadow-2xs"
                   >
                     Check-In
                   </Button>
                 </div>
 
-                {/* Row 2: Budi Santoso */}
+                {/* Fallback item 2 */}
                 <div className="p-3 rounded-2xl bg-[#faf9fd] border border-purple-50 flex items-center justify-between gap-2 hover:bg-purple-50/50 transition">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 font-black text-xs flex items-center justify-center shrink-0 border border-purple-200/60">
@@ -451,7 +450,9 @@ export function OperationalDashboard({
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => handleCheckOut("Budi Santoso", "#A2")}
+                    onClick={() =>
+                      handleCheckOutAction("demo-2", "Budi Santoso", "#A2")
+                    }
                     className="rounded-full border border-purple-200 bg-white hover:bg-purple-50 text-purple-900 font-bold text-[11px] h-7 px-3 shrink-0 cursor-pointer"
                   >
                     Check-Out

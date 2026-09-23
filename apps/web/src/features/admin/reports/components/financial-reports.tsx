@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { Button } from "../../../../components/ui/button";
 import { RevenueStatsCards } from "./revenue-stats-cards";
 import { type TransactionRecord, TransactionTable } from "./transaction-table";
+import { reportsApi } from "@/lib/api/reports.api";
+import { useQueryClient } from "@tanstack/react-query";
 
 const RECENT_TRANSACTIONS: TransactionRecord[] = [
   {
@@ -57,18 +59,38 @@ const RECENT_TRANSACTIONS: TransactionRecord[] = [
 
 export function FinancialReports() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [isExporting, setIsExporting] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
-  const handleExport = () => {
-    toast.success(
-      "File laporan omzet bulan ini berhasil digenerate dan siap diunduh! 📊",
-    );
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      const blob = await reportsApi.exportReservationsCsv();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `laporan-reservasi-annisa-${new Date().toISOString().split("T")[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      toast.success(
+        "File laporan CSV berhasil digenerate dan diunduh! 📊",
+      );
+    } catch (err) {
+      toast.error("Gagal mengekspor laporan CSV.");
+    } finally {
+      setIsExporting(false);
+    }
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setIsRefreshing(true);
+    await queryClient.invalidateQueries();
     toast.success("Laporan omzet & okupansi kamar telah diperbarui!");
-    setTimeout(() => setIsRefreshing(false), 500);
+    setIsRefreshing(false);
   };
+
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">

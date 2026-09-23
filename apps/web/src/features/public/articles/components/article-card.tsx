@@ -1,5 +1,6 @@
 import { ArrowRight, Calendar, Tag } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export interface ArticleItem {
   id: string;
@@ -20,11 +21,11 @@ interface ArticleCardProps {
 export function ArticleCard({ article }: ArticleCardProps) {
   return (
     <article className="bg-white rounded-3xl border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
-      <div>
+      <Link href={`/artikel/${article.slug}`} className="block">
         {/* Article Thumbnail (100% Bersih Tanpa Badge Penutup) */}
         <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden">
           <Image
-            src={article.image}
+            src={article.image || "/artikel/bermain-perahu-di-pantai-liang.jpg"}
             alt={article.title}
             fill
             className="object-cover group-hover:scale-105 transition duration-500"
@@ -53,7 +54,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
             {article.desc}
           </p>
         </div>
-      </div>
+      </Link>
 
       {/* Bottom Read More Action */}
       <div className="p-4 sm:p-5 pt-0">
@@ -61,12 +62,16 @@ export function ArticleCard({ article }: ArticleCardProps) {
           <span className="text-[11px] text-slate-400 font-normal">
             {article.author}
           </span>
-          <span className="inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform cursor-pointer">
+          <Link
+            href={`/artikel/${article.slug}`}
+            className="inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform cursor-pointer"
+          >
             <span>Baca Selengkapnya</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </span>
+          </Link>
         </div>
       </div>
     </article>
   );
 }
+
