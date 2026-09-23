@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Footer } from "../../components/layout/footer";
-import { Navbar } from "../../components/layout/navbar";
-import type { ArticleItem } from "../../features/public/articles/components/article-card";
-import { ArticleFilter } from "../../features/public/articles/components/article-filter";
-import { ArticleGrid } from "../../features/public/articles/components/article-grid";
-import { ArticleHero } from "../../features/public/articles/components/article-hero";
+import type { ArticleItem } from "@/features/public/articles/components/article-card";
+import { ArticleFilter } from "@/features/public/articles/components/article-filter";
+import { ArticleGrid } from "@/features/public/articles/components/article-grid";
+import { ArticleHero } from "@/features/public/articles/components/article-hero";
 
 const CATEGORIES = [
   "Semua",
@@ -81,8 +79,7 @@ export default function ArtikelPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#faf9fc] text-slate-900 font-sans selection:bg-purple-200 selection:text-purple-900">
-      <Navbar />
+    <div className="w-full">
       <ArticleHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <ArticleFilter
         categories={CATEGORIES}
@@ -97,7 +94,6 @@ export default function ArtikelPage() {
           setActiveCategory("Semua");
         }}
       />
-      <Footer />
     </div>
   );
 }

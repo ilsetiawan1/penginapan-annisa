@@ -9,4 +9,9 @@ export const authApi = {
   getMe: async (): Promise<User> => {
     return apiClient.get<User>("/auth/me");
   },
+
+  logout: async (): Promise<{ success: boolean; message: string }> => {
+    return apiClient.post<{ success: boolean; message: string }>("/auth/logout");
+  },
 };
+

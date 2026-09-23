@@ -1,16 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Footer } from "../../components/layout/footer";
-import { Navbar } from "../../components/layout/navbar";
-import type { RoomItem } from "../../features/public/rooms/components/room-card";
-import { RoomFilter } from "../../features/public/rooms/components/room-filter";
-import { RoomGrid } from "../../features/public/rooms/components/room-grid";
-import { RoomHero } from "../../features/public/rooms/components/room-hero";
+import type { RoomItem } from "@/features/public/rooms/components/room-card";
+import { RoomFilter } from "@/features/public/rooms/components/room-filter";
+import { RoomGrid } from "@/features/public/rooms/components/room-grid";
+import { RoomHero } from "@/features/public/rooms/components/room-hero";
 
-// 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SESUAI PRD & TRD)
 const ROOMS_DATA: RoomItem[] = [
-  // BANGUNAN A
   {
     number: "A1",
     name: "Kamar A1",
@@ -63,7 +59,7 @@ const ROOMS_DATA: RoomItem[] = [
       "WiFi Gratis Kencang",
       "Handuk Bersih & Air Mineral",
     ],
-    image: "/rooms/room-kipas-201.jpg",
+    image: "/rooms/room-kipas-103.jpg",
   },
   {
     number: "A4",
@@ -81,10 +77,8 @@ const ROOMS_DATA: RoomItem[] = [
       "WiFi Gratis Kencang",
       "Handuk Bersih & Air Mineral",
     ],
-    image: "/rooms/room-kipas-202.jpg",
+    image: "/rooms/room-kipas-104.jpg",
   },
-
-  // BANGUNAN B
   {
     number: "B1",
     name: "Kamar B1",
@@ -101,7 +95,7 @@ const ROOMS_DATA: RoomItem[] = [
       "WiFi Gratis Kencang",
       "Handuk Bersih & Air Mineral",
     ],
-    image: "/rooms/room-ac-101.jpg",
+    image: "/rooms/room-ac-201.jpg",
   },
   {
     number: "B2",
@@ -119,13 +113,13 @@ const ROOMS_DATA: RoomItem[] = [
       "WiFi Gratis Kencang",
       "Handuk Bersih & Air Mineral",
     ],
-    image: "/rooms/room-ac-102.jpg",
+    image: "/rooms/room-ac-202.jpg",
   },
   {
     number: "B3",
     name: "Kamar B3",
     type: "kipas",
-    status: "terisi",
+    status: "tersedia",
     price: "200.000",
     dp: "100.000",
     bed: "1 Kasur Besar (Double Bed)",
@@ -186,8 +180,7 @@ export default function KamarPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#faf9fc] text-slate-900 font-sans selection:bg-purple-200 selection:text-purple-900">
-      <Navbar />
+    <div className="w-full">
       <RoomHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <RoomFilter
         checkInDate={checkInDate}
@@ -208,7 +201,6 @@ export default function KamarPage() {
           setNights(1);
         }}
       />
-      <Footer />
     </div>
   );
 }

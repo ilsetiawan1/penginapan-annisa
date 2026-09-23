@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Footer } from "../../components/layout/footer";
-import { Navbar } from "../../components/layout/navbar";
-import { SouvenirFilter } from "../../features/public/souvenirs/components/souvenir-filter";
-import { SouvenirGrid } from "../../features/public/souvenirs/components/souvenir-grid";
-import { SouvenirHero } from "../../features/public/souvenirs/components/souvenir-hero";
-import { SOUVENIR_COLLECTION } from "../../features/public/souvenirs/data";
+import { SouvenirFilter } from "@/features/public/souvenirs/components/souvenir-filter";
+import { SouvenirGrid } from "@/features/public/souvenirs/components/souvenir-grid";
+import { SouvenirHero } from "@/features/public/souvenirs/components/souvenir-hero";
+import { SOUVENIR_COLLECTION } from "@/features/public/souvenirs/data";
 
 const CATEGORIES = ["Semua", "Makanan & Camilan", "Minyak & Herbal"];
 
@@ -26,8 +24,7 @@ export default function OlehOlehPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#faf9fc] text-slate-900 font-sans selection:bg-purple-200 selection:text-purple-900">
-      <Navbar />
+    <div className="w-full">
       <SouvenirHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <SouvenirFilter
         categories={CATEGORIES}
@@ -42,7 +39,6 @@ export default function OlehOlehPage() {
           setActiveCategory("Semua");
         }}
       />
-      <Footer />
     </div>
   );
 }

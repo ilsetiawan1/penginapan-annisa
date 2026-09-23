@@ -1,8 +1,9 @@
 "use client";
 
-import { Bell, Menu, Settings } from "lucide-react";
+import { Bell, Menu, Settings, LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 import type { AdminRole } from "../../../../components/layout/admin-sidebar";
 
 interface AdminTopbarProps {
@@ -13,14 +14,15 @@ interface AdminTopbarProps {
   onOpenMobileSidebar: () => void;
 }
 
-
 export function AdminTopbar({
   currentRole,
   activeTab,
   onTabChange,
   onOpenMobileSidebar,
 }: AdminTopbarProps) {
+  const { logout } = useAuth();
   const navPills = [
+
     { id: "dashboard", label: "Dashboard", roles: ["owner", "staff"] },
     { id: "matrix", label: "Status Kamar", roles: ["owner", "staff"] },
     { id: "bookings", label: "Booking WA", roles: ["owner", "staff"] },
@@ -99,21 +101,27 @@ export function AdminTopbar({
           <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
         </button>
 
-        {/* User Profile Avatar with Clickable Settings Link */}
-        <button
-          type="button"
-          onClick={() => onTabChange("settings")}
-          title="Buka Pengaturan Sistem"
-          className="flex items-center gap-2 p-1 pr-2.5 rounded-full bg-purple-50 hover:bg-purple-100 border border-purple-150/80 transition cursor-pointer"
-        >
+        {/* User Profile Avatar */}
+        <div className="flex items-center gap-2 p-1 pr-2.5 rounded-full bg-purple-50 border border-purple-150/80">
           <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-purple-700 to-indigo-800 text-white flex items-center justify-center font-black text-xs shadow-xs ring-2 ring-purple-200">
-            {currentRole === "owner" ? "O" : "S"}
+            {currentRole === "owner" ? "👑" : "🛎️"}
           </div>
           <span className="text-xs font-extrabold text-purple-950 hidden sm:inline">
             {currentRole === "owner" ? "Owner" : "Staf"}
           </span>
+        </div>
+
+        {/* Tombol Logout */}
+        <button
+          type="button"
+          onClick={() => logout()}
+          title="Keluar dari PMS"
+          className="w-9 h-9 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 flex items-center justify-center text-rose-700 transition cursor-pointer shrink-0"
+        >
+          <LogOut className="w-4 h-4" />
         </button>
       </div>
     </header>
   );
 }
+
