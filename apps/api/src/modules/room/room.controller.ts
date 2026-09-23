@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
+import type { BuildingBlock, RoomStatus } from "@annisa/types";
 import { sendSuccess } from "../../utils/response.util";
 import { roomService, type RoomService } from "./room.service";
 
@@ -12,8 +13,8 @@ export class RoomController {
   getAllRooms = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { building, status } = req.query as {
-        building?: string;
-        status?: string;
+        building?: BuildingBlock;
+        status?: RoomStatus;
       };
       const rooms = await this.service.getAllRooms({ building, status });
       return sendSuccess(res, rooms, "Daftar kamar berhasil diambil.");
@@ -28,7 +29,7 @@ export class RoomController {
     next: NextFunction,
   ) => {
     try {
-      const { roomNumber } = req.params;
+      const { roomNumber } = req.params as { roomNumber: string };
       const room = await this.service.getRoomByNumber(roomNumber);
       return sendSuccess(res, room, `Data kamar ${roomNumber} berhasil diambil.`);
     } catch (error) {
@@ -42,7 +43,7 @@ export class RoomController {
     next: NextFunction,
   ) => {
     try {
-      const { roomNumber } = req.params;
+      const { roomNumber } = req.params as { roomNumber: string };
       const updated = await this.service.updateRoomStatus(
         roomNumber,
         req.body,
@@ -76,7 +77,7 @@ export class RoomController {
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const type = await this.service.getRoomTypeById(id);
       return sendSuccess(res, type, "Data tipe kamar berhasil diambil.");
     } catch (error) {
@@ -86,7 +87,7 @@ export class RoomController {
 
   updateRoomRate = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const updated = await this.service.updateRoomRate(id, req.body);
       return sendSuccess(
         res,

@@ -37,7 +37,7 @@ export class ArticleController {
     next: NextFunction,
   ) => {
     try {
-      const { slug } = req.params;
+      const { slug } = req.params as { slug: string };
       const article = await this.service.getArticleBySlug(slug);
       return sendSuccess(res, article, "Detail artikel berhasil diambil.");
     } catch (error) {
@@ -75,7 +75,7 @@ export class ArticleController {
 
   updateArticle = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const updated = await this.service.updateArticle(id, req.body);
       return sendSuccess(res, updated, "Artikel berhasil diperbarui.");
     } catch (error) {
@@ -85,7 +85,7 @@ export class ArticleController {
 
   deleteArticle = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const result = await this.service.deleteArticle(id);
       return sendSuccess(res, result, "Artikel berhasil dihapus.");
     } catch (error) {

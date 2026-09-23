@@ -74,3 +74,10 @@ export const posCheckoutInputSchema = z.object({
   cashReceived: z.number().int().nonnegative().optional(),
 });
 export type PosCheckoutInput = z.infer<typeof posCheckoutInputSchema>;
+
+export const souvenirQuerySchema = z.object({
+  categorySlug: z.string().optional(),
+  isAvailable: z.boolean().optional(),
+});
+export type SouvenirQuery = z.infer<typeof souvenirQuerySchema>;
+

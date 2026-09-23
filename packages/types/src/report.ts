@@ -36,3 +36,17 @@ export const monthlyRevenueReportSchema = z.object({
   grandTotalRevenue: z.number().int().nonnegative(),
 });
 export type MonthlyRevenueReport = z.infer<typeof monthlyRevenueReportSchema>;
+
+export const monthlyRevenueQuerySchema = z.object({
+  month: z.string().regex(/^\d{4}-\d{2}$/, "Format bulan YYYY-MM").optional(),
+});
+export type MonthlyRevenueQuery = z.infer<typeof monthlyRevenueQuerySchema>;
+
+export const exportReservationsQuerySchema = z.object({
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+});
+export type ExportReservationsQuery = z.infer<
+  typeof exportReservationsQuerySchema
+>;
+

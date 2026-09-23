@@ -34,7 +34,7 @@ export class SouvenirRepository {
     return prisma.souvenirCategory.findMany({
       orderBy: { name: "asc" },
       include: {
-        souvenirs: true,
+        items: true,
       },
     });
   }

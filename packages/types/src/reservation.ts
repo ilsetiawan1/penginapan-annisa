@@ -110,3 +110,13 @@ export const checkOutInputSchema = z.object({
   markAsDirty: z.boolean().default(true),
 });
 export type CheckOutInput = z.infer<typeof checkOutInputSchema>;
+
+export const reservationQuerySchema = z.object({
+  status: reservationStatusSchema.optional(),
+  search: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  page: z.number().int().positive().optional(),
+  limit: z.number().int().positive().optional(),
+});
+export type ReservationQuery = z.infer<typeof reservationQuerySchema>;

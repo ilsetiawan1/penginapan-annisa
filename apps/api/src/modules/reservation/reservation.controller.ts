@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
+import type { ReservationStatus } from "@annisa/types";
 import { sendSuccess } from "../../utils/response.util";
 import { HTTP_STATUS } from "../../constants";
 import {
@@ -21,7 +22,7 @@ export class ReservationController {
     try {
       const { status, search, startDate, endDate, page, limit } =
         req.query as {
-          status?: string;
+          status?: ReservationStatus;
           search?: string;
           startDate?: string;
           endDate?: string;
@@ -50,7 +51,7 @@ export class ReservationController {
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const reservation = await this.service.getReservationById(id);
       return sendSuccess(res, reservation, "Detail reservasi berhasil diambil.");
     } catch (error) {
@@ -100,7 +101,7 @@ export class ReservationController {
 
   confirmDp = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const updated = await this.service.confirmDp(id, req.body);
       return sendSuccess(
         res,
@@ -114,7 +115,7 @@ export class ReservationController {
 
   checkIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const updated = await this.service.checkIn(id, req.body);
       return sendSuccess(
         res,
@@ -128,7 +129,7 @@ export class ReservationController {
 
   checkOut = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const updated = await this.service.checkOut(id, req.body);
       return sendSuccess(
         res,
@@ -142,7 +143,7 @@ export class ReservationController {
 
   getReceipt = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const receipt = await this.service.getReceipt(id);
       return sendSuccess(res, receipt, "Kuitansi digital berhasil digenerate.");
     } catch (error) {

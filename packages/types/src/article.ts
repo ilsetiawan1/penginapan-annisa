@@ -51,3 +51,11 @@ export const updateArticleInputSchema = z.object({
   isPublished: z.boolean().optional(),
 });
 export type UpdateArticleInput = z.infer<typeof updateArticleInputSchema>;
+
+export const articleQuerySchema = z.object({
+  categorySlug: z.string().optional(),
+  isPublished: z.boolean().optional(),
+  search: z.string().optional(),
+});
+export type ArticleQuery = z.infer<typeof articleQuerySchema>;
+

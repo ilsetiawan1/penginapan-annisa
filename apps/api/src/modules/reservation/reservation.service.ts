@@ -7,6 +7,8 @@ import type {
   ConfirmDpInput,
   CreateOnlineBookingInput,
   CreateWalkInBookingInput,
+  PaymentMethod,
+  ReservationQuery,
 } from "@annisa/types";
 import {
   reservationRepository,
@@ -36,14 +38,7 @@ export class ReservationService {
     return diffDays;
   }
 
-  async getAllReservations(params: {
-    status?: string;
-    search?: string;
-    startDate?: string;
-    endDate?: string;
-    page?: number;
-    limit?: number;
-  }) {
+  async getAllReservations(params: ReservationQuery) {
     return this.repo.findReservations(params);
   }
 
@@ -228,7 +223,7 @@ export class ReservationService {
       paymentStatus,
       dpAmount: input.dpAmount,
       remainingAmount,
-      paymentMethod: input.paymentMethod || resv.paymentMethod,
+      paymentMethod: (input.paymentMethod || resv.paymentMethod) as PaymentMethod,
       notes: input.notes || resv.notes || undefined,
     });
 
@@ -263,7 +258,7 @@ export class ReservationService {
       status: "checked_in",
       paymentStatus: "paid",
       remainingAmount: 0,
-      paymentMethod: input.paymentMethod || resv.paymentMethod,
+      paymentMethod: (input.paymentMethod || resv.paymentMethod) as PaymentMethod,
       notes: input.notes || resv.notes || undefined,
     });
 

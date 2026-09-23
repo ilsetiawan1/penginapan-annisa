@@ -31,7 +31,7 @@ export class SouvenirController {
 
   getSouvenirById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const item = await this.service.getSouvenirById(id);
       return sendSuccess(res, item, "Detail produk berhasil diambil.");
     } catch (error) {
@@ -68,7 +68,7 @@ export class SouvenirController {
 
   updateSouvenir = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const updated = await this.service.updateSouvenir(id, req.body);
       return sendSuccess(res, updated, "Data produk berhasil diperbarui.");
     } catch (error) {
@@ -78,7 +78,7 @@ export class SouvenirController {
 
   deleteSouvenir = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const result = await this.service.deleteSouvenir(id);
       return sendSuccess(res, result, "Produk berhasil dihapus.");
     } catch (error) {

@@ -67,3 +67,10 @@ export const updateRoomRateInputSchema = z.object({
   description: z.string().optional(),
 });
 export type UpdateRoomRateInput = z.infer<typeof updateRoomRateInputSchema>;
+
+export const roomQuerySchema = z.object({
+  building: buildingBlockSchema.optional(),
+  status: roomStatusSchema.optional(),
+});
+export type RoomQuery = z.infer<typeof roomQuerySchema>;
+
