@@ -83,33 +83,43 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center shrink-0 mt-0.5">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="text-xs font-bold text-slate-900">WhatsApp Resmi</h3>
-                    <p className="text-xs text-slate-600 mt-0.5">+{ANNISA_WA_NUMBER}</p>
-                  </div>
-                </div>
-              </div>
-
-              <Button
-                asChild
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/20"
-              >
                 <a
                   href={`https://wa.me/${ANNISA_WA_NUMBER}?text=Halo%20Penginapan%20Annisa,%20saya%20ingin%20bertanya%20informasi%20kamar.`}
                   target="_blank"
                   rel="noreferrer"
+                  className="flex items-start gap-3 p-3 rounded-2xl bg-white border border-purple-100 hover:border-purple-300 hover:shadow-sm transition group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-700 group-hover:text-white transition">
+                    <Phone className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-purple-700 transition">
+                      WhatsApp &amp; Telepon
+                    </h3>
+                    <p className="text-xs text-purple-700 font-bold mt-0.5">
+                      +{ANNISA_WA_NUMBER} ➔
+                    </p>
+                  </div>
+                </a>
+              </div>
+
+              <Button
+                asChild
+                className="w-full bg-purple-700 hover:bg-purple-800 text-white rounded-xl text-xs font-bold shadow-md shadow-purple-950/15 h-11"
+              >
+                <a
+                  href="https://maps.app.goo.gl/PskXAUZuGD7NeMoL7"
+                  target="_blank"
+                  rel="noreferrer"
                   className="flex items-center justify-center gap-2"
                 >
-                  <FaWhatsapp className="w-4 h-4" />
-                  <span>Chat WhatsApp Resepsionis</span>
+                  <Navigation className="w-4 h-4" />
+                  <span>Buka Rute di Google Maps (750m)</span>
                 </a>
               </Button>
             </div>
           </div>
+
 
           {/* Kolom Kanan: Frame Visual Google Maps */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-3 p-1 sm:p-2">

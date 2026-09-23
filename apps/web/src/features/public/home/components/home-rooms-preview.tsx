@@ -186,7 +186,7 @@ export function HomeRoomsPreview() {
                         {isCenter ? (
                           <Button
                             asChild
-                            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
+                            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
                           >
                             <a
                               href={getRoomBookingWhatsAppUrl({
@@ -197,7 +197,7 @@ export function HomeRoomsPreview() {
                               target="_blank"
                               rel="noreferrer"
                             >
-                              <FaWhatsapp className="w-4 h-4" />
+                              <Bed className="w-4 h-4" />
                               <span>Pesan Kamar</span>
                             </a>
                           </Button>
@@ -206,6 +206,7 @@ export function HomeRoomsPreview() {
                             <Bed className="w-4 h-4" />
                           </div>
                         )}
+
                       </div>
                     </div>
                   </div>

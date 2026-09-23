@@ -1,8 +1,5 @@
-"use client";
-
-import { Tag } from "lucide-react";
+import { ShoppingBag, Tag } from "lucide-react";
 import Image from "next/image";
-import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
 import type { SouvenirProduct } from "../data";
@@ -60,7 +57,7 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
         </div>
       </div>
 
-      {/* Baris Bawah: Harga & Aksi WhatsApp (Responsif: Rapi Vertikal di Mobile, Pas & Non-Breaking di Tablet & Desktop) */}
+      {/* Baris Bawah: Harga & Aksi Titip Ambil */}
       <div className="p-2.5 sm:p-3.5 md:p-4 pt-0 border-t border-slate-100 mt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2">
         <span className="text-xs sm:text-xs md:text-sm lg:text-base font-black text-purple-700 leading-none whitespace-nowrap">
           {item.price}
@@ -68,10 +65,10 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
 
         <Button
           asChild
-          className="w-full sm:w-auto rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-[10px] sm:text-[10px] md:text-[11px] lg:text-xs h-7 sm:h-7.5 md:h-8 lg:h-9 px-2 sm:px-2.5 md:px-3 gap-1 shadow-2xs hover:shadow-md transition-all cursor-pointer shrink-0"
+          className="w-full sm:w-auto rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-[10px] sm:text-[10px] md:text-[11px] lg:text-xs h-7 sm:h-7.5 md:h-8 lg:h-9 px-2.5 sm:px-3 gap-1.5 shadow-2xs hover:shadow-md transition-all cursor-pointer shrink-0"
         >
           <a href={waUrl} target="_blank" rel="noreferrer">
-            <FaWhatsapp className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
+            <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
             <span className="truncate">Titip Ambil</span>
           </a>
         </Button>
@@ -79,3 +76,4 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
     </div>
   );
 }
+

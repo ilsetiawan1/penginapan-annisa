@@ -95,25 +95,22 @@ export function Navbar() {
 
         {/* Right Action Buttons */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* WA Button */}
+          {/* Booking CTA Button */}
           <Button
             asChild
             variant="primary"
             size="sm"
-            className="rounded-full w-8 h-8 sm:w-auto sm:h-auto p-0 sm:px-4 sm:py-1.5 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-xs flex items-center justify-center shrink-0 transition"
-            title="Chat WhatsApp Resmi"
+            className="rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs flex items-center justify-center shrink-0 transition"
+            title="Pilih dan Pesan Kamar Transit"
           >
-            <a
-              href="https://wa.me/6281242163116?text=Halo%20Penginapan%20Annisa,%20saya%20ingin%20tanya%20ketersediaan%20kamar%20transit"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaWhatsapp className="w-4 h-4" />
-              <span className="hidden sm:inline sm:ml-1.5">WhatsApp</span>
-            </a>
+            <Link href="/kamar">
+              <Bed className="w-3.5 h-3.5 mr-1.5" />
+              <span>Pesan Kamar</span>
+            </Link>
           </Button>
 
           {/* Hamburger Menu Toggle (Tampil di Mobile & Tablet Portrait < 1024px) */}
+
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

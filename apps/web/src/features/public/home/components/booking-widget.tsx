@@ -244,13 +244,13 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
             </div>
           </div>
 
-          {/* Tombol Pesan via WhatsApp Lebar Penuh */}
+          {/* Tombol Reservasi Lebar Penuh */}
           <Button
             type="button"
             onClick={handleBooking}
             className="w-full rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-11 gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center"
           >
-            <span>Pesan via WhatsApp Sekarang</span>
+            <span>Lanjut Reservasi (DP 50%)</span>
             <span className="text-xs">➔</span>
           </Button>
         </div>
@@ -258,3 +258,4 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
     </Card>
   );
 }
+

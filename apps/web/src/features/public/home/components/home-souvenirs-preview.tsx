@@ -151,14 +151,14 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
                         {isCenter ? (
                           <Button
                             asChild
-                            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
+                            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
                           >
                             <a
                               href={getItemWaUrl(item)}
                               target="_blank"
                               rel="noreferrer"
                             >
-                              <FaWhatsapp className="w-4 h-4" />
+                              <ShoppingBag className="w-4 h-4" />
                               <span>Titip Ambil</span>
                             </a>
                           </Button>
@@ -167,6 +167,7 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
                             <ShoppingBag className="w-4 h-4" />
                           </div>
                         )}
+
                       </div>
                     </div>
                   </div>
