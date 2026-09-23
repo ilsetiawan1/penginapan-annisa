@@ -16,8 +16,10 @@ import {
   type SouvenirProduct,
 } from "../../souvenirs/data";
 import { SouvenirOrderModal } from "../../souvenirs/components/souvenir-order-modal";
+import { FloatingCartBar } from "../../souvenirs/components/floating-cart-bar";
 
 export function HomeSouvenirsPreview() {
+
   const featuredSouvenirs = SOUVENIR_COLLECTION.slice(0, 5);
   const [activeIndex, setActiveIndex] = useState<number>(2); // Default Tengah
   const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
@@ -200,6 +202,10 @@ export function HomeSouvenirsPreview() {
         isOpen={!!selectedItem}
         onClose={() => setSelectedItem(null)}
       />
+
+      {/* Floating Cart Bar Ringkasan */}
+      <FloatingCartBar />
     </div>
   );
 }
+

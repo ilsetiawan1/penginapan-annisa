@@ -9,7 +9,6 @@ import {
   Store,
   Tag,
   User,
-  Phone,
   Calendar,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
@@ -17,7 +16,9 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 import type { SouvenirProduct } from "../data";
+import { cartStore } from "../hooks/use-cart";
 import { toast } from "sonner";
+
 
 interface SouvenirOrderModalProps {
   item: SouvenirProduct | null;
@@ -37,7 +38,6 @@ export function SouvenirOrderModal({
     return new Date().toISOString().split("T")[0];
   });
   const [pickupTime, setPickupTime] = useState<string>("14:00");
-  const [notes, setNotes] = useState<string>("");
 
   if (!item) return null;
 
@@ -84,7 +84,6 @@ export function SouvenirOrderModal({
 • Nama Pemesan: *${guestName.trim()}*
 • No. WhatsApp: *${guestPhone.trim()}*
 • *Estimasi Waktu Ambil:* *${effectivePickupSchedule}*
-• Catatan Khusus: *${notes.trim() || "-"}*
 
 📍 *Lokasi Pengambilan:* Meja Resepsionis Penginapan Annisa (750m Bandara Pattimura).
 Mohon disiapkan sebelum kedatangan saya. Terima kasih! 🙏`;
@@ -231,20 +230,6 @@ Mohon disiapkan sebelum kedatangan saya. Terima kasih! 🙏`;
                 />
               </div>
             </div>
-
-            {/* Catatan Khusus */}
-            <div className="pt-0.5">
-              <label className="text-[10px] font-bold text-slate-700 block mb-1">
-                Catatan Tambahan (Opsional)
-              </label>
-              <input
-                type="text"
-                placeholder="Contoh: Tolong dikemas aman bagasi pesawat"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                className="w-full bg-[#faf9fd] border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
-              />
-            </div>
           </div>
 
           {/* 3. Catatan Ringkas & Padat Konsep Layanan */}
@@ -257,9 +242,9 @@ Mohon disiapkan sebelum kedatangan saya. Terima kasih! 🙏`;
             </p>
           </div>
 
-          {/* 4. Total & Tombol Kirim WhatsApp */}
-          <div className="pt-1">
-            <div className="flex items-center justify-between mb-2.5 px-1">
+          {/* 4. Total & Tombol Aksi */}
+          <div className="pt-1 space-y-2">
+            <div className="flex items-center justify-between px-1">
               <span className="text-[11px] font-bold text-slate-500">
                 Total Tagihan ({quantity} unit):
               </span>
@@ -268,16 +253,35 @@ Mohon disiapkan sebelum kedatangan saya. Terima kasih! 🙏`;
               </strong>
             </div>
 
-            <Button
-              onClick={handleSendOrder}
-              className="w-full h-10 sm:h-11 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm gap-2 shadow-md shadow-purple-900/20 hover:shadow-lg transition cursor-pointer"
-            >
-              <FaWhatsapp className="w-4 h-4" />
-              <span>Kirim Pesanan ke WhatsApp Resepsionis</span>
-            </Button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  cartStore.addItem(item, quantity);
+                  toast.success(
+                    `${quantity}x ${item.name} berhasil dimasukkan ke keranjang! 🛍️`,
+                  );
+                  onClose();
+                }}
+                className="w-full h-10 rounded-2xl border-purple-200 hover:bg-purple-50 text-purple-900 font-bold text-xs gap-1.5 transition cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Keranjang</span>
+              </Button>
+
+              <Button
+                onClick={handleSendOrder}
+                className="w-full h-10 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs gap-1.5 shadow-md shadow-purple-900/20 hover:shadow-lg transition cursor-pointer"
+              >
+                <FaWhatsapp className="w-4 h-4" />
+                <span>Pesan via WhatsApp</span>
+              </Button>
+            </div>
           </div>
         </div>
       </DialogContent>
     </Dialog>
   );
 }
+

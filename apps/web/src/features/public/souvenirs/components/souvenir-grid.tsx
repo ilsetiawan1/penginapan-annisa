@@ -5,6 +5,7 @@ import { Button } from "../../../../components/ui/button";
 import type { SouvenirProduct } from "../data";
 import { SouvenirCard } from "./souvenir-card";
 import { SouvenirOrderModal } from "./souvenir-order-modal";
+import { FloatingCartBar } from "./floating-cart-bar";
 
 interface SouvenirGridProps {
   items: SouvenirProduct[];
@@ -64,13 +65,17 @@ export function SouvenirGrid({
         </div>
       )}
 
-      {/* Modal Interaktif Pemesanan Titip Ambil */}
+      {/* Modal Interaktif Pemesanan Titip Ambil Langsung */}
       <SouvenirOrderModal
         item={selectedItem}
         isOpen={!!selectedItem}
         onClose={() => setSelectedItem(null)}
       />
+
+      {/* Floating Bar Ringkasan Keranjang Belanja */}
+      <FloatingCartBar />
     </section>
   );
 }
+
 
