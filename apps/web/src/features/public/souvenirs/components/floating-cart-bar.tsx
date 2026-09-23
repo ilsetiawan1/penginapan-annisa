@@ -13,34 +13,36 @@ export function FloatingCartBar() {
 
   return (
     <>
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 animate-in fade-in slide-in-from-bottom-4 duration-300 w-full max-w-md px-4 pointer-events-none">
+      <div className="fixed bottom-4 inset-x-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-40 animate-in fade-in slide-in-from-bottom-4 duration-300 sm:w-full sm:max-w-md pointer-events-none">
         <div
           onClick={() => setIsCartOpen(true)}
-          className="bg-white/95 hover:bg-white text-slate-900 p-2.5 sm:p-3 rounded-full backdrop-blur-xl border border-purple-200/90 shadow-2xl shadow-purple-950/15 flex items-center justify-between gap-3 pointer-events-auto cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
+          className="bg-white/95 hover:bg-white text-slate-900 p-2 sm:p-2.5 pl-3 rounded-full backdrop-blur-xl border border-purple-200 shadow-xl shadow-purple-950/15 flex items-center justify-between gap-2.5 pointer-events-auto cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.98]"
         >
-          <div className="flex items-center gap-2.5 pl-2">
-            <div className="relative w-8 h-8 rounded-full bg-purple-100 text-purple-800 border border-purple-200 flex items-center justify-center font-bold text-xs shadow-xs">
-              <ShoppingBag className="w-4 h-4" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-purple-700 text-white text-[9px] font-black flex items-center justify-center">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-purple-100 text-purple-800 border border-purple-200/80 flex items-center justify-center font-bold text-xs shrink-0">
+              <ShoppingBag className="w-4 h-4 text-purple-700" />
+              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-purple-700 text-white text-[10px] font-black flex items-center justify-center shadow-xs">
                 {totalItemsCount}
               </span>
             </div>
-            <div>
-              <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+            <div className="min-w-0">
+              <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight truncate">
                 Rp {totalPrice.toLocaleString("id-ID")}
               </span>
-              <span className="text-[10px] sm:text-[11px] text-slate-500 font-semibold">
-                {totalItemsCount} produk dalam keranjang
+              <span className="text-[10px] sm:text-[11px] text-slate-500 font-medium block truncate">
+                {totalItemsCount} produk dipilih
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-purple-700 hover:bg-purple-800 text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold shadow-sm transition">
+          <button
+            type="button"
+            className="flex items-center gap-1.5 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white px-3.5 sm:px-4 py-2 rounded-full text-xs font-bold shadow-xs transition shrink-0 cursor-pointer"
+          >
             <span>Lihat Keranjang</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </div>
+          </button>
         </div>
-
       </div>
 
       <CartDrawerModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
