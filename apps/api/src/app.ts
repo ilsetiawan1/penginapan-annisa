@@ -9,6 +9,7 @@ import { errorHandler } from "./middlewares/error.middleware";
 import { authRouter } from "./modules/auth/auth.routes";
 import { roomRouter } from "./modules/room/room.routes";
 import { reservationRouter } from "./modules/reservation/reservation.routes";
+import { souvenirRouter } from "./modules/souvenir/souvenir.routes";
 
 import { logger } from "./utils/logger.util";
 export { logger };
@@ -51,6 +52,7 @@ app.use(
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/rooms", roomRouter);
 app.use("/api/v1/reservations", reservationRouter);
+app.use("/api/v1/souvenirs", souvenirRouter);
 
 // Centralized Error Handling
 app.use(errorHandler);
