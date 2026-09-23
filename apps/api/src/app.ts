@@ -43,7 +43,7 @@ app.use(
   "/docs",
   apiReference({
     spec: {
-      content: generateOpenApiSpec(),
+      url: "/docs.json",
     },
     theme: "purple",
     pageTitle: "Penginapan Annisa — API Reference",
