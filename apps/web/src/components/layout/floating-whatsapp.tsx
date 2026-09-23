@@ -1,8 +1,15 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa6";
+import { useCart } from "@/features/public/souvenirs/hooks/use-cart";
 
 export function FloatingWhatsApp() {
+  const pathname = usePathname();
+  const { totalItemsCount } = useCart();
+  const isSouvenirPage = pathname?.includes("/oleh-oleh") || pathname === "/";
+  const hasActiveCart = isSouvenirPage && totalItemsCount > 0;
+
   const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281242163116";
   const defaultText = encodeURIComponent(
     "Halo Penginapan Annisa, saya ingin tanya ketersediaan kamar transit dekat Bandara Pattimura Ambon.",
@@ -12,7 +19,11 @@ export function FloatingWhatsApp() {
   return (
     <aside
       aria-label="Kontak Cepat WhatsApp"
-      className="fixed bottom-26 sm:bottom-6 right-4 sm:right-6 z-50 flex items-center group pb-[env(safe-area-inset-bottom,0px)]"
+      className={`fixed right-4 sm:right-6 z-50 flex items-center group transition-all duration-300 pb-[env(safe-area-inset-bottom,0px)] ${
+        hasActiveCart
+          ? "bottom-24 sm:bottom-6"
+          : "bottom-5 sm:bottom-6"
+      }`}
     >
       {/* Tooltip Label */}
       <span className="hidden sm:inline-block mr-3 px-3.5 py-1.5 rounded-full bg-slate-900/90 text-white text-xs font-semibold backdrop-blur-md shadow-lg opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
