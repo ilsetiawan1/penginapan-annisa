@@ -96,7 +96,7 @@ Mohon disiapkan sebelum kedatangan saya. Terima kasih! 🙏`;
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-lg max-h-[94dvh] overflow-y-auto p-0 rounded-3xl border-0 shadow-2xl bg-[#faf9fc] flex flex-col">
         {/* Header Visual Bar */}
-        <div className="bg-gradient-to-r from-purple-900 via-purple-950 to-indigo-950 text-white p-4 sm:p-5 rounded-t-3xl relative overflow-hidden shrink-0 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-purple-900 via-purple-950 to-indigo-950 text-white p-4 sm:p-5 pr-12 rounded-t-3xl relative overflow-hidden shrink-0 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center">
               <ShoppingBag className="w-4 h-4 text-purple-200" />
@@ -110,16 +110,6 @@ Mohon disiapkan sebelum kedatangan saya. Terima kasih! 🙏`;
               </span>
             </div>
           </div>
-
-          {items.length > 0 && (
-            <button
-              type="button"
-              onClick={clearCart}
-              className="text-[11px] font-bold text-purple-300 hover:text-white transition cursor-pointer"
-            >
-              Kosongkan
-            </button>
-          )}
         </div>
 
         {/* Body Content */}
@@ -136,8 +126,23 @@ Mohon disiapkan sebelum kedatangan saya. Terima kasih! 🙏`;
             </div>
           ) : (
             <>
+              {/* Header List & Kosongkan Keranjang Action */}
+              <div className="flex items-center justify-between px-1">
+                <span className="text-[11px] font-black uppercase tracking-wider text-slate-800">
+                  Daftar Pesanan ({totalItemsCount} unit)
+                </span>
+                <button
+                  type="button"
+                  onClick={clearCart}
+                  className="text-[11px] font-bold text-red-500 hover:text-red-700 transition cursor-pointer"
+                >
+                  Kosongkan
+                </button>
+              </div>
+
               {/* Daftar Item di Keranjang */}
               <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1">
+
                 {items.map((it) => (
                   <div
                     key={it.id}
