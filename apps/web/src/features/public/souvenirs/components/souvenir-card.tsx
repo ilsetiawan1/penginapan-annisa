@@ -1,27 +1,16 @@
 import { ShoppingBag, Tag } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../../../../components/ui/button";
-import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
 import type { SouvenirProduct } from "../data";
 
 export type SouvenirItem = SouvenirProduct;
 
 interface SouvenirCardProps {
   item: SouvenirProduct;
+  onOpenOrder?: (item: SouvenirProduct) => void;
 }
 
-export function SouvenirCard({ item }: SouvenirCardProps) {
-  const waText = `Halo Resepsionis Penginapan Annisa, saya ingin pesan/titip oleh-oleh:
-• Produk: *${item.name}*
-• Kategori: *${item.categoryLabel}*
-• Asal: *${item.origin}*
-• Harga: *${item.price}*
-• Pengambilan: *Self Pick-Up di Resepsionis Annisa (750m Bandara Pattimura)*
-
-Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
-
-  const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waText)}`;
-
+export function SouvenirCard({ item, onOpenOrder }: SouvenirCardProps) {
   return (
     <div className="rounded-2xl sm:rounded-3xl overflow-hidden bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group h-full shadow-2xs">
       <div>
@@ -64,16 +53,16 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
         </span>
 
         <Button
-          asChild
+          type="button"
+          onClick={() => onOpenOrder?.(item)}
           className="w-full sm:w-auto rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-[10px] sm:text-[10px] md:text-[11px] lg:text-xs h-7 sm:h-7.5 md:h-8 lg:h-9 px-2.5 sm:px-3 gap-1.5 shadow-2xs hover:shadow-md transition-all cursor-pointer shrink-0"
         >
-          <a href={waUrl} target="_blank" rel="noreferrer">
-            <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Titip Ambil</span>
-          </a>
+          <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
+          <span className="truncate">Titip Ambil</span>
         </Button>
       </div>
     </div>
   );
 }
+
 

@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import type { SouvenirProduct } from "../data";
 import { SouvenirCard } from "./souvenir-card";
+import { SouvenirOrderModal } from "./souvenir-order-modal";
 
 interface SouvenirGridProps {
   items: SouvenirProduct[];
@@ -15,6 +17,8 @@ export function SouvenirGrid({
   searchQuery,
   onReset,
 }: SouvenirGridProps) {
+  const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
+
   return (
     <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 pb-16 sm:pb-20">
       <div className="flex items-center justify-between mt-6 sm:mt-10 mb-4 sm:mb-6">
@@ -51,10 +55,22 @@ export function SouvenirGrid({
         /* Grid Layout: 2 Kolom di Mobile, 3 Kolom di Tablet, 4 Kolom di Desktop */
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
           {items.map((item) => (
-            <SouvenirCard key={item.id} item={item} />
+            <SouvenirCard
+              key={item.id}
+              item={item}
+              onOpenOrder={(it) => setSelectedItem(it)}
+            />
           ))}
         </div>
       )}
+
+      {/* Modal Interaktif Pemesanan Titip Ambil */}
+      <SouvenirOrderModal
+        item={selectedItem}
+        isOpen={!!selectedItem}
+        onClose={() => setSelectedItem(null)}
+      />
     </section>
   );
 }
+

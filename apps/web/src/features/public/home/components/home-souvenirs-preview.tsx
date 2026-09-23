@@ -10,17 +10,17 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
-import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
 import {
   SOUVENIR_COLLECTION,
   type SouvenirProduct,
 } from "../../souvenirs/data";
+import { SouvenirOrderModal } from "../../souvenirs/components/souvenir-order-modal";
 
 export function HomeSouvenirsPreview() {
   const featuredSouvenirs = SOUVENIR_COLLECTION.slice(0, 5);
   const [activeIndex, setActiveIndex] = useState<number>(2); // Default Tengah
+  const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
 
   const handlePrev = () => {
     setActiveIndex((prev) =>
@@ -32,18 +32,6 @@ export function HomeSouvenirsPreview() {
     setActiveIndex((prev) =>
       prev === featuredSouvenirs.length - 1 ? 0 : prev + 1,
     );
-  };
-
-  const getItemWaUrl = (item: SouvenirProduct) => {
-    const text = `Halo Resepsionis Penginapan Annisa, saya ingin pesan/titip oleh-oleh:
-• Produk: *${item.name}*
-• Kategori: *${item.categoryLabel}*
-• Asal: *${item.origin}*
-• Harga: *${item.price}*
-• Pengambilan: *Self Pick-Up di Resepsionis Annisa (750m Bandara Pattimura)*
-
-Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
-    return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
   return (
@@ -58,7 +46,7 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
         </h2>
         <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
           Tersedia langsung di etalase meja resepsionis. Anda bisa titip stok
-          lebih awal via WhatsApp dan ambil langsung saat transit di penginapan.
+          lebih awal dan ambil langsung saat transit di penginapan.
         </p>
       </div>
 
@@ -84,56 +72,59 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Viewport Track (Translasi Berbasis Lebar Tetap = Nol Glitch) */}
-        <div className="overflow-hidden w-full py-6">
+        {/* Carousel Container */}
+        <div className="overflow-hidden py-4 sm:py-6">
           <div
-            className="flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
+            className="flex items-center transition-transform duration-500 ease-out"
             style={{
-              transform: `translateX(calc(${(2 - activeIndex) * 316}px))`,
+              transform: `translateX(calc(50% - ${activeIndex * 280 + 140}px))`,
             }}
           >
-            {featuredSouvenirs.map((item, idx) => {
-              const isCenter = idx === activeIndex;
-              const distance = Math.abs(idx - activeIndex);
+            {featuredSouvenirs.map((item, index) => {
+              const isCenter = index === activeIndex;
+              const isAdjacent =
+                Math.abs(index - activeIndex) === 1 ||
+                (activeIndex === 0 && index === featuredSouvenirs.length - 1) ||
+                (activeIndex === featuredSouvenirs.length - 1 && index === 0);
 
               return (
                 <div
                   key={item.id}
-                  onClick={() => setActiveIndex(idx)}
-                  className="w-[280px] sm:w-[300px] shrink-0 mx-2 select-none cursor-pointer"
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-[260px] sm:w-[280px] shrink-0 px-2.5 sm:px-3 transition-all duration-500 cursor-pointer ${
+                    isCenter
+                      ? "scale-105 sm:scale-110 z-20 opacity-100"
+                      : isAdjacent
+                        ? "scale-95 sm:scale-100 z-10 opacity-75 blur-[0.5px]"
+                        : "scale-90 opacity-40 blur-[1px]"
+                  }`}
                 >
                   <div
-                    className={`rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    className={`rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 flex flex-col justify-between ${
                       isCenter
-                        ? "bg-white border-2 border-purple-400 shadow-2xl shadow-purple-900/20 scale-100 sm:scale-105 opacity-100 ring-4 ring-purple-100/50"
-                        : distance === 1
-                          ? "bg-white/95 border border-slate-200/90 shadow-md scale-95 opacity-75 hover:opacity-95"
-                          : "bg-white/80 border border-slate-200/60 shadow-xs scale-90 opacity-40 hover:opacity-70"
+                        ? "border-2 border-purple-400/90 shadow-xl shadow-purple-950/10"
+                        : "border border-slate-200/80 shadow-sm"
                     }`}
                   >
-                    {/* Image Box */}
-                    <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden">
+                    {/* Image Thumbnail */}
+                    <div className="relative h-36 sm:h-44 w-full bg-slate-100 overflow-hidden">
                       <Image
                         src={item.image}
                         alt={item.name}
                         fill
-                        className={`object-cover transition-transform duration-700 ${
-                          isCenter ? "scale-105" : "scale-100"
-                        }`}
+                        className="object-cover"
                       />
                     </div>
 
-                    {/* Body Info */}
-                    <div className="p-4 sm:p-5 text-left flex-1 flex flex-col justify-between space-y-2">
+                    {/* Content Card Body */}
+                    <div className="p-3 sm:p-4 text-left flex-1 flex flex-col justify-between space-y-1.5">
                       <div>
-                        {/* Kategori Oleh-Oleh (Menggantikan Rating Bintang) */}
-                        <div className="flex items-center gap-1.5 text-purple-700 font-bold text-[11px] mb-1">
+                        <div className="flex items-center gap-1 text-purple-700 font-bold text-[10px] sm:text-[11px] mb-0.5">
                           <Tag className="w-3 h-3 text-purple-600 shrink-0" />
                           <span className="truncate">{item.categoryLabel}</span>
                         </div>
 
-                        {/* Nama Produk (Font Poppins Sesuai Request) */}
-                        <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug line-clamp-1">
+                        <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 leading-snug line-clamp-2 min-h-[32px] sm:min-h-[38px]">
                           {item.name}
                         </h3>
 
@@ -150,24 +141,21 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
 
                         {isCenter ? (
                           <Button
-                            asChild
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedItem(item);
+                            }}
                             className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
                           >
-                            <a
-                              href={getItemWaUrl(item)}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <ShoppingBag className="w-4 h-4" />
-                              <span>Titip Ambil</span>
-                            </a>
+                            <ShoppingBag className="w-4 h-4" />
+                            <span>Titip Ambil</span>
                           </Button>
                         ) : (
                           <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-700 shrink-0">
                             <ShoppingBag className="w-4 h-4" />
                           </div>
                         )}
-
                       </div>
                     </div>
                   </div>
@@ -205,6 +193,13 @@ Apakah stoknya tersedia untuk saya ambil saat transit? Terima kasih! 🙏`;
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
+
+      {/* Modal Interaktif Pemesanan Titip Ambil */}
+      <SouvenirOrderModal
+        item={selectedItem}
+        isOpen={!!selectedItem}
+        onClose={() => setSelectedItem(null)}
+      />
     </div>
   );
 }
