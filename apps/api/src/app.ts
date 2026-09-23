@@ -8,6 +8,7 @@ import { generateOpenApiSpec } from "./docs/openapi";
 import { errorHandler } from "./middlewares/error.middleware";
 import { authRouter } from "./modules/auth/auth.routes";
 import { roomRouter } from "./modules/room/room.routes";
+import { reservationRouter } from "./modules/reservation/reservation.routes";
 
 import { logger } from "./utils/logger.util";
 export { logger };
@@ -49,6 +50,7 @@ app.use(
 // Mount API Routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/rooms", roomRouter);
+app.use("/api/v1/reservations", reservationRouter);
 
 // Centralized Error Handling
 app.use(errorHandler);
