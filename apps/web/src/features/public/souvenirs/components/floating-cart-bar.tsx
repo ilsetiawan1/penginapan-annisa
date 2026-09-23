@@ -13,7 +13,7 @@ export function FloatingCartBar() {
 
   return (
     <>
-      <div className="fixed bottom-4 inset-x-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-40 animate-in fade-in slide-in-from-bottom-4 duration-300 sm:w-full sm:max-w-md pointer-events-none">
+      <div className="fixed bottom-7 sm:bottom-6 inset-x-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-40 animate-in fade-in slide-in-from-bottom-4 duration-300 sm:w-full sm:max-w-md pointer-events-none pb-[env(safe-area-inset-bottom,0px)]">
         <div
           onClick={() => setIsCartOpen(true)}
           className="bg-white/95 hover:bg-white text-slate-900 p-2 sm:p-2.5 pl-3 rounded-full backdrop-blur-xl border border-purple-200 shadow-xl shadow-purple-950/15 flex items-center justify-between gap-2.5 pointer-events-auto cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.98]"

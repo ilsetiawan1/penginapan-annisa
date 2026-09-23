@@ -12,7 +12,7 @@ export function FloatingWhatsApp() {
   return (
     <aside
       aria-label="Kontak Cepat WhatsApp"
-      className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 flex items-center group"
+      className="fixed bottom-26 sm:bottom-6 right-4 sm:right-6 z-50 flex items-center group pb-[env(safe-area-inset-bottom,0px)]"
     >
       {/* Tooltip Label */}
       <span className="hidden sm:inline-block mr-3 px-3.5 py-1.5 rounded-full bg-slate-900/90 text-white text-xs font-semibold backdrop-blur-md shadow-lg opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">

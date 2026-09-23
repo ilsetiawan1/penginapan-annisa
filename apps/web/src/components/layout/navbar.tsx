@@ -95,12 +95,12 @@ export function Navbar() {
 
         {/* Right Action Buttons */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* Booking CTA Button */}
+          {/* Booking CTA Button (Hidden on Mobile) */}
           <Button
             asChild
             variant="primary"
             size="sm"
-            className="rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs flex items-center justify-center shrink-0 transition"
+            className="hidden sm:inline-flex rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs items-center justify-center shrink-0 transition"
             title="Pilih dan Pesan Kamar Transit"
           >
             <Link href="/kamar">
