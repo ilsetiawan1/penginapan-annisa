@@ -1,4 +1,5 @@
 import { apiReference } from "@scalar/express-api-reference";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { type Request, type Response } from "express";
 import pino from "pino";
@@ -19,9 +20,11 @@ export { logger };
 export const app = express();
 
 app.use(cors({ origin: true, credentials: true }));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(pinoHttp({ logger }));
+
 
 // Base Health Check
 app.get("/health", (_req: Request, res: Response) => {

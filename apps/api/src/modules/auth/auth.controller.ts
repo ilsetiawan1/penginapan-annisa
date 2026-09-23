@@ -13,7 +13,25 @@ export class AuthController {
   login = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const session = await this.service.login(req.body);
+
+      // Set httpOnly cookie untuk proteksi anti-XSS
+      res.cookie("annisa_token", session.token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 hari
+      });
+
       return sendSuccess(res, session, "Login berhasil!");
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  logout = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      res.clearCookie("annisa_token");
+      return sendSuccess(res, null, "Logout berhasil!");
     } catch (error) {
       return next(error);
     }
@@ -28,6 +46,7 @@ export class AuthController {
       return next(error);
     }
   };
+
 
   getImageKitAuth = async (_req: Request, res: Response, next: NextFunction) => {
     try {

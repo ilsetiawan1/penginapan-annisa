@@ -14,6 +14,7 @@ router.post(
 );
 
 router.get("/me", authMiddleware, authController.getMe);
+router.post("/logout", authController.logout);
 
 router.get("/imagekit-auth", authMiddleware, authController.getImageKitAuth);
 

@@ -448,10 +448,15 @@ export function RoomMatrix() {
         <CheckOutModal
           isOpen={!!checkOutModalData}
           onClose={() => setCheckOutModalData(null)}
-          onConfirm={handleConfirmCheckOut}
-          roomCode={checkOutModalData.code}
+          roomNumber={checkOutModalData.code}
+          roomTypeName={checkOutModalData.typeName}
           guestName={checkOutModalData.guestName || "Tamu"}
-          remainingPayment={checkOutModalData.remainingAmount || 0}
+          guestPhone={checkOutModalData.guestPhone}
+          totalNights={checkOutModalData.totalNights || 1}
+          totalAmount={checkOutModalData.totalAmount || checkOutModalData.price}
+          dpPaid={checkOutModalData.dpPaid || 0}
+          remainingAmount={checkOutModalData.remainingAmount || 0}
+          onConfirmCheckOut={(_pm) => handleConfirmCheckOut()}
         />
       )}
 
@@ -459,20 +464,16 @@ export function RoomMatrix() {
         <ReceiptModal
           isOpen={!!receiptModalData}
           onClose={() => setReceiptModalData(null)}
-          transaction={{
-            id: `REC-${receiptModalData.code}-${Date.now().toString().slice(-4)}`,
-            guestName: receiptModalData.guestName || "Tamu",
-            roomNumber: receiptModalData.code,
-            roomType: receiptModalData.typeName,
-            checkInDate: receiptModalData.checkInDate || "22 Agu 2026",
-            checkOutDate: receiptModalData.checkOutDate || "23 Agu 2026",
-            durationNights: receiptModalData.totalNights || 1,
-            ratePerNight: receiptModalData.price,
-            totalPayment:
-              receiptModalData.totalAmount || receiptModalData.price,
-            paymentMethod: "Tunai / QRIS",
-            createdAt: "22 Agu 2026, 14:00 WIT",
-          }}
+          roomNumber={receiptModalData.code}
+          roomTypeName={receiptModalData.typeName}
+          guestName={receiptModalData.guestName || "Tamu"}
+          guestPhone={receiptModalData.guestPhone || "081234567890"}
+          checkInDate={receiptModalData.checkInDate || "22 Agu 2026"}
+          checkOutDate={receiptModalData.checkOutDate || "23 Agu 2026"}
+          totalNights={receiptModalData.totalNights || 1}
+          totalAmount={receiptModalData.totalAmount || receiptModalData.price}
+          dpPaid={receiptModalData.dpPaid || 0}
+          remainingAmount={receiptModalData.remainingAmount || 0}
         />
       )}
 
@@ -480,19 +481,8 @@ export function RoomMatrix() {
         <BookingSettlementModal
           isOpen={!!settlementModalData}
           onClose={() => setSettlementModalData(null)}
-          onConfirm={handleConfirmSettlement}
-          booking={{
-            roomCode: settlementModalData.code,
-            guestName: settlementModalData.guestName || "Tamu",
-            guestPhone: settlementModalData.guestPhone || "081234567890",
-            checkInDate: settlementModalData.checkInDate || "22 Agu 2026",
-            totalAmount:
-              settlementModalData.totalAmount || settlementModalData.price,
-            dpPaid: settlementModalData.dpPaid || settlementModalData.price / 2,
-            remainingAmount:
-              settlementModalData.remainingAmount ||
-              settlementModalData.price / 2,
-          }}
+          room={settlementModalData}
+          onConfirmSettlement={handleConfirmSettlement}
         />
       )}
 
@@ -501,23 +491,27 @@ export function RoomMatrix() {
           isOpen={!!detailModalData}
           onClose={() => setDetailModalData(null)}
           room={detailModalData}
-          onCheckIn={(room) => {
+          onOpenCheckIn={(room: RoomItem) => {
             setDetailModalData(null);
             setCheckInModalData(room);
           }}
-          onCheckOut={(room) => {
+          onOpenCheckOut={(room: RoomItem) => {
             setDetailModalData(null);
             setCheckOutModalData(room);
           }}
-          onPrintReceipt={(room) => {
+          onOpenReceipt={(room: RoomItem) => {
             setDetailModalData(null);
             setReceiptModalData(room);
           }}
-          onMarkClean={(roomCode) => {
+          onOpenSettlement={(room: RoomItem) => {
+            setDetailModalData(null);
+            setSettlementModalData(room);
+          }}
+          onMarkClean={(roomCode: string) => {
             setDetailModalData(null);
             handleMarkClean(roomCode);
           }}
-          onFinishMaintenance={(roomCode) => {
+          onFinishMaintenance={(roomCode: string) => {
             setDetailModalData(null);
             handleFinishMaintenance(roomCode);
           }}

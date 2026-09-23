@@ -17,6 +17,7 @@ export interface ApiResponse<T = any> {
   message?: string;
   data?: T;
   error?: string;
+  errors?: unknown[];
 }
 
 export const paginatedResponseSchema = <T extends z.ZodTypeAny>(

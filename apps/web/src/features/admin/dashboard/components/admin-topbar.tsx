@@ -9,8 +9,10 @@ interface AdminTopbarProps {
   currentRole: AdminRole;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  onRoleChange?: (role: AdminRole) => void;
   onOpenMobileSidebar: () => void;
 }
+
 
 export function AdminTopbar({
   currentRole,

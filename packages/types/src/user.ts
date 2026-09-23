@@ -28,6 +28,8 @@ export const authSessionSchema = z.object({
   token: z.string(),
 });
 export type AuthSession = z.infer<typeof authSessionSchema>;
+export type AuthResponse = AuthSession;
+
 
 export const loginInputSchema = z.object({
   email: z.string().email("Email tidak valid"),

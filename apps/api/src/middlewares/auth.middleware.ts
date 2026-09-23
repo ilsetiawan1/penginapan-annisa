@@ -25,15 +25,17 @@ export function authMiddleware(
   next: NextFunction,
 ) {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        success: false,
-        error: ERROR_MESSAGES.UNAUTHORIZED,
-      });
+    let token: string | undefined;
+
+    if (req.cookies && req.cookies.annisa_token) {
+      token = req.cookies.annisa_token;
+    } else if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer ")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
     }
 
-    const token = authHeader.split(" ")[1];
     if (!token) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
         success: false,
