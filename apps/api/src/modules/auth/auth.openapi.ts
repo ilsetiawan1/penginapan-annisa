@@ -20,6 +20,10 @@ registry.registerPath({
       content: {
         "application/json": {
           schema: loginInputSchema,
+          example: {
+            email: "owner@penginapan-annisa.com",
+            password: "admin123",
+          },
         },
       },
     },

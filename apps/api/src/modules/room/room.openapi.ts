@@ -23,10 +23,11 @@ registry.registerPath({
   tags: ["2. Kamar & Tarif"],
   request: {
     query: z.object({
-      building: z.enum(["A", "B"]).optional(),
+      building: z.enum(["A", "B"]).optional().openapi({ example: "A" }),
       status: z
         .enum(["ready", "occupied", "booked", "dirty", "maintenance"])
-        .optional(),
+        .optional()
+        .openapi({ example: "ready" }),
     }),
   },
   responses: {
@@ -45,7 +46,7 @@ registry.registerPath({
   tags: ["2. Kamar & Tarif"],
   request: {
     params: z.object({
-      roomNumber: z.string(),
+      roomNumber: z.string().openapi({ example: "A1" }),
     }),
   },
   responses: {
@@ -69,12 +70,16 @@ registry.registerPath({
   security: [{ BearerAuth: [] }],
   request: {
     params: z.object({
-      roomNumber: z.string(),
+      roomNumber: z.string().openapi({ example: "A1" }),
     }),
     body: {
       content: {
         "application/json": {
           schema: updateRoomStatusInputSchema,
+          example: {
+            status: "dirty",
+            notes: "Tamu baru saja checkout, kamar perlu dibersihkan staf",
+          },
         },
       },
     },
@@ -118,12 +123,28 @@ registry.registerPath({
   security: [{ BearerAuth: [] }],
   request: {
     params: z.object({
-      id: z.string().uuid(),
+      id: z.string().uuid().openapi({
+        example: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+      }),
     }),
     body: {
       content: {
         "application/json": {
           schema: updateRoomRateInputSchema,
+          example: {
+            basePrice: 285000,
+            facilities: [
+              "AC Dingin 1 PK",
+              "Kamar Mandi Dalam Pribadi",
+              "WiFi Gratis 50 Mbps",
+              "TV LED 32 Inch",
+              "Handuk Bersih & Sabun",
+              "Air Mineral Gratis",
+              "Sarapan Pagi Gratis (Promo Lebaran)",
+            ],
+            description:
+              "Kamar sejuk dan nyaman dengan AC dingin, kamar mandi dalam pribadi, TV LED, dan WiFi kencang. Pilihan terbaik untuk istirahat tenang sebelum penerbangan pagi.",
+          },
         },
       },
     },
