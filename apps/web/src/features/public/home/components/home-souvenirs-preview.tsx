@@ -1,5 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
   ChevronLeft,
@@ -7,10 +10,7 @@ import {
   ShoppingBag,
   Tag,
 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { Button } from "../../../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   SOUVENIR_COLLECTION,
   type SouvenirProduct,
@@ -19,22 +19,47 @@ import { SouvenirOrderModal } from "../../souvenirs/components/souvenir-order-mo
 import { FloatingCartBar } from "../../souvenirs/components/floating-cart-bar";
 
 export function HomeSouvenirsPreview() {
+  const baseSouvenirs = SOUVENIR_COLLECTION.slice(0, 5);
+  const count = baseSouvenirs.length;
 
-  const featuredSouvenirs = SOUVENIR_COLLECTION.slice(0, 5);
-  const [activeIndex, setActiveIndex] = useState<number>(2); // Default Tengah
+  // Infinite looping track with triple clones (15 items)
+  const [currentIndex, setCurrentIndex] = useState<number>(count + 2); // Mulai di item index 2 pada set ke-2
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(true);
   const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
 
+  const loopTrack = [...baseSouvenirs, ...baseSouvenirs, ...baseSouvenirs];
+  const activeDotIndex = ((currentIndex % count) + count) % count;
+
   const handlePrev = () => {
-    setActiveIndex((prev) =>
-      prev === 0 ? featuredSouvenirs.length - 1 : prev - 1,
-    );
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) =>
-      prev === featuredSouvenirs.length - 1 ? 0 : prev + 1,
-    );
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
   };
+
+  // Reset infinite boundary seamlessly
+  useEffect(() => {
+    if (currentIndex <= 1) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(currentIndex + count);
+      }, 500);
+      return () => clearTimeout(timer);
+    } else if (currentIndex >= count * 2 + (count - 2)) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(currentIndex - count);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, count]);
+
+  const CARD_WIDTH = 280; // px
+  const CARD_GAP = 20; // px
+  const TOTAL_CARD_UNIT = CARD_WIDTH + CARD_GAP; // 300px
 
   return (
     <div className="w-full relative overflow-hidden py-4 sm:py-6">
@@ -77,23 +102,27 @@ export function HomeSouvenirsPreview() {
         {/* Carousel Container */}
         <div className="overflow-hidden py-4 sm:py-6">
           <div
-            className="flex items-center transition-transform duration-500 ease-out"
+            className={`flex items-center ${
+              isTransitioning
+                ? "transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                : "transition-none"
+            }`}
             style={{
-              transform: `translateX(calc(50% - ${activeIndex * 280 + 140}px))`,
+              transform: `translateX(calc(50% - ${currentIndex * TOTAL_CARD_UNIT + CARD_WIDTH / 2}px))`,
             }}
           >
-            {featuredSouvenirs.map((item, index) => {
-              const isCenter = index === activeIndex;
-              const isAdjacent =
-                Math.abs(index - activeIndex) === 1 ||
-                (activeIndex === 0 && index === featuredSouvenirs.length - 1) ||
-                (activeIndex === featuredSouvenirs.length - 1 && index === 0);
+            {loopTrack.map((item, index) => {
+              const isCenter = index === currentIndex;
+              const isAdjacent = Math.abs(index - currentIndex) === 1;
 
               return (
                 <div
-                  key={item.id}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-[260px] sm:w-[280px] shrink-0 px-2.5 sm:px-3 transition-all duration-500 cursor-pointer ${
+                  key={`${item.id}-${index}`}
+                  onClick={() => {
+                    setIsTransitioning(true);
+                    setCurrentIndex(index);
+                  }}
+                  className={`w-[260px] sm:w-[280px] shrink-0 mx-2.5 transition-all duration-500 cursor-pointer ${
                     isCenter
                       ? "scale-105 sm:scale-110 z-20 opacity-100"
                       : isAdjacent
@@ -169,14 +198,17 @@ export function HomeSouvenirsPreview() {
 
         {/* Pagination Dots Slider Indicator */}
         <div className="flex items-center justify-center gap-1.5 mt-2 sm:mt-3">
-          {featuredSouvenirs.map((item, idx) => (
+          {baseSouvenirs.map((item, idx) => (
             <button
               key={item.id}
               type="button"
-              onClick={() => setActiveIndex(idx)}
+              onClick={() => {
+                setIsTransitioning(true);
+                setCurrentIndex(idx + count);
+              }}
               aria-label={`Lihat ${item.name}`}
               className={`transition-all duration-300 rounded-full cursor-pointer ${
-                idx === activeIndex
+                idx === activeDotIndex
                   ? "w-6 h-2 bg-purple-700 shadow-xs"
                   : "w-2 h-2 bg-slate-300 hover:bg-slate-400"
               }`}
@@ -208,4 +240,3 @@ export function HomeSouvenirsPreview() {
     </div>
   );
 }
-

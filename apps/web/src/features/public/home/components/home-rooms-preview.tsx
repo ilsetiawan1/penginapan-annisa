@@ -60,8 +60,10 @@ const DEFAULT_3_FEATURED_ROOMS: FeaturedRoom[] = [
 ];
 
 export function HomeRoomsPreview() {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [rooms, setRooms] = useState<FeaturedRoom[]>(() => {
+  const [currentIndex, setCurrentIndex] = useState<number>(3); // Mulai di set tengah (Item 0 pada set ke-2)
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(true);
+
+  const [baseRooms, setBaseRooms] = useState<FeaturedRoom[]>(() => {
     if (typeof window !== "undefined") {
       try {
         const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -121,7 +123,7 @@ export function HomeRoomsPreview() {
               image: mr.imageUrl || "",
             };
           });
-          setRooms(mapped);
+          setBaseRooms(mapped);
           return;
         }
       }
@@ -145,33 +147,48 @@ export function HomeRoomsPreview() {
             image: r.roomType?.images?.[0]?.imageUrl || "",
           };
         });
-        setRooms(mappedFromDb);
+        setBaseRooms(mappedFromDb);
       }
     } catch {
       // fallback
     }
   }, [dbRooms]);
 
-  const count = rooms.length || 3;
+  // Triple clone track untuk infinite continuous smooth hardware-accelerated slide (9 items)
+  const items = baseRooms.length === 3 ? baseRooms : DEFAULT_3_FEATURED_ROOMS;
+  const loopTrack = [...items, ...items, ...items];
+  const activeDotIndex = ((currentIndex % 3) + 3) % 3;
 
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev - 1 + count) % count);
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % count);
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
   };
 
-  // Indeks 3 Posisi Sirkuler Infinite: Kiri, Tengah (Aktif), Kanan
-  const leftIndex = (activeIndex - 1 + count) % count;
-  const centerIndex = activeIndex;
-  const rightIndex = (activeIndex + 1) % count;
+  // Reset posisi infinite tanpa jeda visual setelah transisi selesai
+  useEffect(() => {
+    if (currentIndex <= 1) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(currentIndex + 3);
+      }, 500);
+      return () => clearTimeout(timer);
+    } else if (currentIndex >= 7) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(currentIndex - 3);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex]);
 
-  const visibleCards = [
-    { room: rooms[leftIndex] || DEFAULT_3_FEATURED_ROOMS[0], role: "left", targetIndex: leftIndex },
-    { room: rooms[centerIndex] || DEFAULT_3_FEATURED_ROOMS[1], role: "center", targetIndex: centerIndex },
-    { room: rooms[rightIndex] || DEFAULT_3_FEATURED_ROOMS[2], role: "right", targetIndex: rightIndex },
-  ];
+  const CARD_WIDTH = 300; // px
+  const CARD_GAP = 20; // px
+  const TOTAL_CARD_UNIT = CARD_WIDTH + CARD_GAP; // 320px
 
   return (
     <div className="w-full relative overflow-hidden py-4 sm:py-6">
@@ -189,14 +206,14 @@ export function HomeRoomsPreview() {
         </p>
       </div>
 
-      {/* Infinite Looping 3-Card Carousel Track */}
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-12">
+      {/* 3D Smooth Sliding Carousel Track */}
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-12">
         {/* Tombol Navigasi Kiri */}
         <button
           type="button"
           onClick={handlePrev}
           aria-label="Kamar Sebelumnya"
-          className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
+          className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
@@ -206,32 +223,43 @@ export function HomeRoomsPreview() {
           type="button"
           onClick={handleNext}
           aria-label="Kamar Berikutnya"
-          className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
+          className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* 3 Visible Cards Layout (Always fills Left, Center, Right) */}
-        <div className="overflow-hidden w-full py-4 sm:py-6">
-          <div className="flex items-center justify-center gap-3 sm:gap-5">
-            {visibleCards.map(({ room, role, targetIndex }) => {
-              const isCenter = role === "center";
+        {/* Carousel Viewport */}
+        <div className="overflow-hidden w-full py-6">
+          <div
+            className={`flex items-center ${
+              isTransitioning
+                ? "transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                : "transition-none"
+            }`}
+            style={{
+              transform: `translateX(calc(50% - ${currentIndex * TOTAL_CARD_UNIT + CARD_WIDTH / 2}px))`,
+            }}
+          >
+            {loopTrack.map((room, idx) => {
+              const isCenter = idx === currentIndex;
+              const isAdjacent = Math.abs(idx - currentIndex) === 1;
 
               return (
                 <div
-                  key={`${room.id}-${role}`}
-                  onClick={() => setActiveIndex(targetIndex)}
-                  className={`w-[260px] sm:w-[300px] shrink-0 select-none cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-                    isCenter
-                      ? "scale-100 sm:scale-105 opacity-100 z-20"
-                      : "scale-90 sm:scale-95 opacity-65 hover:opacity-90 z-10 hidden sm:block"
-                  }`}
+                  key={`${room.id}-${idx}`}
+                  onClick={() => {
+                    setIsTransitioning(true);
+                    setCurrentIndex(idx);
+                  }}
+                  className="w-[280px] sm:w-[300px] shrink-0 mx-2.5 select-none cursor-pointer"
                 >
                   <div
-                    className={`rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 ${
+                    className={`rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                       isCenter
-                        ? "bg-white border-2 border-purple-400 shadow-2xl shadow-purple-900/20 ring-4 ring-purple-100/50"
-                        : "bg-white/95 border border-slate-200/90 shadow-md"
+                        ? "bg-white border-2 border-purple-400 shadow-2xl shadow-purple-900/20 scale-100 sm:scale-105 opacity-100 ring-4 ring-purple-100/50"
+                        : isAdjacent
+                          ? "bg-white/95 border border-slate-200/90 shadow-md scale-95 opacity-75 hover:opacity-95"
+                          : "bg-white/80 border border-slate-200/60 shadow-xs scale-90 opacity-40 hover:opacity-70"
                     }`}
                   >
                     {/* Foto Kamar Bersih atau Placeholder */}
@@ -319,14 +347,17 @@ export function HomeRoomsPreview() {
 
         {/* Pagination Dots Slider Indicator (3 Dots) */}
         <div className="flex items-center justify-center gap-1.5 mt-2 sm:mt-3">
-          {rooms.slice(0, 3).map((room, idx) => (
+          {items.map((room, idx) => (
             <button
               key={room.id}
               type="button"
-              onClick={() => setActiveIndex(idx)}
+              onClick={() => {
+                setIsTransitioning(true);
+                setCurrentIndex(idx + 3);
+              }}
               aria-label={`Lihat ${room.name}`}
               className={`transition-all duration-300 rounded-full cursor-pointer ${
-                idx === activeIndex
+                idx === activeDotIndex
                   ? "w-6 h-2 bg-purple-700 shadow-xs"
                   : "w-2 h-2 bg-slate-300 hover:bg-slate-400"
               }`}
