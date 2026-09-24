@@ -65,12 +65,13 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
       <DialogContent className="max-w-lg max-h-[96dvh] sm:max-h-[90vh] overflow-hidden p-0 rounded-3xl border-0 shadow-2xl bg-[#faf9fc] flex flex-col justify-between">
         {/* Header Photo Banner (Compact & Crisp) */}
         <div className="relative h-36 sm:h-52 w-full bg-slate-900 overflow-hidden shrink-0">
-          <Image
-            src={room.image}
+          <img
+            src={room.image || (room.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg")}
             alt={room.name}
-            fill
-            className="object-cover"
-            priority
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = room.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg";
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
 

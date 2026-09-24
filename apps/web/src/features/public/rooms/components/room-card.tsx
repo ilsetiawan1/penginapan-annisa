@@ -65,11 +65,13 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
         <div>
           {/* Foto Kamar 100% Bersih Tanpa Badge Kaku */}
           <div className="relative h-44 sm:h-52 w-full bg-slate-100 overflow-hidden">
-            <Image
-              src={room.image}
+            <img
+              src={room.image || (room.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg")}
               alt={room.name}
-              fill
-              className="object-cover transition duration-500 group-hover:scale-105"
+              className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+              onError={(e) => {
+                e.currentTarget.src = room.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg";
+              }}
             />
           </div>
 
