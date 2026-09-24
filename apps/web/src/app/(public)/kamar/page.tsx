@@ -13,7 +13,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   // BANGUNAN A
   {
     number: "A1",
-    name: "Kamar A1 (AC)",
+    name: "Kamar #A1 (AC)",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -21,11 +21,11 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
-    image: "/rooms/room-ac-101.jpg",
+    image: "",
   },
   {
     number: "A2",
-    name: "Kamar A2 (AC)",
+    name: "Kamar #A2 (AC)",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -33,11 +33,11 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
-    image: "/rooms/room-ac-102.jpg",
+    image: "",
   },
   {
     number: "A3",
-    name: "Kamar A3 (Kipas)",
+    name: "Kamar #A3 (Kipas)",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -45,11 +45,11 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
-    image: "/rooms/room-kipas-201.jpg",
+    image: "",
   },
   {
     number: "A4",
-    name: "Kamar A4 (Kipas)",
+    name: "Kamar #A4 (Kipas)",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -57,13 +57,13 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
-    image: "/rooms/room-kipas-202.jpg",
+    image: "",
   },
 
   // BANGUNAN B
   {
     number: "B1",
-    name: "Kamar B1 (AC)",
+    name: "Kamar #B1 (AC)",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -71,11 +71,11 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
-    image: "/rooms/room-ac-101.jpg",
+    image: "",
   },
   {
     number: "B2",
-    name: "Kamar B2 (AC)",
+    name: "Kamar #B2 (AC)",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -83,11 +83,11 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
-    image: "/rooms/room-ac-102.jpg",
+    image: "",
   },
   {
     number: "B3",
-    name: "Kamar B3 (Kipas)",
+    name: "Kamar #B3 (Kipas)",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -95,11 +95,11 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
-    image: "/rooms/room-kipas-201.jpg",
+    image: "",
   },
   {
     number: "B4",
-    name: "Kamar B4 (Kipas)",
+    name: "Kamar #B4 (Kipas)",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -107,7 +107,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
     facilities: ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
-    image: "/rooms/room-kipas-202.jpg",
+    image: "",
   },
 ];
 
@@ -120,85 +120,66 @@ export default function KamarPage() {
     return new Date().toISOString().split("T")[0];
   });
   const [nights, setNights] = useState<number>(1);
-  const [rooms, setRooms] = useState<RoomItem[]>(DEFAULT_PUBLIC_ROOMS);
 
-  const { data: dbRooms, isLoading } = useRooms();
+  // Inisialisasi langsung dari localStorage secara instan (0 milidetik jeda)
+  const [rooms, setRooms] = useState<RoomItem[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (saved) {
+          const masterRooms = JSON.parse(saved);
+          if (Array.isArray(masterRooms) && masterRooms.length > 0) {
+            return masterRooms.map((mr: any) => {
+              const isAc = mr.type === "ac";
+              const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
+              const dpNum = Math.round(priceNum * 0.5);
 
-  // Sinkronkan data kamar publik dengan Master Room Management (localStorage / server)
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (saved) {
-        const masterRooms = JSON.parse(saved);
-        if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-          const mapped: RoomItem[] = masterRooms.map((mr: any) => {
-            const isAc = mr.type === "ac";
-            const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
-            const dpNum = Math.round(priceNum * 0.5);
-
-            // Cek status real-time dari database jika ada
-            const matchedDbRoom = (dbRooms || []).find(
-              (dbr) => dbr.roomNumber.toUpperCase() === mr.code.toUpperCase(),
-            );
-            const isReady = matchedDbRoom ? matchedDbRoom.status === "ready" : true;
-
-            return {
-              number: mr.code,
-              name: mr.name || `Kamar ${mr.code} (${isAc ? "AC" : "Kipas"})`,
-              type: isAc ? "ac" : "kipas",
-              status: isReady ? "tersedia" : "terisi",
-              price: priceNum.toLocaleString("id-ID"),
-              dp: dpNum.toLocaleString("id-ID"),
-              bed: "1 Kasur Queen (Double Bed)",
-              capacity: `${mr.capacity || 2}–3 Tamu`,
-              facilities: Array.isArray(mr.facilities) && mr.facilities.length > 0
-                ? mr.facilities
-                : isAc
-                  ? ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV & WiFi"]
-                  : ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV & WiFi"],
-              image: mr.imageUrl || (isAc ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg"),
-            };
-          });
-
-          setRooms(mapped);
-          return;
+              return {
+                number: mr.code,
+                name: mr.name || `Kamar #${mr.code} (${isAc ? "AC" : "Kipas"})`,
+                type: isAc ? "ac" : "kipas",
+                status: "tersedia",
+                price: priceNum.toLocaleString("id-ID"),
+                dp: dpNum.toLocaleString("id-ID"),
+                bed: "1 Kasur Queen (Double Bed)",
+                capacity: `${mr.capacity || 2}–3 Tamu`,
+                facilities: Array.isArray(mr.facilities) && mr.facilities.length > 0
+                  ? mr.facilities
+                  : isAc
+                    ? ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV & WiFi"]
+                    : ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV & WiFi"],
+                image: mr.imageUrl || "",
+              };
+            });
+          }
         }
+      } catch {
+        // fallback
       }
-
-      // Fallback mapping jika localStorage belum ada
-      if (dbRooms && dbRooms.length > 0) {
-        const mappedFromDb: RoomItem[] = dbRooms.map((r) => {
-          const isAc =
-            r.roomType?.name?.toLowerCase().includes("ac") ||
-            r.roomNumber.startsWith("A") ||
-            r.roomTypeId?.toLowerCase().includes("ac");
-          const priceNum = r.roomType?.basePrice || (isAc ? 275000 : 200000);
-          const dpNum = Math.round(priceNum * 0.5);
-
-          return {
-            number: r.roomNumber,
-            name: `Kamar ${r.roomNumber} (${isAc ? "AC" : "Kipas"})`,
-            type: isAc ? "ac" : "kipas",
-            status: r.status === "ready" ? "tersedia" : "terisi",
-            price: priceNum.toLocaleString("id-ID"),
-            dp: dpNum.toLocaleString("id-ID"),
-            bed: "1 Kasur Besar (Double Bed)",
-            capacity: "2–3 Tamu",
-            facilities: r.roomType?.facilities?.length
-              ? r.roomType.facilities
-              : isAc
-                ? ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "TV", "WiFi Gratis"]
-                : ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV", "WiFi Gratis"],
-            image:
-              r.roomType?.images?.[0]?.imageUrl ||
-              (isAc ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg"),
-          };
-        });
-        setRooms(mappedFromDb);
-      }
-    } catch {
-      // fallback to default
     }
+    return DEFAULT_PUBLIC_ROOMS;
+  });
+
+  const { data: dbRooms } = useRooms();
+
+  // Sinkronkan status ketersediaan kamar secara halus tanpa menimpa foto yang sudah diubah
+  useEffect(() => {
+    if (!dbRooms || dbRooms.length === 0) return;
+
+    setRooms((prevRooms) =>
+      prevRooms.map((r) => {
+        const matchedDb = dbRooms.find(
+          (dbr) => dbr.roomNumber.toUpperCase() === r.number.toUpperCase(),
+        );
+        if (matchedDb) {
+          return {
+            ...r,
+            status: matchedDb.status === "ready" ? "tersedia" : "terisi",
+          };
+        }
+        return r;
+      }),
+    );
   }, [dbRooms]);
 
   const filteredRooms = rooms.filter((r) => {
@@ -228,25 +209,17 @@ export default function KamarPage() {
         activeFilter={filter}
         onFilterChange={setFilter}
       />
-      {isLoading && rooms.length === 0 ? (
-        <div className="max-w-5xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-            <div key={i} className="h-80 bg-slate-200/80 rounded-3xl" />
-          ))}
-        </div>
-      ) : (
-        <RoomGrid
-          rooms={filteredRooms}
-          searchQuery={searchQuery}
-          checkInDate={checkInDate}
-          nights={nights}
-          onReset={() => {
-            setSearchQuery("");
-            setFilter("all");
-            setNights(1);
-          }}
-        />
-      )}
+      <RoomGrid
+        rooms={filteredRooms}
+        searchQuery={searchQuery}
+        checkInDate={checkInDate}
+        nights={nights}
+        onReset={() => {
+          setSearchQuery("");
+          setFilter("all");
+          setNights(1);
+        }}
+      />
     </div>
   );
 }

@@ -682,14 +682,20 @@ function RoomMasterCard({
 
       {/* Room Photo Preview */}
       <div className="relative w-full h-32 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-2xs">
-        <img
-          src={room.imageUrl || (isAc ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg")}
-          alt={room.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          onError={(e) => {
-            e.currentTarget.src = isAc ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg";
-          }}
-        />
+        {room.imageUrl ? (
+          <img
+            src={room.imageUrl}
+            alt={room.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-purple-50 via-purple-100/40 to-slate-100 flex flex-col items-center justify-center gap-1.5 text-purple-700/60 p-3">
+            {isAc ? <Wind className="w-6 h-6 stroke-[1.5]" /> : <Bed className="w-6 h-6 stroke-[1.5]" />}
+            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+              Belum Ada Foto
+            </span>
+          </div>
+        )}
         <div className="absolute bottom-1.5 left-1.5 bg-slate-950/75 backdrop-blur-xs px-2 py-0.5 rounded-md text-[9px] text-white font-bold">
           {room.typeName}
         </div>

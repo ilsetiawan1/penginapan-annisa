@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Clock, Tag } from "lucide-react";
+import { Bed, Check, Clock, Tag } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
@@ -63,16 +63,22 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
         className="overflow-hidden p-0 rounded-3xl bg-white hover:shadow-xl border border-slate-200/90 hover:border-purple-300 transition-all duration-300 flex flex-col justify-between group cursor-pointer h-full"
       >
         <div>
-          {/* Foto Kamar 100% Bersih Tanpa Badge Kaku */}
+          {/* Foto Kamar Bersih atau Placeholder Elegan */}
           <div className="relative h-44 sm:h-52 w-full bg-slate-100 overflow-hidden">
-            <img
-              src={room.image || (room.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg")}
-              alt={room.name}
-              className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
-              onError={(e) => {
-                e.currentTarget.src = room.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg";
-              }}
-            />
+            {room.image ? (
+              <img
+                src={room.image}
+                alt={room.name}
+                className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-purple-50 via-purple-100/40 to-slate-100 flex flex-col items-center justify-center gap-2 text-purple-700/60 p-4">
+                <Bed className="w-8 h-8 stroke-[1.5] text-purple-600/70" />
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  {room.name}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Info Konten Kamar */}

@@ -65,14 +65,20 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
       <DialogContent className="max-w-lg max-h-[96dvh] sm:max-h-[90vh] overflow-hidden p-0 rounded-3xl border-0 shadow-2xl bg-[#faf9fc] flex flex-col justify-between">
         {/* Header Photo Banner (Compact & Crisp) */}
         <div className="relative h-36 sm:h-52 w-full bg-slate-900 overflow-hidden shrink-0">
-          <img
-            src={room.image || (room.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg")}
-            alt={room.name}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              e.currentTarget.src = room.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg";
-            }}
-          />
+          {room.image ? (
+            <img
+              src={room.image}
+              alt={room.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-purple-900 to-slate-950 flex flex-col items-center justify-center gap-2 text-purple-300/80 p-4">
+              <Bed className="w-8 h-8 stroke-[1.5]" />
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
+                {room.name}
+              </span>
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
 
           {/* Badges Status & Tipe di Foto */}
