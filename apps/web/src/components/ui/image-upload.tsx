@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2, ImagePlus, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
@@ -32,6 +32,11 @@ export function ImageUpload({
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState<string | undefined>(value);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync preview when value prop changes (e.g. when opening a different room)
+  useEffect(() => {
+    setPreview(value);
+  }, [value]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -108,6 +113,7 @@ export function ImageUpload({
             src={preview}
             alt="Preview Foto"
             fill
+            unoptimized
             className="object-cover"
           />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">

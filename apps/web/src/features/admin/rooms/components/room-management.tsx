@@ -668,6 +668,7 @@ function RoomMasterCard({
           src={room.imageUrl || (isAc ? "/images/kamar-ac.png" : "/images/kamar-kipas.png")}
           alt={room.name}
           fill
+          unoptimized
           className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute bottom-1.5 left-1.5 bg-slate-950/75 backdrop-blur-xs px-2 py-0.5 rounded-md text-[9px] text-white font-bold">
