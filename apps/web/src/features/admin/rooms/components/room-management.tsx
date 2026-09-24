@@ -503,7 +503,9 @@ export function RoomManagement() {
                 <ImageUpload
                   value={editingRoom.imageUrl}
                   onChange={(newUrl) =>
-                    setEditingRoom({ ...editingRoom, imageUrl: newUrl })
+                    setEditingRoom((prev) =>
+                      prev ? { ...prev, imageUrl: newUrl } : null,
+                    )
                   }
                   folder="/rooms"
                   label={`Foto Utama Kamar #${editingRoom.code} (ImageKit CDN)`}

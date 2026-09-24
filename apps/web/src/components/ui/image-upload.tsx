@@ -48,6 +48,10 @@ export function ImageUpload({
       return;
     }
 
+    // 0. Tampilkan preview lokal instan dari file yang dipilih user
+    const localPreviewUrl = URL.createObjectURL(file);
+    setPreview(localPreviewUrl);
+
     try {
       setIsUploading(true);
 
@@ -113,10 +117,6 @@ export function ImageUpload({
             src={preview}
             alt="Preview Foto"
             className="w-full h-full object-cover"
-            onError={(e) => {
-              // fallback if broken
-              e.currentTarget.src = "/rooms/room-ac-101.jpg";
-            }}
           />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
             <button
