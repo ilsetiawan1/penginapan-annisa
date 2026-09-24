@@ -1,6 +1,10 @@
 import type { NextFunction, Request, Response } from "express";
 import { sendSuccess } from "../../utils/response.util";
 import { getImageKitAuthParams } from "../../utils/imagekit.util";
+import { s3Client } from "../../utils/r2.util";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { config } from "../../config";
 import { authService, type AuthService } from "./auth.service";
 
 export class AuthController {
@@ -55,6 +59,32 @@ export class AuthController {
         res,
         authParams,
         "ImageKit client upload token berhasil dibuat.",
+      );
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  getR2PresignedUrl = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { fileName, contentType } = req.body;
+      if (!fileName || !contentType) {
+        return res.status(400).json({ success: false, message: "fileName dan contentType wajib diisi." });
+      }
+
+      const command = new PutObjectCommand({
+        Bucket: config.r2.bucketName,
+        Key: fileName,
+        ContentType: contentType,
+      });
+
+      const presignedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+      const publicUrl = `${config.r2.publicUrl}/${fileName}`;
+
+      return sendSuccess(
+        res,
+        { presignedUrl, publicUrl },
+        "R2 presigned URL berhasil dibuat."
       );
     } catch (error) {
       return next(error);

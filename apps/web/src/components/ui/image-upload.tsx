@@ -5,12 +5,45 @@ import { Upload, X, Loader2, ImagePlus, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { apiClient } from "@/lib/api/client";
 
-interface ImageKitAuthResponse {
-  token: string;
-  expire: number;
-  signature: string;
-  publicKey: string;
-  urlEndpoint: string;
+export interface R2PresignedResponse {
+  presignedUrl: string;
+  publicUrl: string;
+}
+
+export async function uploadBase64ToR2(
+  base64Url: string,
+  fileName: string,
+  folder: string
+): Promise<string> {
+  // Convert base64 to Blob
+  const res = await fetch(base64Url);
+  const blob = await res.blob();
+  
+  // Clean folder path (remove leading slash if any)
+  const cleanFolder = folder.startsWith("/") ? folder.slice(1) : folder;
+  const objectKey = cleanFolder ? `${cleanFolder}/${fileName}` : fileName;
+
+  const { presignedUrl, publicUrl } = await apiClient.post<R2PresignedResponse>(
+    "/auth/r2-presigned-url",
+    {
+      fileName: objectKey,
+      contentType: blob.type || "image/jpeg",
+    }
+  );
+
+  const uploadRes = await fetch(presignedUrl, {
+    method: "PUT",
+    body: blob,
+    headers: {
+      "Content-Type": blob.type || "image/jpeg",
+    },
+  });
+
+  if (!uploadRes.ok) {
+    throw new Error("Gagal mengunggah foto ke Cloudflare R2.");
+  }
+
+  return publicUrl;
 }
 
 interface ImageUploadProps {
@@ -19,6 +52,7 @@ interface ImageUploadProps {
   folder?: string;
   label?: string;
   description?: string;
+  autoUpload?: boolean;
 }
 
 export function ImageUpload({
@@ -27,6 +61,7 @@ export function ImageUpload({
   folder = "/rooms",
   label = "Upload Foto Kamar",
   description = "Format JPG, PNG, atau WebP (Maks. 5MB)",
+  autoUpload = true,
 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState<string | undefined>(value);
@@ -57,39 +92,32 @@ export function ImageUpload({
       const base64DataUrl = event.target?.result as string;
       if (!base64DataUrl) return;
 
-      // Update preview dan teruskan URL gambar langsung ke parent component
+      // Update preview langsung agar user melihat perubahan
       setPreview(base64DataUrl);
       onChange(base64DataUrl);
+
+      if (!autoUpload) {
+        // Jika autoUpload false, berhenti di sini (parent akan handle uploadnya)
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
 
       try {
         setIsUploading(true);
 
-        // 2. Ambil Signature Auth dari Backend API
-        const authData = await apiClient.get<ImageKitAuthResponse>(
-          "/auth/imagekit-auth",
-        );
+        const url = await uploadBase64ToR2(base64DataUrl, file.name, folder);
+        
+        // 5. Update form state dengan URL CDN yang sebenarnya
+        onChange(url);
+        setPreview(url); // Use the CDN url for preview to ensure it matches
 
-        // 3. Siapkan FormData untuk Upload ke ImageKit CDN
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("fileName", file.name);
-        formData.append("publicKey", authData.publicKey);
-        formData.append("signature", authData.signature);
-        formData.append("expire", authData.expire.toString());
-        formData.append("token", authData.token);
-        formData.append("folder", folder);
-        formData.append("useUniqueFileName", "true");
-
-        // 4. Upload ke ImageKit (background sync)
-        await fetch("https://upload.imagekit.io/api/v1/files/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        toast.success("Foto berhasil diperbarui dan disinkronkan!");
+        toast.success("Foto berhasil diunggah ke Cloudflare R2!");
       } catch (error: any) {
-        console.warn("Background CDN sync note:", error);
-        toast.success("Foto kamar berhasil diperbarui!");
+        console.error("Image upload error:", error);
+        toast.error(error.message || "Gagal mengunggah foto.");
+        // Fallback: hapus preview jika gagal upload agar tidak disubmit
+        setPreview(undefined);
+        onChange("");
       } finally {
         setIsUploading(false);
         if (fileInputRef.current) {

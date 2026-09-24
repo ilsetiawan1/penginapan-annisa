@@ -15,7 +15,7 @@ import {
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ImageUpload } from "@/components/ui/image-upload";
+import { ImageUpload, uploadBase64ToR2 } from "@/components/ui/image-upload";
 import {
   useCreateSouvenir,
   useDeleteSouvenir,
@@ -35,6 +35,7 @@ export function MasterSouvenirs() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingItem, setEditingItem] = useState<Souvenir | null>(null);
 
   // Form states
@@ -78,31 +79,57 @@ export function MasterSouvenirs() {
       return;
     }
 
-    if (editingItem) {
-      await updateMutation.mutateAsync({
-        id: editingItem.id,
-        input: {
+    try {
+      setIsSubmitting(true);
+      let finalImageUrl = imageUrl;
+
+      // Jika URL adalah DataURL (Base64), artinya foto baru saja dipilih dan belum diupload
+      if (finalImageUrl.startsWith("data:")) {
+        toast.loading("Mengunggah foto ke Cloudflare R2...", { id: "upload-toast" });
+        try {
+          finalImageUrl = await uploadBase64ToR2(
+            finalImageUrl,
+            `souvenir-${Date.now()}.jpg`,
+            "/souvenirs"
+          );
+          toast.success("Foto berhasil diunggah!", { id: "upload-toast" });
+        } catch (error: any) {
+          toast.error(error.message || "Gagal mengunggah foto.", { id: "upload-toast" });
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
+      if (editingItem) {
+        await updateMutation.mutateAsync({
+          id: editingItem.id,
+          input: {
+            name,
+            categoryId,
+            price,
+            stock,
+            description,
+            imageUrl: finalImageUrl || undefined,
+          },
+        });
+      } else {
+        await createMutation.mutateAsync({
           name,
           categoryId,
           price,
           stock,
+          isAvailable: true,
           description,
-          imageUrl: imageUrl || undefined,
-        },
-      });
-    } else {
-      await createMutation.mutateAsync({
-        name,
-        categoryId,
-        price,
-        stock,
-        isAvailable: true,
-        description,
-        imageUrl: imageUrl || undefined,
-      });
-    }
+          imageUrl: finalImageUrl || undefined,
+        });
+      }
 
-    setIsModalOpen(false);
+      setIsModalOpen(false);
+    } catch (error) {
+      // Error handled by mutation
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleDelete = async (id: string, itemName: string) => {
@@ -214,6 +241,7 @@ export function MasterSouvenirs() {
                     src={item.imageUrl}
                     alt={item.name}
                     fill
+                    unoptimized
                     className="object-cover"
                   />
                 ) : (
@@ -283,7 +311,8 @@ export function MasterSouvenirs() {
               value={imageUrl}
               onChange={setImageUrl}
               folder="/souvenirs"
-              label="Foto Produk (ImageKit CDN)"
+              autoUpload={false}
+              label="Foto Produk (Cloudflare R2)"
               description="Upload foto produk untuk etalase publik dan kasir."
             />
 
@@ -374,9 +403,12 @@ export function MasterSouvenirs() {
               </Button>
               <Button
                 type="submit"
-                disabled={createMutation.isPending || updateMutation.isPending}
+                disabled={createMutation.isPending || updateMutation.isPending || isSubmitting}
                 className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-extrabold px-5 shadow-xs"
               >
+                {(createMutation.isPending || updateMutation.isPending || isSubmitting) && (
+                  <RotateCw className="w-4 h-4 mr-2 animate-spin" />
+                )}
                 {editingItem ? "Simpan Perubahan" : "Tambah Produk"}
               </Button>
             </div>

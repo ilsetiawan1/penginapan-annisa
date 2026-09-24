@@ -26,4 +26,11 @@ export const config = {
     urlEndpoint:
       process.env.IMAGEKIT_URL_ENDPOINT || "https://ik.imagekit.io/penginapanannisa",
   },
+  r2: {
+    endpoint: process.env.R2_ENDPOINT || "https://auto.r2.cloudflarestorage.com",
+    accessKeyId: process.env.R2_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || "",
+    bucketName: process.env.R2_BUCKET_NAME || "penginapan-annisa",
+    publicUrl: process.env.NEXT_PUBLIC_R2_PUBLIC_URL || "https://pub-xxxx.r2.dev",
+  },
 };

@@ -20,6 +20,7 @@ export function SouvenirCard({ item, onOpenOrder }: SouvenirCardProps) {
             src={item.image}
             alt={item.name}
             fill
+            unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-700"
           />
         </div>

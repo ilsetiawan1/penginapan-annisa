@@ -110,6 +110,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                 src={item.image}
                 alt={item.name}
                 fill
+                unoptimized
                 className="object-cover"
               />
             </div>

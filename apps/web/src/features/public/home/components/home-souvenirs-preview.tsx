@@ -22,40 +22,21 @@ export function HomeSouvenirsPreview() {
   const baseSouvenirs = SOUVENIR_COLLECTION.slice(0, 5);
   const count = baseSouvenirs.length;
 
-  // Infinite looping track with triple clones (15 items)
-  const [currentIndex, setCurrentIndex] = useState<number>(count + 2); // Mulai di item index 2 pada set ke-2
-  const [isTransitioning, setIsTransitioning] = useState<boolean>(true);
+  const REPEAT_COUNT = 40;
+  const loopTrack = Array.from({ length: REPEAT_COUNT }, () => baseSouvenirs).flat();
+  const initialIndex = Math.floor(REPEAT_COUNT / 2) * count;
+  const [currentIndex, setCurrentIndex] = useState<number>(initialIndex);
   const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
 
-  const loopTrack = [...baseSouvenirs, ...baseSouvenirs, ...baseSouvenirs];
   const activeDotIndex = ((currentIndex % count) + count) % count;
 
   const handlePrev = () => {
-    setIsTransitioning(true);
     setCurrentIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    setIsTransitioning(true);
     setCurrentIndex((prev) => prev + 1);
   };
-
-  // Reset infinite boundary seamlessly
-  useEffect(() => {
-    if (currentIndex <= 1) {
-      const timer = setTimeout(() => {
-        setIsTransitioning(false);
-        setCurrentIndex(currentIndex + count);
-      }, 500);
-      return () => clearTimeout(timer);
-    } else if (currentIndex >= count * 2 + (count - 2)) {
-      const timer = setTimeout(() => {
-        setIsTransitioning(false);
-        setCurrentIndex(currentIndex - count);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [currentIndex, count]);
 
   const CARD_WIDTH = 280; // px
   const CARD_GAP = 20; // px
@@ -102,13 +83,11 @@ export function HomeSouvenirsPreview() {
         {/* Carousel Container */}
         <div className="overflow-hidden py-4 sm:py-6">
           <div
-            className={`flex items-center ${
-              isTransitioning
-                ? "transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                : "transition-none"
-            }`}
+            className="flex items-center transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
             style={{
-              transform: `translateX(calc(50% - ${currentIndex * TOTAL_CARD_UNIT + CARD_WIDTH / 2}px))`,
+              transform: `translateX(calc(50% - ${
+                currentIndex * TOTAL_CARD_UNIT + CARD_WIDTH / 2
+              }px))`,
             }}
           >
             {loopTrack.map((item, index) => {
@@ -118,10 +97,7 @@ export function HomeSouvenirsPreview() {
               return (
                 <div
                   key={`${item.id}-${index}`}
-                  onClick={() => {
-                    setIsTransitioning(true);
-                    setCurrentIndex(index);
-                  }}
+                  onClick={() => setCurrentIndex(index)}
                   className={`w-[260px] sm:w-[280px] shrink-0 mx-2.5 transition-all duration-500 cursor-pointer ${
                     isCenter
                       ? "scale-105 sm:scale-110 z-20 opacity-100"
@@ -143,6 +119,7 @@ export function HomeSouvenirsPreview() {
                         src={item.image}
                         alt={item.name}
                         fill
+                        unoptimized
                         className="object-cover"
                       />
                     </div>
@@ -203,8 +180,8 @@ export function HomeSouvenirsPreview() {
               key={item.id}
               type="button"
               onClick={() => {
-                setIsTransitioning(true);
-                setCurrentIndex(idx + count);
+                const diff = idx - activeDotIndex;
+                setCurrentIndex((prev) => prev + diff);
               }}
               aria-label={`Lihat ${item.name}`}
               className={`transition-all duration-300 rounded-full cursor-pointer ${
