@@ -8,7 +8,7 @@ async function main() {
   // ----------------------------------------------------
   // 1. SEED AKUN USER (OWNER & STAF)
   // ----------------------------------------------------
-  const ownerPassword = await Bun.password.hash("admin123", {
+  const ownerPassword = await Bun.password.hash("owner123", {
     algorithm: "bcrypt",
     cost: 10,
   });
@@ -21,6 +21,7 @@ async function main() {
     where: { email: "owner@penginapan-annisa.com" },
     update: {
       role: "owner",
+      passwordHash: ownerPassword,
     },
     create: {
       name: "Ibu Annisa (Owner)",
@@ -34,6 +35,7 @@ async function main() {
     where: { email: "staff@penginapan-annisa.com" },
     update: {
       role: "staff",
+      passwordHash: staffPassword,
     },
     create: {
       name: "Resepsionis Annisa",

@@ -19,7 +19,7 @@ export default function AdminDashboardLayout({
 
   // Map activeTab from current pathname
   const getActiveTab = () => {
-    if (pathname.includes("/admin/rooms")) return "matrix";
+    if (pathname.includes("/admin/rooms")) return "rooms";
     if (pathname.includes("/admin/reservations")) return "bookings";
     if (pathname.includes("/admin/pos")) return "pos";
     if (pathname.includes("/admin/reports")) return "reports";
@@ -32,6 +32,7 @@ export default function AdminDashboardLayout({
         router.push("/admin/dashboard");
         break;
       case "matrix":
+      case "rooms":
         router.push("/admin/rooms");
         break;
       case "bookings":
@@ -42,6 +43,10 @@ export default function AdminDashboardLayout({
         break;
       case "reports":
         router.push("/admin/reports");
+        break;
+      case "settings":
+      case "staff":
+        router.push("/admin/dashboard");
         break;
       default:
         router.push("/admin/dashboard");
