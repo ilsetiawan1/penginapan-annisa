@@ -1,19 +1,20 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   ArrowRight,
   Bed,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
   Tag,
+  Wind,
 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { FaWhatsapp } from "react-icons/fa6";
-import { Button } from "../../../../components/ui/button";
-import { getRoomBookingWhatsAppUrl } from "../../../../lib/whatsapp";
+import { Button } from "@/components/ui/button";
+import { getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
+import { useRooms } from "@/features/rooms/hooks/use-rooms";
+
+const LOCAL_STORAGE_KEY = "annisa_master_rooms_v3";
 
 interface FeaturedRoom {
   id: string;
@@ -26,53 +27,148 @@ interface FeaturedRoom {
   image: string;
 }
 
-const FEATURED_ROOMS_COLLECTION: FeaturedRoom[] = [
+const DEFAULT_FEATURED_ROOMS: FeaturedRoom[] = [
   {
     id: "A1",
-    name: "Kamar A1",
+    name: "Kamar #A1 (AC)",
     typeLabel: "Tipe AC",
     price: "Rp 275.000",
     priceNum: 275000,
     dp: "Rp 137.500",
     desc: "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-    image: "/rooms/room-ac-101.jpg",
+    image: "",
   },
   {
     id: "A2",
-    name: "Kamar A2",
+    name: "Kamar #A2 (AC)",
     typeLabel: "Tipe AC",
     price: "Rp 275.000",
     priceNum: 275000,
     dp: "Rp 137.500",
     desc: "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-    image: "/rooms/room-ac-102.jpg",
+    image: "",
   },
   {
     id: "A3",
-    name: "Kamar A3",
+    name: "Kamar #A3 (Kipas)",
     typeLabel: "Tipe Kipas",
     price: "Rp 200.000",
     priceNum: 200000,
     dp: "Rp 100.000",
     desc: "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-    image: "/rooms/room-kipas-201.jpg",
+    image: "",
+  },
+  {
+    id: "A4",
+    name: "Kamar #A4 (Kipas)",
+    typeLabel: "Tipe Kipas",
+    price: "Rp 200.000",
+    priceNum: 200000,
+    dp: "Rp 100.000",
+    desc: "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
+    image: "",
   },
 ];
 
 export function HomeRoomsPreview() {
-  // Default urutan kedua (Index 1: Kamar A2 Favorit) berada di tengah & ter-highlight
   const [activeIndex, setActiveIndex] = useState<number>(1);
+  const [rooms, setRooms] = useState<FeaturedRoom[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (saved) {
+          const masterRooms = JSON.parse(saved);
+          if (Array.isArray(masterRooms) && masterRooms.length > 0) {
+            return masterRooms.slice(0, 4).map((mr: any) => {
+              const isAc = mr.type === "ac";
+              const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
+              const dpNum = Math.round(priceNum * 0.5);
+
+              return {
+                id: mr.code,
+                name: mr.name || `Kamar #${mr.code} (${isAc ? "AC" : "Kipas"})`,
+                typeLabel: isAc ? "Tipe AC" : "Tipe Kipas",
+                price: `Rp ${priceNum.toLocaleString("id-ID")}`,
+                priceNum,
+                dp: `Rp ${dpNum.toLocaleString("id-ID")}`,
+                desc:
+                  mr.description ||
+                  "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
+                image: mr.imageUrl || "",
+              };
+            });
+          }
+        }
+      } catch {
+        // fallback
+      }
+    }
+    return DEFAULT_FEATURED_ROOMS;
+  });
+
+  const { data: dbRooms } = useRooms();
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (saved) {
+        const masterRooms = JSON.parse(saved);
+        if (Array.isArray(masterRooms) && masterRooms.length > 0) {
+          const mapped: FeaturedRoom[] = masterRooms.slice(0, 4).map((mr: any) => {
+            const isAc = mr.type === "ac";
+            const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
+            const dpNum = Math.round(priceNum * 0.5);
+
+            return {
+              id: mr.code,
+              name: mr.name || `Kamar #${mr.code} (${isAc ? "AC" : "Kipas"})`,
+              typeLabel: isAc ? "Tipe AC" : "Tipe Kipas",
+              price: `Rp ${priceNum.toLocaleString("id-ID")}`,
+              priceNum,
+              dp: `Rp ${dpNum.toLocaleString("id-ID")}`,
+              desc:
+                mr.description ||
+                "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
+              image: mr.imageUrl || "",
+            };
+          });
+          setRooms(mapped);
+          return;
+        }
+      }
+
+      if (dbRooms && dbRooms.length > 0) {
+        const mappedFromDb: FeaturedRoom[] = dbRooms.slice(0, 4).map((r) => {
+          const isAc =
+            r.roomType?.name?.toLowerCase().includes("ac") ||
+            r.roomNumber.startsWith("A");
+          const priceNum = r.roomType?.basePrice || (isAc ? 275000 : 200000);
+          const dpNum = Math.round(priceNum * 0.5);
+
+          return {
+            id: r.roomNumber,
+            name: `Kamar #${r.roomNumber} (${isAc ? "AC" : "Kipas"})`,
+            typeLabel: isAc ? "Tipe AC" : "Tipe Kipas",
+            price: `Rp ${priceNum.toLocaleString("id-ID")}`,
+            priceNum,
+            dp: `Rp ${dpNum.toLocaleString("id-ID")}`,
+            desc: "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
+            image: r.roomType?.images?.[0]?.imageUrl || "",
+          };
+        });
+        setRooms(mappedFromDb);
+      }
+    } catch {
+      // fallback
+    }
+  }, [dbRooms]);
 
   const handlePrev = () => {
-    setActiveIndex((prev) =>
-      prev === 0 ? FEATURED_ROOMS_COLLECTION.length - 1 : prev - 1,
-    );
+    setActiveIndex((prev) => (prev === 0 ? rooms.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) =>
-      prev === FEATURED_ROOMS_COLLECTION.length - 1 ? 0 : prev + 1,
-    );
+    setActiveIndex((prev) => (prev === rooms.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -91,7 +187,7 @@ export function HomeRoomsPreview() {
         </p>
       </div>
 
-      {/* 3D Smooth Sliding Carousel Track (Serasi dengan Oleh-Oleh) */}
+      {/* 3D Smooth Sliding Carousel Track */}
       <div className="relative max-w-6xl mx-auto px-4 sm:px-12">
         {/* Tombol Navigasi Kiri */}
         <button
@@ -113,7 +209,7 @@ export function HomeRoomsPreview() {
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Viewport Track (Translasi Berbasis Lebar Tetap = Nol Glitch) */}
+        {/* Viewport Track */}
         <div className="overflow-hidden w-full py-6">
           <div
             className="flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
@@ -121,7 +217,7 @@ export function HomeRoomsPreview() {
               transform: `translateX(calc(${(1 - activeIndex) * 316}px))`,
             }}
           >
-            {FEATURED_ROOMS_COLLECTION.map((room, idx) => {
+            {rooms.map((room, idx) => {
               const isCenter = idx === activeIndex;
               const distance = Math.abs(idx - activeIndex);
 
@@ -140,16 +236,24 @@ export function HomeRoomsPreview() {
                           : "bg-white/80 border border-slate-200/60 shadow-xs scale-90 opacity-40 hover:opacity-70"
                     }`}
                   >
-                    {/* Foto Kamar Bersih & Luas */}
+                    {/* Foto Kamar Bersih atau Placeholder */}
                     <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden">
-                      <Image
-                        src={room.image}
-                        alt={room.name}
-                        fill
-                        className={`object-cover transition-transform duration-700 ${
-                          isCenter ? "scale-105" : "scale-100"
-                        }`}
-                      />
+                      {room.image ? (
+                        <img
+                          src={room.image}
+                          alt={room.name}
+                          className={`w-full h-full object-cover transition-transform duration-700 ${
+                            isCenter ? "scale-105" : "scale-100"
+                          }`}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-purple-50 via-purple-100/40 to-slate-100 flex flex-col items-center justify-center gap-1.5 text-purple-700/60 p-4">
+                          <Bed className="w-8 h-8 stroke-[1.5]" />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            {room.name}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Body Info */}
@@ -161,7 +265,7 @@ export function HomeRoomsPreview() {
                           <span className="truncate">{room.typeLabel}</span>
                         </div>
 
-                        {/* Nama Kamar (Poppins Font) */}
+                        {/* Nama Kamar */}
                         <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug line-clamp-1">
                           {room.name}
                         </h3>
@@ -206,7 +310,6 @@ export function HomeRoomsPreview() {
                             <Bed className="w-4 h-4" />
                           </div>
                         )}
-
                       </div>
                     </div>
                   </div>
@@ -216,9 +319,9 @@ export function HomeRoomsPreview() {
           </div>
         </div>
 
-        {/* Pagination Dots Slider Indicator (3 Dots) */}
+        {/* Pagination Dots Slider Indicator */}
         <div className="flex items-center justify-center gap-1.5 mt-2 sm:mt-3">
-          {FEATURED_ROOMS_COLLECTION.map((room, idx) => (
+          {rooms.map((room, idx) => (
             <button
               key={room.id}
               type="button"
