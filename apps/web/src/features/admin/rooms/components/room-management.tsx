@@ -49,7 +49,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    imageUrl: "/images/kamar-ac.png",
+    imageUrl: "/rooms/room-ac-101.jpg",
     description: "Kamar berpendingin AC sejuk dan tenang, cocok untuk transit penerbangan Bandara Pattimura Ambon.",
     facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
     capacity: 2,
@@ -64,7 +64,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    imageUrl: "/images/kamar-ac.png",
+    imageUrl: "/rooms/room-ac-102.jpg",
     description: "Kamar AC nyaman dengan akses cepat ke front desk, fasilitas lengkap untuk istirahat optimal.",
     facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
     capacity: 2,
@@ -79,7 +79,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    imageUrl: "/images/kamar-kipas.png",
+    imageUrl: "/rooms/room-kipas-201.jpg",
     description: "Kamar hemat dengan sirkulasi udara alami dan kipas angin dinding, bersih dan higienis.",
     facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
     capacity: 2,
@@ -94,7 +94,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    imageUrl: "/images/kamar-kipas.png",
+    imageUrl: "/rooms/room-kipas-202.jpg",
     description: "Pilihan ekonomis transit bandara dengan kasur empuk dan fasilitas kamar mandi dalam.",
     facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
     capacity: 2,
@@ -111,7 +111,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    imageUrl: "/images/kamar-ac.png",
+    imageUrl: "/rooms/room-ac-101.jpg",
     description: "Kamar AC bangunan kanan dengan suasana privat dan hening, dilengkapi kasur premium.",
     facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
     capacity: 2,
@@ -126,7 +126,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    imageUrl: "/images/kamar-ac.png",
+    imageUrl: "/rooms/room-ac-102.jpg",
     description: "Kamar AC bersih dengan ventilasi yang baik, sangat dekat dengan area parkir.",
     facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
     capacity: 2,
@@ -141,7 +141,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    imageUrl: "/images/kamar-kipas.png",
+    imageUrl: "/rooms/room-kipas-201.jpg",
     description: "Kamar kipas angin bangunan kanan yang sejuk, bersih, dan hemat biaya.",
     facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
     capacity: 2,
@@ -156,7 +156,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    imageUrl: "/images/kamar-kipas.png",
+    imageUrl: "/rooms/room-kipas-202.jpg",
     description: "Pilihan kamar ekonomis bagi backpacker atau transit singkat sebelum penerbangan.",
     facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
     capacity: 2,
@@ -164,7 +164,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
   },
 ];
 
-const LOCAL_STORAGE_KEY = "annisa_master_rooms_v2";
+const LOCAL_STORAGE_KEY = "annisa_master_rooms_v3";
 
 export function RoomManagement() {
   const { data: serverTypes, isLoading, refetch } = useRoomTypes();
@@ -180,7 +180,18 @@ export function RoomManagement() {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
-        setRooms(JSON.parse(saved));
+        const parsed: MasterRoomItem[] = JSON.parse(saved);
+        // Sanitize broken old /images/ paths
+        const sanitized = parsed.map((r) => {
+          if (!r.imageUrl || r.imageUrl.startsWith("/images/")) {
+            return {
+              ...r,
+              imageUrl: r.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg",
+            };
+          }
+          return r;
+        });
+        setRooms(sanitized);
       } else if (serverTypes && serverTypes.length > 0) {
         // Sync prices and photos from server types
         const acType = serverTypes.find((t) => t.slug.includes("ac"));
@@ -197,7 +208,12 @@ export function RoomManagement() {
               return {
                 ...r,
                 price: matchType.basePrice || r.price,
-                imageUrl: primaryImg || r.imageUrl,
+                imageUrl:
+                  primaryImg && !primaryImg.startsWith("/images/")
+                    ? primaryImg
+                    : r.type === "ac"
+                      ? "/rooms/room-ac-101.jpg"
+                      : "/rooms/room-kipas-201.jpg",
                 facilities:
                   Array.isArray(matchType.facilities) && matchType.facilities.length > 0
                     ? matchType.facilities
@@ -664,12 +680,13 @@ function RoomMasterCard({
 
       {/* Room Photo Preview */}
       <div className="relative w-full h-32 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-2xs">
-        <Image
-          src={room.imageUrl || (isAc ? "/images/kamar-ac.png" : "/images/kamar-kipas.png")}
+        <img
+          src={room.imageUrl || (isAc ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg")}
           alt={room.name}
-          fill
-          unoptimized
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          onError={(e) => {
+            e.currentTarget.src = isAc ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg";
+          }}
         />
         <div className="absolute bottom-1.5 left-1.5 bg-slate-950/75 backdrop-blur-xs px-2 py-0.5 rounded-md text-[9px] text-white font-bold">
           {room.typeName}

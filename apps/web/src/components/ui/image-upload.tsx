@@ -109,12 +109,14 @@ export function ImageUpload({
 
       {preview ? (
         <div className="relative w-full h-48 sm:h-56 rounded-2xl overflow-hidden border-2 border-purple-200 bg-slate-100 group shadow-xs">
-          <Image
+          <img
             src={preview}
             alt="Preview Foto"
-            fill
-            unoptimized
-            className="object-cover"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // fallback if broken
+              e.currentTarget.src = "/rooms/room-ac-101.jpg";
+            }}
           />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
             <button
