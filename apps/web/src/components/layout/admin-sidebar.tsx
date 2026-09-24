@@ -13,6 +13,7 @@ import {
   Gift,
   Home,
   LogOut,
+  Package,
   PanelLeftClose,
   PanelLeftOpen,
   Settings,
@@ -76,7 +77,7 @@ export function AdminSidebar({
         },
         {
           href: "/admin/rooms",
-          label: "Matriks 8 Kamar",
+          label: "Status Kamar",
           icon: Bed,
           roles: ["owner", "staff"],
         },
@@ -104,6 +105,18 @@ export function AdminSidebar({
       title: "PENGATURAN MASTER",
       items: [
         {
+          href: "/admin/master-rooms",
+          label: "Kelola Kamar & Tarif",
+          icon: SlidersHorizontal,
+          roles: ["owner"],
+        },
+        {
+          href: "/admin/master-souvenirs",
+          label: "Kelola Oleh-Oleh",
+          icon: Package,
+          roles: ["owner"],
+        },
+        {
           href: "/admin/staff",
           label: "Kelola Akun Staf",
           icon: Users,
@@ -113,7 +126,7 @@ export function AdminSidebar({
           href: "/admin/settings",
           label: "Pengaturan Sistem",
           icon: Settings,
-          roles: ["owner", "staff"],
+          roles: ["owner"],
         },
       ],
     },
