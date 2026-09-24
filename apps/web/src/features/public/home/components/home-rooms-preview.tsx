@@ -8,7 +8,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Tag,
-  Wind,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
@@ -27,7 +26,7 @@ interface FeaturedRoom {
   image: string;
 }
 
-const DEFAULT_FEATURED_ROOMS: FeaturedRoom[] = [
+const DEFAULT_3_FEATURED_ROOMS: FeaturedRoom[] = [
   {
     id: "A1",
     name: "Kamar #A1 (AC)",
@@ -58,20 +57,10 @@ const DEFAULT_FEATURED_ROOMS: FeaturedRoom[] = [
     desc: "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
     image: "",
   },
-  {
-    id: "A4",
-    name: "Kamar #A4 (Kipas)",
-    typeLabel: "Tipe Kipas",
-    price: "Rp 200.000",
-    priceNum: 200000,
-    dp: "Rp 100.000",
-    desc: "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-    image: "",
-  },
 ];
 
 export function HomeRoomsPreview() {
-  const [activeIndex, setActiveIndex] = useState<number>(1);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const [rooms, setRooms] = useState<FeaturedRoom[]>(() => {
     if (typeof window !== "undefined") {
       try {
@@ -79,7 +68,7 @@ export function HomeRoomsPreview() {
         if (saved) {
           const masterRooms = JSON.parse(saved);
           if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-            return masterRooms.slice(0, 4).map((mr: any) => {
+            return masterRooms.slice(0, 3).map((mr: any) => {
               const isAc = mr.type === "ac";
               const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
               const dpNum = Math.round(priceNum * 0.5);
@@ -103,7 +92,7 @@ export function HomeRoomsPreview() {
         // fallback
       }
     }
-    return DEFAULT_FEATURED_ROOMS;
+    return DEFAULT_3_FEATURED_ROOMS;
   });
 
   const { data: dbRooms } = useRooms();
@@ -114,7 +103,7 @@ export function HomeRoomsPreview() {
       if (saved) {
         const masterRooms = JSON.parse(saved);
         if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-          const mapped: FeaturedRoom[] = masterRooms.slice(0, 4).map((mr: any) => {
+          const mapped: FeaturedRoom[] = masterRooms.slice(0, 3).map((mr: any) => {
             const isAc = mr.type === "ac";
             const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
             const dpNum = Math.round(priceNum * 0.5);
@@ -138,7 +127,7 @@ export function HomeRoomsPreview() {
       }
 
       if (dbRooms && dbRooms.length > 0) {
-        const mappedFromDb: FeaturedRoom[] = dbRooms.slice(0, 4).map((r) => {
+        const mappedFromDb: FeaturedRoom[] = dbRooms.slice(0, 3).map((r) => {
           const isAc =
             r.roomType?.name?.toLowerCase().includes("ac") ||
             r.roomNumber.startsWith("A");
@@ -163,17 +152,30 @@ export function HomeRoomsPreview() {
     }
   }, [dbRooms]);
 
+  const count = rooms.length || 3;
+
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? rooms.length - 1 : prev - 1));
+    setActiveIndex((prev) => (prev - 1 + count) % count);
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev === rooms.length - 1 ? 0 : prev + 1));
+    setActiveIndex((prev) => (prev + 1) % count);
   };
+
+  // Indeks 3 Posisi Sirkuler Infinite: Kiri, Tengah (Aktif), Kanan
+  const leftIndex = (activeIndex - 1 + count) % count;
+  const centerIndex = activeIndex;
+  const rightIndex = (activeIndex + 1) % count;
+
+  const visibleCards = [
+    { room: rooms[leftIndex] || DEFAULT_3_FEATURED_ROOMS[0], role: "left", targetIndex: leftIndex },
+    { room: rooms[centerIndex] || DEFAULT_3_FEATURED_ROOMS[1], role: "center", targetIndex: centerIndex },
+    { room: rooms[rightIndex] || DEFAULT_3_FEATURED_ROOMS[2], role: "right", targetIndex: rightIndex },
+  ];
 
   return (
     <div className="w-full relative overflow-hidden py-4 sm:py-6">
-      {/* Centered Section Header dengan Font Serif Georgia */}
+      {/* Centered Section Header */}
       <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8 px-4">
         <span className="text-[11px] font-black uppercase tracking-widest text-purple-700 block mb-1.5">
           PILIHAN KAMAR TRANSIT
@@ -187,14 +189,14 @@ export function HomeRoomsPreview() {
         </p>
       </div>
 
-      {/* 3D Smooth Sliding Carousel Track */}
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-12">
+      {/* Infinite Looping 3-Card Carousel Track */}
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-12">
         {/* Tombol Navigasi Kiri */}
         <button
           type="button"
           onClick={handlePrev}
           aria-label="Kamar Sebelumnya"
-          className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
+          className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
@@ -204,36 +206,32 @@ export function HomeRoomsPreview() {
           type="button"
           onClick={handleNext}
           aria-label="Kamar Berikutnya"
-          className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
+          className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Viewport Track */}
-        <div className="overflow-hidden w-full py-6">
-          <div
-            className="flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
-            style={{
-              transform: `translateX(calc(${(1 - activeIndex) * 316}px))`,
-            }}
-          >
-            {rooms.map((room, idx) => {
-              const isCenter = idx === activeIndex;
-              const distance = Math.abs(idx - activeIndex);
+        {/* 3 Visible Cards Layout (Always fills Left, Center, Right) */}
+        <div className="overflow-hidden w-full py-4 sm:py-6">
+          <div className="flex items-center justify-center gap-3 sm:gap-5">
+            {visibleCards.map(({ room, role, targetIndex }) => {
+              const isCenter = role === "center";
 
               return (
                 <div
-                  key={room.id}
-                  onClick={() => setActiveIndex(idx)}
-                  className="w-[280px] sm:w-[300px] shrink-0 mx-2 select-none cursor-pointer"
+                  key={`${room.id}-${role}`}
+                  onClick={() => setActiveIndex(targetIndex)}
+                  className={`w-[260px] sm:w-[300px] shrink-0 select-none cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    isCenter
+                      ? "scale-100 sm:scale-105 opacity-100 z-20"
+                      : "scale-90 sm:scale-95 opacity-65 hover:opacity-90 z-10 hidden sm:block"
+                  }`}
                 >
                   <div
-                    className={`rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    className={`rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 ${
                       isCenter
-                        ? "bg-white border-2 border-purple-400 shadow-2xl shadow-purple-900/20 scale-100 sm:scale-105 opacity-100 ring-4 ring-purple-100/50"
-                        : distance === 1
-                          ? "bg-white/95 border border-slate-200/90 shadow-md scale-95 opacity-75 hover:opacity-95"
-                          : "bg-white/80 border border-slate-200/60 shadow-xs scale-90 opacity-40 hover:opacity-70"
+                        ? "bg-white border-2 border-purple-400 shadow-2xl shadow-purple-900/20 ring-4 ring-purple-100/50"
+                        : "bg-white/95 border border-slate-200/90 shadow-md"
                     }`}
                   >
                     {/* Foto Kamar Bersih atau Placeholder */}
@@ -319,9 +317,9 @@ export function HomeRoomsPreview() {
           </div>
         </div>
 
-        {/* Pagination Dots Slider Indicator */}
+        {/* Pagination Dots Slider Indicator (3 Dots) */}
         <div className="flex items-center justify-center gap-1.5 mt-2 sm:mt-3">
-          {rooms.map((room, idx) => (
+          {rooms.slice(0, 3).map((room, idx) => (
             <button
               key={room.id}
               type="button"
