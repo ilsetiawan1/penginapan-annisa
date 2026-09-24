@@ -1,256 +1,566 @@
 "use client";
 
-import { Bed, Check, Plus, RotateCw, Save, Trash2, Wind } from "lucide-react";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import {
+  Bed,
+  Check,
+  Edit3,
+  ImagePlus,
+  Plus,
+  RotateCw,
+  Save,
+  Trash2,
+  Wind,
+  X,
+  Sparkles,
+  Building,
+  CheckCircle2,
+} from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { useRoomTypes, useUpdateRoomRate } from "@/features/rooms/hooks/use-rooms";
 
-interface LocalRoomTypeState {
+export interface MasterRoomItem {
   id: string;
+  code: string;
   name: string;
-  basePrice: number;
+  building: "A" | "B";
+  buildingName: string;
+  type: "ac" | "kipas";
+  typeName: string;
+  price: number;
+  imageUrl: string;
+  description: string;
+  facilities: string[];
   capacity: number;
   bedType: string;
-  facilities: string[];
-  imageUrl: string;
-  roomCodes: string[];
-  unitCount: number;
 }
+
+const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
+  // BANGUNAN A (SISI KIRI) - 2 AC & 2 KIPAS
+  {
+    id: "room-a1",
+    code: "A1",
+    name: "Kamar #A1 (AC)",
+    building: "A",
+    buildingName: "Bangunan A (Sisi Kiri)",
+    type: "ac",
+    typeName: "Kamar Tipe AC",
+    price: 275000,
+    imageUrl: "/images/kamar-ac.png",
+    description: "Kamar berpendingin AC sejuk dan tenang, cocok untuk transit penerbangan Bandara Pattimura Ambon.",
+    facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
+    capacity: 2,
+    bedType: "Queen Bed",
+  },
+  {
+    id: "room-a2",
+    code: "A2",
+    name: "Kamar #A2 (AC)",
+    building: "A",
+    buildingName: "Bangunan A (Sisi Kiri)",
+    type: "ac",
+    typeName: "Kamar Tipe AC",
+    price: 275000,
+    imageUrl: "/images/kamar-ac.png",
+    description: "Kamar AC nyaman dengan akses cepat ke front desk, fasilitas lengkap untuk istirahat optimal.",
+    facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
+    capacity: 2,
+    bedType: "Queen Bed",
+  },
+  {
+    id: "room-a3",
+    code: "A3",
+    name: "Kamar #A3 (Kipas)",
+    building: "A",
+    buildingName: "Bangunan A (Sisi Kiri)",
+    type: "kipas",
+    typeName: "Kamar Tipe Kipas",
+    price: 200000,
+    imageUrl: "/images/kamar-kipas.png",
+    description: "Kamar hemat dengan sirkulasi udara alami dan kipas angin dinding, bersih dan higienis.",
+    facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
+    capacity: 2,
+    bedType: "Queen Bed",
+  },
+  {
+    id: "room-a4",
+    code: "A4",
+    name: "Kamar #A4 (Kipas)",
+    building: "A",
+    buildingName: "Bangunan A (Sisi Kiri)",
+    type: "kipas",
+    typeName: "Kamar Tipe Kipas",
+    price: 200000,
+    imageUrl: "/images/kamar-kipas.png",
+    description: "Pilihan ekonomis transit bandara dengan kasur empuk dan fasilitas kamar mandi dalam.",
+    facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
+    capacity: 2,
+    bedType: "Queen Bed",
+  },
+
+  // BANGUNAN B (SISI KANAN) - 2 AC & 2 KIPAS
+  {
+    id: "room-b1",
+    code: "B1",
+    name: "Kamar #B1 (AC)",
+    building: "B",
+    buildingName: "Bangunan B (Sisi Kanan)",
+    type: "ac",
+    typeName: "Kamar Tipe AC",
+    price: 275000,
+    imageUrl: "/images/kamar-ac.png",
+    description: "Kamar AC bangunan kanan dengan suasana privat dan hening, dilengkapi kasur premium.",
+    facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
+    capacity: 2,
+    bedType: "Queen Bed",
+  },
+  {
+    id: "room-b2",
+    code: "B2",
+    name: "Kamar #B2 (AC)",
+    building: "B",
+    buildingName: "Bangunan B (Sisi Kanan)",
+    type: "ac",
+    typeName: "Kamar Tipe AC",
+    price: 275000,
+    imageUrl: "/images/kamar-ac.png",
+    description: "Kamar AC bersih dengan ventilasi yang baik, sangat dekat dengan area parkir.",
+    facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
+    capacity: 2,
+    bedType: "Queen Bed",
+  },
+  {
+    id: "room-b3",
+    code: "B3",
+    name: "Kamar #B3 (Kipas)",
+    building: "B",
+    buildingName: "Bangunan B (Sisi Kanan)",
+    type: "kipas",
+    typeName: "Kamar Tipe Kipas",
+    price: 200000,
+    imageUrl: "/images/kamar-kipas.png",
+    description: "Kamar kipas angin bangunan kanan yang sejuk, bersih, dan hemat biaya.",
+    facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
+    capacity: 2,
+    bedType: "Queen Bed",
+  },
+  {
+    id: "room-b4",
+    code: "B4",
+    name: "Kamar #B4 (Kipas)",
+    building: "B",
+    buildingName: "Bangunan B (Sisi Kanan)",
+    type: "kipas",
+    typeName: "Kamar Tipe Kipas",
+    price: 200000,
+    imageUrl: "/images/kamar-kipas.png",
+    description: "Pilihan kamar ekonomis bagi backpacker atau transit singkat sebelum penerbangan.",
+    facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
+    capacity: 2,
+    bedType: "Queen Bed",
+  },
+];
+
+const LOCAL_STORAGE_KEY = "annisa_master_rooms_v2";
 
 export function RoomManagement() {
   const { data: serverTypes, isLoading, refetch } = useRoomTypes();
   const updateRoomRateMutation = useUpdateRoomRate();
 
-  const [types, setTypes] = useState<LocalRoomTypeState[]>([]);
-  const [newFacilityInputs, setNewFacilityInputs] = useState<Record<string, string>>({});
+  const [rooms, setRooms] = useState<MasterRoomItem[]>(DEFAULT_MASTER_ROOMS);
+  const [editingRoom, setEditingRoom] = useState<MasterRoomItem | null>(null);
+  const [newFacilityInput, setNewFacilityInput] = useState<string>("");
+  const [filterBuilding, setFilterBuilding] = useState<"all" | "A" | "B">("all");
 
+  // Load from localStorage or sync with server types
   useEffect(() => {
-    if (serverTypes && serverTypes.length > 0) {
-      setTypes(
-        serverTypes.map((st) => {
-          const isAc = st.slug.includes("ac");
-          const roomCodes = isAc
-            ? ["#A1", "#A2", "#B1", "#B2"]
-            : ["#A3", "#A4", "#B3", "#B4"];
-          const primaryImage =
-            st.images && st.images.length > 0
-              ? st.images[0].imageUrl
-              : isAc
-                ? "/images/kamar-ac.png"
-                : "/images/kamar-kipas.png";
+    try {
+      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (saved) {
+        setRooms(JSON.parse(saved));
+      } else if (serverTypes && serverTypes.length > 0) {
+        // Sync prices and photos from server types
+        const acType = serverTypes.find((t) => t.slug.includes("ac"));
+        const kipasType = serverTypes.find((t) => !t.slug.includes("ac"));
 
-          return {
-            id: st.id,
-            name: st.name,
-            basePrice: st.basePrice,
-            capacity: st.capacity,
-            bedType: st.bedType,
-            facilities: Array.isArray(st.facilities) ? st.facilities : [],
-            imageUrl: primaryImage,
-            roomCodes,
-            unitCount: 4,
-          };
-        }),
-      );
+        setRooms((prev) =>
+          prev.map((r) => {
+            const matchType = r.type === "ac" ? acType : kipasType;
+            if (matchType) {
+              const primaryImg =
+                matchType.images && matchType.images.length > 0
+                  ? matchType.images[0].imageUrl
+                  : r.imageUrl;
+              return {
+                ...r,
+                price: matchType.basePrice || r.price,
+                imageUrl: primaryImg || r.imageUrl,
+                facilities:
+                  Array.isArray(matchType.facilities) && matchType.facilities.length > 0
+                    ? matchType.facilities
+                    : r.facilities,
+              };
+            }
+            return r;
+          }),
+        );
+      }
+    } catch {
+      // fallback
     }
   }, [serverTypes]);
 
-  const handlePriceChange = (id: string, newPrice: number) => {
-    setTypes((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, basePrice: newPrice } : t)),
-    );
-  };
-
-  const handleImageChange = (id: string, newImageUrl: string) => {
-    setTypes((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, imageUrl: newImageUrl } : t)),
-    );
-  };
-
-  const handleAddFacility = (id: string) => {
-    const text = newFacilityInputs[id]?.trim();
-    if (!text) return;
-
-    setTypes((prev) =>
-      prev.map((t) =>
-        t.id === id && !t.facilities.includes(text)
-          ? { ...t, facilities: [...t.facilities, text] }
-          : t,
-      ),
-    );
-
-    setNewFacilityInputs((prev) => ({ ...prev, [id]: "" }));
-  };
-
-  const handleRemoveFacility = (id: string, facToRemove: string) => {
-    setTypes((prev) =>
-      prev.map((t) =>
-        t.id === id
-          ? { ...t, facilities: t.facilities.filter((f) => f !== facToRemove) }
-          : t,
-      ),
-    );
-  };
-
-  const handleSaveAll = async () => {
+  // Save to local storage whenever rooms state changes
+  const saveRoomsLocally = (updatedRooms: MasterRoomItem[]) => {
+    setRooms(updatedRooms);
     try {
-      for (const t of types) {
-        await updateRoomRateMutation.mutateAsync({
-          id: t.id,
-          input: {
-            basePrice: t.basePrice,
-            facilities: t.facilities,
-          },
-        });
-      }
-      toast.success("Semua tarif dan spesifikasi kamar berhasil disimpan ke database!");
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedRooms));
     } catch {
-      toast.error("Gagal menyimpan perubahan ke database.");
+      // ignore
     }
   };
 
+  // Open Edit Modal for a specific room
+  const handleOpenEdit = (room: MasterRoomItem) => {
+    setEditingRoom({ ...room });
+    setNewFacilityInput("");
+  };
+
+  // Save edited room
+  const handleSaveEdit = async () => {
+    if (!editingRoom) return;
+
+    const updatedRooms = rooms.map((r) =>
+      r.code === editingRoom.code ? editingRoom : r,
+    );
+    saveRoomsLocally(updatedRooms);
+
+    // Sync to backend room rate mutation if type is matched
+    try {
+      if (serverTypes && serverTypes.length > 0) {
+        const targetType = serverTypes.find((st) =>
+          editingRoom.type === "ac" ? st.slug.includes("ac") : !st.slug.includes("ac"),
+        );
+        if (targetType) {
+          await updateRoomRateMutation.mutateAsync({
+            id: targetType.id,
+            input: {
+              basePrice: editingRoom.price,
+              facilities: editingRoom.facilities,
+            },
+          });
+        }
+      }
+      toast.success(
+        `Spesifikasi & Tarif Kamar #${editingRoom.code} berhasil diperbarui!`,
+      );
+    } catch {
+      toast.success(
+        `Spesifikasi Kamar #${editingRoom.code} berhasil disimpan secara lokal!`,
+      );
+    }
+
+    setEditingRoom(null);
+  };
+
+  // Add facility inside edit modal
+  const handleAddFacility = () => {
+    if (!editingRoom) return;
+    const text = newFacilityInput.trim();
+    if (!text) return;
+    if (editingRoom.facilities.includes(text)) {
+      toast.info("Fasilitas tersebut sudah ada.");
+      return;
+    }
+    setEditingRoom({
+      ...editingRoom,
+      facilities: [...editingRoom.facilities, text],
+    });
+    setNewFacilityInput("");
+  };
+
+  // Remove facility inside edit modal
+  const handleRemoveFacility = (facToRemove: string) => {
+    if (!editingRoom) return;
+    setEditingRoom({
+      ...editingRoom,
+      facilities: editingRoom.facilities.filter((f) => f !== facToRemove),
+    });
+  };
+
+  // Reset to default
+  const handleResetDefault = () => {
+    saveRoomsLocally(DEFAULT_MASTER_ROOMS);
+    refetch();
+    toast.success("Data 8 kamar berhasil di-reset ke pengaturan standar!");
+  };
+
+  const filteredRooms =
+    filterBuilding === "all"
+      ? rooms
+      : rooms.filter((r) => r.building === filterBuilding);
+
+  const roomsA = filteredRooms.filter((r) => r.building === "A");
+  const roomsB = filteredRooms.filter((r) => r.building === "B");
+
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      {/* Header Info */}
+    <div className="space-y-6">
+      {/* 1. Header Info & Aksi Global */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-2xs">
         <div>
           <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-            Pengaturan Master Tarif &amp; Galeri
+            Pengaturan Master Tarif, Foto &amp; Kamar
           </span>
           <h2 className="text-base sm:text-lg font-black text-slate-900 leading-tight mt-1">
-            Pengaturan Tarif, Fasilitas &amp; Foto 8 Kamar
+            Kelola 8 Kamar &amp; Tarif Sewa
           </h2>
           <p className="text-xs text-slate-500">
-            Perubahan harga dan foto di sini terhubung langsung ke ImageKit CDN, database PostgreSQL, dan portal publik.
+            Klik tombol <strong>Edit</strong> pada kartu kamar untuk mengubah foto ImageKit CDN, judul, tarif sewa, serta fasilitas kamar.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => refetch()}
-            title="Refresh Data Tarif"
+            onClick={handleResetDefault}
+            title="Reset ke Standar"
             className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
           >
             <RotateCw
               className={`w-4 h-4 ${isLoading ? "animate-spin text-purple-700" : ""}`}
             />
-            <span className="text-xs font-black hidden sm:inline">Refresh</span>
+            <span className="text-xs font-black hidden sm:inline">Reset Standar</span>
           </button>
-
-          <Button
-            type="button"
-            disabled={updateRoomRateMutation.isPending}
-            onClick={handleSaveAll}
-            className="rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-6 gap-2 shadow-md cursor-pointer"
-          >
-            <Save className="w-4 h-4" />
-            <span>{updateRoomRateMutation.isPending ? "Menyimpan..." : "Simpan Perubahan"}</span>
-          </Button>
         </div>
       </div>
 
-      {/* 2 Tipe Kamar Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {types.map((type) => (
-          <div
-            key={type.id}
-            className="bg-white rounded-3xl border-2 border-purple-200/90 p-5 sm:p-6 shadow-2xs space-y-4 flex flex-col justify-between"
-          >
-            <div className="space-y-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-md">
-                    {type.unitCount} Unit Kamar
-                  </span>
-                  <h3 className="text-base font-black text-slate-900 mt-1">
-                    {type.name}
-                  </h3>
+      {/* 2. Filter Bangunan Pill Bar */}
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+        <button
+          type="button"
+          onClick={() => setFilterBuilding("all")}
+          className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+            filterBuilding === "all"
+              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+              : "bg-white text-slate-600 hover:bg-purple-50 border border-purple-100"
+          }`}
+        >
+          Semua Kamar (8 Unit)
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFilterBuilding("A")}
+          className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            filterBuilding === "A"
+              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-purple-600" />
+          <span>Bangunan A (4 Kamar: 2 AC • 2 Kipas)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFilterBuilding("B")}
+          className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            filterBuilding === "B"
+              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
+              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-indigo-600" />
+          <span>Bangunan B (4 Kamar: 2 AC • 2 Kipas)</span>
+        </button>
+      </div>
+
+      {/* 3. Grid 8 Kamar Terbagi 2 Bangunan */}
+      <div className="space-y-8">
+        {/* Bangunan A Section */}
+        {(filterBuilding === "all" || filterBuilding === "A") && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
+                <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
+                  Bangunan A (Sisi Kiri)
+                </h3>
+              </div>
+              <span className="text-xs font-bold text-slate-400">
+                2 Kamar AC • 2 Kamar Kipas
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {roomsA.map((room) => (
+                <RoomMasterCard
+                  key={room.code}
+                  room={room}
+                  onEdit={() => handleOpenEdit(room)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Bangunan B Section */}
+        {(filterBuilding === "all" || filterBuilding === "B") && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-indigo-700" />
+                <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
+                  Bangunan B (Sisi Kanan)
+                </h3>
+              </div>
+              <span className="text-xs font-bold text-slate-400">
+                2 Kamar AC • 2 Kamar Kipas
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {roomsB.map((room) => (
+                <RoomMasterCard
+                  key={room.code}
+                  room={room}
+                  onEdit={() => handleOpenEdit(room)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 4. Modal Edit Spesifikasi, Foto & Tarif Kamar */}
+      {editingRoom && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[92vh] overflow-y-auto border border-purple-100 shadow-2xl p-5 sm:p-7 space-y-5 animate-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-start justify-between border-b border-slate-100 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center font-black text-sm">
+                  #{editingRoom.code}
                 </div>
-                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center">
-                  {type.name.toLowerCase().includes("ac") ? (
-                    <Wind className="w-5 h-5" />
-                  ) : (
-                    <Bed className="w-5 h-5" />
-                  )}
+                <div>
+                  <h3 className="text-base sm:text-lg font-black text-slate-900">
+                    Edit Spesifikasi Kamar #{editingRoom.code}
+                  </h3>
+                  <p className="text-xs text-slate-500 font-medium">
+                    {editingRoom.buildingName} • {editingRoom.typeName}
+                  </p>
                 </div>
               </div>
 
-              {/* Upload Foto Kamar ke ImageKit CDN */}
-              <div className="pt-1">
-                <ImageUpload
-                  value={type.imageUrl}
-                  onChange={(newUrl) => handleImageChange(type.id, newUrl)}
-                  folder="/rooms"
-                  label="Foto Utama Kamar (ImageKit CDN)"
-                  description="Upload foto asli kamar untuk ditampilkan di website publik."
+              <button
+                type="button"
+                onClick={() => setEditingRoom(null)}
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="space-y-4">
+              {/* Nama / Judul Kamar */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                  Nama / Label Kamar
+                </label>
+                <input
+                  type="text"
+                  value={editingRoom.name}
+                  onChange={(e) =>
+                    setEditingRoom({ ...editingRoom, name: e.target.value })
+                  }
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 outline-none focus:border-purple-600 focus:bg-white transition"
+                  placeholder="Contoh: Kamar #A1 (AC Superior)"
                 />
               </div>
 
-              {/* Daftar Unit Kamar yang Menggunakan Tipe Ini */}
-              <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-bold uppercase block">
-                  Nomor Unit Kamar:
-                </span>
-                <div className="flex gap-1.5">
-                  {type.roomCodes.map((code) => (
-                    <span
-                      key={code}
-                      className="bg-purple-100/70 text-purple-900 text-xs font-black px-2.5 py-1 rounded-xl"
-                    >
-                      {code}
-                    </span>
-                  ))}
-                </div>
+              {/* Upload Foto Kamar ke ImageKit CDN */}
+              <div>
+                <ImageUpload
+                  value={editingRoom.imageUrl}
+                  onChange={(newUrl) =>
+                    setEditingRoom({ ...editingRoom, imageUrl: newUrl })
+                  }
+                  folder="/rooms"
+                  label={`Foto Utama Kamar #${editingRoom.code} (ImageKit CDN)`}
+                  description="Upload foto asli kamar untuk ditampilkan di website publik & galeri."
+                />
               </div>
 
-              {/* Input Edit Harga */}
-              <div className="space-y-1.5 pt-2">
-                <label
-                  htmlFor={`price-${type.id}`}
-                  className="text-[11px] font-black text-slate-700 uppercase tracking-wider block"
-                >
+              {/* Tarif Sewa per Malam */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
                   Tarif Sewa per Malam (Rp)
                 </label>
                 <div className="flex items-center gap-2 bg-slate-50 border-2 border-slate-200 focus-within:border-purple-600 rounded-2xl px-4 py-2.5">
                   <span className="text-sm font-black text-slate-500">Rp</span>
                   <input
-                    id={`price-${type.id}`}
                     type="number"
-                    value={type.basePrice}
+                    value={editingRoom.price}
                     onChange={(e) =>
-                      handlePriceChange(type.id, Number(e.target.value))
+                      setEditingRoom({
+                        ...editingRoom,
+                        price: Number(e.target.value),
+                      })
                     }
-                    className="w-full bg-transparent text-lg font-black text-purple-700 outline-none"
+                    className="w-full bg-transparent text-base sm:text-lg font-black text-purple-700 outline-none"
                   />
                 </div>
-                <p className="text-[10px] text-slate-500">
-                  DP Otomatis 50%:{" "}
-                  <strong className="text-purple-700 font-bold">
-                    Rp {(type.basePrice * 0.5).toLocaleString("id-ID")}
-                  </strong>
-                </p>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
+                  <span>
+                    DP Otomatis 50%:{" "}
+                    <strong className="text-purple-700 font-bold">
+                      Rp {(editingRoom.price * 0.5).toLocaleString("id-ID")}
+                    </strong>
+                  </span>
+                  <span>Kapasitas: {editingRoom.capacity} Orang</span>
+                </div>
+              </div>
+
+              {/* Deskripsi Kamar */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                  Deskripsi Kamar
+                </label>
+                <textarea
+                  rows={3}
+                  value={editingRoom.description}
+                  onChange={(e) =>
+                    setEditingRoom({
+                      ...editingRoom,
+                      description: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-medium text-slate-800 outline-none focus:border-purple-600 focus:bg-white transition"
+                  placeholder="Tuliskan deskripsi keunggulan kamar..."
+                />
               </div>
 
               {/* Fasilitas Kamar */}
-              <div className="space-y-2 pt-2 border-t border-slate-100">
-                <span className="text-[11px] font-black text-slate-700 uppercase tracking-wider block">
+              <div className="space-y-2 pt-1 border-t border-slate-100">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
                   Fasilitas Kamar Termasuk:
-                </span>
+                </label>
                 <div className="flex flex-wrap gap-1.5">
-                  {type.facilities.map((fac) => (
+                  {editingRoom.facilities.map((fac) => (
                     <span
                       key={fac}
-                      className="bg-purple-50 text-purple-900 border border-purple-100 text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1.5"
+                      className="bg-purple-50 text-purple-900 border border-purple-200/80 text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1.5"
                     >
                       <Check className="w-3 h-3 text-purple-700 shrink-0" />
                       <span>{fac}</span>
                       <button
                         type="button"
-                        onClick={() => handleRemoveFacility(type.id, fac)}
-                        className="text-slate-400 hover:text-red-500 transition cursor-pointer"
+                        onClick={() => handleRemoveFacility(fac)}
+                        className="text-slate-400 hover:text-red-500 transition cursor-pointer ml-0.5"
                         title="Hapus Fasilitas"
                       >
                         <Trash2 className="w-3 h-3" />
@@ -264,25 +574,20 @@ export function RoomManagement() {
                   <input
                     type="text"
                     placeholder="Tambah fasilitas baru..."
-                    value={newFacilityInputs[type.id] || ""}
-                    onChange={(e) =>
-                      setNewFacilityInputs((prev) => ({
-                        ...prev,
-                        [type.id]: e.target.value,
-                      }))
-                    }
+                    value={newFacilityInput}
+                    onChange={(e) => setNewFacilityInput(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
-                        handleAddFacility(type.id);
+                        handleAddFacility();
                       }
                     }}
-                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-800 outline-none focus:border-purple-600 focus:bg-white transition"
+                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:border-purple-600 focus:bg-white transition"
                   />
                   <button
                     type="button"
-                    onClick={() => handleAddFacility(type.id)}
-                    className="px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-900 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                    onClick={handleAddFacility}
+                    className="px-3.5 py-2 bg-purple-100 hover:bg-purple-200 text-purple-900 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Tambah</span>
@@ -290,10 +595,125 @@ export function RoomManagement() {
                 </div>
               </div>
             </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setEditingRoom(null)}
+                className="rounded-2xl text-xs font-bold h-10 px-5"
+              >
+                Batal
+              </Button>
+              <Button
+                type="button"
+                onClick={handleSaveEdit}
+                className="rounded-2xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold h-10 px-6 gap-2 shadow-md cursor-pointer"
+              >
+                <Save className="w-4 h-4" />
+                <span>Simpan Perubahan Kamar</span>
+              </Button>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
 
+// Subcomponent: Kartu Satuan Kamar Master
+function RoomMasterCard({
+  room,
+  onEdit,
+}: {
+  room: MasterRoomItem;
+  onEdit: () => void;
+}) {
+  const isAc = room.type === "ac";
+
+  return (
+    <div className="bg-white rounded-3xl border-2 border-purple-100 hover:border-purple-300 transition-all p-4 shadow-2xs flex flex-col justify-between group space-y-3">
+      {/* Top Code Badge & Building */}
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-900 font-black text-xs flex items-center justify-center shadow-2xs">
+            #{room.code}
+          </div>
+          <div>
+            <h4 className="text-xs font-black text-slate-900 leading-tight">
+              {room.name}
+            </h4>
+            <span className="text-[10px] text-slate-400 font-bold block">
+              {room.buildingName}
+            </span>
+          </div>
+        </div>
+
+        <span
+          className={`p-1.5 rounded-xl border flex items-center justify-center ${
+            isAc
+              ? "bg-purple-50 text-purple-700 border-purple-200"
+              : "bg-indigo-50 text-indigo-700 border-indigo-200"
+          }`}
+          title={room.typeName}
+        >
+          {isAc ? <Wind className="w-3.5 h-3.5" /> : <Bed className="w-3.5 h-3.5" />}
+        </span>
+      </div>
+
+      {/* Room Photo Preview */}
+      <div className="relative w-full h-32 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-2xs">
+        <Image
+          src={room.imageUrl || (isAc ? "/images/kamar-ac.png" : "/images/kamar-kipas.png")}
+          alt={room.name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+        <div className="absolute bottom-1.5 left-1.5 bg-slate-950/75 backdrop-blur-xs px-2 py-0.5 rounded-md text-[9px] text-white font-bold">
+          {room.typeName}
+        </div>
+      </div>
+
+      {/* Price & Facilities Preview */}
+      <div className="space-y-1.5">
+        <div className="flex items-baseline justify-between">
+          <span className="text-[10px] text-slate-400 font-bold uppercase">
+            Tarif Sewa:
+          </span>
+          <span className="text-xs font-black text-purple-700">
+            Rp {room.price.toLocaleString("id-ID")}{" "}
+            <span className="text-[10px] text-slate-400 font-normal">/mlm</span>
+          </span>
+        </div>
+
+        {/* Short facilities tags (first 3) */}
+        <div className="flex flex-wrap gap-1">
+          {room.facilities.slice(0, 3).map((f) => (
+            <span
+              key={f}
+              className="text-[9px] font-bold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-md truncate max-w-[120px]"
+            >
+              {f}
+            </span>
+          ))}
+          {room.facilities.length > 3 && (
+            <span className="text-[9px] font-bold bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded-md">
+              +{room.facilities.length - 3}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Edit Action Button */}
+      <Button
+        type="button"
+        onClick={onEdit}
+        className="w-full rounded-2xl bg-purple-50 hover:bg-purple-700 text-purple-900 hover:text-white border border-purple-200 text-xs font-bold h-9 gap-1.5 transition-colors cursor-pointer mt-1"
+      >
+        <Edit3 className="w-3.5 h-3.5" />
+        <span>Edit Kamar &amp; Tarif</span>
+      </Button>
+    </div>
+  );
+}
