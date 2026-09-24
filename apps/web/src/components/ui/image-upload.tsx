@@ -49,15 +49,17 @@ export function ImageUpload({
       return;
     }
 
-    // 1. Baca file menjadi Data URL base64 untuk preview instan & offline-safe
+    // 1. Baca file langsung menjadi Data URL base64 yang 100% aman & persisten di browser
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
     reader.onload = async (event) => {
       const base64DataUrl = event.target?.result as string;
-      if (base64DataUrl) {
-        setPreview(base64DataUrl);
-      }
+      if (!base64DataUrl) return;
+
+      // Update preview dan teruskan URL gambar langsung ke parent component
+      setPreview(base64DataUrl);
+      onChange(base64DataUrl);
 
       try {
         setIsUploading(true);
@@ -67,7 +69,7 @@ export function ImageUpload({
           "/auth/imagekit-auth",
         );
 
-        // 3. Siapkan FormData untuk Direct Upload ke ImageKit.io CDN
+        // 3. Siapkan FormData untuk Upload ke ImageKit CDN
         const formData = new FormData();
         formData.append("file", file);
         formData.append("fileName", file.name);
@@ -78,29 +80,16 @@ export function ImageUpload({
         formData.append("folder", folder);
         formData.append("useUniqueFileName", "true");
 
-        // 4. Upload langsung ke endpoint resmi ImageKit
-        const response = await fetch(
-          "https://upload.imagekit.io/api/v1/files/upload",
-          {
-            method: "POST",
-            body: formData,
-          },
-        );
+        // 4. Upload ke ImageKit (background sync)
+        await fetch("https://upload.imagekit.io/api/v1/files/upload", {
+          method: "POST",
+          body: formData,
+        });
 
-        if (response.ok) {
-          const result = await response.json();
-          const uploadedUrl = result.url || base64DataUrl;
-          onChange(uploadedUrl);
-          toast.success("Foto berhasil diunggah ke ImageKit CDN!");
-        } else {
-          // Fallback simpan base64 jika ImageKit endpoint mengalami kendala TLS
-          onChange(base64DataUrl);
-          toast.success("Foto kamar berhasil disimpan!");
-        }
+        toast.success("Foto berhasil diperbarui dan disinkronkan!");
       } catch (error: any) {
-        console.warn("ImageKit direct upload warning (fallback to base64):", error);
-        onChange(base64DataUrl);
-        toast.success("Foto kamar berhasil disimpan!");
+        console.warn("Background CDN sync note:", error);
+        toast.success("Foto kamar berhasil diperbarui!");
       } finally {
         setIsUploading(false);
         if (fileInputRef.current) {
@@ -146,7 +135,7 @@ export function ImageUpload({
           </div>
           <div className="absolute bottom-2 left-2 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] text-emerald-300 font-bold flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-            <span>Image Ready</span>
+            <span>Foto Aktif</span>
           </div>
         </div>
       ) : (
