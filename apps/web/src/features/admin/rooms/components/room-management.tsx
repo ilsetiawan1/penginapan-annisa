@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { ImageUpload } from "@/components/ui/image-upload";
+import { ImageUpload, uploadBase64ToR2 } from "@/components/ui/image-upload";
 import { useRoomTypes, useUpdateRoomRate } from "@/features/rooms/hooks/use-rooms";
 
 export interface MasterRoomItem {
@@ -248,9 +248,25 @@ export function RoomManagement() {
   // Save edited room
   const handleSaveEdit = async () => {
     if (!editingRoom) return;
+    
+    let finalImageUrl = editingRoom.imageUrl;
+    if (finalImageUrl.startsWith("data:")) {
+      toast.loading("Mengunggah foto kamar ke Cloudflare R2...", { id: "upload-room-img" });
+      try {
+        finalImageUrl = await uploadBase64ToR2(
+          finalImageUrl,
+          `room-${Date.now()}.jpg`,
+          "/rooms"
+        );
+        toast.success("Foto kamar berhasil diunggah!", { id: "upload-room-img" });
+      } catch (error: any) {
+        toast.error("Gagal mengunggah foto: " + error.message, { id: "upload-room-img" });
+        return;
+      }
+    }
 
     const updatedRooms = rooms.map((r) =>
-      r.code === editingRoom.code ? editingRoom : r,
+      r.code === editingRoom.code ? { ...editingRoom, imageUrl: finalImageUrl } : r,
     );
     saveRoomsLocally(updatedRooms);
 
@@ -334,7 +350,7 @@ export function RoomManagement() {
             Kelola 8 Kamar &amp; Tarif Sewa
           </h2>
           <p className="text-xs text-slate-500">
-            Klik tombol <strong>Edit</strong> pada kartu kamar untuk mengubah foto ImageKit CDN, judul, tarif sewa, serta fasilitas kamar.
+            Klik tombol <strong>Edit</strong> pada kartu kamar untuk mengubah foto Cloudflare R2, judul, tarif sewa, serta fasilitas kamar.
           </p>
         </div>
 
@@ -507,8 +523,9 @@ export function RoomManagement() {
                       prev ? { ...prev, imageUrl: newUrl } : null,
                     )
                   }
+                  autoUpload={false}
                   folder="/rooms"
-                  label={`Foto Utama Kamar #${editingRoom.code} (ImageKit CDN)`}
+                  label={`Foto Utama Kamar #${editingRoom.code} (Cloudflare R2)`}
                   description="Upload foto asli kamar untuk ditampilkan di website publik & galeri."
                 />
               </div>

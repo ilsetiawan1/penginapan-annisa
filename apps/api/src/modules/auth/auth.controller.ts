@@ -79,7 +79,9 @@ export class AuthController {
       });
 
       const presignedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-      const publicUrl = `${config.r2.publicUrl}/${fileName}`;
+      // Instead of returning the Cloudflare public URL directly which is often blocked by ISPs (e.g. Telkomsel),
+      // we return a URL to our backend proxy which bypasses the block.
+      const publicUrl = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1"}/storage/view?key=${fileName}`;
 
       return sendSuccess(
         res,

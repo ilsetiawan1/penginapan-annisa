@@ -21,7 +21,11 @@ export async function uploadBase64ToR2(
   
   // Clean folder path (remove leading slash if any)
   const cleanFolder = folder.startsWith("/") ? folder.slice(1) : folder;
-  const objectKey = cleanFolder ? `${cleanFolder}/${fileName}` : fileName;
+  
+  // Sanitize file name to prevent broken URLs
+  const fileExt = fileName.split('.').pop() || "jpg";
+  const safeFileName = `upload-${Date.now()}.${fileExt}`;
+  const objectKey = cleanFolder ? `${cleanFolder}/${safeFileName}` : safeFileName;
 
   const { presignedUrl, publicUrl } = await apiClient.post<R2PresignedResponse>(
     "/auth/r2-presigned-url",
