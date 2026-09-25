@@ -17,7 +17,17 @@ router.get("/", articleController.getAllArticles);
 router.get("/categories", articleController.getAllCategories);
 router.get("/:slug", articleController.getArticleBySlug);
 
-// Protected Owner Only: Create, Update, Delete
+// Protected Owner Only: Scrape, Create, Update, Delete
+router.post(
+  "/scrape",
+  authMiddleware,
+  requireRole("owner"),
+  validateRequest({
+    body: z.object({ url: z.string().url() }),
+  }),
+  articleController.scrapeArticle,
+);
+
 router.post(
   "/",
   authMiddleware,

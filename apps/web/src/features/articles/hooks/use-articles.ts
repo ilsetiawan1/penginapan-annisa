@@ -89,3 +89,27 @@ export function useDeleteArticle() {
     },
   });
 }
+
+export interface ScrapeResult {
+  title: string;
+  coverImage: string;
+  summary: string;
+  content: string;
+}
+
+export function useScrapeArticle() {
+  return useMutation({
+    mutationFn: async (url: string) => {
+      const { apiClient } = await import("@/lib/api/client");
+      const res = await apiClient.post<ScrapeResult>("/articles/scrape", { url });
+      return res;
+    },
+    onSuccess: () => {
+      toast.success("Berita berhasil discrape!");
+    },
+    onError: (err: unknown) => {
+      const msg = err instanceof Error ? err.message : "Gagal melakukan scrape url tersebut.";
+      toast.error(msg);
+    },
+  });
+}
