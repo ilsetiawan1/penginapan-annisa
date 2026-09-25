@@ -21,6 +21,7 @@ import {
   TrendingUp,
   Users,
   X,
+  Newspaper,
 } from "lucide-react";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 
@@ -114,6 +115,12 @@ export function AdminSidebar({
           href: "/admin/master-souvenirs",
           label: "Kelola Oleh-Oleh",
           icon: Package,
+          roles: ["owner"],
+        },
+        {
+          href: "/admin/master-articles",
+          label: "Kelola Artikel & SEO",
+          icon: Newspaper,
           roles: ["owner"],
         },
         {

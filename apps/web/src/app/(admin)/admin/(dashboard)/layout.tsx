@@ -67,6 +67,7 @@ export default function AdminDashboardLayout({
   const getPageTitle = () => {
     if (pathname.includes("/admin/master-rooms")) return "Master Kelola Kamar & Tarif";
     if (pathname.includes("/admin/master-souvenirs")) return "Master Kelola Oleh-Oleh";
+    if (pathname.includes("/admin/master-articles")) return "CMS Kelola Artikel Wisata & SEO";
     if (pathname.includes("/admin/rooms")) return "Status 8 Kamar PMS";
     if (pathname.includes("/admin/reservations")) return "Jadwal Booking WhatsApp";
     if (pathname.includes("/admin/pos")) return "Kasir POS Oleh-Oleh";
