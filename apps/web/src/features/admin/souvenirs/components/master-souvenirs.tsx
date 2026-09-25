@@ -87,10 +87,14 @@ export function MasterSouvenirs() {
       if (finalImageUrl.startsWith("data:")) {
         toast.loading("Mengunggah foto ke Cloudflare R2...", { id: "upload-toast" });
         try {
+          const generateSlug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+          const slugPrefix = generateSlug(name);
+          
           finalImageUrl = await uploadBase64ToR2(
             finalImageUrl,
             `souvenir-${Date.now()}.jpg`,
-            "/souvenirs"
+            "/souvenirs",
+            slugPrefix
           );
           toast.success("Foto berhasil diunggah!", { id: "upload-toast" });
         } catch (error: any) {

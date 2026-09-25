@@ -13,7 +13,8 @@ export interface R2PresignedResponse {
 export async function uploadBase64ToR2(
   base64Url: string,
   fileName: string,
-  folder: string
+  folder: string,
+  slugPrefix?: string
 ): Promise<string> {
   // Convert base64 to Blob
   const res = await fetch(base64Url);
@@ -24,7 +25,9 @@ export async function uploadBase64ToR2(
   
   // Sanitize file name to prevent broken URLs
   const fileExt = fileName.split('.').pop() || "jpg";
-  const safeFileName = `upload-${Date.now()}.${fileExt}`;
+  const safeFileName = slugPrefix 
+    ? `${slugPrefix}-${Date.now()}.${fileExt}` 
+    : `upload-${Date.now()}.${fileExt}`;
   const objectKey = cleanFolder ? `${cleanFolder}/${safeFileName}` : safeFileName;
 
   const { presignedUrl, publicUrl } = await apiClient.post<R2PresignedResponse>(

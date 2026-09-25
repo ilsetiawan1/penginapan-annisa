@@ -253,10 +253,14 @@ export function RoomManagement() {
     if (finalImageUrl.startsWith("data:")) {
       toast.loading("Mengunggah foto kamar ke Cloudflare R2...", { id: "upload-room-img" });
       try {
+        const generateSlug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const slugPrefix = generateSlug(editingRoom.typeName);
+
         finalImageUrl = await uploadBase64ToR2(
           finalImageUrl,
           `room-${Date.now()}.jpg`,
-          "/rooms"
+          "/rooms",
+          slugPrefix
         );
         toast.success("Foto kamar berhasil diunggah!", { id: "upload-room-img" });
       } catch (error: any) {
