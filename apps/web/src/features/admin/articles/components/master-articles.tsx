@@ -30,6 +30,10 @@ export function MasterArticles() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingItem, setEditingItem] = useState<Article | null>(null);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
   // Form states
   const [title, setTitle] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -150,6 +154,12 @@ export function MasterArticles() {
     return matchSearch && matchCategory;
   }) || [];
 
+  const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+  const paginatedArticles = filteredArticles.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="w-full max-w-6xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm">
@@ -190,7 +200,7 @@ export function MasterArticles() {
             placeholder="Cari judul artikel..."
             className="w-full pl-9 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-purple-100 transition-all"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
           />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-hide">
@@ -201,7 +211,7 @@ export function MasterArticles() {
                 ? "bg-purple-600 hover:bg-purple-700"
                 : "border-slate-200 text-slate-600 hover:bg-slate-50"
             }`}
-            onClick={() => setSelectedCategory("all")}
+            onClick={() => { setSelectedCategory("all"); setCurrentPage(1); }}
           >
             Semua
           </Button>
@@ -214,7 +224,7 @@ export function MasterArticles() {
                   ? "bg-purple-600 hover:bg-purple-700"
                   : "border-slate-200 text-slate-600 hover:bg-slate-50"
               }`}
-              onClick={() => setSelectedCategory(cat.id)}
+              onClick={() => { setSelectedCategory(cat.id); setCurrentPage(1); }}
             >
               {cat.name}
             </Button>
@@ -239,66 +249,102 @@ export function MasterArticles() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredArticles.map((item) => (
-            <div
-              key={item.id}
-              className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col"
-            >
-              <div className="relative h-48 bg-slate-100">
-                {item.coverImage ? (
-                  <img
-                    src={item.coverImage}
-                    alt={item.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
-                    <Newspaper className="w-8 h-8 mb-2 opacity-50" />
-                    <span className="text-xs font-medium">Tanpa Foto</span>
-                  </div>
-                )}
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <div className="bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">
-                    {item.category?.name || "Uncategorized"}
-                  </div>
-                </div>
-              </div>
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left">
+              <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100 uppercase text-[10px] tracking-wider">
+                <tr>
+                  <th className="px-6 py-4 rounded-tl-2xl">Foto</th>
+                  <th className="px-6 py-4 w-1/3">Judul Artikel</th>
+                  <th className="px-6 py-4">Kategori</th>
+                  <th className="px-6 py-4 text-center">Views</th>
+                  <th className="px-6 py-4 text-right rounded-tr-2xl">Aksi</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {paginatedArticles.map((item) => (
+                  <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="w-16 h-12 rounded-lg bg-slate-100 overflow-hidden flex items-center justify-center border border-slate-200/50 relative">
+                        {item.coverImage ? (
+                          <img
+                            src={item.coverImage}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Newspaper className="w-4 h-4 text-slate-400 opacity-50" />
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="font-bold text-slate-800 line-clamp-2">{item.title}</div>
+                      <div className="text-xs text-slate-500 mt-1 line-clamp-1">{item.summary}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 uppercase tracking-wide border border-purple-100/50">
+                        {item.category?.name || "Uncategorized"}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      <span className="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">
+                        {item.views}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right">
+                      <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg"
+                          onClick={() => handleOpenEdit(item)}
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-              <div className="p-4 flex flex-col flex-1">
-                <h3 className="font-bold text-slate-800 line-clamp-2 leading-tight mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-slate-500 line-clamp-2 mb-4 flex-1">
-                  {item.summary}
-                </p>
-
-                <div className="flex items-center justify-between pt-3 border-t border-slate-50">
-                  <div className="text-xs font-medium text-slate-400">
-                    {item.views} views
-                  </div>
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-8 w-8 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg"
-                      onClick={() => handleOpenEdit(item)}
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100 bg-slate-50/50">
+              <span className="text-xs text-slate-500 font-medium">
+                Halaman <span className="font-bold text-slate-800">{currentPage}</span> dari <span className="font-bold text-slate-800">{totalPages}</span>
+              </span>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 text-xs font-semibold rounded-lg bg-white"
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                >
+                  Sebelumnya
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 text-xs font-semibold rounded-lg bg-white"
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                >
+                  Selanjutnya
+                </Button>
               </div>
             </div>
-          ))}
+          )}
         </div>
       )}
 
