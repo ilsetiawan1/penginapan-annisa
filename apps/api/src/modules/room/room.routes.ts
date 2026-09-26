@@ -47,4 +47,16 @@ router.patch(
   roomController.updateRoomStatus,
 );
 
+// PMS Staff / Owner: Update room photo (Cloudflare R2 sync to database)
+router.put(
+  "/:roomNumber/image",
+  authMiddleware,
+  validateRequest({
+    params: z.object({ roomNumber: z.string().min(2) }),
+    body: z.object({ imageUrl: z.string() }),
+  }),
+  roomController.updateRoomImage,
+);
+
 export const roomRouter = router;
+

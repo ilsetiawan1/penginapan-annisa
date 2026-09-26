@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { GetObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { s3Client } from "../../utils/r2.util";
 import { config } from "../../config";
 
@@ -39,4 +39,44 @@ export const storageController = {
       res.status(500).json({ success: false, message: "Internal server error fetching file." });
     }
   },
+
+  listFiles: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const prefix = (req.query.prefix as string) || "rooms";
+      const cleanPrefix = prefix.startsWith("/") ? prefix.slice(1) : prefix;
+
+      const command = new ListObjectsV2Command({
+        Bucket: config.r2.bucketName,
+        Prefix: cleanPrefix,
+      });
+
+      const data = await s3Client.send(command);
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+
+      const files = (data.Contents || [])
+        .filter((item) => item.Key && !item.Key.endsWith("/"))
+        .map((item) => ({
+          key: item.Key!,
+          name: item.Key!.split("/").pop() || item.Key!,
+          url: `${baseUrl}/storage/view?key=${encodeURIComponent(item.Key!)}`,
+          size: item.Size,
+          lastModified: item.LastModified,
+        }))
+        .sort((a, b) => {
+          const timeA = a.lastModified ? new Date(a.lastModified).getTime() : 0;
+          const timeB = b.lastModified ? new Date(b.lastModified).getTime() : 0;
+          return timeB - timeA;
+        });
+
+      return res.status(200).json({
+        success: true,
+        data: files,
+        message: "Daftar file R2 berhasil diambil.",
+      });
+    } catch (error: any) {
+      console.error("Error listing files from R2:", error);
+      res.status(500).json({ success: false, message: "Gagal mengambil daftar file dari R2." });
+    }
+  },
 };
+

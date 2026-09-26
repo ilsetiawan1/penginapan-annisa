@@ -83,7 +83,12 @@ export function HomeRoomsPreview() {
                 desc:
                   mr.description ||
                   "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-                image: mr.imageUrl || "",
+                image:
+                  mr.imageUrl &&
+                  !mr.imageUrl.includes("/rooms/room-") &&
+                  !mr.imageUrl.startsWith("/images/")
+                    ? mr.imageUrl
+                    : "",
               };
             });
           }
@@ -99,11 +104,12 @@ export function HomeRoomsPreview() {
 
   useEffect(() => {
     try {
+      let currentRooms = rooms;
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
         const masterRooms = JSON.parse(saved);
         if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-          const mapped: FeaturedRoom[] = masterRooms.slice(0, 3).map((mr: any) => {
+          currentRooms = masterRooms.slice(0, 3).map((mr: any) => {
             const isAc = mr.type === "ac";
             const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
             const dpNum = Math.round(priceNum * 0.5);
@@ -118,39 +124,84 @@ export function HomeRoomsPreview() {
               desc:
                 mr.description ||
                 "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-              image: mr.imageUrl || "",
+              image:
+                mr.imageUrl &&
+                !mr.imageUrl.includes("/rooms/room-") &&
+                !mr.imageUrl.startsWith("/images/")
+                  ? mr.imageUrl
+                  : "",
             };
           });
-          setRooms(mapped);
-          return;
         }
       }
 
+      // Sinkronkan foto dari database backend (Cloudflare R2) jika tersedia
       if (dbRooms && dbRooms.length > 0) {
-        const mappedFromDb: FeaturedRoom[] = dbRooms.slice(0, 3).map((r) => {
-          const isAc =
-            r.roomType?.name?.toLowerCase().includes("ac") ||
-            r.roomNumber.startsWith("A");
-          const priceNum = r.roomType?.basePrice || (isAc ? 275000 : 200000);
-          const dpNum = Math.round(priceNum * 0.5);
-
-          return {
-            id: r.roomNumber,
-            name: `Kamar #${r.roomNumber} (${isAc ? "AC" : "Kipas"})`,
-            typeLabel: isAc ? "Tipe AC" : "Tipe Kipas",
-            price: `Rp ${priceNum.toLocaleString("id-ID")}`,
-            priceNum,
-            dp: `Rp ${dpNum.toLocaleString("id-ID")}`,
-            desc: "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-            image: r.roomType?.images?.[0]?.imageUrl || "",
-          };
+        currentRooms = currentRooms.map((cr) => {
+          const matchedDb = dbRooms.find(
+            (dbr: any) => dbr.roomNumber?.toUpperCase() === cr.id.toUpperCase(),
+          );
+          if (matchedDb && (matchedDb as any).imageUrl) {
+            const dbImg = (matchedDb as any).imageUrl;
+            if (
+              dbImg &&
+              !dbImg.includes("/rooms/room-") &&
+              !dbImg.startsWith("/images/")
+            ) {
+              return { ...cr, image: dbImg };
+            }
+          }
+          return cr;
         });
-        setRooms(mappedFromDb);
       }
+
+      setRooms(currentRooms);
     } catch {
       // fallback
     }
   }, [dbRooms]);
+
+  // Dengarkan perubahan saat tab mendapat fokus atau ada update localStorage dari admin
+  useEffect(() => {
+    const syncLocal = () => {
+      try {
+        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (saved) {
+          const masterRooms = JSON.parse(saved);
+          if (Array.isArray(masterRooms) && masterRooms.length > 0) {
+            setRooms((prev) =>
+              prev.map((r) => {
+                const match = masterRooms.find(
+                  (mr: any) => mr.code?.toUpperCase() === r.id.toUpperCase(),
+                );
+                if (match) {
+                  const cleanImg =
+                    match.imageUrl &&
+                    !match.imageUrl.includes("/rooms/room-") &&
+                    !match.imageUrl.startsWith("/images/")
+                      ? match.imageUrl
+                      : "";
+                  return {
+                    ...r,
+                    image: cleanImg || r.image,
+                  };
+                }
+                return r;
+              }),
+            );
+          }
+        }
+      } catch {}
+    };
+
+    window.addEventListener("focus", syncLocal);
+    window.addEventListener("storage", syncLocal);
+    return () => {
+      window.removeEventListener("focus", syncLocal);
+      window.removeEventListener("storage", syncLocal);
+    };
+  }, []);
+
 
   const count = rooms.length || 3;
   const REPEAT_COUNT = 40;

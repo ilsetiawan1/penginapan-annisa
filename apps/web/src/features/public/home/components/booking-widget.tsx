@@ -1,11 +1,12 @@
 "use client";
 
-import { Check, Clock } from "lucide-react";
+import { Bed, Check, Clock, Wind } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card } from "../../../../components/ui/card";
 import { ANNISA_WA_NUMBER } from "../../../../lib/whatsapp";
+import { useRooms } from "@/features/rooms/hooks/use-rooms";
 
 type RoomType = "ac" | "kipas";
 
@@ -17,6 +18,8 @@ export function BookingWidget() {
   const [nights, setNights] = useState<number>(1);
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
+
+  const { data: dbRooms } = useRooms();
 
   // Harga per malam
   const pricePerNight = selectedType === "ac" ? 275000 : 200000;
@@ -50,29 +53,90 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
     );
   };
 
+  // Cek foto kamar dari database backend atau localStorage jika ada foto asli yang diunggah
+  const [roomImage, setRoomImage] = useState<string>("");
+
+  useEffect(() => {
+    // 1. Cek dari database server jika ada
+    if (dbRooms && dbRooms.length > 0) {
+      const matchDb = dbRooms.find((r: any) => {
+        const isAc =
+          r.roomType?.name?.toLowerCase().includes("ac") ||
+          r.roomNumber?.startsWith("A");
+        const matchesType = selectedType === "ac" ? isAc : !isAc;
+        return matchesType && r.imageUrl;
+      });
+
+      if (matchDb && (matchDb as any).imageUrl) {
+        const dbImg = (matchDb as any).imageUrl;
+        if (
+          dbImg &&
+          !dbImg.includes("/rooms/room-") &&
+          !dbImg.startsWith("/images/")
+        ) {
+          setRoomImage(dbImg);
+          return;
+        }
+      }
+    }
+
+    // 2. Cek dari localStorage
+    try {
+      const saved = localStorage.getItem("annisa_master_rooms_v3");
+      if (saved) {
+        const masterRooms = JSON.parse(saved);
+        if (Array.isArray(masterRooms)) {
+          const match = masterRooms.find(
+            (r: any) =>
+              r.type === selectedType &&
+              r.imageUrl &&
+              !r.imageUrl.includes("/rooms/room-") &&
+              !r.imageUrl.startsWith("/images/"),
+          );
+          if (match && match.imageUrl) {
+            setRoomImage(match.imageUrl);
+            return;
+          }
+        }
+      }
+      setRoomImage("");
+    } catch {
+      setRoomImage("");
+    }
+  }, [selectedType, dbRooms]);
+
+
   return (
     <Card className="w-full max-w-lg mx-auto bg-white/95 backdrop-blur-xl border border-white/90 shadow-2xl rounded-3xl overflow-hidden p-0">
       {/* 1. Room Image Preview Banner */}
-      <div className="relative h-44 sm:h-52 w-full bg-slate-100 overflow-hidden">
-        <Image
-          src={
-            selectedType === "ac"
-              ? "/rooms/room-ac-101.jpg"
-              : "/rooms/room-kipas-201.jpg"
-          }
-          alt="Preview Kamar Penginapan Annisa"
-          fill
-          className="object-cover transition-transform duration-500 hover:scale-105"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30" />
+      <div className="relative h-44 sm:h-52 w-full bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 overflow-hidden flex items-center justify-center">
+        {roomImage ? (
+          <img
+            src={roomImage}
+            alt="Preview Kamar Penginapan Annisa"
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center gap-2 text-white/80 p-6 text-center">
+            {selectedType === "ac" ? (
+              <Wind className="w-10 h-10 stroke-[1.5] text-purple-300" />
+            ) : (
+              <Bed className="w-10 h-10 stroke-[1.5] text-purple-300" />
+            )}
+            <span className="text-[11px] font-bold uppercase tracking-wider text-purple-200/80">
+              {selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas"}
+            </span>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 pointer-events-none" />
 
         {/* Badge Info */}
-        <div className="absolute top-3 left-3 flex items-center gap-1.5">
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 z-10">
           <span className="bg-purple-700 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
             {selectedType === "ac" ? "Paling Populer" : "Paling Hemat"}
           </span>
         </div>
+
 
         <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full text-slate-900 text-xs font-black shadow-xs">
           Rp {pricePerNight.toLocaleString("id-ID")}{" "}

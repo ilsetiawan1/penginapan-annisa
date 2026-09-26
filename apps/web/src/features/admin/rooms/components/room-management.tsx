@@ -16,11 +16,18 @@ import {
   Sparkles,
   Building,
   CheckCircle2,
+  Cloud,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ImageUpload, uploadBase64ToR2 } from "@/components/ui/image-upload";
-import { useRoomTypes, useUpdateRoomRate } from "@/features/rooms/hooks/use-rooms";
+import {
+  useRoomTypes,
+  useUpdateRoomRate,
+  useRooms,
+  useUpdateRoomImage,
+} from "@/features/rooms/hooks/use-rooms";
+import { apiClient } from "@/lib/api/client";
 
 export interface MasterRoomItem {
   id: string;
@@ -38,8 +45,25 @@ export interface MasterRoomItem {
   bedType: string;
 }
 
+// Fungsi sanitasi: hapus semua foto dummy bawaan dan URL rusak agar benar-benar kosong
+export function cleanImageUrl(url?: string): string {
+  if (!url) return "";
+  const trimmed = url.trim();
+  if (
+    trimmed.includes("/rooms/room-") ||
+    trimmed.startsWith("/images/") ||
+    trimmed === "/rooms/room-ac-101.jpg" ||
+    trimmed === "/rooms/room-ac-102.jpg" ||
+    trimmed === "/rooms/room-kipas-201.jpg" ||
+    trimmed === "/rooms/room-kipas-202.jpg"
+  ) {
+    return "";
+  }
+  return trimmed;
+}
+
 const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
-  // BANGUNAN A (SISI KIRI) - 2 AC & 2 KIPAS
+  // BANGUNAN A (SISI KIRI) - 2 AC & 2 KIPAS (SEMUA FOTO DUMMY DIHAPUS, BERIKAN KOSONG)
   {
     id: "room-a1",
     code: "A1",
@@ -49,7 +73,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    imageUrl: "/rooms/room-ac-101.jpg",
+    imageUrl: "",
     description: "Kamar berpendingin AC sejuk dan tenang, cocok untuk transit penerbangan Bandara Pattimura Ambon.",
     facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
     capacity: 2,
@@ -64,7 +88,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    imageUrl: "/rooms/room-ac-102.jpg",
+    imageUrl: "",
     description: "Kamar AC nyaman dengan akses cepat ke front desk, fasilitas lengkap untuk istirahat optimal.",
     facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
     capacity: 2,
@@ -79,7 +103,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    imageUrl: "/rooms/room-kipas-201.jpg",
+    imageUrl: "",
     description: "Kamar hemat dengan sirkulasi udara alami dan kipas angin dinding, bersih dan higienis.",
     facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
     capacity: 2,
@@ -94,7 +118,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    imageUrl: "/rooms/room-kipas-202.jpg",
+    imageUrl: "",
     description: "Pilihan ekonomis transit bandara dengan kasur empuk dan fasilitas kamar mandi dalam.",
     facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
     capacity: 2,
@@ -111,7 +135,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    imageUrl: "/rooms/room-ac-101.jpg",
+    imageUrl: "",
     description: "Kamar AC bangunan kanan dengan suasana privat dan hening, dilengkapi kasur premium.",
     facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
     capacity: 2,
@@ -126,7 +150,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    imageUrl: "/rooms/room-ac-102.jpg",
+    imageUrl: "",
     description: "Kamar AC bersih dengan ventilasi yang baik, sangat dekat dengan area parkir.",
     facilities: ["AC Split 1 PK", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Shower Air Hangat", "Smart TV & WiFi", "Handuk & Toiletries"],
     capacity: 2,
@@ -141,7 +165,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    imageUrl: "/rooms/room-kipas-201.jpg",
+    imageUrl: "",
     description: "Kamar kipas angin bangunan kanan yang sejuk, bersih, dan hemat biaya.",
     facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
     capacity: 2,
@@ -156,7 +180,7 @@ const DEFAULT_MASTER_ROOMS: MasterRoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    imageUrl: "/rooms/room-kipas-202.jpg",
+    imageUrl: "",
     description: "Pilihan kamar ekonomis bagi backpacker atau transit singkat sebelum penerbangan.",
     facilities: ["Kipas Angin Dinding", "Kasur Queen 160x200", "Kamar Mandi Dalam", "Smart TV & WiFi", "Handuk & Toiletries", "Meja & Lemari"],
     capacity: 2,
@@ -168,72 +192,132 @@ const LOCAL_STORAGE_KEY = "annisa_master_rooms_v3";
 
 export function RoomManagement() {
   const { data: serverTypes, isLoading, refetch } = useRoomTypes();
+  const { data: serverRooms } = useRooms();
   const updateRoomRateMutation = useUpdateRoomRate();
+  const updateRoomImageMutation = useUpdateRoomImage();
 
-  const [rooms, setRooms] = useState<MasterRoomItem[]>(DEFAULT_MASTER_ROOMS);
+  // Inisialisasi awal langsung membersihkan foto dummy dari localStorage
+  const [rooms, setRooms] = useState<MasterRoomItem[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed.map((r) => ({
+              ...r,
+              imageUrl: cleanImageUrl(r.imageUrl),
+            }));
+          }
+        }
+      } catch {
+        // fallback
+      }
+    }
+    return DEFAULT_MASTER_ROOMS;
+  });
+
   const [editingRoom, setEditingRoom] = useState<MasterRoomItem | null>(null);
   const [newFacilityInput, setNewFacilityInput] = useState<string>("");
   const [filterBuilding, setFilterBuilding] = useState<"all" | "A" | "B">("all");
+  const [r2Gallery, setR2Gallery] = useState<Array<{ key: string; name: string; url: string; size?: number }>>([]);
+  const [isLoadingR2, setIsLoadingR2] = useState<boolean>(false);
 
-  // Load from localStorage or sync with server types
+  // Ambil galeri foto dari Cloudflare R2 yang tersimpan di bucket
+  const fetchR2Gallery = async () => {
+    try {
+      setIsLoadingR2(true);
+      const res = await apiClient.get<Array<{ key: string; name: string; url: string; size?: number }>>(
+        "/storage/list?prefix=rooms"
+      );
+      if (Array.isArray(res)) {
+        setR2Gallery(res);
+      }
+    } catch (e) {
+      console.error("Gagal memuat galeri Cloudflare R2:", e);
+    } finally {
+      setIsLoadingR2(false);
+    }
+  };
+
+  // Sync with localStorage, server types, and server rooms (database R2 images)
   useEffect(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+      let currentRooms = DEFAULT_MASTER_ROOMS;
+
       if (saved) {
-        const parsed: MasterRoomItem[] = JSON.parse(saved);
-        // Sanitize broken old /images/ paths
-        const sanitized = parsed.map((r) => {
-          if (!r.imageUrl || r.imageUrl.startsWith("/images/")) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          currentRooms = parsed.map((r) => ({
+            ...r,
+            imageUrl: cleanImageUrl(r.imageUrl),
+          }));
+        }
+      }
+
+      // Sinkronkan foto langsung dari database server jika ada
+      if (serverRooms && serverRooms.length > 0) {
+        currentRooms = currentRooms.map((r) => {
+          const matchedDb = serverRooms.find(
+            (sr: any) => sr.roomNumber?.toUpperCase() === r.code.toUpperCase(),
+          );
+          if (matchedDb && (matchedDb as any).imageUrl) {
+            const dbImg = cleanImageUrl((matchedDb as any).imageUrl);
+            if (dbImg) {
+              return { ...r, imageUrl: dbImg };
+            }
+          }
+          return r;
+        });
+      }
+
+      if (serverTypes && serverTypes.length > 0) {
+        const acType = serverTypes.find((t) => t.slug.includes("ac"));
+        const kipasType = serverTypes.find((t) => !t.slug.includes("ac"));
+
+        currentRooms = currentRooms.map((r) => {
+          const matchType = r.type === "ac" ? acType : kipasType;
+          if (matchType) {
             return {
               ...r,
-              imageUrl: r.type === "ac" ? "/rooms/room-ac-101.jpg" : "/rooms/room-kipas-201.jpg",
+              // Only sync price and facilities from server. Leave imageUrl as is!
+              price: matchType.basePrice || r.price,
+              facilities:
+                Array.isArray(matchType.facilities) && matchType.facilities.length > 0
+                  ? matchType.facilities
+                  : r.facilities,
             };
           }
           return r;
         });
-        setRooms(sanitized);
-      } else if (serverTypes && serverTypes.length > 0) {
-        // Sync prices and photos from server types
-        const acType = serverTypes.find((t) => t.slug.includes("ac"));
-        const kipasType = serverTypes.find((t) => !t.slug.includes("ac"));
-
-        setRooms((prev) =>
-          prev.map((r) => {
-            const matchType = r.type === "ac" ? acType : kipasType;
-            if (matchType) {
-              const primaryImg =
-                matchType.images && matchType.images.length > 0
-                  ? matchType.images[0].imageUrl
-                  : r.imageUrl;
-              return {
-                ...r,
-                price: matchType.basePrice || r.price,
-                imageUrl:
-                  primaryImg && !primaryImg.startsWith("/images/")
-                    ? primaryImg
-                    : r.type === "ac"
-                      ? "/rooms/room-ac-101.jpg"
-                      : "/rooms/room-kipas-201.jpg",
-                facilities:
-                  Array.isArray(matchType.facilities) && matchType.facilities.length > 0
-                    ? matchType.facilities
-                    : r.facilities,
-              };
-            }
-            return r;
-          }),
-        );
       }
+
+      setRooms(currentRooms);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentRooms));
     } catch {
       // fallback
     }
-  }, [serverTypes]);
+  }, [serverTypes, serverRooms]);
+
+
+  // Muat galeri R2 saat komponen pertama kali dibuka
+  useEffect(() => {
+    fetchR2Gallery();
+  }, []);
 
   // Save to local storage whenever rooms state changes
   const saveRoomsLocally = (updatedRooms: MasterRoomItem[]) => {
-    setRooms(updatedRooms);
+    const cleaned = updatedRooms.map((r) => ({
+      ...r,
+      imageUrl: cleanImageUrl(r.imageUrl),
+    }));
+    setRooms(cleaned);
     try {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedRooms));
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cleaned));
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("storage"));
+      }
     } catch {
       // ignore
     }
@@ -241,15 +325,16 @@ export function RoomManagement() {
 
   // Open Edit Modal for a specific room
   const handleOpenEdit = (room: MasterRoomItem) => {
-    setEditingRoom({ ...room });
+    setEditingRoom({ ...room, imageUrl: cleanImageUrl(room.imageUrl) });
     setNewFacilityInput("");
+    fetchR2Gallery();
   };
 
   // Save edited room
   const handleSaveEdit = async () => {
     if (!editingRoom) return;
     
-    let finalImageUrl = editingRoom.imageUrl;
+    let finalImageUrl = cleanImageUrl(editingRoom.imageUrl);
     if (finalImageUrl.startsWith("data:")) {
       toast.loading("Mengunggah foto kamar ke Cloudflare R2...", { id: "upload-room-img" });
       try {
@@ -262,7 +347,8 @@ export function RoomManagement() {
           "/rooms",
           slugPrefix
         );
-        toast.success("Foto kamar berhasil diunggah!", { id: "upload-room-img" });
+        toast.success("Foto kamar berhasil diunggah ke Cloudflare R2!", { id: "upload-room-img" });
+        fetchR2Gallery();
       } catch (error: any) {
         toast.error("Gagal mengunggah foto: " + error.message, { id: "upload-room-img" });
         return;
@@ -274,7 +360,17 @@ export function RoomManagement() {
     );
     saveRoomsLocally(updatedRooms);
 
-    // Sync to backend room rate mutation if type is matched
+    // 1. Simpan foto ke database backend (agar tersinkronisasi permanen ke PostgreSQL & Cloudflare R2)
+    try {
+      await updateRoomImageMutation.mutateAsync({
+        roomNumber: editingRoom.code,
+        imageUrl: finalImageUrl,
+      });
+    } catch (e) {
+      console.warn("Gagal simpan foto kamar ke database:", e);
+    }
+
+    // 2. Sync to backend room rate mutation if type is matched
     try {
       if (serverTypes && serverTypes.length > 0) {
         const targetType = serverTypes.find((st) =>
@@ -295,12 +391,13 @@ export function RoomManagement() {
       );
     } catch {
       toast.success(
-        `Spesifikasi Kamar #${editingRoom.code} berhasil disimpan secara lokal!`,
+        `Spesifikasi Kamar #${editingRoom.code} berhasil disimpan!`,
       );
     }
 
     setEditingRoom(null);
   };
+
 
   // Add facility inside edit modal
   const handleAddFacility = () => {
@@ -327,11 +424,21 @@ export function RoomManagement() {
     });
   };
 
+  // Bersihkan semua foto dummy di seluruh kamar
+  const handleClearAllDummyImages = () => {
+    const cleared = rooms.map((r) => ({
+      ...r,
+      imageUrl: cleanImageUrl(r.imageUrl),
+    }));
+    saveRoomsLocally(cleared);
+    toast.success("Semua foto dummy telah dibersihkan. Kamar tanpa foto kustom kini berstatus kosong.");
+  };
+
   // Reset to default
   const handleResetDefault = () => {
     saveRoomsLocally(DEFAULT_MASTER_ROOMS);
     refetch();
-    toast.success("Data 8 kamar berhasil di-reset ke pengaturan standar!");
+    toast.success("Data 8 kamar berhasil di-reset ke standar (tanpa foto dummy)!");
   };
 
   const filteredRooms =
@@ -361,17 +468,28 @@ export function RoomManagement() {
         <div className="flex items-center gap-2">
           <button
             type="button"
+            onClick={handleClearAllDummyImages}
+            title="Kosongkan semua foto dummy kamar"
+            className="p-2 sm:px-3 rounded-2xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-800 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
+          >
+            <Trash2 className="w-3.5 h-3.5 text-purple-700" />
+            <span className="text-xs font-black">Hapus Foto Dummy</span>
+          </button>
+
+          <button
+            type="button"
             onClick={handleResetDefault}
             title="Reset ke Standar"
-            className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
+            className="p-2 sm:px-3 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
           >
             <RotateCw
-              className={`w-4 h-4 ${isLoading ? "animate-spin text-purple-700" : ""}`}
+              className={`w-3.5 h-3.5 ${isLoading ? "animate-spin text-purple-700" : ""}`}
             />
-            <span className="text-xs font-black hidden sm:inline">Reset Standar</span>
+            <span className="text-xs font-black">Reset Standar</span>
           </button>
         </div>
       </div>
+
 
       {/* 2. Filter Bangunan Pill Bar */}
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
@@ -518,21 +636,103 @@ export function RoomManagement() {
                 />
               </div>
 
-              {/* Upload Foto Kamar ke ImageKit CDN */}
-              <div>
+              {/* Upload Foto Kamar ke Cloudflare R2 */}
+              <div className="space-y-3">
                 <ImageUpload
                   value={editingRoom.imageUrl}
                   onChange={(newUrl) =>
                     setEditingRoom((prev) =>
-                      prev ? { ...prev, imageUrl: newUrl } : null,
+                      prev ? { ...prev, imageUrl: cleanImageUrl(newUrl) } : null,
                     )
                   }
                   autoUpload={false}
                   folder="/rooms"
                   label={`Foto Utama Kamar #${editingRoom.code} (Cloudflare R2)`}
-                  description="Upload foto asli kamar untuk ditampilkan di website publik & galeri."
+                  description="Upload foto asli kamar untuk disimpan ke Cloudflare R2 atau pilih dari foto yang sudah terunggah."
                 />
+
+                {/* Galeri Foto dari Cloudflare R2 */}
+                <div className="space-y-2 p-3 bg-purple-50/50 rounded-2xl border border-purple-100">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700">
+                      <Cloud className="w-3.5 h-3.5 text-purple-600" />
+                      <span>Foto Tersedia di Cloudflare R2 ({r2Gallery.length})</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={fetchR2Gallery}
+                      className="text-[11px] text-purple-700 hover:text-purple-900 font-bold flex items-center gap-1 cursor-pointer"
+                    >
+                      <RotateCw className={`w-3 h-3 ${isLoadingR2 ? "animate-spin" : ""}`} />
+                      <span>Refresh R2</span>
+                    </button>
+                  </div>
+
+                  {isLoadingR2 ? (
+                    <div className="py-2 text-center text-xs text-purple-600 font-medium">
+                      Memuat daftar foto dari Cloudflare R2...
+                    </div>
+                  ) : r2Gallery.length > 0 ? (
+                    <div className="space-y-1.5">
+                      <p className="text-[10px] text-slate-500">
+                        Klik salah satu foto di bawah untuk langsung dipasangkan pada Kamar #{editingRoom.code}:
+                      </p>
+                      <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-32 overflow-y-auto p-1 bg-white rounded-xl border border-slate-200">
+                        {r2Gallery.map((file) => {
+                          const isSelected = editingRoom.imageUrl === file.url;
+                          return (
+                            <button
+                              key={file.key}
+                              type="button"
+                              onClick={() =>
+                                setEditingRoom({ ...editingRoom, imageUrl: file.url })
+                              }
+                              className={`relative aspect-square rounded-lg overflow-hidden border-2 transition cursor-pointer group ${
+                                isSelected
+                                  ? "border-purple-600 ring-2 ring-purple-600/30"
+                                  : "border-slate-200 hover:border-purple-300"
+                              }`}
+                              title={file.name}
+                            >
+                              <img
+                                src={file.url}
+                                alt={file.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition"
+                              />
+                              {isSelected && (
+                                <div className="absolute inset-0 bg-purple-900/50 flex items-center justify-center">
+                                  <CheckCircle2 className="w-4 h-4 text-white" />
+                                </div>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-[10px] text-slate-400 italic">
+                      Belum ada foto kamar di Cloudflare R2. Silakan upload menggunakan tombol di atas.
+                    </p>
+                  )}
+
+                  {editingRoom.imageUrl && (
+                    <div className="pt-1 flex items-center justify-between border-t border-purple-100">
+                      <span className="text-[10px] text-slate-500">
+                        Status: <strong className="text-emerald-700">Foto Terpasang</strong>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setEditingRoom({ ...editingRoom, imageUrl: "" })}
+                        className="text-[11px] font-bold text-red-600 hover:text-red-700 flex items-center gap-1 cursor-pointer"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                        <span>Hapus Foto (Jadikan Kosong)</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
+
 
               {/* Tarif Sewa per Malam */}
               <div className="space-y-1.5">
@@ -713,7 +913,7 @@ function RoomMasterCard({
           <div className="w-full h-full bg-gradient-to-br from-purple-50 via-purple-100/40 to-slate-100 flex flex-col items-center justify-center gap-1.5 text-purple-700/60 p-3">
             {isAc ? <Wind className="w-6 h-6 stroke-[1.5]" /> : <Bed className="w-6 h-6 stroke-[1.5]" />}
             <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
-              Belum Ada Foto
+              Kosong (Belum Ada Foto)
             </span>
           </div>
         )}

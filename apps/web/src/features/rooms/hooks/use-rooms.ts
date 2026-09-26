@@ -16,7 +16,8 @@ export function useRooms(query?: RoomQuery) {
   return useQuery({
     queryKey: [...ROOMS_QUERY_KEY, query],
     queryFn: () => roomsApi.getAllRooms(query),
-    staleTime: 1000 * 30, // 30 seconds
+    staleTime: 1000 * 3, // 3 seconds for instant real-time sync across admin and public views
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -85,3 +86,27 @@ export function useUpdateRoomRate() {
     },
   });
 }
+
+export function useUpdateRoomImage() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      roomNumber,
+      imageUrl,
+    }: {
+      roomNumber: string;
+      imageUrl: string;
+    }) => roomsApi.updateRoomImage(roomNumber, imageUrl),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ROOMS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: ROOM_TYPES_QUERY_KEY });
+    },
+    onError: (err: unknown) => {
+      const msg =
+        err instanceof Error ? err.message : "Gagal memperbarui foto kamar di database.";
+      toast.error(msg);
+    },
+  });
+}
+

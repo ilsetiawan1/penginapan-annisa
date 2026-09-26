@@ -148,7 +148,12 @@ export default function KamarPage() {
                   : isAc
                     ? ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV & WiFi"]
                     : ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV & WiFi"],
-                image: mr.imageUrl || "",
+                image:
+                  mr.imageUrl &&
+                  !mr.imageUrl.includes("/rooms/room-") &&
+                  !mr.imageUrl.startsWith("/images/")
+                    ? mr.imageUrl
+                    : "",
               };
             });
           }
@@ -160,27 +165,85 @@ export default function KamarPage() {
     return DEFAULT_PUBLIC_ROOMS;
   });
 
-  const { data: dbRooms } = useRooms();
+  const { data: dbRooms, refetch: refetchRooms } = useRooms();
 
-  // Sinkronkan status ketersediaan kamar secara halus tanpa menimpa foto yang sudah diubah
+  // Sinkronkan data ketersediaan kamar dan foto dari database server (Cloudflare R2)
   useEffect(() => {
     if (!dbRooms || dbRooms.length === 0) return;
 
     setRooms((prevRooms) =>
       prevRooms.map((r) => {
         const matchedDb = dbRooms.find(
-          (dbr) => dbr.roomNumber.toUpperCase() === r.number.toUpperCase(),
+          (dbr: any) => dbr.roomNumber?.toUpperCase() === r.number.toUpperCase(),
         );
         if (matchedDb) {
+          const dbImg = (matchedDb as any).imageUrl;
+          const cleanDbImg =
+            dbImg &&
+            !dbImg.includes("/rooms/room-") &&
+            !dbImg.startsWith("/images/")
+              ? dbImg
+              : "";
+
           return {
             ...r,
             status: matchedDb.status === "ready" ? "tersedia" : "terisi",
+            image: cleanDbImg || "",
           };
         }
         return r;
       }),
     );
   }, [dbRooms]);
+
+  // Dengarkan perubahan saat tab mendapat fokus atau ada update localStorage dari admin
+  useEffect(() => {
+    const syncFromLocalStorage = () => {
+      try {
+        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (saved) {
+          const masterRooms = JSON.parse(saved);
+          if (Array.isArray(masterRooms) && masterRooms.length > 0) {
+            setRooms((prev) =>
+              prev.map((r) => {
+                const match = masterRooms.find(
+                  (mr: any) => mr.code?.toUpperCase() === r.number.toUpperCase(),
+                );
+                if (match) {
+                  const cleanImg =
+                    match.imageUrl &&
+                    !match.imageUrl.includes("/rooms/room-") &&
+                    !match.imageUrl.startsWith("/images/")
+                      ? match.imageUrl
+                      : "";
+                  return {
+                    ...r,
+                    image: cleanImg || "",
+                  };
+                }
+                return r;
+              }),
+            );
+          }
+        }
+      } catch {
+        // ignore
+      }
+    };
+
+    const onWindowFocus = () => {
+      refetchRooms();
+      syncFromLocalStorage();
+    };
+
+    window.addEventListener("focus", onWindowFocus);
+    window.addEventListener("storage", syncFromLocalStorage);
+    return () => {
+      window.removeEventListener("focus", onWindowFocus);
+      window.removeEventListener("storage", syncFromLocalStorage);
+    };
+  }, [refetchRooms]);
+
 
   const filteredRooms = rooms.filter((r) => {
     const matchCategory =

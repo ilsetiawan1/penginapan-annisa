@@ -98,6 +98,22 @@ export class RoomController {
       return next(error);
     }
   };
+
+  updateRoomImage = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { roomNumber } = req.params as { roomNumber: string };
+      const { imageUrl } = req.body;
+      const updated = await this.service.updateRoomImage(roomNumber, imageUrl);
+      return sendSuccess(
+        res,
+        updated,
+        `Foto kamar #${roomNumber} berhasil diperbarui di database.`,
+      );
+    } catch (error) {
+      return next(error);
+    }
+  };
 }
 
 export const roomController = new RoomController();
+

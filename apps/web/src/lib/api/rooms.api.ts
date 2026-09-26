@@ -37,4 +37,12 @@ export const roomsApi = {
   ): Promise<RoomType> => {
     return apiClient.put<RoomType>(`/rooms/types/${id}`, input);
   },
+
+  updateRoomImage: async (
+    roomNumber: string,
+    imageUrl: string,
+  ): Promise<any> => {
+    return apiClient.put(`/rooms/${roomNumber}/image`, { imageUrl });
+  },
 };
+
