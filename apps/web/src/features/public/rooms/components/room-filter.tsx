@@ -19,6 +19,9 @@ export function RoomFilter({
   activeFilter,
   onFilterChange,
 }: RoomFilterProps) {
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
   const formattedDate = checkInDate
     ? new Date(checkInDate).toLocaleDateString("id-ID", {
         day: "numeric",
@@ -46,6 +49,7 @@ export function RoomFilter({
             <input
               id="kamar-checkin-date"
               type="date"
+              min={todayStr}
               value={checkInDate}
               onChange={(e) => onCheckInDateChange(e.target.value)}
               className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"

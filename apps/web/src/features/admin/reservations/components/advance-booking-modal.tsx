@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar, Check, Phone, Plus, User } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
 import {
   Dialog,
@@ -11,6 +11,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../../../components/ui/dialog";
+
+function getTodayString(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
 export interface AdvanceBookingData {
   id: string;
@@ -91,16 +99,22 @@ export function AdvanceBookingModal({
   onClose,
   onConfirm,
 }: AdvanceBookingModalProps) {
+  const todayStr = getTodayString();
   const [selectedRoomCode, setSelectedRoomCode] = useState<string>("A1");
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
-  const [checkInDate, setCheckInDate] = useState<string>(() => {
-    // Default 7 hari ke depan
-    const d = new Date();
-    d.setDate(d.getDate() + 7);
-    return d.toISOString().split("T")[0];
-  });
+  const [checkInDate, setCheckInDate] = useState<string>(todayStr);
   const [nights, setNights] = useState<number>(1);
+
+  // Reset saat modal dibuka: selalu mulai dari tanggal hari ini
+  useEffect(() => {
+    if (isOpen) {
+      setCheckInDate(getTodayString());
+      setGuestName("");
+      setGuestPhone("");
+      setNights(1);
+    }
+  }, [isOpen]);
 
   const selectedRoom =
     ROOM_OPTIONS.find((r) => r.code === selectedRoomCode) || ROOM_OPTIONS[0];
@@ -221,6 +235,7 @@ export function AdvanceBookingModal({
                     id="adv-date"
                     type="date"
                     required
+                    min={todayStr}
                     value={checkInDate}
                     onChange={(e) => setCheckInDate(e.target.value)}
                     className="w-full bg-slate-50 border-2 border-slate-200 focus:border-purple-600 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-900 outline-none"

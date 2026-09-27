@@ -10,11 +10,18 @@ import { useRooms } from "@/features/rooms/hooks/use-rooms";
 
 type RoomType = "ac" | "kipas";
 
+function getTodayString(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export function BookingWidget() {
+  const todayStr = getTodayString();
   const [selectedType, setSelectedType] = useState<RoomType>("ac");
-  const [checkInDate, setCheckInDate] = useState<string>(() => {
-    return new Date().toISOString().split("T")[0];
-  });
+  const [checkInDate, setCheckInDate] = useState<string>(todayStr);
   const [nights, setNights] = useState<number>(1);
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
@@ -196,6 +203,7 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
             <input
               id="booking-checkin-date"
               type="date"
+              min={todayStr}
               value={checkInDate}
               onChange={(e) => setCheckInDate(e.target.value)}
               className="w-full bg-transparent text-xs sm:text-sm font-extrabold text-slate-950 outline-none cursor-pointer"
