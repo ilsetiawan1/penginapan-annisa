@@ -48,11 +48,19 @@ export function DashboardKpiCards({
               Rp {todayRevenue.toLocaleString("id-ID")}
             </div>
             <div className="flex items-center gap-1.5 mt-2.5">
-              <span className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-                <TrendingUp className="w-3 h-3" />
-                +14.2%
-              </span>
-              <span className="text-[11px] text-slate-400 font-medium">vs minggu lalu</span>
+              {todayRevenue > 0 ? (
+                <>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                    <TrendingUp className="w-3 h-3" />
+                    Aktif
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-medium">hari ini</span>
+                </>
+              ) : (
+                <span className="text-[11px] text-slate-400 font-medium">
+                  Belum ada transaksi hari ini
+                </span>
+              )}
             </div>
           </div>
 
@@ -157,11 +165,19 @@ export function DashboardKpiCards({
               <span>Rp {posSalesAmount.toLocaleString("id-ID")}</span>
             </div>
             <div className="flex items-center gap-1.5 mt-2.5">
-              <span className="inline-flex items-center gap-1 text-[11px] font-black text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100">
-                <PackageCheck className="w-3 h-3" />
-                {posItemsSold} Produk Terjual
-              </span>
-              <span className="text-[11px] text-slate-400 font-medium">hari ini</span>
+              {posItemsSold > 0 ? (
+                <>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-black text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100">
+                    <PackageCheck className="w-3 h-3" />
+                    {posItemsSold} Produk Terjual
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-medium">hari ini</span>
+                </>
+              ) : (
+                <span className="text-[11px] text-slate-400 font-medium">
+                  Belum ada penjualan hari ini
+                </span>
+              )}
             </div>
           </div>
 

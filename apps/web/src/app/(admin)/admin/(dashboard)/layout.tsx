@@ -2,7 +2,7 @@
 
 import { type AdminRole, AdminSidebar } from "@/components/layout/admin-sidebar";
 import { useAuth } from "@/features/auth/hooks/use-auth";
-import { Bell, Clock, Loader2, Menu } from "lucide-react";
+import { Clock, Loader2, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -64,44 +64,44 @@ export default function AdminDashboardLayout({
   // Breadcrumb / Section & Page Generator
   const getBreadcrumb = () => {
     if (pathname.includes("/admin/master-rooms"))
-      return { category: "Pengaturan Master", sub: "Kelola Kamar & Tarif" };
+      return { category: "Pengaturan", sub: "Kelola Kamar & Tarif" };
     if (pathname.includes("/admin/master-souvenirs"))
-      return { category: "Pengaturan Master", sub: "Kelola Oleh-Oleh" };
+      return { category: "Pengaturan", sub: "Kelola Oleh-Oleh" };
     if (pathname.includes("/admin/master-articles"))
-      return { category: "Pengaturan Master", sub: "Kelola Artikel & SEO" };
+      return { category: "Pengaturan", sub: "Kelola Artikel & SEO" };
     if (pathname.includes("/admin/rooms"))
-      return { category: "Operasional PMS", sub: "Status Kamar" };
+      return { category: "Operasional", sub: "Status Kamar" };
     if (pathname.includes("/admin/reservations"))
-      return { category: "Operasional PMS", sub: "Jadwal Booking WA" };
+      return { category: "Operasional", sub: "Jadwal Booking WA" };
     if (pathname.includes("/admin/pos"))
-      return { category: "Operasional PMS", sub: "Kasir Oleh-Oleh" };
+      return { category: "Operasional", sub: "Kasir Oleh-Oleh" };
     if (pathname.includes("/admin/reports"))
-      return { category: "Operasional PMS", sub: "Laporan Omzet" };
+      return { category: "Operasional", sub: "Laporan Omzet" };
     if (pathname.includes("/admin/staff"))
-      return { category: "Pengaturan Master", sub: "Kelola Akun Staf" };
+      return { category: "Pengaturan", sub: "Kelola Akun Staf" };
     if (pathname.includes("/admin/settings"))
-      return { category: "Pengaturan Master", sub: "Pengaturan Sistem" };
-    return { category: "Operasional PMS", sub: "Dashboard Ringkasan" };
+      return { category: "Pengaturan", sub: "Pengaturan Sistem" };
+    return { category: "Operasional", sub: "Dashboard" };
   };
 
   const getPageTitle = () => {
-    if (pathname.includes("/admin/master-rooms")) return "Master Kelola Kamar & Tarif";
-    if (pathname.includes("/admin/master-souvenirs")) return "Master Kelola Oleh-Oleh";
-    if (pathname.includes("/admin/master-articles")) return "CMS Kelola Artikel Wisata & SEO";
-    if (pathname.includes("/admin/rooms")) return "Status 8 Kamar PMS";
-    if (pathname.includes("/admin/reservations")) return "Jadwal Booking WhatsApp";
-    if (pathname.includes("/admin/pos")) return "Kasir POS Oleh-Oleh";
-    if (pathname.includes("/admin/reports")) return "Laporan Omzet & Keuangan";
-    if (pathname.includes("/admin/staff")) return "Kelola Akun Staf Resepsionis";
-    if (pathname.includes("/admin/settings")) return "Pengaturan Sistem PMS";
-    return "Dashboard Ringkasan Operasional";
+    if (pathname.includes("/admin/master-rooms")) return "Kelola Kamar & Tarif";
+    if (pathname.includes("/admin/master-souvenirs")) return "Kelola Oleh-Oleh";
+    if (pathname.includes("/admin/master-articles")) return "Kelola Artikel & SEO";
+    if (pathname.includes("/admin/rooms")) return "Status Kamar";
+    if (pathname.includes("/admin/reservations")) return "Jadwal Booking WA";
+    if (pathname.includes("/admin/pos")) return "Kasir Oleh-Oleh";
+    if (pathname.includes("/admin/reports")) return "Laporan Omzet";
+    if (pathname.includes("/admin/staff")) return "Kelola Akun Staf";
+    if (pathname.includes("/admin/settings")) return "Pengaturan Sistem";
+    return "Dashboard";
   };
 
   const breadcrumb = getBreadcrumb();
 
   return (
     <div className="min-h-screen md:h-screen md:max-h-screen md:overflow-hidden bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-4 lg:p-5">
-      <div className="w-full flex flex-1 gap-4 lg:gap-5 items-start h-full min-h-0">
+      <div className="w-full flex flex-1 gap-4 lg:gap-5 items-stretch h-full min-h-0">
         {/* Left Collapsible SaaS Sidebar */}
         <AdminSidebar
           currentRole={currentRole}
@@ -113,7 +113,7 @@ export default function AdminDashboardLayout({
         <div className="flex-1 flex flex-col min-w-0 w-full h-full min-h-0 space-y-3 sm:space-y-3.5">
           {/* Top Minimal Header (Clean Whitespace Bar) */}
           <header className="w-full bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 flex items-center justify-between shadow-2xs border border-purple-100/80 shrink-0 z-30">
-            {/* Left: Mobile Menu Trigger + Breadcrumb Title */}
+            {/* Left: Mobile Menu Trigger + Title on top, Breadcrumb below */}
             <div className="flex items-center gap-3 min-w-0">
               <button
                 type="button"
@@ -125,35 +125,25 @@ export default function AdminDashboardLayout({
               </button>
 
               <div className="min-w-0">
-                <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-slate-400 leading-none">
+                <h1 className="text-sm sm:text-base font-black text-slate-900 truncate leading-tight">
+                  {getPageTitle()}
+                </h1>
+                <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-slate-400 leading-none mt-1">
                   <span>{breadcrumb.category}</span>
                   <span className="text-slate-300">/</span>
                   <span className="text-purple-700 font-extrabold">{breadcrumb.sub}</span>
                 </div>
-                <h1 className="text-sm sm:text-base font-black text-slate-900 truncate leading-tight mt-1">
-                  {getPageTitle()}
-                </h1>
               </div>
             </div>
 
-            {/* Right: Real-time Clock WIT & Notification Bell */}
+            {/* Right: Real-time Clock WIT (No Notification Bell) */}
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               {currentTime && (
-                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-50 text-purple-950 text-xs font-bold border border-purple-100/80">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-50 text-purple-950 text-xs font-bold border border-purple-100/80">
                   <Clock className="w-3.5 h-3.5 text-purple-700" />
                   <span>{currentTime}</span>
                 </div>
               )}
-
-              {/* Notification Bell */}
-              <button
-                type="button"
-                aria-label="Pemberitahuan masuk"
-                className="relative w-9 h-9 rounded-full bg-purple-50/80 hover:bg-purple-100 border border-purple-150/80 flex items-center justify-center text-purple-800 transition cursor-pointer shrink-0 shadow-2xs"
-              >
-                <Bell className="w-4 h-4" />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
-              </button>
             </div>
           </header>
 

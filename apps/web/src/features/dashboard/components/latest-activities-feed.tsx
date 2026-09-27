@@ -14,6 +14,8 @@ import {
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 
+import { useRooms } from "@/features/rooms/hooks/use-rooms";
+
 interface LatestActivitiesFeedProps {
   onNavigateTab: (tab: string) => void;
   onCheckIn: (id: string, name: string, room: string) => void;
@@ -27,81 +29,57 @@ export function LatestActivitiesFeed({
 }: LatestActivitiesFeedProps) {
   const [activeTab, setActiveTab] = useState<"today" | "yesterday" | "this_week">("today");
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: dbRooms } = useRooms();
 
-  const allActivities = [
-    {
-      id: "act-1",
-      category: "booking",
-      icon: FaWhatsapp,
-      iconColor: "text-emerald-600 bg-emerald-50",
-      title: "Tamu Tiba (Booking WA)",
-      subtitle: "#B1 Hendra Pratama • Landing 14.30 WIT • DP Masuk",
-      time: "14:30 WIT",
-      dateType: "today",
-      actionLabel: "Check-In",
-      action: () => onCheckIn("demo-1", "Hendra Pratama", "#B1"),
-    },
-    {
-      id: "act-2",
-      category: "checkout",
-      icon: LogOut,
-      iconColor: "text-blue-600 bg-blue-50",
-      title: "Jadwal Check-Out Hari Ini",
-      subtitle: "#A2 Budi Santoso • Maks 12.00 WIT • Lunas Rp 250rb",
-      time: "11:45 WIT",
-      dateType: "today",
-      actionLabel: "Check-Out",
-      action: () => onCheckOut("demo-2", "Budi Santoso", "#A2"),
-    },
-    {
-      id: "act-3",
-      category: "pos",
-      icon: ShoppingBag,
-      iconColor: "text-purple-600 bg-purple-50",
-      title: "Penjualan Kasir POS",
-      subtitle: "2x MKP Cap Merpati Putih • Rp 80.000 (Tunai)",
-      time: "10:15 WIT",
-      dateType: "today",
-      actionLabel: "Lihat POS",
-      action: () => onNavigateTab("pos"),
-    },
-    {
-      id: "act-4",
-      category: "housekeeping",
-      icon: Sparkles,
-      iconColor: "text-amber-600 bg-amber-50",
-      title: "Housekeeping Selesai",
-      subtitle: "Kamar #A3 selesai dibersihkan & ganti sprei",
-      time: "09:30 WIT",
-      dateType: "today",
-      actionLabel: "Kamar",
-      action: () => onNavigateTab("matrix"),
-    },
-    {
-      id: "act-5",
-      category: "pos",
-      icon: ShoppingBag,
-      iconColor: "text-purple-600 bg-purple-50",
-      title: "Titip Ambil Siap di Lobi",
-      subtitle: "Paket 3 Minyak Kayu Putih pesanan Ibu Ratna",
-      time: "08:20 WIT",
-      dateType: "today",
-      actionLabel: "Detail",
-      action: () => onNavigateTab("pos"),
-    },
-    {
-      id: "act-6",
-      category: "booking",
-      icon: UserCheck,
-      iconColor: "text-emerald-600 bg-emerald-50",
-      title: "Check-In Selesai Kemarin",
-      subtitle: "#A1 Ibu Maya • Menginap 2 Malam",
-      time: "Kemarin",
-      dateType: "yesterday",
-      actionLabel: null,
-      action: null,
-    },
-  ];
+  // Derive real active items from live rooms (NO dummy items)
+  const allActivities = (dbRooms || [])
+    .filter((r) => r.status !== "ready")
+    .map((room) => {
+      if (room.status === "occupied") {
+        return {
+          id: `room-${room.id}`,
+          category: "occupied",
+          icon: UserCheck,
+          iconColor: "text-blue-600 bg-blue-50",
+          title: `Kamar #${room.roomNumber} Sedang Terisi`,
+          subtitle: "Tamu aktif menginap • Siap layani keperluan transit",
+          time: "Aktif",
+          dateType: "today",
+          actionLabel: "Lihat Kamar",
+          action: () => onNavigateTab("matrix"),
+        };
+      }
+      if (room.status === "booked") {
+        return {
+          id: `room-${room.id}`,
+          category: "booking",
+          icon: FaWhatsapp,
+          iconColor: "text-emerald-600 bg-emerald-50",
+          title: `Booking WA Masuk #${room.roomNumber}`,
+          subtitle: "Menunggu kedatangan tamu transit di lobi",
+          time: "Hari Ini",
+          dateType: "today",
+          actionLabel: "Check-In",
+          action: () => onNavigateTab("matrix"),
+        };
+      }
+      if (room.status === "dirty") {
+        return {
+          id: `room-${room.id}`,
+          category: "housekeeping",
+          icon: Sparkles,
+          iconColor: "text-amber-600 bg-amber-50",
+          title: `Perlu Housekeeping #${room.roomNumber}`,
+          subtitle: "Kamar selesai check-out • Menunggu pembersihan",
+          time: "Hari Ini",
+          dateType: "today",
+          actionLabel: "Bersihkan",
+          action: () => onNavigateTab("matrix"),
+        };
+      }
+      return null;
+    })
+    .filter((item): item is NonNullable<typeof item> => item !== null);
 
   const filteredActivities = allActivities.filter((item) => {
     const matchTab =
@@ -188,8 +166,10 @@ export function LatestActivitiesFeed({
         {/* Activity Items List */}
         <div className="space-y-2 flex-1 min-h-0 overflow-y-auto pr-1 no-scrollbar max-h-[190px] sm:max-h-[220px] lg:max-h-[260px]">
           {filteredActivities.length === 0 ? (
-            <div className="text-center py-8 text-xs text-slate-400">
-              Tidak ada aktivitas ditemukan
+            <div className="text-center py-6 text-xs text-slate-400 flex flex-col items-center justify-center">
+              <Clock className="w-5 h-5 text-slate-300 mb-1.5" />
+              <p className="font-bold text-slate-600">Belum ada aktivitas operasional</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">Semua pergerakan check-in, check-out, &amp; booking akan muncul di sini</p>
             </div>
           ) : (
             filteredActivities.map((act) => {

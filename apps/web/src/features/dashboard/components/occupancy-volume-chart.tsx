@@ -12,22 +12,50 @@ interface DailyData {
   isToday?: boolean;
 }
 
-const WEEKLY_DATA: DailyData[] = [
-  { day: "Min", fullDay: "Minggu", rooms: 5, occupancyPercent: 62.5, revenue: 1100000 },
-  { day: "Sen", fullDay: "Senin", rooms: 6, occupancyPercent: 75.0, revenue: 1250000 },
-  { day: "Sel", fullDay: "Selasa", rooms: 6, occupancyPercent: 75.0, revenue: 1275000, isToday: true },
-  { day: "Rab", fullDay: "Rabu", rooms: 7, occupancyPercent: 87.5, revenue: 1450000 },
-  { day: "Kam", fullDay: "Kamis", rooms: 5, occupancyPercent: 62.5, revenue: 1050000 },
-  { day: "Jum", fullDay: "Jumat", rooms: 8, occupancyPercent: 100.0, revenue: 1700000 },
-  { day: "Sab", fullDay: "Sabtu", rooms: 7, occupancyPercent: 87.5, revenue: 1500000 },
-];
+interface OccupancyVolumeChartProps {
+  occupiedRooms?: number;
+  totalRooms?: number;
+  todayRevenue?: number;
+}
 
-export function OccupancyVolumeChart() {
-  const [selectedIdx, setSelectedIdx] = useState<number>(2); // Default Selasa (Hari Ini)
+export function OccupancyVolumeChart({
+  occupiedRooms = 0,
+  totalRooms = 8,
+  todayRevenue = 0,
+}: OccupancyVolumeChartProps) {
+  const daysMap = [
+    { day: "Min", fullDay: "Minggu" },
+    { day: "Sen", fullDay: "Senin" },
+    { day: "Sel", fullDay: "Selasa" },
+    { day: "Rab", fullDay: "Rabu" },
+    { day: "Kam", fullDay: "Kamis" },
+    { day: "Jum", fullDay: "Jumat" },
+    { day: "Sab", fullDay: "Sabtu" },
+  ];
+
+  const currentDayIndex = new Date().getDay(); // 0 to 6
+
+  const weeklyData: DailyData[] = daysMap.map((d, index) => {
+    const isToday = index === currentDayIndex;
+    const rooms = isToday ? occupiedRooms : 0;
+    const occupancyPercent = totalRooms > 0 ? Math.round((rooms / totalRooms) * 100) : 0;
+    const revenue = isToday ? todayRevenue : 0;
+
+    return {
+      day: d.day,
+      fullDay: d.fullDay,
+      rooms,
+      occupancyPercent,
+      revenue,
+      isToday,
+    };
+  });
+
+  const [selectedIdx, setSelectedIdx] = useState<number>(currentDayIndex);
   const [period, setPeriod] = useState<"weekly" | "monthly">("weekly");
 
-  const activeItem = WEEKLY_DATA[selectedIdx] || WEEKLY_DATA[2];
-  const maxRooms = 8;
+  const activeItem = weeklyData[selectedIdx] || weeklyData[currentDayIndex];
+  const maxRooms = totalRooms > 0 ? totalRooms : 8;
 
   return (
     <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col justify-between h-full">
@@ -101,7 +129,7 @@ export function OccupancyVolumeChart() {
         <div className="flex items-end justify-between gap-2 sm:gap-4 h-36 sm:h-44 lg:h-48 relative z-10">
           {/* 7 Daily Bars */}
           <div className="flex-1 flex items-end justify-between gap-1.5 sm:gap-3 h-full pb-6">
-            {WEEKLY_DATA.map((item, idx) => {
+            {weeklyData.map((item, idx) => {
               const isSelected = selectedIdx === idx;
               const barHeightPercent = (item.rooms / maxRooms) * 100;
 

@@ -68,7 +68,7 @@ export function AdminSidebar({ currentRole, isMobileOpen, onCloseMobile }: Admin
       items: [
         {
           href: "/admin/dashboard",
-          label: "Dashboard Ringkasan",
+          label: "Dashboard",
           icon: Home,
           roles: ["owner", "staff"],
         },
@@ -149,7 +149,7 @@ export function AdminSidebar({ currentRole, isMobileOpen, onCloseMobile }: Admin
 
       {/* 1. DESKTOP & TABLET SIDEBAR: Collapsible Modern Dock */}
       <aside
-        className={`hidden md:flex flex-col justify-between shrink-0 bg-white rounded-3xl border border-purple-100/90 shadow-xl shadow-purple-950/5 p-3.5 sm:p-4 sticky top-4 max-h-[calc(100vh-2rem)] transition-all duration-300 ease-in-out z-40 ${
+        className={`hidden md:flex flex-col justify-between shrink-0 bg-white rounded-2xl sm:rounded-3xl border border-purple-100/90 shadow-xl shadow-purple-950/5 p-3.5 sm:p-4 h-full min-h-0 transition-all duration-300 ease-in-out z-40 ${
           isCollapsed ? "w-[72px]" : "w-64"
         }`}
       >

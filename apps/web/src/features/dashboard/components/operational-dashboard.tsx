@@ -45,9 +45,9 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
   const occupancyRate =
     stats?.occupancy?.occupancyRate ??
     (totalRooms > 0 ? Math.round((occupiedRooms / totalRooms) * 100) : 0);
-  const todayRevenue = stats?.todayRevenue ?? 1275000;
-  const posSalesAmount = 285000;
-  const posItemsSold = 5;
+  const todayRevenue = stats?.todayRevenue ?? 0;
+  const posSalesAmount = 0;
+  const posItemsSold = 0;
 
   // Actions
   const handleCheckIn = (id: string, name: string, room: string) => {
@@ -99,7 +99,11 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch flex-1 min-h-0">
         {/* Left Column (8 cols): Bar Chart */}
         <div className="lg:col-span-8 min-h-0 h-full">
-          <OccupancyVolumeChart />
+          <OccupancyVolumeChart
+            occupiedRooms={occupiedRooms}
+            totalRooms={totalRooms}
+            todayRevenue={todayRevenue}
+          />
         </div>
 
         {/* Right Column (4 cols): Latest Updates Activity Feed */}
