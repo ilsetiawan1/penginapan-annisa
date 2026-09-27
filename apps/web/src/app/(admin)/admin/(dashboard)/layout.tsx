@@ -50,7 +50,7 @@ export default function AdminDashboardLayout({
     return (
       <div className="min-h-screen bg-[#f3f2f7] flex flex-col items-center justify-center gap-3">
         <Loader2 className="w-8 h-8 text-purple-700 animate-spin" />
-        <p className="text-xs font-semibold text-slate-600">Memverifikasi Sesi PMS...</p>
+        <p className="text-xs font-semibold text-slate-600">Memverifikasi Sesi...</p>
       </div>
     );
   }
@@ -61,7 +61,29 @@ export default function AdminDashboardLayout({
 
   const currentRole: AdminRole = (user?.role as AdminRole) || "staff";
 
-  // Breadcrumb / Page Title Generator
+  // Breadcrumb / Section & Page Generator
+  const getBreadcrumb = () => {
+    if (pathname.includes("/admin/master-rooms"))
+      return { category: "Pengaturan Master", sub: "Kelola Kamar & Tarif" };
+    if (pathname.includes("/admin/master-souvenirs"))
+      return { category: "Pengaturan Master", sub: "Kelola Oleh-Oleh" };
+    if (pathname.includes("/admin/master-articles"))
+      return { category: "Pengaturan Master", sub: "Kelola Artikel & SEO" };
+    if (pathname.includes("/admin/rooms"))
+      return { category: "Operasional PMS", sub: "Status Kamar" };
+    if (pathname.includes("/admin/reservations"))
+      return { category: "Operasional PMS", sub: "Jadwal Booking WA" };
+    if (pathname.includes("/admin/pos"))
+      return { category: "Operasional PMS", sub: "Kasir Oleh-Oleh" };
+    if (pathname.includes("/admin/reports"))
+      return { category: "Operasional PMS", sub: "Laporan Omzet" };
+    if (pathname.includes("/admin/staff"))
+      return { category: "Pengaturan Master", sub: "Kelola Akun Staf" };
+    if (pathname.includes("/admin/settings"))
+      return { category: "Pengaturan Master", sub: "Pengaturan Sistem" };
+    return { category: "Operasional PMS", sub: "Dashboard Ringkasan" };
+  };
+
   const getPageTitle = () => {
     if (pathname.includes("/admin/master-rooms")) return "Master Kelola Kamar & Tarif";
     if (pathname.includes("/admin/master-souvenirs")) return "Master Kelola Oleh-Oleh";
@@ -75,9 +97,11 @@ export default function AdminDashboardLayout({
     return "Dashboard Ringkasan Operasional";
   };
 
+  const breadcrumb = getBreadcrumb();
+
   return (
-    <div className="min-h-screen bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-4 lg:p-5">
-      <div className="w-full flex flex-1 gap-4 lg:gap-5 items-start">
+    <div className="min-h-screen md:h-screen md:max-h-screen md:overflow-hidden bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-4 lg:p-5">
+      <div className="w-full flex flex-1 gap-4 lg:gap-5 items-start h-full min-h-0">
         {/* Left Collapsible SaaS Sidebar */}
         <AdminSidebar
           currentRole={currentRole}
@@ -86,9 +110,9 @@ export default function AdminDashboardLayout({
         />
 
         {/* Right Main Content Canvas */}
-        <div className="flex-1 flex flex-col min-w-0 w-full space-y-4">
+        <div className="flex-1 flex flex-col min-w-0 w-full h-full min-h-0 space-y-3 sm:space-y-3.5">
           {/* Top Minimal Header (Clean Whitespace Bar) */}
-          <header className="w-full bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-3 sm:p-4 flex items-center justify-between shadow-2xs border border-purple-100/80 sticky top-3 sm:top-4 z-30">
+          <header className="w-full bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 flex items-center justify-between shadow-2xs border border-purple-100/80 shrink-0 z-30">
             {/* Left: Mobile Menu Trigger + Breadcrumb Title */}
             <div className="flex items-center gap-3 min-w-0">
               <button
@@ -101,10 +125,12 @@ export default function AdminDashboardLayout({
               </button>
 
               <div className="min-w-0">
-                <span className="text-[10px] text-purple-700 font-bold uppercase tracking-wider block leading-none md:hidden">
-                  Penginapan Annisa
-                </span>
-                <h1 className="text-sm sm:text-base font-black text-slate-900 truncate leading-tight mt-0.5">
+                <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-slate-400 leading-none">
+                  <span>{breadcrumb.category}</span>
+                  <span className="text-slate-300">/</span>
+                  <span className="text-purple-700 font-extrabold">{breadcrumb.sub}</span>
+                </div>
+                <h1 className="text-sm sm:text-base font-black text-slate-900 truncate leading-tight mt-1">
                   {getPageTitle()}
                 </h1>
               </div>
@@ -131,8 +157,10 @@ export default function AdminDashboardLayout({
             </div>
           </header>
 
-          {/* Main Page Body */}
-          <main className="flex-1 min-w-0">{children}</main>
+          {/* Main Page Body: 100vh on Desktop & Tablet, Scrollable on Mobile */}
+          <main className="flex-1 min-w-0 min-h-0 overflow-y-auto md:overflow-hidden flex flex-col">
+            {children}
+          </main>
         </div>
       </div>
     </div>

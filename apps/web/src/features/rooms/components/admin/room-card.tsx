@@ -45,7 +45,7 @@ export function RoomCard({
   onFinishMaintenance,
 }: RoomCardProps) {
   return (
-    <div className="bg-white rounded-3xl p-3.5 sm:p-4 border border-purple-100/90 shadow-2xs hover:shadow-lg hover:border-purple-300 transition-all duration-300 flex flex-col justify-between gap-3 group select-none">
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 border border-purple-100/90 shadow-2xs hover:shadow-lg hover:border-purple-300 transition-all duration-300 flex flex-col justify-between gap-2 sm:gap-2.5 group select-none">
       {/* 1. Header: Nomor Kamar, Status Badge, Nama Tipe & Tarif */}
       <RoomCardStatusHeader room={room} onOpenDetail={onOpenDetail} />
 

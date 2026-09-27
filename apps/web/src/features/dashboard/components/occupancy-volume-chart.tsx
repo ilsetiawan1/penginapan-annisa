@@ -30,7 +30,7 @@ export function OccupancyVolumeChart() {
   const maxRooms = 8;
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-2xs flex flex-col justify-between h-full">
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col justify-between h-full">
       {/* Chart Header */}
       <div>
         <div className="flex items-center justify-between gap-3">
@@ -71,8 +71,8 @@ export function OccupancyVolumeChart() {
         </div>
 
         {/* Big Highlighted Metric */}
-        <div className="mt-4 flex flex-wrap items-baseline gap-2.5">
-          <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none">
+        <div className="mt-2.5 sm:mt-3 flex flex-wrap items-baseline gap-2">
+          <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight leading-none">
             {activeItem.rooms} / {maxRooms} Kamar Terisi
           </span>
           <span className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
@@ -86,11 +86,11 @@ export function OccupancyVolumeChart() {
       </div>
 
       {/* Main Bar Chart Container */}
-      <div className="mt-8 relative pt-6">
+      <div className="mt-3 relative pt-4 flex-1 min-h-0 flex flex-col justify-end">
         {/* Horizontal Dotted Target Line (e.g. Target 75% / 6 Kamar) */}
         <div
           className="absolute left-0 right-10 border-b border-dashed border-slate-300 pointer-events-none z-0"
-          style={{ bottom: "68px" }}
+          style={{ bottom: "58px" }}
         >
           <span className="absolute -top-4 left-1 text-[10px] font-bold text-slate-400 bg-white/90 px-1 rounded">
             Target Okupansi 75% (6 Kamar)
@@ -98,7 +98,7 @@ export function OccupancyVolumeChart() {
         </div>
 
         {/* Chart Bars and Right Y-Axis */}
-        <div className="flex items-end justify-between gap-2 sm:gap-4 h-48 sm:h-52 relative z-10">
+        <div className="flex items-end justify-between gap-2 sm:gap-4 h-36 sm:h-44 lg:h-48 relative z-10">
           {/* 7 Daily Bars */}
           <div className="flex-1 flex items-end justify-between gap-1.5 sm:gap-3 h-full pb-6">
             {WEEKLY_DATA.map((item, idx) => {

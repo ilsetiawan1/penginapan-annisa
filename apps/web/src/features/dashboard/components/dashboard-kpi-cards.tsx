@@ -33,7 +33,7 @@ export function DashboardKpiCards({
       {/* 1. PEMASUKAN HARI INI */}
       <div
         onClick={() => onNavigateTab("reports")}
-        className="bg-white rounded-2xl sm:rounded-3xl p-5 border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between group"
+        className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between group"
       >
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-500">Pemasukan Hari Ini</span>
@@ -42,7 +42,7 @@ export function DashboardKpiCards({
           </div>
         </div>
 
-        <div className="mt-3 flex items-end justify-between gap-2">
+        <div className="mt-2.5 flex items-end justify-between gap-2">
           <div>
             <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none">
               Rp {todayRevenue.toLocaleString("id-ID")}
@@ -84,7 +84,7 @@ export function DashboardKpiCards({
       {/* 2. TINGKAT OKUPANSI KAMAR */}
       <div
         onClick={() => onNavigateTab("matrix")}
-        className="bg-white rounded-2xl sm:rounded-3xl p-5 border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between group"
+        className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between group"
       >
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-500">Tingkat Okupansi Kamar</span>
@@ -93,7 +93,7 @@ export function DashboardKpiCards({
           </div>
         </div>
 
-        <div className="mt-3 flex items-end justify-between gap-2">
+        <div className="mt-2.5 flex items-end justify-between gap-2">
           <div>
             <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none flex items-baseline gap-2">
               <span>{occupancyRate}%</span>
@@ -142,7 +142,7 @@ export function DashboardKpiCards({
       {/* 3. PENJUALAN POS OLEH-OLEH */}
       <div
         onClick={() => onNavigateTab("pos")}
-        className="bg-white rounded-2xl sm:rounded-3xl p-5 border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between group"
+        className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between group"
       >
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-500">Penjualan Kasir POS</span>
@@ -151,7 +151,7 @@ export function DashboardKpiCards({
           </div>
         </div>
 
-        <div className="mt-3 flex items-end justify-between gap-2">
+        <div className="mt-2.5 flex items-end justify-between gap-2">
           <div>
             <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none flex items-baseline gap-2">
               <span>Rp {posSalesAmount.toLocaleString("id-ID")}</span>

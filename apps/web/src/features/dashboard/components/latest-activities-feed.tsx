@@ -117,10 +117,10 @@ export function LatestActivitiesFeed({
   });
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-2xs flex flex-col justify-between h-full">
-      <div>
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col h-full min-h-0 justify-between">
+      <div className="flex flex-col min-h-0 h-full">
         {/* Header Title & Clock Icon */}
-        <div className="flex items-center justify-between mb-3.5">
+        <div className="flex items-center justify-between mb-2.5">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
               <Clock className="w-3.5 h-3.5" />
@@ -132,7 +132,7 @@ export function LatestActivitiesFeed({
         </div>
 
         {/* Tab Filter Pills (Today, Yesterday, This Week) */}
-        <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl mb-3">
+        <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl mb-2.5">
           <button
             type="button"
             onClick={() => setActiveTab("today")}
@@ -169,24 +169,24 @@ export function LatestActivitiesFeed({
         </div>
 
         {/* Search Activities Input */}
-        <div className="relative mb-3">
+        <div className="relative mb-2">
           <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             placeholder="Cari aktivitas atau nama tamu..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-medium text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-purple-200 transition"
+            className="w-full pl-8 pr-3 py-1 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-medium text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-purple-200 transition"
           />
         </div>
 
         {/* Counter Header */}
-        <div className="text-[11px] font-bold text-slate-400 mb-2">
+        <div className="text-[11px] font-bold text-slate-400 mb-1.5">
           {filteredActivities.length} agenda &amp; aktivitas tercatat
         </div>
 
         {/* Activity Items List */}
-        <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1 no-scrollbar">
+        <div className="space-y-2 flex-1 min-h-0 overflow-y-auto pr-1 no-scrollbar max-h-[190px] sm:max-h-[220px] lg:max-h-[260px]">
           {filteredActivities.length === 0 ? (
             <div className="text-center py-8 text-xs text-slate-400">
               Tidak ada aktivitas ditemukan

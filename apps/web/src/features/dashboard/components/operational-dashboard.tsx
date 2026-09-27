@@ -73,8 +73,8 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
   };
 
   return (
-    <div className="w-full space-y-4 sm:space-y-5 pb-6">
-      {/* 1. TOP SECTION: Greeting, Breadcrumbs & Period Actions (No extra clock) */}
+    <div className="w-full h-full flex flex-col min-h-0 justify-between gap-3 sm:gap-3.5">
+      {/* 1. TOP SECTION: Clean Actions & Live Status Indicator */}
       <DashboardGreetingHeader
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
@@ -83,25 +83,27 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
       />
 
       {/* 2. TOP METRICS ROW: 3 Modern Metric Cards with Inline Sparklines */}
-      <DashboardKpiCards
-        todayRevenue={todayRevenue}
-        totalRooms={totalRooms}
-        occupiedRooms={occupiedRooms}
-        occupancyRate={occupancyRate}
-        posSalesAmount={posSalesAmount}
-        posItemsSold={posItemsSold}
-        onNavigateTab={onNavigateTab}
-      />
+      <div className="shrink-0">
+        <DashboardKpiCards
+          todayRevenue={todayRevenue}
+          totalRooms={totalRooms}
+          occupiedRooms={occupiedRooms}
+          occupancyRate={occupancyRate}
+          posSalesAmount={posSalesAmount}
+          posItemsSold={posItemsSold}
+          onNavigateTab={onNavigateTab}
+        />
+      </div>
 
       {/* 3. MIDDLE SECTION: 12-Column Grid (Volume Trend Bar Chart + Latest Updates) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch flex-1 min-h-0">
         {/* Left Column (8 cols): Bar Chart */}
-        <div className="lg:col-span-8">
+        <div className="lg:col-span-8 min-h-0 h-full">
           <OccupancyVolumeChart />
         </div>
 
         {/* Right Column (4 cols): Latest Updates Activity Feed */}
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-4 min-h-0 h-full">
           <LatestActivitiesFeed
             onNavigateTab={onNavigateTab}
             onCheckIn={handleCheckIn}
