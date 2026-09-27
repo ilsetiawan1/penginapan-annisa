@@ -259,64 +259,59 @@ async function main() {
 
   const souvenirsData = [
     {
-      name: "Minyak Kayu Putih Asli Namlea 100ml",
+      name: "MKP - Cap Merpati Putih (40ml)",
       categoryId: herbalCategory.id,
-      price: 65000,
-      stock: 30,
-      description:
-        "Minyak kayu putih murni penyulingan tradisional Pulau Buru (Namlea). Aroma segar alami dan hangat tahan lama.",
-      imageUrl:
-        "https://ik.imagekit.io/penginapanannisa/souvenirs/minyak-kayu-putih-100ml.webp",
-    },
-    {
-      name: "Minyak Kayu Putih Namlea Super 250ml",
-      categoryId: herbalCategory.id,
-      price: 140000,
-      stock: 15,
-      description:
-        "Kemasan botol besar hemat untuk persediaan keluarga atau oleh-oleh premium khas Maluku.",
-      imageUrl:
-        "https://ik.imagekit.io/penginapanannisa/souvenirs/minyak-kayu-putih-250ml.webp",
-    },
-    {
-      name: "Kue Sagu Bagea Kenari Ambon",
-      categoryId: snackCategory.id,
-      price: 35000,
-      stock: 25,
-      description:
-        "Kue tradisional Maluku berbahan dasar tepung sagu murni dengan potongan biji kenari gurih dan renyah.",
-      imageUrl:
-        "https://ik.imagekit.io/penginapanannisa/souvenirs/kue-bagea-kenari.webp",
-    },
-    {
-      name: "Roti Kenari Panggang Crispy",
-      categoryId: snackCategory.id,
-      price: 45000,
+      price: 40000,
       stock: 20,
       description:
-        "Roti kering renyah dengan taburan gula aren dan kenari khas Ambon. Teman terbaik minum kopi dan teh.",
-      imageUrl: "https://ik.imagekit.io/penginapanannisa/souvenirs/roti-kenari.webp",
+        "Minyak kayu putih Cap Merpati Putih produksi P. Merpati Putih dalam kemasan botol kaca praktis 40ml. Efektif menghangatkan badan, meredakan gejala masuk angin, perut kembung, dan rasa gatal akibat gigitan serangga. Ukuran pas untuk dibawa bepergian.",
+      imageUrl: `${apiBase}/storage/view?key=souvenirs/mkp-cap-merpati-putih-40ml-1790483141487.jpg`,
     },
     {
-      name: "Halua Kenari Gula Aren Murni",
-      categoryId: snackCategory.id,
-      price: 50000,
+      name: "MKP - Cap Mutiara (100ml)",
+      categoryId: herbalCategory.id,
+      price: 75000,
+      stock: 20,
+      description:
+        "Minyak kayu putih asli Cap Mutiara produksi PT. Mutiara Batu Jaya Ambon kemasan botol kaca 100ml. Membantu menghangatkan badan, meredakan masuk angin, perut kembung, dan gatal akibat gigitan serangga. Aroma alami yang segar dan tahan lama.",
+      imageUrl: `${apiBase}/storage/view?key=souvenirs/mkp-cap-mutiara-100ml-1790482984976.jpg`,
+    },
+    {
+      name: "MKP - Cap Merpati Putih (12 x 22ml)",
+      categoryId: herbalCategory.id,
+      price: 150000,
+      stock: 20,
+      description:
+        "Minyak kayu putih asli Cap Merpati Putih kemasan 1 kotak isi 12 botol x 22ml. Praktis dibawa bepergian, berkhasiat menghangatkan tubuh, meredakan masuk angin, perut kembung, dan gatal gigitan serangga. Kualitas murni dan berizin resmi BPOM.",
+      imageUrl: `${apiBase}/storage/view?key=souvenirs/mkp-cap-merpati-putih-12-x-22ml-1790482892229.jpg`,
+    },
+    {
+      name: "MKP -  Cap Mutiara (275ml)",
+      categoryId: herbalCategory.id,
+      price: 175000,
       stock: 18,
       description:
-        "Camilan manis legit terbuat dari paduan kenari pilihan dan gula aren asli Kepulauan Banda.",
-      imageUrl: "https://ik.imagekit.io/penginapanannisa/souvenirs/halua-kenari.webp",
+        "Minyak kayu putih asli Cap Mutiara 100% murni produksi P.J. Sinar Baru Ambon. Kemasan botol kaca isi 275ml dengan aroma khas yang kuat dan rasa hangat yang tahan lama. Berkhasiat meredakan masuk angin, perut kembung, pegal-pegal, gatal gigitan serangga, serta melegakan pernapasan. Oleh-oleh khas Ambon wajib dengan izin resmi POM TR.",
+      imageUrl: `${apiBase}/storage/view?key=souvenirs/minyak-kayu-putih-cap-mutiara-275ml-1790482606250.jpg`,
     },
     {
-      name: "Kopi Rarobang Rempah Khas Maluku",
-      categoryId: drinkCategory.id,
-      price: 40000,
-      stock: 22,
+      name: "MKP - Cap Merpati Putih (2x100ml)",
+      categoryId: herbalCategory.id,
+      price: 130000,
+      stock: 20,
       description:
-        "Kopi robusta khas Ambon berpadu jahe, kayu manis, cengkeh, dan taburan kenari sangrai yang menghangatkan tubuh.",
-      imageUrl:
-        "https://ik.imagekit.io/penginapanannisa/souvenirs/kopi-rarobang.webp",
+        "Minyak kayu putih asli Cap Merpati Putih produksi P.J. Sinar Baru Ambon. Kemasan kotak praktis isi 2 botol x 100ml. Hangat menenangkan, khasiat murni dan bebas campuran.",
+      imageUrl: `${apiBase}/storage/view?key=souvenirs/minyak-kayu-putih-cap-merpati-putih-2x100ml-1790339269463.jpg`,
     },
   ];
+
+  // Hapus produk dummy yang tidak termasuk dalam daftar produk resmi
+  const officialNames = souvenirsData.map((s) => s.name);
+  await prisma.souvenir.deleteMany({
+    where: {
+      name: { notIn: officialNames },
+    },
+  });
 
   for (const s of souvenirsData) {
     const existing = await prisma.souvenir.findFirst({
@@ -326,10 +321,12 @@ async function main() {
       await prisma.souvenir.update({
         where: { id: existing.id },
         data: {
+          categoryId: s.categoryId,
           price: s.price,
           stock: s.stock,
           description: s.description,
           imageUrl: s.imageUrl,
+          isAvailable: true,
         },
       });
     } else {
@@ -339,7 +336,7 @@ async function main() {
     }
   }
 
-  console.log("✅ 6 Produk Oleh-oleh Khas Ambon seeded successfully!");
+  console.log("✅ 5 Produk Oleh-oleh Khas Ambon Resmi Cloudflare R2 seeded successfully!");
 
   // ----------------------------------------------------
   // 5. SEED CMS ARTIKEL WISATA & TIPS TRANSIT AMBON
