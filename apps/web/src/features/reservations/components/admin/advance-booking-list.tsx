@@ -7,7 +7,11 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { type AdvanceBookingData, AdvanceBookingModal } from "./advance-booking-modal";
+import {
+  type AdvanceBookingData,
+  AdvanceBookingModal,
+  toIsoDate,
+} from "./advance-booking-modal";
 import { BookingCalendarGrid } from "./booking-calendar-grid";
 import { BookingDateDetailsPanel } from "./booking-date-details-panel";
 
@@ -30,35 +34,41 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
   useEffect(() => {
     const list = dbReservations?.items;
     if (list && Array.isArray(list)) {
-      const mapped: AdvanceBookingData[] = list.map((r) => ({
-        id: r.code,
-        roomCode: r.room?.roomNumber || "A1",
-        roomTypeName: r.room?.roomType?.name || "Tipe Kamar",
-        guestName: r.guest?.name || "Tamu",
-        guestPhone: r.guest?.phone || "-",
-        checkInDate: new Date(r.checkInDate).toLocaleDateString("id-ID", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        }),
-        checkOutDate: new Date(r.checkOutDate).toLocaleDateString("id-ID", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        }),
-        nights: r.totalNights,
-        totalAmount: r.grandTotal,
-        dpPaid: r.dpAmount,
-        remainingAmount: r.remainingAmount,
-        paymentMethod: (["transfer", "qris", "cash"].includes(r.paymentMethod?.toLowerCase() || "")
-          ? r.paymentMethod?.toLowerCase()
-          : "transfer") as "transfer" | "qris" | "cash",
-        status: (r.status === "checked_in"
-          ? "checked_in"
-          : r.status === "cancelled"
-            ? "cancelled"
-            : "confirmed") as "confirmed" | "checked_in" | "cancelled",
-      }));
+      const mapped: AdvanceBookingData[] = list.map((r) => {
+        const inDate = new Date(r.checkInDate);
+        const outDate = new Date(r.checkOutDate);
+        return {
+          id: r.code,
+          roomCode: r.room?.roomNumber || "A1",
+          roomTypeName: r.room?.roomType?.name || "Tipe Kamar",
+          guestName: r.guest?.name || "Tamu",
+          guestPhone: r.guest?.phone || "-",
+          checkInDate: inDate.toLocaleDateString("id-ID", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }),
+          checkOutDate: outDate.toLocaleDateString("id-ID", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }),
+          checkInIso: toIsoDate(inDate),
+          checkOutIso: toIsoDate(outDate),
+          nights: r.totalNights,
+          totalAmount: r.grandTotal,
+          dpPaid: r.dpAmount,
+          remainingAmount: r.remainingAmount,
+          paymentMethod: (["transfer", "qris", "cash"].includes(r.paymentMethod?.toLowerCase() || "")
+            ? r.paymentMethod?.toLowerCase()
+            : "transfer") as "transfer" | "qris" | "cash",
+          status: (r.status === "checked_in"
+            ? "checked_in"
+            : r.status === "cancelled"
+              ? "cancelled"
+              : "confirmed") as "confirmed" | "checked_in" | "cancelled",
+        };
+      });
       setBookings(mapped);
     }
   }, [dbReservations]);
@@ -122,6 +132,8 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onConfirm={handleAddBooking}
+          initialDate={selectedDate}
+          existingBookings={bookings}
         />
       )}
     </div>

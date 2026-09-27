@@ -1,7 +1,12 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, Plus, RotateCw, User } from "lucide-react";
-import type { AdvanceBookingData } from "./advance-booking-modal";
+import {
+  type AdvanceBookingData,
+  extractIsoString,
+  parseIsoDate,
+  toIsoDate,
+} from "./advance-booking-modal";
 
 interface BookingCalendarGridProps {
   currentMonth: Date;
@@ -46,16 +51,43 @@ export function BookingCalendarGrid({
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate();
 
-  // Ambil booking untuk tanggal tertentu (Mencegah false positive substring seperti tgl 7 mencocokkan tgl 27)
+  // Ambil booking aktif pada tanggal tertentu (Mendukung Multi-Malam: menginap di malam 1, 2, dst.)
   const getBookingsForDate = (dayNumber: number) => {
-    const monthShort = currentMonth.toLocaleDateString("id-ID", { month: "short" }).toLowerCase();
+    const targetIso = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayNumber).padStart(2, "0")}`;
 
-    return bookings.filter((b) => {
-      const regex = new RegExp(`(^|\\s)${dayNumber}\\s+`, "i");
-      if (!regex.test(b.checkInDate)) return false;
-      if (!b.checkInDate.includes(String(year))) return false;
-      return b.checkInDate.toLowerCase().includes(monthShort);
-    });
+    return bookings
+      .filter((b) => {
+        if (b.status === "cancelled") return false;
+        const inIso = b.checkInIso || extractIsoString(b.checkInDate);
+        const outIso = b.checkOutIso || extractIsoString(b.checkOutDate);
+        if (!inIso || !outIso) return false;
+        // Tamu menginap aktif pada rentang: targetIso >= inIso && targetIso < outIso
+        return targetIso >= inIso && targetIso < outIso;
+      })
+      .map((b) => {
+        const inIso = b.checkInIso || extractIsoString(b.checkInDate);
+        const outIso = b.checkOutIso || extractIsoString(b.checkOutDate);
+
+        // Hitung malam ke berapa tamu menginap pada tanggal ini
+        let nightIndex = 1;
+        try {
+          const dTarget = parseIsoDate(targetIso);
+          const dIn = parseIsoDate(inIso);
+          const diffDays = Math.round(
+            (dTarget.getTime() - dIn.getTime()) / (1000 * 60 * 60 * 24),
+          );
+          nightIndex = diffDays + 1;
+        } catch {
+          nightIndex = 1;
+        }
+
+        return {
+          ...b,
+          nightIndex,
+          isFirstNight: inIso === targetIso,
+          isLastNight: nightIndex === b.nights,
+        };
+      });
   };
 
   return (
@@ -167,33 +199,48 @@ export function BookingCalendarGrid({
                     isSelected
                       ? "bg-purple-700 text-white"
                       : hasBookings
-                        ? "text-purple-950"
+                        ? "text-purple-950 font-black"
                         : "text-slate-700"
                   }`}
                 >
                   {dayNum}
                 </span>
 
-                {hasBookings && <span className="w-1.5 h-1.5 rounded-full bg-purple-700" />}
+                {hasBookings && (
+                  <span
+                    className="w-1.5 h-1.5 rounded-full bg-purple-700 animate-pulse"
+                    title={`${dayBookings.length} kamar terisi/dibooking`}
+                  />
+                )}
               </div>
 
-              {/* Event Pill Badges (Ringkas & Bersih dengan Icon User) */}
+              {/* Event Pill Badges (Ringkas dengan Info Multi-Malam) */}
               <div className="space-y-0.5 overflow-hidden w-full">
                 {dayBookings.slice(0, 2).map((bk) => {
                   const isLunas = bk.dpPaid >= bk.totalAmount;
+                  const multiNightLabel =
+                    bk.nights > 1 ? ` (${bk.nightIndex}/${bk.nights})` : "";
+
                   return (
                     <div
-                      key={bk.id}
+                      key={`${bk.id}-${bk.nightIndex}`}
                       className={`text-[9px] font-black px-1.5 py-0.5 rounded-md flex items-center justify-between gap-1 border leading-tight shadow-2xs ${
                         isLunas
                           ? "bg-blue-100/90 text-blue-950 border-blue-200"
                           : "bg-purple-100/90 text-purple-950 border-purple-200"
                       }`}
-                      title={`#${bk.roomCode} - ${bk.guestName} (${isLunas ? "Lunas 100%" : "DP 50%"})`}
+                      title={`#${bk.roomCode} - ${bk.guestName} (${bk.nights} Malam, Malam ke-${bk.nightIndex})`}
                     >
-                      <span className="font-black">#{bk.roomCode}</span>
+                      <span className="font-black truncate">
+                        #{bk.roomCode}
+                        <span className="text-[8px] font-bold text-purple-800 ml-0.5">
+                          {multiNightLabel}
+                        </span>
+                      </span>
                       <User
-                        className={`w-2.5 h-2.5 shrink-0 ${isLunas ? "text-blue-700" : "text-purple-700"}`}
+                        className={`w-2.5 h-2.5 shrink-0 ${
+                          isLunas ? "text-blue-700" : "text-purple-700"
+                        }`}
                       />
                     </div>
                   );

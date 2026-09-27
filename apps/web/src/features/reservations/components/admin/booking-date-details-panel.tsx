@@ -1,8 +1,14 @@
 "use client";
 
-import { Calendar, CheckCircle2, Phone, Plus, User } from "lucide-react";
+import { Calendar, CheckCircle2, Moon, Phone, Plus, User } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
-import type { AdvanceBookingData } from "./advance-booking-modal";
+import {
+  type AdvanceBookingData,
+  extractIsoString,
+  formatIdDate,
+  parseIsoDate,
+  toIsoDate,
+} from "./advance-booking-modal";
 
 interface BookingDateDetailsPanelProps {
   selectedDate: Date;
@@ -24,20 +30,38 @@ export function BookingDateDetailsPanel({
     year: "numeric",
   });
 
-  const dayNum = selectedDate.getDate();
-  const year = selectedDate.getFullYear();
-  const monthShort = selectedDate
-    .toLocaleDateString("id-ID", {
-      month: "short",
-    })
-    .toLowerCase();
+  const selectedDateIso = toIsoDate(selectedDate);
 
-  const selectedDateBookings = bookings.filter((b) => {
-    const regex = new RegExp(`(^|\\s)${dayNum}\\s+`, "i");
-    if (!regex.test(b.checkInDate)) return false;
-    if (!b.checkInDate.includes(String(year))) return false;
-    return b.checkInDate.toLowerCase().includes(monthShort);
-  });
+  // Filter booking aktif di tanggal terpilih (Mendukung Multi-Malam menginap)
+  const selectedDateBookings = bookings
+    .filter((b) => {
+      if (b.status === "cancelled") return false;
+      const inIso = b.checkInIso || extractIsoString(b.checkInDate);
+      const outIso = b.checkOutIso || extractIsoString(b.checkOutDate);
+      if (!inIso || !outIso) return false;
+      return selectedDateIso >= inIso && selectedDateIso < outIso;
+    })
+    .map((b) => {
+      const inIso = b.checkInIso || extractIsoString(b.checkInDate);
+      let nightIndex = 1;
+      try {
+        const dTarget = parseIsoDate(selectedDateIso);
+        const dIn = parseIsoDate(inIso);
+        const diffDays = Math.round(
+          (dTarget.getTime() - dIn.getTime()) / (1000 * 60 * 60 * 24),
+        );
+        nightIndex = diffDays + 1;
+      } catch {
+        nightIndex = 1;
+      }
+
+      return {
+        ...b,
+        nightIndex,
+        isFirstNight: inIso === selectedDateIso,
+        isLastNight: nightIndex === b.nights,
+      };
+    });
 
   return (
     <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-4 sm:p-5 border border-white/60 shadow-xl shadow-purple-500/5 space-y-3.5 flex flex-col justify-between h-full">
@@ -62,7 +86,7 @@ export function BookingDateDetailsPanel({
           <div className="space-y-2.5 overflow-y-auto max-h-[380px] pr-0.5">
             {selectedDateBookings.map((b) => (
               <div
-                key={b.id}
+                key={`${b.id}-${b.nightIndex}`}
                 className="bg-white/70 hover:bg-white/95 backdrop-blur-md border border-purple-100/90 hover:border-purple-300 rounded-2xl p-3.5 space-y-2.5 shadow-xs hover:shadow-md transition-all duration-200"
               >
                 {/* Header Card Booking */}
@@ -75,19 +99,33 @@ export function BookingDateDetailsPanel({
                       <strong className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
                         {b.guestName}
                       </strong>
-                      <span className="text-[10px] text-slate-500 font-semibold">
+                      <span className="text-[10px] text-slate-500 font-semibold block">
                         Kamar {b.roomTypeName} • {b.nights} Malam
                       </span>
                     </div>
                   </div>
 
-                  <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[9px] font-black px-2 py-0.5 rounded-lg shadow-2xs">
-                    DP Lunas
-                  </span>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[9px] font-black px-2 py-0.5 rounded-lg shadow-2xs">
+                      {b.dpPaid >= b.totalAmount ? "Lunas 100%" : "DP Lunas"}
+                    </span>
+                    {b.nights > 1 && (
+                      <span className="bg-purple-100 text-purple-800 text-[9px] font-bold px-1.5 py-0.5 rounded-md flex items-center gap-1">
+                        <Moon className="w-2.5 h-2.5" />
+                        <span>Malam ke-{b.nightIndex} dari {b.nights}</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Kotak Rincian Glass Translucent */}
                 <div className="bg-purple-50/50 backdrop-blur-xs rounded-xl p-2.5 border border-purple-100/60 space-y-1 text-[11px]">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-500">Rentang Tanggal:</span>
+                    <strong className="text-slate-800 font-bold">
+                      {formatIdDate(b.checkInDate)} – {formatIdDate(b.checkOutDate)}
+                    </strong>
+                  </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500">No. WhatsApp:</span>
                     <strong className="text-slate-800 font-bold">{b.guestPhone}</strong>
