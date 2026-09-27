@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, LogOut, Plus, Sparkles } from "lucide-react";
+import { CheckCircle2, LogOut, Plus, Receipt, Sparkles, Wrench } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import type { RoomItem } from "./room-card";
 
@@ -30,26 +30,28 @@ export function RoomCardActions({
   const isBooked = room.status === "booked";
 
   return (
-    <div className="p-2.5 sm:p-3 pt-0 border-t border-slate-100">
+    <div className="pt-0.5 w-full">
+      {/* 1. STATUS TERSEDIA */}
       {isReady && (
         <button
           type="button"
           onClick={() => onOpenCheckIn(room)}
-          className="w-full py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] sm:text-xs transition-all shadow-2xs cursor-pointer flex items-center justify-center gap-1"
+          className="w-full py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs transition-all shadow-sm hover:shadow-md cursor-pointer flex items-center justify-center gap-1.5"
         >
           <Plus className="w-3.5 h-3.5" />
-          <span>Check-In</span>
+          <span>Check-In Tamu</span>
         </button>
       )}
 
+      {/* 2. STATUS TERBOOKING WA */}
       {isBooked && (
         <div className="grid grid-cols-12 gap-1.5 w-full">
           <button
             type="button"
             onClick={() => onOpenSettlement && onOpenSettlement(room)}
-            className="col-span-9 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[10px] sm:text-[11px] transition-all shadow-2xs cursor-pointer flex items-center justify-center gap-1"
+            className="col-span-9 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[11px] transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1"
           >
-            <CheckCircle2 className="w-3 h-3" />
+            <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Pelunasan &amp; Masuk</span>
           </button>
           {room.guestPhone ? (
@@ -57,10 +59,10 @@ export function RoomCardActions({
               href={`https://wa.me/${room.guestPhone.replace(/[^0-9]/g, "")}`}
               target="_blank"
               rel="noreferrer"
-              className="col-span-3 py-1.5 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition cursor-pointer shadow-2xs flex items-center justify-center"
+              className="col-span-3 py-2 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition cursor-pointer shadow-2xs flex items-center justify-center"
               title="Chat WhatsApp Tamu"
             >
-              <FaWhatsapp className="w-3.5 h-3.5" />
+              <FaWhatsapp className="w-4 h-4" />
             </a>
           ) : (
             <div className="col-span-3" />
@@ -68,45 +70,48 @@ export function RoomCardActions({
         </div>
       )}
 
+      {/* 3. STATUS TERISI */}
       {isOccupied && (
         <div className="grid grid-cols-12 gap-1.5 w-full">
           <button
             type="button"
             onClick={() => onOpenCheckOut(room)}
-            className="col-span-9 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[11px] sm:text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1"
+            className="col-span-9 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-[11px] transition shadow-sm cursor-pointer flex items-center justify-center gap-1"
           >
-            <LogOut className="w-3 h-3" />
+            <LogOut className="w-3.5 h-3.5" />
             <span>Check-Out</span>
           </button>
           <button
             type="button"
             onClick={() => onOpenReceipt(room)}
-            className="col-span-3 py-1.5 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition cursor-pointer shadow-2xs flex items-center justify-center"
-            title="Kirim Nota WhatsApp"
+            className="col-span-3 py-2 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition cursor-pointer shadow-2xs flex items-center justify-center"
+            title="Kirim Kwitansi Nota WhatsApp"
           >
-            <FaWhatsapp className="w-3.5 h-3.5" />
+            <FaWhatsapp className="w-4 h-4" />
           </button>
         </div>
       )}
 
+      {/* 4. STATUS PERLU BERSIH */}
       {isDirty && (
         <button
           type="button"
           onClick={() => onMarkClean(room.code)}
-          className="w-full py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-[11px] sm:text-xs transition-all shadow-2xs cursor-pointer flex items-center justify-center gap-1"
+          className="w-full py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-black text-xs transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5"
         >
           <Sparkles className="w-3.5 h-3.5" />
           <span>Selesai Bersih</span>
         </button>
       )}
 
+      {/* 5. STATUS PERBAIKAN */}
       {isMaintenance && (
         <button
           type="button"
           onClick={() => onFinishMaintenance(room.code)}
-          className="w-full py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[11px] sm:text-xs transition-all shadow-2xs cursor-pointer flex items-center justify-center gap-1"
+          className="w-full py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5"
         >
-          <CheckCircle2 className="w-3.5 h-3.5" />
+          <Wrench className="w-3.5 h-3.5" />
           <span>Selesai Perbaikan</span>
         </button>
       )}
