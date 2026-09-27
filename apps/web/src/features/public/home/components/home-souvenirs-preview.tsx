@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -17,16 +17,42 @@ import {
 } from "../../souvenirs/data";
 import { SouvenirOrderModal } from "../../souvenirs/components/souvenir-order-modal";
 import { FloatingCartBar } from "../../souvenirs/components/floating-cart-bar";
+import { useSouvenirs } from "@/features/souvenirs/hooks/use-souvenirs";
 
 export function HomeSouvenirsPreview() {
-  const baseSouvenirs = SOUVENIR_COLLECTION.slice(0, 5);
-  const count = baseSouvenirs.length;
+  const { data: dbSouvenirs } = useSouvenirs();
 
+  const baseSouvenirs: SouvenirProduct[] = useMemo(() => {
+    if (dbSouvenirs && dbSouvenirs.length > 0) {
+      return dbSouvenirs.slice(0, 5).map((s, idx) => ({
+        id: idx + 1,
+        name: s.name,
+        category: (s.category?.name?.includes("Minyak")
+          ? "Minyak & Herbal"
+          : "Makanan & Camilan") as "Minyak & Herbal" | "Makanan & Camilan",
+        categoryLabel: s.category?.name || "Khas Maluku",
+        price: `Rp ${s.price.toLocaleString("id-ID")}`,
+        priceNum: s.price,
+        desc: s.description || "Oleh-oleh khas Maluku pilihan terbaik.",
+        origin: "Ambon Manise",
+        image: s.imageUrl || "",
+      }));
+    }
+    return SOUVENIR_COLLECTION.slice(0, 5);
+  }, [dbSouvenirs]);
+
+  const count = baseSouvenirs.length || 1;
   const REPEAT_COUNT = 40;
   const loopTrack = Array.from({ length: REPEAT_COUNT }, () => baseSouvenirs).flat();
   const initialIndex = Math.floor(REPEAT_COUNT / 2) * count;
   const [currentIndex, setCurrentIndex] = useState<number>(initialIndex);
   const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
+
+  useEffect(() => {
+    if (count > 0) {
+      setCurrentIndex(Math.floor(REPEAT_COUNT / 2) * count);
+    }
+  }, [count]);
 
   const activeDotIndex = ((currentIndex % count) + count) % count;
 
