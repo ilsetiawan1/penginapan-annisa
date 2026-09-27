@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Phone, User, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { Button } from "../../../../components/ui/button";
 import {
@@ -41,19 +41,30 @@ export function CheckInModal({
   roomTypeName = "Kamar Standar",
   onConfirm,
 }: CheckInModalProps) {
+  const safePrice = roomPrice || 200000;
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
   const [nights, setNights] = useState<number>(1);
-  const [dpPaid, setDpPaid] = useState<number>(() =>
-    Math.round((roomPrice || 200000) * 0.5),
-  );
+  const [paymentPreset, setPaymentPreset] = useState<"lunas" | "dp" | "zero">("lunas");
+  const [dpPaid, setDpPaid] = useState<number>(safePrice);
   const [paymentMethod, setPaymentMethod] = useState<
     "cash" | "qris" | "transfer"
   >("cash");
 
-  const safePrice = roomPrice || 200000;
   const totalAmount = safePrice * nights;
   const remainingAmount = Math.max(0, totalAmount - dpPaid);
+
+  // Reset saat modal dibuka untuk kamar tertentu (Default: Lunas 100%)
+  useEffect(() => {
+    if (isOpen) {
+      setGuestName("");
+      setGuestPhone("");
+      setNights(1);
+      setPaymentPreset("lunas");
+      setDpPaid(safePrice);
+      setPaymentMethod("cash");
+    }
+  }, [isOpen, safePrice]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -189,7 +200,14 @@ export function CheckInModal({
                   onChange={(e) => {
                     const val = Number(e.target.value);
                     setNights(val);
-                    setDpPaid(Math.round(safePrice * val * 0.5));
+                    const newTotal = safePrice * val;
+                    if (paymentPreset === "lunas") {
+                      setDpPaid(newTotal);
+                    } else if (paymentPreset === "dp") {
+                      setDpPaid(Math.round(newTotal * 0.5));
+                    } else if (paymentPreset === "zero") {
+                      setDpPaid(0);
+                    }
                   }}
                   className="w-full bg-[#f8f7fc] border border-purple-150/90 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold text-slate-900 outline-none focus:bg-white focus:border-purple-600 transition cursor-pointer"
                 >
@@ -215,26 +233,47 @@ export function CheckInModal({
                   >
                     Uang Diterima / DP (Rp)
                   </label>
-                  {/* Preset Pills */}
+                  {/* Preset Pills Dinamis */}
                   <div className="flex items-center gap-1 shrink-0">
                     <button
                       type="button"
-                      onClick={() => setDpPaid(Math.round(totalAmount * 0.5))}
-                      className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-900 border border-purple-200/60 hover:bg-purple-100 cursor-pointer transition whitespace-nowrap"
+                      onClick={() => {
+                        setPaymentPreset("dp");
+                        setDpPaid(Math.round(totalAmount * 0.5));
+                      }}
+                      className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full cursor-pointer transition whitespace-nowrap ${
+                        dpPaid === Math.round(totalAmount * 0.5) && dpPaid !== totalAmount
+                          ? "bg-purple-700 text-white shadow-2xs"
+                          : "bg-purple-50 text-purple-900 border border-purple-200/60 hover:bg-purple-100"
+                      }`}
                     >
                       DP 50%
                     </button>
                     <button
                       type="button"
-                      onClick={() => setDpPaid(totalAmount)}
-                      className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-purple-700 text-white shadow-2xs hover:bg-purple-800 cursor-pointer transition whitespace-nowrap"
+                      onClick={() => {
+                        setPaymentPreset("lunas");
+                        setDpPaid(totalAmount);
+                      }}
+                      className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full cursor-pointer transition whitespace-nowrap ${
+                        dpPaid === totalAmount
+                          ? "bg-purple-700 text-white shadow-2xs"
+                          : "bg-purple-50 text-purple-900 border border-purple-200/60 hover:bg-purple-100"
+                      }`}
                     >
                       Lunas 100%
                     </button>
                     <button
                       type="button"
-                      onClick={() => setDpPaid(0)}
-                      className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 cursor-pointer transition whitespace-nowrap"
+                      onClick={() => {
+                        setPaymentPreset("zero");
+                        setDpPaid(0);
+                      }}
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full cursor-pointer transition whitespace-nowrap ${
+                        dpPaid === 0
+                          ? "bg-purple-700 text-white shadow-2xs"
+                          : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                      }`}
                     >
                       Rp 0
                     </button>
@@ -245,7 +284,13 @@ export function CheckInModal({
                   id="checkin-dp"
                   type="number"
                   value={dpPaid}
-                  onChange={(e) => setDpPaid(Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    setDpPaid(val);
+                    if (val === totalAmount) setPaymentPreset("lunas");
+                    else if (val === Math.round(totalAmount * 0.5)) setPaymentPreset("dp");
+                    else if (val === 0) setPaymentPreset("zero");
+                  }}
                   className="w-full bg-[#f8f7fc] border border-purple-150/90 rounded-2xl px-4 py-2 text-sm font-black text-purple-900 outline-none focus:bg-white focus:border-purple-600 focus:ring-4 focus:ring-purple-100/50 transition"
                 />
               </div>
