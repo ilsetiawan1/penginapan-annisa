@@ -1,3 +1,4 @@
+import { prisma } from "@annisa/db";
 import { config } from "../../config";
 import { AppError } from "../../middlewares/error.middleware";
 import { HTTP_STATUS } from "../../constants";
@@ -5,6 +6,7 @@ import type {
   CheckInInput,
   CheckOutInput,
   ConfirmDpInput,
+  CreateAdvanceBookingInput,
   CreateOnlineBookingInput,
   CreateWalkInBookingInput,
   PaymentMethod,
@@ -198,6 +200,99 @@ export class ReservationService {
       "occupied",
       `Tamu Walk-In: ${guest.name} (${code})`,
     );
+
+    return reservation;
+  }
+
+  async createAdvanceBooking(
+    userId: string | undefined,
+    input: CreateAdvanceBookingInput,
+  ) {
+    // 1. Ambil unit kamar fisik
+    const targetRoom = await prisma.room.findFirst({
+      where: {
+        OR: [
+          { roomNumber: input.roomCode },
+          { id: input.roomCode },
+        ],
+      },
+      include: { roomType: true },
+    });
+
+    if (!targetRoom) {
+      throw new AppError("Unit kamar tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
+    }
+
+    // 2. Tentukan rentang tanggal
+    const checkInDate = new Date(`${input.checkInDate}T14:00:00+09:00`);
+    const checkOutDate = new Date(
+      checkInDate.getTime() + input.nights * 24 * 60 * 60 * 1000,
+    );
+    checkOutDate.setHours(12, 0, 0, 0);
+
+    // 3. Proteksi Anti-Double Booking
+    const conflicts = await this.repo.findConflictingReservations(
+      targetRoom.id,
+      checkInDate,
+      checkOutDate,
+    );
+
+    if (conflicts.length > 0) {
+      throw new AppError(
+        `Kamar #${targetRoom.roomNumber} sudah memiliki reservasi aktif (${conflicts[0].code}) pada rentang tanggal tersebut. Silakan pilih unit kamar lain atau tanggal berbeda.`,
+        HTTP_STATUS.CONFLICT,
+      );
+    }
+
+    // 4. Hitung rincian biaya
+    const roomRatePerNight = targetRoom.roomType.basePrice;
+    const grandTotal = roomRatePerNight * input.nights;
+    const dpAmount = input.dpPaid;
+    const remainingAmount = Math.max(0, grandTotal - dpAmount);
+    const paymentStatus =
+      remainingAmount === 0 ? "paid" : dpAmount > 0 ? "dp_paid" : "unpaid";
+
+    // 5. Profil Tamu
+    const guest = await this.repo.findOrCreateGuest({
+      name: input.guestName,
+      phone: input.guestPhone,
+    });
+
+    // 6. Kode Reservasi
+    const seq = await this.repo.getNextReservationSequence();
+    const yearMonth = new Date().toISOString().slice(0, 7).replace("-", "");
+    const code = `ANNISA-${yearMonth}-${String(seq).padStart(3, "0")}`;
+
+    // 7. Simpan Reservasi ke Database
+    const reservation = await this.repo.createReservation({
+      code,
+      roomId: targetRoom.id,
+      guestId: guest.id,
+      userId,
+      checkInDate,
+      checkOutDate,
+      totalNights: input.nights,
+      roomRatePerNight,
+      grandTotal,
+      dpAmount,
+      remainingAmount,
+      status: "confirmed",
+      paymentStatus,
+      paymentMethod: input.paymentMethod,
+      notes: input.notes,
+    });
+
+    // 8. Logika Best Practice Status Kamar:
+    // Jika tanggal check-in adalah hari ini (lokal), tandai kamar sebagai 'booked'
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    if (input.checkInDate === todayStr) {
+      await this.repo.updateRoomStatusById(
+        targetRoom.id,
+        "booked",
+        `Booking WA: ${guest.name} (${code})`,
+      );
+    }
 
     return reservation;
   }

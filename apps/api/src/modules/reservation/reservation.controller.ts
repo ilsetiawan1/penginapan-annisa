@@ -99,6 +99,28 @@ export class ReservationController {
     }
   };
 
+  createAdvanceBooking = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const userId = req.user?.id;
+      const reservation = await this.service.createAdvanceBooking(
+        userId,
+        req.body,
+      );
+      return sendSuccess(
+        res,
+        reservation,
+        "Jadwal reservasi WhatsApp berhasil dibuat!",
+        HTTP_STATUS.CREATED,
+      );
+    } catch (error) {
+      return next(error);
+    }
+  };
+
   confirmDp = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params as { id: string };

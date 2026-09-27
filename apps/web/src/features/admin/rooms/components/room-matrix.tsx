@@ -1,24 +1,20 @@
 "use client";
 
-import { Calendar, Plus, RotateCw } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Button } from "../../../../components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  useRooms,
+  useUpdateRoomStatus,
+} from "@/features/rooms/hooks/use-rooms";
+import { RoomCard, RoomItem } from "./room-card";
+import { RoomMatrixHeader } from "./room-matrix-header";
+import { RoomMatrixFilter } from "./room-matrix-filter";
+import { RoomMatrixModals } from "./room-matrix-modals";
 import {
   AdvanceBookingData,
-  AdvanceBookingModal,
 } from "../../reservations/components/advance-booking-modal";
-import { BookingSettlementModal } from "../../reservations/components/booking-settlement-modal";
-import {
-  CheckInFormData,
-  CheckInModal,
-} from "../../reservations/components/checkin-modal";
-import { CheckOutModal } from "../../reservations/components/checkout-modal";
-import { ReceiptModal } from "../../reservations/components/receipt-modal";
-import { RoomCard, RoomItem } from "./room-card";
-import { RoomDetailModal } from "./room-detail-modal";
-import { useRooms, useUpdateRoomStatus } from "@/features/rooms/hooks/use-rooms";
-import { useQueryClient } from "@tanstack/react-query";
+import { CheckInFormData } from "../../reservations/components/checkin-modal";
 
 // 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SEMUA TERSEDIA / READY)
 const INITIAL_ROOMS: RoomItem[] = [
@@ -131,21 +127,13 @@ export function RoomMatrix() {
     }
   }, [dbRooms]);
 
-  // Modal State
-  const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(
-    null,
-  );
-  const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(
-    null,
-  );
-  const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(
-    null,
-  );
-  const [settlementModalData, setSettlementModalData] =
-    useState<RoomItem | null>(null);
+  // Modal States
+  const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(null);
+  const [checkOutModalData, setCheckOutModalData] = useState<RoomItem | null>(null);
+  const [receiptModalData, setReceiptModalData] = useState<RoomItem | null>(null);
+  const [settlementModalData, setSettlementModalData] = useState<RoomItem | null>(null);
   const [detailModalData, setDetailModalData] = useState<RoomItem | null>(null);
-  const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] =
-    useState<boolean>(false);
+  const [isAdvanceBookingOpen, setIsAdvanceBookingOpen] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   // Pisahkan Kamar Bangunan A & Bangunan B dengan Filter
@@ -284,124 +272,62 @@ export function RoomMatrix() {
     );
   };
 
-
-
-  // Handle Simpan Advance Booking WA
+  // Handle Simpan Advance Booking WA (Sync state if today)
   const handleConfirmAdvanceBooking = (data: AdvanceBookingData) => {
-    toast.success(
-      `Jadwal Booking Disimpan! Kamar #${data.roomCode} untuk ${data.guestName} (${data.checkInDate}). DP Rp ${data.dpPaid.toLocaleString("id-ID")}`,
-    );
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+    if (
+      data.checkInDate === todayStr ||
+      data.checkInDate.includes(now.getDate().toString())
+    ) {
+      setRooms((prev) =>
+        prev.map((r) => {
+          if (r.code === data.roomCode) {
+            return {
+              ...r,
+              status: "booked",
+              guestName: data.guestName,
+              guestPhone: data.guestPhone,
+              checkInDate: data.checkInDate,
+              checkOutDate: data.checkOutDate,
+              totalNights: data.nights,
+              totalAmount: data.totalAmount,
+              dpPaid: data.dpPaid,
+              remainingAmount: data.remainingAmount,
+            };
+          }
+          return r;
+        }),
+      );
+    }
   };
 
   return (
     <div className="space-y-6">
       {/* 1. HEADER SECTION: Editorial Georgia + Aksi Cepat */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-black text-slate-900 tracking-tight leading-tight">
-            Status 8 Kamar Transit
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
-            Matriks ketersediaan kamar Bangunan A (Kiri) &amp; Bangunan B
-            (Kanan).
-          </p>
-        </div>
+      <RoomMatrixHeader
+        onOpenAdvanceBooking={() => setIsAdvanceBookingOpen(true)}
+        onRefresh={handleResetRooms}
+        isRefreshing={isRefreshing}
+      />
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2 shrink-0">
-          <Button
-            onClick={() => setIsAdvanceBookingOpen(true)}
-            className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs h-10 px-4 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>+ Catat Booking WA</span>
-          </Button>
-
-          <button
-            type="button"
-            onClick={handleResetRooms}
-            title="Refresh Data Kamar"
-            className="w-10 h-10 rounded-full border border-purple-100 bg-white hover:bg-purple-50 text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
-          >
-            <RotateCw
-              className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
-            />
-          </button>
-        </div>
-      </div>
-
-      {/* 2. CAPSULE FILTER BAR (Tri-Color dengan Micro Dot) */}
-      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-        <button
-          type="button"
-          onClick={() => setFilterStatus("all")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-            filterStatus === "all"
-              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
-              : "bg-white text-slate-600 hover:bg-purple-50 border border-purple-100"
-          }`}
-        >
-          Semua (8 Kamar)
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setFilterStatus("ready")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-            filterStatus === "ready"
-              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
-              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
-          }`}
-        >
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span>Tersedia ({readyCount})</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setFilterStatus("booked")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-            filterStatus === "booked"
-              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
-              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
-          }`}
-        >
-          <span className="w-2 h-2 rounded-full bg-purple-600" />
-          <span>Booking WA ({bookedCount})</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setFilterStatus("occupied")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-            filterStatus === "occupied"
-              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
-              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
-          }`}
-        >
-          <span className="w-2 h-2 rounded-full bg-blue-500" />
-          <span>Terisi ({occupiedCount})</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setFilterStatus("dirty")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-            filterStatus === "dirty"
-              ? "bg-purple-700 text-white shadow-2xs font-extrabold"
-              : "bg-white text-slate-700 hover:bg-purple-50 border border-purple-100"
-          }`}
-        >
-          <span className="w-2 h-2 rounded-full bg-amber-500" />
-          <span>Perlu Bersih ({dirtyCount})</span>
-        </button>
-      </div>
+      {/* 2. CAPSULE FILTER BAR */}
+      <RoomMatrixFilter
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
+        counts={{
+          ready: readyCount,
+          booked: bookedCount,
+          occupied: occupiedCount,
+          dirty: dirtyCount,
+          total: rooms.length,
+        }}
+      />
 
       {/* 3. GRID 2 BANGUNAN DENGAN KARTU TRI-COLOR ELEGAN */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        {/* ====================================================
-            BANGUNAN A (4 KAMAR: #A1 s/d #A4)
-            ==================================================== */}
+        {/* BANGUNAN A (4 KAMAR: #A1 s/d #A4) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
@@ -432,9 +358,7 @@ export function RoomMatrix() {
           </div>
         </div>
 
-        {/* ====================================================
-            BANGUNAN B (4 KAMAR: #B1 s/d #B4)
-            ==================================================== */}
+        {/* BANGUNAN B (4 KAMAR: #B1 s/d #B4) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
@@ -466,101 +390,27 @@ export function RoomMatrix() {
         </div>
       </div>
 
-      {/* ====================================================
-          MODAL-MODAL INTERAKTIF OPERASIONAL
-          ==================================================== */}
-      {checkInModalData && (
-        <CheckInModal
-          isOpen={!!checkInModalData}
-          onClose={() => setCheckInModalData(null)}
-          onConfirm={handleConfirmCheckIn}
-          roomNumber={checkInModalData.code}
-          roomPrice={checkInModalData.price}
-          roomTypeName={checkInModalData.typeName}
-        />
-      )}
-
-      {checkOutModalData && (
-        <CheckOutModal
-          isOpen={!!checkOutModalData}
-          onClose={() => setCheckOutModalData(null)}
-          roomNumber={checkOutModalData.code}
-          roomTypeName={checkOutModalData.typeName}
-          guestName={checkOutModalData.guestName || "Tamu"}
-          guestPhone={checkOutModalData.guestPhone}
-          totalNights={checkOutModalData.totalNights || 1}
-          totalAmount={checkOutModalData.totalAmount || checkOutModalData.price}
-          dpPaid={checkOutModalData.dpPaid || 0}
-          remainingAmount={checkOutModalData.remainingAmount || 0}
-          onConfirmCheckOut={(_pm) => handleConfirmCheckOut()}
-        />
-      )}
-
-      {receiptModalData && (
-        <ReceiptModal
-          isOpen={!!receiptModalData}
-          onClose={() => setReceiptModalData(null)}
-          roomNumber={receiptModalData.code}
-          roomTypeName={receiptModalData.typeName}
-          guestName={receiptModalData.guestName || "Tamu"}
-          guestPhone={receiptModalData.guestPhone || "081234567890"}
-          checkInDate={receiptModalData.checkInDate || "22 Agu 2026"}
-          checkOutDate={receiptModalData.checkOutDate || "23 Agu 2026"}
-          totalNights={receiptModalData.totalNights || 1}
-          totalAmount={receiptModalData.totalAmount || receiptModalData.price}
-          dpPaid={receiptModalData.dpPaid || 0}
-          remainingAmount={receiptModalData.remainingAmount || 0}
-        />
-      )}
-
-      {settlementModalData && (
-        <BookingSettlementModal
-          isOpen={!!settlementModalData}
-          onClose={() => setSettlementModalData(null)}
-          room={settlementModalData}
-          onConfirmSettlement={handleConfirmSettlement}
-        />
-      )}
-
-      {detailModalData && (
-        <RoomDetailModal
-          isOpen={!!detailModalData}
-          onClose={() => setDetailModalData(null)}
-          room={detailModalData}
-          onOpenCheckIn={(room: RoomItem) => {
-            setDetailModalData(null);
-            setCheckInModalData(room);
-          }}
-          onOpenCheckOut={(room: RoomItem) => {
-            setDetailModalData(null);
-            setCheckOutModalData(room);
-          }}
-          onOpenReceipt={(room: RoomItem) => {
-            setDetailModalData(null);
-            setReceiptModalData(room);
-          }}
-          onOpenSettlement={(room: RoomItem) => {
-            setDetailModalData(null);
-            setSettlementModalData(room);
-          }}
-          onMarkClean={(roomCode: string) => {
-            setDetailModalData(null);
-            handleMarkClean(roomCode);
-          }}
-          onFinishMaintenance={(roomCode: string) => {
-            setDetailModalData(null);
-            handleFinishMaintenance(roomCode);
-          }}
-        />
-      )}
-
-      {isAdvanceBookingOpen && (
-        <AdvanceBookingModal
-          isOpen={isAdvanceBookingOpen}
-          onClose={() => setIsAdvanceBookingOpen(false)}
-          onConfirm={handleConfirmAdvanceBooking}
-        />
-      )}
+      {/* 4. MODALS & DIALOGS */}
+      <RoomMatrixModals
+        checkInModalData={checkInModalData}
+        setCheckInModalData={setCheckInModalData}
+        checkOutModalData={checkOutModalData}
+        setCheckOutModalData={setCheckOutModalData}
+        receiptModalData={receiptModalData}
+        setReceiptModalData={setReceiptModalData}
+        settlementModalData={settlementModalData}
+        setSettlementModalData={setSettlementModalData}
+        detailModalData={detailModalData}
+        setDetailModalData={setDetailModalData}
+        isAdvanceBookingOpen={isAdvanceBookingOpen}
+        setIsAdvanceBookingOpen={setIsAdvanceBookingOpen}
+        onConfirmCheckIn={handleConfirmCheckIn}
+        onConfirmSettlement={handleConfirmSettlement}
+        onConfirmCheckOut={handleConfirmCheckOut}
+        onMarkClean={handleMarkClean}
+        onFinishMaintenance={handleFinishMaintenance}
+        onConfirmAdvanceBooking={handleConfirmAdvanceBooking}
+      />
     </div>
   );
 }

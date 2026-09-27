@@ -3,6 +3,7 @@ import type {
   CheckInInput,
   CheckOutInput,
   ConfirmDpInput,
+  CreateAdvanceBookingInput,
   CreateOnlineBookingInput,
   CreateWalkInBookingInput,
   PaginatedResponse,
@@ -68,7 +69,13 @@ export const reservationsApi = {
   createWalkInBooking: async (
     input: CreateWalkInBookingInput,
   ): Promise<Reservation> => {
-    return apiClient.post<Reservation>("/reservations/walk-in", input);
+    return apiClient.post<Reservation>("/reservations/walkin", input);
+  },
+
+  createAdvanceBooking: async (
+    input: CreateAdvanceBookingInput,
+  ): Promise<Reservation> => {
+    return apiClient.post<Reservation>("/reservations/advance", input);
   },
 
   confirmDp: async (

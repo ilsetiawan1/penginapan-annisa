@@ -6,6 +6,7 @@ import type {
   CheckInInput,
   CheckOutInput,
   ConfirmDpInput,
+  CreateAdvanceBookingInput,
   CreateOnlineBookingInput,
   CreateWalkInBookingInput,
   ReservationQuery,
@@ -75,6 +76,26 @@ export function useCreateWalkInBooking() {
     onError: (err: unknown) => {
       const msg =
         err instanceof Error ? err.message : "Gagal memproses check-in walk-in.";
+      toast.error(msg);
+    },
+  });
+}
+
+export function useCreateAdvanceBooking() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (input: CreateAdvanceBookingInput) =>
+      reservationsApi.createAdvanceBooking(input),
+    onSuccess: (data) => {
+      toast.success(`Jadwal Booking WA (${data.code}) berhasil dicatat & masuk ke database!`);
+      queryClient.invalidateQueries({ queryKey: RESERVATIONS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: ROOMS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
+    },
+    onError: (err: unknown) => {
+      const msg =
+        err instanceof Error ? err.message : "Gagal menyimpan jadwal booking WA.";
       toast.error(msg);
     },
   });

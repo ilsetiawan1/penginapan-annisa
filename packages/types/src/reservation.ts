@@ -91,6 +91,22 @@ export type CreateWalkInBookingInput = z.infer<
   typeof createWalkInBookingInputSchema
 >;
 
+export const createAdvanceBookingInputSchema = z.object({
+  roomCode: z.string().min(1, "Pilih unit kamar"),
+  guestName: z.string().min(2, "Nama tamu wajib diisi"),
+  guestPhone: z.string().min(8, "Nomor WhatsApp wajib diisi"),
+  checkInDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Format tanggal YYYY-MM-DD"),
+  nights: z.number().int().positive().default(1),
+  dpPaid: z.number().int().nonnegative().default(0),
+  paymentMethod: paymentMethodSchema.default("transfer"),
+  notes: z.string().optional(),
+});
+export type CreateAdvanceBookingInput = z.infer<
+  typeof createAdvanceBookingInputSchema
+>;
+
 export const confirmDpInputSchema = z.object({
   dpAmount: z.number().int().positive("Nominal DP harus lebih dari 0"),
   paymentMethod: paymentMethodSchema.optional(),

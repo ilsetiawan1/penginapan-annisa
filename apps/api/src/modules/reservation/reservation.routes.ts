@@ -4,6 +4,7 @@ import {
   checkInInputSchema,
   checkOutInputSchema,
   confirmDpInputSchema,
+  createAdvanceBookingInputSchema,
   createOnlineBookingInputSchema,
   createWalkInBookingInputSchema,
 } from "@annisa/types";
@@ -29,6 +30,13 @@ router.post(
   authMiddleware,
   validateRequest({ body: createWalkInBookingInputSchema }),
   reservationController.createWalkInBooking,
+);
+
+router.post(
+  "/advance",
+  authMiddleware,
+  validateRequest({ body: createAdvanceBookingInputSchema }),
+  reservationController.createAdvanceBooking,
 );
 
 router.get(

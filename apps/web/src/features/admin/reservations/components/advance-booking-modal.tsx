@@ -20,6 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../../../components/ui/dialog";
+import { useCreateAdvanceBooking } from "@/features/reservations/hooks/use-reservations";
 
 function getTodayString(): string {
   const now = new Date();
@@ -108,6 +109,7 @@ export function AdvanceBookingModal({
   onClose,
   onConfirm,
 }: AdvanceBookingModalProps) {
+  const createAdvanceMutation = useCreateAdvanceBooking();
   const todayStr = getTodayString();
   const [selectedRoomCode, setSelectedRoomCode] = useState<string>("A1");
   const [guestName, setGuestName] = useState<string>("");
@@ -136,7 +138,7 @@ export function AdvanceBookingModal({
     "transfer" | "qris" | "cash"
   >("transfer");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!guestName.trim()) return;
 
@@ -155,31 +157,45 @@ export function AdvanceBookingModal({
       year: "numeric",
     });
 
-    onConfirm({
-      id: `BK-${Date.now().toString().slice(-4)}`,
-      roomCode: selectedRoom.code,
-      roomTypeName:
-        selectedRoom.code.startsWith("A1") ||
-        selectedRoom.code.startsWith("A2") ||
-        selectedRoom.code.startsWith("B1") ||
-        selectedRoom.code.startsWith("B2")
-          ? "Tipe AC"
-          : "Tipe Kipas",
-      guestName,
-      guestPhone,
-      checkInDate: formattedIn,
-      checkOutDate: formattedOut,
-      nights,
-      totalAmount,
-      dpPaid,
-      remainingAmount,
-      paymentMethod,
-      status: "confirmed",
-    });
+    try {
+      const res = await createAdvanceMutation.mutateAsync({
+        roomCode: selectedRoom.code,
+        guestName: guestName.trim(),
+        guestPhone: guestPhone.trim(),
+        checkInDate,
+        nights,
+        dpPaid,
+        paymentMethod,
+      });
 
-    setGuestName("");
-    setGuestPhone("");
-    onClose();
+      onConfirm({
+        id: (res as any)?.code || `BK-${Date.now().toString().slice(-4)}`,
+        roomCode: selectedRoom.code,
+        roomTypeName:
+          selectedRoom.code.startsWith("A1") ||
+          selectedRoom.code.startsWith("A2") ||
+          selectedRoom.code.startsWith("B1") ||
+          selectedRoom.code.startsWith("B2")
+            ? "Tipe AC"
+            : "Tipe Kipas",
+        guestName: guestName.trim(),
+        guestPhone: guestPhone.trim(),
+        checkInDate: formattedIn,
+        checkOutDate: formattedOut,
+        nights,
+        totalAmount,
+        dpPaid,
+        remainingAmount,
+        paymentMethod,
+        status: "confirmed",
+      });
+
+      setGuestName("");
+      setGuestPhone("");
+      onClose();
+    } catch {
+      // Handled by onError in hook
+    }
   };
 
   return (
@@ -420,10 +436,20 @@ export function AdvanceBookingModal({
             </Button>
             <Button
               type="submit"
-              className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-9 px-5 gap-1.5 shadow-md cursor-pointer"
+              disabled={createAdvanceMutation.isPending}
+              className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-9 px-5 gap-1.5 shadow-md cursor-pointer disabled:opacity-50"
             >
-              <Check className="w-4 h-4" />
-              <span>Simpan Jadwal Booking WA</span>
+              {createAdvanceMutation.isPending ? (
+                <>
+                  <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Menyimpan ke DB...</span>
+                </>
+              ) : (
+                <>
+                  <Check className="w-4 h-4" />
+                  <span>Simpan Jadwal Booking WA</span>
+                </>
+              )}
             </Button>
           </DialogFooter>
         </form>
