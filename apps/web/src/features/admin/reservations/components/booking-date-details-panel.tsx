@@ -26,17 +26,18 @@ export function BookingDateDetailsPanel({
 
   const dayNum = selectedDate.getDate();
   const year = selectedDate.getFullYear();
-  const monthShort = selectedDate.toLocaleDateString("id-ID", {
-    month: "short",
-  });
-  const targetDateStr = `${dayNum} ${monthShort} ${year}`;
+  const monthShort = selectedDate
+    .toLocaleDateString("id-ID", {
+      month: "short",
+    })
+    .toLowerCase();
 
-  const selectedDateBookings = bookings.filter(
-    (b) =>
-      b.checkInDate.toLowerCase().includes(targetDateStr.toLowerCase()) ||
-      (b.checkInDate.startsWith(`${dayNum} `) &&
-        b.checkInDate.endsWith(`${year}`)),
-  );
+  const selectedDateBookings = bookings.filter((b) => {
+    const regex = new RegExp(`(^|\\s)${dayNum}\\s+`, "i");
+    if (!regex.test(b.checkInDate)) return false;
+    if (!b.checkInDate.includes(String(year))) return false;
+    return b.checkInDate.toLowerCase().includes(monthShort);
+  });
 
   return (
     <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-4 sm:p-5 border border-white/60 shadow-xl shadow-purple-500/5 space-y-3.5 flex flex-col justify-between h-full">

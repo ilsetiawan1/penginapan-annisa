@@ -46,16 +46,18 @@ export function BookingCalendarGrid({
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate();
 
-  // Ambil booking untuk tanggal tertentu
+  // Ambil booking untuk tanggal tertentu (Mencegah false positive substring seperti tgl 7 mencocokkan tgl 27)
   const getBookingsForDate = (dayNumber: number) => {
-    const targetDateStr = `${dayNumber} ${currentMonth.toLocaleDateString("id-ID", { month: "short" })} ${year}`;
-    return bookings.filter(
-      (b) =>
-        b.checkInDate.toLowerCase().includes(targetDateStr.toLowerCase()) ||
-        // Cek format tanggal alternatif
-        (b.checkInDate.startsWith(`${dayNumber} `) &&
-          b.checkInDate.endsWith(`${year}`)),
-    );
+    const monthShort = currentMonth
+      .toLocaleDateString("id-ID", { month: "short" })
+      .toLowerCase();
+
+    return bookings.filter((b) => {
+      const regex = new RegExp(`(^|\\s)${dayNumber}\\s+`, "i");
+      if (!regex.test(b.checkInDate)) return false;
+      if (!b.checkInDate.includes(String(year))) return false;
+      return b.checkInDate.toLowerCase().includes(monthShort);
+    });
   };
 
   return (
