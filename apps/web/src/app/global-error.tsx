@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { ArrowRight, RotateCcw, ShieldAlert } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, RotateCcw, ShieldAlert } from "lucide-react";
+import { useEffect } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 
 export default function GlobalError({
@@ -26,19 +26,19 @@ export default function GlobalError({
 
         {/* Main Content */}
         <div className="w-full max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 mt-12 z-10">
-          
           {/* Left Side: Error Info */}
           <div className="flex-1 text-center md:text-left">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-purple-50 border border-purple-100 mb-6 shadow-sm">
               <ShieldAlert className="w-6 h-6 text-purple-600" />
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-4 leading-tight">
               500 <span className="text-purple-600">Fatal Error</span>
             </h1>
-            
+
             <p className="text-sm md:text-base text-slate-500 mb-8 max-w-md mx-auto md:mx-0 leading-relaxed font-medium">
-              Terdapat kendala teknis kritikal pada sistem kami. Tim teknis sedang mencatat dan menangani gangguan ini secepatnya.
+              Terdapat kendala teknis kritikal pada sistem kami. Tim teknis sedang mencatat dan
+              menangani gangguan ini secepatnya.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start w-full sm:w-auto mt-4">

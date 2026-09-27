@@ -7,4 +7,3 @@ router.get("/view", storageController.getFile);
 router.get("/list", storageController.listFiles);
 
 export default router;
-

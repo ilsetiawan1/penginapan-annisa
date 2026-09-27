@@ -1,11 +1,11 @@
 "use client";
 
+import { SouvenirFilter } from "@/features/souvenirs/components/public/souvenir-filter";
+import { SouvenirGrid } from "@/features/souvenirs/components/public/souvenir-grid";
+import { SouvenirHero } from "@/features/souvenirs/components/public/souvenir-hero";
+import { SOUVENIR_COLLECTION, type SouvenirProduct } from "@/features/souvenirs/data";
+import { useSouvenirCategories, useSouvenirs } from "@/features/souvenirs/hooks/use-souvenirs";
 import { useState } from "react";
-import { SouvenirFilter } from "@/features/public/souvenirs/components/souvenir-filter";
-import { SouvenirGrid } from "@/features/public/souvenirs/components/souvenir-grid";
-import { SouvenirHero } from "@/features/public/souvenirs/components/souvenir-hero";
-import { type SouvenirProduct, SOUVENIR_COLLECTION } from "@/features/public/souvenirs/data";
-import { useSouvenirs, useSouvenirCategories } from "@/features/souvenirs/hooks/use-souvenirs";
 
 export default function OlehOlehPage() {
   const [activeCategory, setActiveCategory] = useState("Semua");
@@ -16,10 +16,7 @@ export default function OlehOlehPage() {
 
   const categories = [
     "Semua",
-    ...(dbCategories?.map((c) => c.name) || [
-      "Makanan & Camilan",
-      "Minyak & Herbal",
-    ]),
+    ...(dbCategories?.map((c) => c.name) || ["Makanan & Camilan", "Minyak & Herbal"]),
   ];
 
   // Map API data if available, otherwise use initial collection
@@ -42,10 +39,8 @@ export default function OlehOlehPage() {
         }))
       : SOUVENIR_COLLECTION;
 
-
   const filteredSouvenirs = items.filter((item) => {
-    const matchCategory =
-      activeCategory === "Semua" || item.category === activeCategory;
+    const matchCategory = activeCategory === "Semua" || item.category === activeCategory;
     const matchSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||

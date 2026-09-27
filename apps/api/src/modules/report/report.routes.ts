@@ -17,11 +17,6 @@ router.get(
   reportController.getMonthlyRevenue,
 );
 
-router.get(
-  "/export",
-  authMiddleware,
-  requireRole("owner"),
-  reportController.exportReservationsCsv,
-);
+router.get("/export", authMiddleware, requireRole("owner"), reportController.exportReservationsCsv);
 
 export const reportRouter = router;

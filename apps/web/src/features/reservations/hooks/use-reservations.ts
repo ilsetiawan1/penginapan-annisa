@@ -1,7 +1,6 @@
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { reservationsApi } from "@/lib/api/reservations.api";
+import { ROOMS_QUERY_KEY } from "@/features/rooms/hooks/use-rooms";
 import type {
   CheckInInput,
   CheckOutInput,
@@ -11,8 +10,9 @@ import type {
   CreateWalkInBookingInput,
   ReservationQuery,
 } from "@annisa/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ROOMS_QUERY_KEY } from "@/features/rooms/hooks/use-rooms";
+import { reservationsApi } from "../api/reservations.api";
 
 export const RESERVATIONS_QUERY_KEY = ["reservations"] as const;
 
@@ -44,8 +44,7 @@ export function useCreateOnlineBooking() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (input: CreateOnlineBookingInput) =>
-      reservationsApi.createOnlineBooking(input),
+    mutationFn: (input: CreateOnlineBookingInput) => reservationsApi.createOnlineBooking(input),
     onSuccess: (data) => {
       toast.success(
         `Draft booking ${data.reservation.code} berhasil dibuat! Mengalihkan ke WhatsApp...`,
@@ -54,8 +53,7 @@ export function useCreateOnlineBooking() {
       queryClient.invalidateQueries({ queryKey: ROOMS_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal membuat draft reservasi.";
+      const msg = err instanceof Error ? err.message : "Gagal membuat draft reservasi.";
       toast.error(msg);
     },
   });
@@ -65,8 +63,7 @@ export function useCreateWalkInBooking() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (input: CreateWalkInBookingInput) =>
-      reservationsApi.createWalkInBooking(input),
+    mutationFn: (input: CreateWalkInBookingInput) => reservationsApi.createWalkInBooking(input),
     onSuccess: (data) => {
       toast.success(`Check-in tamu walk-in ${data.code} berhasil!`);
       queryClient.invalidateQueries({ queryKey: RESERVATIONS_QUERY_KEY });
@@ -74,8 +71,7 @@ export function useCreateWalkInBooking() {
       queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal memproses check-in walk-in.";
+      const msg = err instanceof Error ? err.message : "Gagal memproses check-in walk-in.";
       toast.error(msg);
     },
   });
@@ -85,8 +81,7 @@ export function useCreateAdvanceBooking() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (input: CreateAdvanceBookingInput) =>
-      reservationsApi.createAdvanceBooking(input),
+    mutationFn: (input: CreateAdvanceBookingInput) => reservationsApi.createAdvanceBooking(input),
     onSuccess: (data) => {
       toast.success(`Jadwal Booking WA (${data.code}) berhasil dicatat & masuk ke database!`);
       queryClient.invalidateQueries({ queryKey: RESERVATIONS_QUERY_KEY });
@@ -94,8 +89,7 @@ export function useCreateAdvanceBooking() {
       queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal menyimpan jadwal booking WA.";
+      const msg = err instanceof Error ? err.message : "Gagal menyimpan jadwal booking WA.";
       toast.error(msg);
     },
   });
@@ -114,8 +108,7 @@ export function useConfirmDp() {
       queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal mengonfirmasi pembayaran DP.";
+      const msg = err instanceof Error ? err.message : "Gagal mengonfirmasi pembayaran DP.";
       toast.error(msg);
     },
   });

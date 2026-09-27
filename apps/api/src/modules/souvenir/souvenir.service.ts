@@ -1,14 +1,7 @@
-import { AppError } from "../../middlewares/error.middleware";
+import type { CreateSouvenirInput, PosCheckoutInput, UpdateSouvenirInput } from "@annisa/types";
 import { HTTP_STATUS } from "../../constants";
-import type {
-  CreateSouvenirInput,
-  PosCheckoutInput,
-  UpdateSouvenirInput,
-} from "@annisa/types";
-import {
-  souvenirRepository,
-  type SouvenirRepository,
-} from "./souvenir.repository";
+import { AppError } from "../../middlewares/error.middleware";
+import { type SouvenirRepository, souvenirRepository } from "./souvenir.repository";
 
 export class SouvenirService {
   private repo: SouvenirRepository;
@@ -62,9 +55,7 @@ export class SouvenirService {
       throw new AppError("Keranjang belanja kosong.", HTTP_STATUS.BAD_REQUEST);
     }
 
-    const { detailedItems, grandTotal } = await this.repo.processCheckout(
-      input.items,
-    );
+    const { detailedItems, grandTotal } = await this.repo.processCheckout(input.items);
 
     let change = 0;
     if (input.cashReceived !== undefined) {

@@ -1,8 +1,8 @@
 "use client";
 
+import { AuthProvider } from "@/features/auth/hooks/use-auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
-import { AuthProvider } from "@/features/auth/hooks/use-auth";
 import { ToastProvider } from "../components/providers/toast-provider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -28,4 +28,3 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </QueryClientProvider>
   );
 }
-

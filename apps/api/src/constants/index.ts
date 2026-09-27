@@ -19,13 +19,4 @@ export const ERROR_MESSAGES = {
   INTERNAL_SERVER: "Terjadi kesalahan internal pada server.",
 } as const;
 
-export const OFFICIAL_ROOM_NUMBERS = [
-  "A1",
-  "A2",
-  "A3",
-  "A4",
-  "B1",
-  "B2",
-  "B3",
-  "B4",
-] as const;
+export const OFFICIAL_ROOM_NUMBERS = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"] as const;

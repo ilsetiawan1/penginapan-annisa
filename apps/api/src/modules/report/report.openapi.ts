@@ -1,9 +1,9 @@
-import { z } from "zod";
 import {
   dashboardOverviewStatsSchema,
   monthlyRevenueReportSchema,
   occupancyStatsSchema,
 } from "@annisa/types";
+import { z } from "zod";
 import { registry } from "../../docs/openapi";
 
 // Register Reusable Schemas
@@ -35,8 +35,7 @@ registry.registerPath({
   method: "get",
   path: "/api/v1/reports/monthly-revenue",
   summary: "Rekapitulasi Omzet Bulanan (Khusus Owner)",
-  description:
-    "Menghitung total pendapatan sewa kamar dan kasir oleh-oleh per bulan kalender.",
+  description: "Menghitung total pendapatan sewa kamar dan kasir oleh-oleh per bulan kalender.",
   tags: ["6. Laporan & Dashboard"],
   security: [{ BearerAuth: [] }],
   request: {

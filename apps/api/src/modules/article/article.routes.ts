@@ -1,12 +1,9 @@
+import { createArticleInputSchema, updateArticleInputSchema } from "@annisa/types";
 import { Router } from "express";
 import { z } from "zod";
-import {
-  createArticleInputSchema,
-  updateArticleInputSchema,
-} from "@annisa/types";
-import { validateRequest } from "../../middlewares/validate.middleware";
 import { authMiddleware } from "../../middlewares/auth.middleware";
 import { requireRole } from "../../middlewares/role.middleware";
+import { validateRequest } from "../../middlewares/validate.middleware";
 import { articleController } from "./article.controller";
 import "./article.openapi"; // Register docs
 

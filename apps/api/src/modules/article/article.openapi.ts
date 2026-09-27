@@ -1,10 +1,10 @@
-import { z } from "zod";
 import {
-  articleSchema,
   articleCategorySchema,
+  articleSchema,
   createArticleInputSchema,
   updateArticleInputSchema,
 } from "@annisa/types";
+import { z } from "zod";
 import { registry } from "../../docs/openapi";
 
 // Register Reusable Schemas
@@ -23,10 +23,7 @@ registry.registerPath({
   tags: ["5. CMS Artikel Wisata"],
   request: {
     query: z.object({
-      category: z
-        .string()
-        .optional()
-        .openapi({ example: "tips-transit-bandara" }),
+      category: z.string().optional().openapi({ example: "tips-transit-bandara" }),
       isPublished: z.enum(["true", "false"]).optional().openapi({ example: "true" }),
       search: z.string().optional().openapi({ example: "Pattimura" }),
     }),
@@ -93,8 +90,10 @@ registry.registerPath({
           example: {
             categoryId: "550e8400-e29b-41d4-a716-446655440002",
             title: "Pesona Pantai Liang dan Pasir Putih Eksotis Ambon",
-            summary: "Keindahan salah satu pantai terindah di Indonesia yang berjarak 40 menit dari Penginapan Annisa.",
-            content: "Pantai Liang dinobatkan oleh PBB sebagai salah satu pantai terindah di Indonesia karena gradasi air lautnya yang memukau...",
+            summary:
+              "Keindahan salah satu pantai terindah di Indonesia yang berjarak 40 menit dari Penginapan Annisa.",
+            content:
+              "Pantai Liang dinobatkan oleh PBB sebagai salah satu pantai terindah di Indonesia karena gradasi air lautnya yang memukau...",
             coverImage: "https://ik.imagekit.io/penginapanannisa/articles/pantai-liang.webp",
             isPublished: true,
           },

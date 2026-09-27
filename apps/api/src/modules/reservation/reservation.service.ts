@@ -1,7 +1,4 @@
 import { prisma } from "@annisa/db";
-import { config } from "../../config";
-import { AppError } from "../../middlewares/error.middleware";
-import { HTTP_STATUS } from "../../constants";
 import type {
   CheckInInput,
   CheckOutInput,
@@ -12,10 +9,10 @@ import type {
   PaymentMethod,
   ReservationQuery,
 } from "@annisa/types";
-import {
-  reservationRepository,
-  type ReservationRepository,
-} from "./reservation.repository";
+import { config } from "../../config";
+import { HTTP_STATUS } from "../../constants";
+import { AppError } from "../../middlewares/error.middleware";
+import { type ReservationRepository, reservationRepository } from "./reservation.repository";
 
 export class ReservationService {
   private repo: ReservationRepository;
@@ -127,9 +124,7 @@ export class ReservationService {
   async createWalkInBooking(userId: string, input: CreateWalkInBookingInput) {
     const today = new Date();
     const checkInDate = new Date(today.setHours(14, 0, 0, 0));
-    const checkOutDate = new Date(
-      today.getTime() + input.totalNights * 24 * 60 * 60 * 1000,
-    );
+    const checkOutDate = new Date(today.getTime() + input.totalNights * 24 * 60 * 60 * 1000);
     checkOutDate.setHours(12, 0, 0, 0);
 
     const room = await this.repo.findReservationById(input.roomId);
@@ -204,17 +199,11 @@ export class ReservationService {
     return reservation;
   }
 
-  async createAdvanceBooking(
-    userId: string | undefined,
-    input: CreateAdvanceBookingInput,
-  ) {
+  async createAdvanceBooking(userId: string | undefined, input: CreateAdvanceBookingInput) {
     // 1. Ambil unit kamar fisik
     const targetRoom = await prisma.room.findFirst({
       where: {
-        OR: [
-          { roomNumber: input.roomCode },
-          { id: input.roomCode },
-        ],
+        OR: [{ roomNumber: input.roomCode }, { id: input.roomCode }],
       },
       include: { roomType: true },
     });
@@ -225,9 +214,7 @@ export class ReservationService {
 
     // 2. Tentukan rentang tanggal
     const checkInDate = new Date(`${input.checkInDate}T14:00:00+09:00`);
-    const checkOutDate = new Date(
-      checkInDate.getTime() + input.nights * 24 * 60 * 60 * 1000,
-    );
+    const checkOutDate = new Date(checkInDate.getTime() + input.nights * 24 * 60 * 60 * 1000);
     checkOutDate.setHours(12, 0, 0, 0);
 
     // 3. Proteksi Anti-Double Booking
@@ -249,8 +236,7 @@ export class ReservationService {
     const grandTotal = roomRatePerNight * input.nights;
     const dpAmount = input.dpPaid;
     const remainingAmount = Math.max(0, grandTotal - dpAmount);
-    const paymentStatus =
-      remainingAmount === 0 ? "paid" : dpAmount > 0 ? "dp_paid" : "unpaid";
+    const paymentStatus = remainingAmount === 0 ? "paid" : dpAmount > 0 ? "dp_paid" : "unpaid";
 
     // 5. Profil Tamu
     const guest = await this.repo.findOrCreateGuest({

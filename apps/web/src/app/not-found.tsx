@@ -1,8 +1,8 @@
 "use client";
 
+import { ArrowRight, SearchX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, SearchX } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 
 export default function NotFound() {
@@ -25,27 +25,31 @@ export default function NotFound() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-extrabold text-sm text-slate-800 tracking-tight group-hover:text-purple-700 transition-colors">Penginapan Annisa</span>
-            <span className="text-[10px] text-purple-600 font-bold uppercase tracking-wider">RMS System</span>
+            <span className="font-extrabold text-sm text-slate-800 tracking-tight group-hover:text-purple-700 transition-colors">
+              Penginapan Annisa
+            </span>
+            <span className="text-[10px] text-purple-600 font-bold uppercase tracking-wider">
+              RMS System
+            </span>
           </div>
         </Link>
       </div>
 
       {/* Main Content */}
       <div className="w-full max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 mt-12 z-10">
-        
         {/* Left Side: Error Info */}
         <div className="flex-1 text-center md:text-left">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-purple-50 border border-purple-100 mb-6 shadow-sm">
             <SearchX className="w-6 h-6 text-purple-600" />
           </div>
-          
+
           <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-4 leading-tight">
             404 <span className="text-purple-600">Not Found</span>
           </h1>
-          
+
           <p className="text-sm md:text-base text-slate-500 mb-8 max-w-md mx-auto md:mx-0 leading-relaxed font-medium">
-            Halaman yang Anda tuju tidak tersedia atau tautan telah dipindahkan. Yuk kembali menjelajahi fasilitas & kamar transit Penginapan Annisa.
+            Halaman yang Anda tuju tidak tersedia atau tautan telah dipindahkan. Yuk kembali
+            menjelajahi fasilitas & kamar transit Penginapan Annisa.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start w-full sm:w-auto mt-4">

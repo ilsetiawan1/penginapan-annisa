@@ -1,13 +1,9 @@
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { articlesApi } from "@/lib/api/articles.api";
-import type {
-  ArticleQuery,
-  CreateArticleInput,
-  UpdateArticleInput,
-} from "@annisa/types";
+import type { ArticleQuery, CreateArticleInput, UpdateArticleInput } from "@annisa/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { articlesApi } from "../api/articles.api";
 
 export const ARTICLES_QUERY_KEY = ["articles"] as const;
 export const ARTICLE_CATEGORIES_QUERY_KEY = ["article-categories"] as const;
@@ -48,8 +44,7 @@ export function useCreateArticle() {
       queryClient.invalidateQueries({ queryKey: ARTICLE_CATEGORIES_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal membuat artikel.";
+      const msg = err instanceof Error ? err.message : "Gagal membuat artikel.";
       toast.error(msg);
     },
   });
@@ -66,8 +61,7 @@ export function useUpdateArticle() {
       queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal memperbarui artikel.";
+      const msg = err instanceof Error ? err.message : "Gagal memperbarui artikel.";
       toast.error(msg);
     },
   });
@@ -83,8 +77,7 @@ export function useDeleteArticle() {
       queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal menghapus artikel.";
+      const msg = err instanceof Error ? err.message : "Gagal menghapus artikel.";
       toast.error(msg);
     },
   });

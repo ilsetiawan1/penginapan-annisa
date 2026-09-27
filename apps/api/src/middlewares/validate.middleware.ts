@@ -21,9 +21,7 @@ export function validateRequest(schemas: {
       return next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const errorMessages = error.errors.map(
-          (err) => `${err.path.join(".")}: ${err.message}`,
-        );
+        const errorMessages = error.errors.map((err) => `${err.path.join(".")}: ${err.message}`);
         return res.status(HTTP_STATUS.BAD_REQUEST).json({
           success: false,
           error: "Validasi data gagal",

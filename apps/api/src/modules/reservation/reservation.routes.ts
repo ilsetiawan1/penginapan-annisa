@@ -1,5 +1,3 @@
-import { Router } from "express";
-import { z } from "zod";
 import {
   checkInInputSchema,
   checkOutInputSchema,
@@ -8,8 +6,10 @@ import {
   createOnlineBookingInputSchema,
   createWalkInBookingInputSchema,
 } from "@annisa/types";
-import { validateRequest } from "../../middlewares/validate.middleware";
+import { Router } from "express";
+import { z } from "zod";
 import { authMiddleware } from "../../middlewares/auth.middleware";
+import { validateRequest } from "../../middlewares/validate.middleware";
 import { reservationController } from "./reservation.controller";
 import "./reservation.openapi"; // Register docs
 

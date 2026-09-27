@@ -2,10 +2,7 @@
   "name": "penginapan-annisa-monorepo",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "dev": "bun --filter '*' dev",
     "dev:web": "bun --filter '@annisa/web' dev",

@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
 import type { AuthSession, LoginInput } from "@annisa/types";
+import jwt from "jsonwebtoken";
 import { config } from "../../config";
-import { AppError } from "../../middlewares/error.middleware";
 import { HTTP_STATUS } from "../../constants";
-import { authRepository, type AuthRepository } from "./auth.repository";
+import { AppError } from "../../middlewares/error.middleware";
+import { type AuthRepository, authRepository } from "./auth.repository";
 
 export class AuthService {
   private repo: AuthRepository;
@@ -19,17 +19,11 @@ export class AuthService {
     }
 
     if (!user.isActive) {
-      throw new AppError(
-        "Akun Anda dinonaktifkan. Silakan hubungi Owner.",
-        HTTP_STATUS.FORBIDDEN,
-      );
+      throw new AppError("Akun Anda dinonaktifkan. Silakan hubungi Owner.", HTTP_STATUS.FORBIDDEN);
     }
 
     // Verify password with Bun Native password verifier
-    const isPasswordValid = await Bun.password.verify(
-      input.password,
-      user.passwordHash,
-    );
+    const isPasswordValid = await Bun.password.verify(input.password, user.passwordHash);
 
     if (!isPasswordValid) {
       throw new AppError("Email atau password salah.", HTTP_STATUS.UNAUTHORIZED);

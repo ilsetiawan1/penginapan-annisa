@@ -1,8 +1,10 @@
-import { BookingProcessSection } from "@/features/public/home/components/booking-process-section";
-import { FaqSection } from "@/features/public/home/components/faq-section";
-import { HeroSection } from "@/features/public/home/components/hero-section";
-import { HomeRoomsPreview } from "@/features/public/home/components/home-rooms-preview";
-import { HomeSouvenirsPreview } from "@/features/public/home/components/home-souvenirs-preview";
+import {
+  BookingProcessSection,
+  FaqSection,
+  HeroSection,
+  HomeRoomsPreview,
+  HomeSouvenirsPreview,
+} from "@/features/home";
 
 export default function HomePage() {
   return (

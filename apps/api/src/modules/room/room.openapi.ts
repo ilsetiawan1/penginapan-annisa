@@ -1,10 +1,10 @@
-import { z } from "zod";
 import {
   roomSchema,
   roomTypeSchema,
-  updateRoomStatusInputSchema,
   updateRoomRateInputSchema,
+  updateRoomStatusInputSchema,
 } from "@annisa/types";
+import { z } from "zod";
 import { registry } from "../../docs/openapi";
 
 // Register Reusable Schemas

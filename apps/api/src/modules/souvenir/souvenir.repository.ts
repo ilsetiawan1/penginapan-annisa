@@ -1,6 +1,6 @@
 import { prisma } from "@annisa/db";
-import { AppError } from "../../middlewares/error.middleware";
 import { HTTP_STATUS } from "../../constants";
+import { AppError } from "../../middlewares/error.middleware";
 
 export class SouvenirRepository {
   async findAll(filter?: { categorySlug?: string; isAvailable?: boolean }) {
@@ -79,9 +79,7 @@ export class SouvenirRepository {
     });
   }
 
-  async processCheckout(
-    items: { souvenirId: string; quantity: number }[],
-  ) {
+  async processCheckout(items: { souvenirId: string; quantity: number }[]) {
     return prisma.$transaction(async (tx) => {
       const detailedItems = [];
       let grandTotal = 0;

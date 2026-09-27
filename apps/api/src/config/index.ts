@@ -23,8 +23,7 @@ export const config = {
   imagekit: {
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY || "public_sample_annisa",
     privateKey: process.env.IMAGEKIT_PRIVATE_KEY || "private_sample_annisa",
-    urlEndpoint:
-      process.env.IMAGEKIT_URL_ENDPOINT || "https://ik.imagekit.io/penginapanannisa",
+    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || "https://ik.imagekit.io/penginapanannisa",
   },
   r2: {
     endpoint: process.env.R2_ENDPOINT || "https://auto.r2.cloudflarestorage.com",

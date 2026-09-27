@@ -1,13 +1,9 @@
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { roomsApi } from "@/lib/api/rooms.api";
-import type {
-  RoomQuery,
-  UpdateRoomRateInput,
-  UpdateRoomStatusInput,
-} from "@annisa/types";
+import type { RoomQuery, UpdateRoomRateInput, UpdateRoomStatusInput } from "@annisa/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { roomsApi } from "../api/rooms.api";
 
 export const ROOMS_QUERY_KEY = ["rooms"] as const;
 export const ROOM_TYPES_QUERY_KEY = ["room-types"] as const;
@@ -56,8 +52,7 @@ export function useUpdateRoomStatus() {
       queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal memperbarui status kamar.";
+      const msg = err instanceof Error ? err.message : "Gagal memperbarui status kamar.";
       toast.error(msg);
     },
   });
@@ -80,8 +75,7 @@ export function useUpdateRoomRate() {
       queryClient.invalidateQueries({ queryKey: ROOMS_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal memperbarui tarif kamar.";
+      const msg = err instanceof Error ? err.message : "Gagal memperbarui tarif kamar.";
       toast.error(msg);
     },
   });
@@ -103,10 +97,8 @@ export function useUpdateRoomImage() {
       queryClient.invalidateQueries({ queryKey: ROOM_TYPES_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal memperbarui foto kamar di database.";
+      const msg = err instanceof Error ? err.message : "Gagal memperbarui foto kamar di database.";
       toast.error(msg);
     },
   });
 }
-

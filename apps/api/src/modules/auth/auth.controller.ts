@@ -1,11 +1,11 @@
-import type { NextFunction, Request, Response } from "express";
-import { sendSuccess } from "../../utils/response.util";
-import { getImageKitAuthParams } from "../../utils/imagekit.util";
-import { s3Client } from "../../utils/r2.util";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import type { NextFunction, Request, Response } from "express";
 import { config } from "../../config";
-import { authService, type AuthService } from "./auth.service";
+import { getImageKitAuthParams } from "../../utils/imagekit.util";
+import { s3Client } from "../../utils/r2.util";
+import { sendSuccess } from "../../utils/response.util";
+import { type AuthService, authService } from "./auth.service";
 
 export class AuthController {
   private service: AuthService;
@@ -51,15 +51,10 @@ export class AuthController {
     }
   };
 
-
   getImageKitAuth = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const authParams = getImageKitAuthParams();
-      return sendSuccess(
-        res,
-        authParams,
-        "ImageKit client upload token berhasil dibuat.",
-      );
+      return sendSuccess(res, authParams, "ImageKit client upload token berhasil dibuat.");
     } catch (error) {
       return next(error);
     }
@@ -69,7 +64,9 @@ export class AuthController {
     try {
       const { fileName, contentType } = req.body;
       if (!fileName || !contentType) {
-        return res.status(400).json({ success: false, message: "fileName dan contentType wajib diisi." });
+        return res
+          .status(400)
+          .json({ success: false, message: "fileName dan contentType wajib diisi." });
       }
 
       const command = new PutObjectCommand({
@@ -83,11 +80,7 @@ export class AuthController {
       // we return a URL to our backend proxy which bypasses the block.
       const publicUrl = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1"}/storage/view?key=${fileName}`;
 
-      return sendSuccess(
-        res,
-        { presignedUrl, publicUrl },
-        "R2 presigned URL berhasil dibuat."
-      );
+      return sendSuccess(res, { presignedUrl, publicUrl }, "R2 presigned URL berhasil dibuat.");
     } catch (error) {
       return next(error);
     }

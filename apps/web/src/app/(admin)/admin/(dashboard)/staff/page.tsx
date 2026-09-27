@@ -1,6 +1,6 @@
 "use client";
 
-import { StaffManagement } from "@/features/admin/staff/components/staff-management";
+import { StaffManagement } from "@/features/staff/components/staff-management";
 
 export default function AdminStaffPage() {
   return (

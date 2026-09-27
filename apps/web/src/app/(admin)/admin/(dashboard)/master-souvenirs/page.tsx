@@ -1,6 +1,6 @@
 "use client";
 
-import { MasterSouvenirs } from "@/features/admin/souvenirs/components/master-souvenirs";
+import { MasterSouvenirs } from "@/features/souvenirs/components/admin/master-souvenirs";
 
 export default function MasterSouvenirsPage() {
   return (

@@ -1,13 +1,13 @@
-import { z } from "zod";
 import {
-  reservationSchema,
-  guestSchema,
-  createOnlineBookingInputSchema,
-  createWalkInBookingInputSchema,
-  confirmDpInputSchema,
   checkInInputSchema,
   checkOutInputSchema,
+  confirmDpInputSchema,
+  createOnlineBookingInputSchema,
+  createWalkInBookingInputSchema,
+  guestSchema,
+  reservationSchema,
 } from "@annisa/types";
+import { z } from "zod";
 import { registry } from "../../docs/openapi";
 
 // Register Reusable Schemas

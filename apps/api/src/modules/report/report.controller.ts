@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { sendSuccess } from "../../utils/response.util";
-import { reportService, type ReportService } from "./report.service";
+import { type ReportService, reportService } from "./report.service";
 
 export class ReportController {
   private service: ReportService;
@@ -9,11 +9,7 @@ export class ReportController {
     this.service = service ?? reportService;
   }
 
-  getDashboardStats = async (
-    _req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  getDashboardStats = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const stats = await this.service.getDashboardOverviewStats();
       return sendSuccess(res, stats, "Statistik dashboard berhasil diambil.");
@@ -22,11 +18,7 @@ export class ReportController {
     }
   };
 
-  getMonthlyRevenue = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  getMonthlyRevenue = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { month } = req.query as { month?: string };
       const report = await this.service.getMonthlyRevenueReport(month);
@@ -36,11 +28,7 @@ export class ReportController {
     }
   };
 
-  exportReservationsCsv = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  exportReservationsCsv = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { startDate, endDate } = req.query as {
         startDate?: string;

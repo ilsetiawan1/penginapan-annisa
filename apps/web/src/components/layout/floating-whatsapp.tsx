@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { FaWhatsapp } from "react-icons/fa6";
+import { useCart } from "@/features/souvenirs/hooks/use-cart";
 import { X } from "lucide-react";
-import { useCart } from "@/features/public/souvenirs/hooks/use-cart";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaWhatsapp } from "react-icons/fa6";
 
 export function FloatingWhatsApp() {
   const pathname = usePathname();
@@ -19,9 +19,12 @@ export function FloatingWhatsApp() {
     // Siklus bergantian:
     // Status dot aktif: 3.5 detik (~3x kedip)
     // Tanda 'X' close aktif: 5 detik
-    const timer = setTimeout(() => {
-      setShowCloseBadge((prev) => !prev);
-    }, showCloseBadge ? 5000 : 3500);
+    const timer = setTimeout(
+      () => {
+        setShowCloseBadge((prev) => !prev);
+      },
+      showCloseBadge ? 5000 : 3500,
+    );
 
     return () => clearTimeout(timer);
   }, [showCloseBadge]);
@@ -38,9 +41,7 @@ export function FloatingWhatsApp() {
     <aside
       aria-label="Kontak Cepat WhatsApp"
       className={`fixed right-4 sm:right-6 z-50 flex items-center group transition-all duration-300 pb-[env(safe-area-inset-bottom,0px)] ${
-        hasActiveCart
-          ? "bottom-24 sm:bottom-6"
-          : "bottom-5 sm:bottom-6"
+        hasActiveCart ? "bottom-24 sm:bottom-6" : "bottom-5 sm:bottom-6"
       }`}
     >
       {/* Tooltip Label */}

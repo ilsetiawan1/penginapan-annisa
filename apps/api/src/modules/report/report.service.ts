@@ -1,7 +1,4 @@
-import {
-  reportRepository,
-  type ReportRepository,
-} from "./report.repository";
+import { type ReportRepository, reportRepository } from "./report.repository";
 
 export class ReportService {
   private repo: ReportRepository;
@@ -18,9 +15,7 @@ export class ReportService {
     // Occupancy Rate: ((occupied + booked) / totalRooms) * 100
     const occupiedOrBooked = roomCounts.occupiedRooms + roomCounts.bookedRooms;
     const occupancyRate =
-      roomCounts.totalRooms > 0
-        ? Math.round((occupiedOrBooked / roomCounts.totalRooms) * 100)
-        : 0;
+      roomCounts.totalRooms > 0 ? Math.round((occupiedOrBooked / roomCounts.totalRooms) * 100) : 0;
 
     return {
       occupancy: {
@@ -46,10 +41,7 @@ export class ReportService {
   }
 
   async exportReservationsCsv(startDate?: string, endDate?: string) {
-    const reservations = await this.repo.getReservationsForExport(
-      startDate,
-      endDate,
-    );
+    const reservations = await this.repo.getReservationsForExport(startDate, endDate);
 
     const headers = [
       "Kode Booking",
@@ -83,10 +75,7 @@ export class ReportService {
       r.paymentStatus,
     ]);
 
-    const csvContent = [
-      headers.join(","),
-      ...rows.map((row) => row.join(",")),
-    ].join("\n");
+    const csvContent = [headers.join(","), ...rows.map((row) => row.join(","))].join("\n");
 
     return csvContent;
   }

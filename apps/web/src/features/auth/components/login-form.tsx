@@ -1,8 +1,8 @@
 "use client";
 
+import { ArrowRight, Lock, Mail, ShieldCheck, UserCheck } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../hooks/use-auth";
-import { Lock, Mail, ShieldCheck, UserCheck, ArrowRight } from "lucide-react";
 
 export function LoginForm() {
   const { login, isLoading } = useAuth();

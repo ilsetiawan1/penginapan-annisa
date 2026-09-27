@@ -1,6 +1,6 @@
 "use client";
 
-import { RoomManagement } from "@/features/admin/rooms/components/room-management";
+import { RoomManagement } from "@/features/rooms/components/admin/room-management";
 
 export default function MasterRoomsPage() {
   return (

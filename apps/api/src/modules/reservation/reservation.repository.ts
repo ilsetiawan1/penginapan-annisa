@@ -110,19 +110,12 @@ export class ReservationRepository {
         roomId,
         id: excludeReservationId ? { not: excludeReservationId } : undefined,
         status: { in: ["confirmed", "checked_in"] },
-        AND: [
-          { checkInDate: { lt: checkOutDate } },
-          { checkOutDate: { gt: checkInDate } },
-        ],
+        AND: [{ checkInDate: { lt: checkOutDate } }, { checkOutDate: { gt: checkInDate } }],
       },
     });
   }
 
-  async findAvailableRoomForType(
-    roomTypeId: string,
-    checkInDate: Date,
-    checkOutDate: Date,
-  ) {
+  async findAvailableRoomForType(roomTypeId: string, checkInDate: Date, checkOutDate: Date) {
     const rooms = await prisma.room.findMany({
       where: {
         roomTypeId,
@@ -134,11 +127,7 @@ export class ReservationRepository {
     });
 
     for (const room of rooms) {
-      const conflicts = await this.findConflictingReservations(
-        room.id,
-        checkInDate,
-        checkOutDate,
-      );
+      const conflicts = await this.findConflictingReservations(room.id, checkInDate, checkOutDate);
       if (conflicts.length === 0) {
         return room;
       }

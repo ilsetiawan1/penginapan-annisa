@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Upload, X, Loader2, ImagePlus, CheckCircle2 } from "lucide-react";
-import { toast } from "sonner";
 import { apiClient } from "@/lib/api/client";
+import { CheckCircle2, ImagePlus, Loader2, Upload, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 export interface R2PresignedResponse {
   presignedUrl: string;
@@ -14,19 +14,19 @@ export async function uploadBase64ToR2(
   base64Url: string,
   fileName: string,
   folder: string,
-  slugPrefix?: string
+  slugPrefix?: string,
 ): Promise<string> {
   // Convert base64 to Blob
   const res = await fetch(base64Url);
   const blob = await res.blob();
-  
+
   // Clean folder path (remove leading slash if any)
   const cleanFolder = folder.startsWith("/") ? folder.slice(1) : folder;
-  
+
   // Sanitize file name to prevent broken URLs
-  const fileExt = fileName.split('.').pop() || "jpg";
-  const safeFileName = slugPrefix 
-    ? `${slugPrefix}-${Date.now()}.${fileExt}` 
+  const fileExt = fileName.split(".").pop() || "jpg";
+  const safeFileName = slugPrefix
+    ? `${slugPrefix}-${Date.now()}.${fileExt}`
     : `upload-${Date.now()}.${fileExt}`;
   const objectKey = cleanFolder ? `${cleanFolder}/${safeFileName}` : safeFileName;
 
@@ -35,7 +35,7 @@ export async function uploadBase64ToR2(
     {
       fileName: objectKey,
       contentType: blob.type || "image/jpeg",
-    }
+    },
   );
 
   const uploadRes = await fetch(presignedUrl, {
@@ -113,7 +113,7 @@ export function ImageUpload({
         setIsUploading(true);
 
         const url = await uploadBase64ToR2(base64DataUrl, file.name, folder);
-        
+
         // 5. Update form state dengan URL CDN yang sebenarnya
         onChange(url);
         setPreview(url); // Use the CDN url for preview to ensure it matches
@@ -145,11 +145,7 @@ export function ImageUpload({
 
       {preview ? (
         <div className="relative w-full h-48 sm:h-56 rounded-2xl overflow-hidden border-2 border-purple-200 bg-slate-100 group shadow-xs">
-          <img
-            src={preview}
-            alt="Preview Foto"
-            className="w-full h-full object-cover"
-          />
+          <img src={preview} alt="Preview Foto" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
             <button
               type="button"

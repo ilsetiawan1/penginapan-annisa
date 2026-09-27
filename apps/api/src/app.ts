@@ -7,12 +7,12 @@ import pinoHttp from "pino-http";
 
 import { generateOpenApiSpec } from "./docs/openapi";
 import { errorHandler } from "./middlewares/error.middleware";
-import { authRouter } from "./modules/auth/auth.routes";
-import { roomRouter } from "./modules/room/room.routes";
-import { reservationRouter } from "./modules/reservation/reservation.routes";
-import { souvenirRouter } from "./modules/souvenir/souvenir.routes";
 import { articleRouter } from "./modules/article/article.routes";
+import { authRouter } from "./modules/auth/auth.routes";
 import { reportRouter } from "./modules/report/report.routes";
+import { reservationRouter } from "./modules/reservation/reservation.routes";
+import { roomRouter } from "./modules/room/room.routes";
+import { souvenirRouter } from "./modules/souvenir/souvenir.routes";
 import storageRouter from "./modules/storage/storage.routes";
 
 import { logger } from "./utils/logger.util";
@@ -25,7 +25,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(pinoHttp({ logger }));
-
 
 // Base Health Check
 app.get("/health", (_req: Request, res: Response) => {

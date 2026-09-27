@@ -1,10 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 import { Clock, ExternalLink, MapPin, Navigation, Phone } from "lucide-react";
 import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa6";
-import { Button } from "@/components/ui/button";
-import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 
 export default function ContactPage() {
   return (
@@ -34,8 +34,8 @@ export default function ContactPage() {
           </h1>
 
           <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
-            Hanya 750 meter atau 2–3 menit dari Bandara Pattimura. Resepsionis
-            kami siap melayani reservasi dan pertanyaan Anda.
+            Hanya 750 meter atau 2–3 menit dari Bandara Pattimura. Resepsionis kami siap melayani
+            reservasi dan pertanyaan Anda.
           </p>
         </div>
       </section>
@@ -66,7 +66,8 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-xs font-bold text-slate-900">Alamat Lengkap</h3>
                     <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                      Jl. Dr. J. Leimena, Laha, Kec. Teluk Ambon, Kota Ambon, Maluku (750m dari Bandara Pattimura)
+                      Jl. Dr. J. Leimena, Laha, Kec. Teluk Ambon, Kota Ambon, Maluku (750m dari
+                      Bandara Pattimura)
                     </p>
                   </div>
                 </div>
@@ -119,7 +120,6 @@ export default function ContactPage() {
               </Button>
             </div>
           </div>
-
 
           {/* Kolom Kanan: Frame Visual Google Maps */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-3 p-1 sm:p-2">

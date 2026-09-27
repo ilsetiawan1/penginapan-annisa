@@ -1,6 +1,6 @@
+import type { UserRole } from "@annisa/types";
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import type { UserRole } from "@annisa/types";
 import { config } from "../config";
 import { ERROR_MESSAGES, HTTP_STATUS } from "../constants";
 
@@ -19,20 +19,13 @@ declare global {
   }
 }
 
-export function authMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export function authMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
     let token: string | undefined;
 
     if (req.cookies && req.cookies.annisa_token) {
       token = req.cookies.annisa_token;
-    } else if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer ")
-    ) {
+    } else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
       token = req.headers.authorization.split(" ")[1];
     }
 

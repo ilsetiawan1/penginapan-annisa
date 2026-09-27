@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { type AdminRole, AdminSidebar } from "@/components/layout/admin-sidebar";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import { Bell, Clock, Loader2, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Bell, Clock, Loader2, Menu } from "lucide-react";
-import { useAuth } from "@/features/auth/hooks/use-auth";
-import { AdminSidebar, type AdminRole } from "@/components/layout/admin-sidebar";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function AdminDashboardLayout({
   children,
@@ -50,9 +50,7 @@ export default function AdminDashboardLayout({
     return (
       <div className="min-h-screen bg-[#f3f2f7] flex flex-col items-center justify-center gap-3">
         <Loader2 className="w-8 h-8 text-purple-700 animate-spin" />
-        <p className="text-xs font-semibold text-slate-600">
-          Memverifikasi Sesi PMS...
-        </p>
+        <p className="text-xs font-semibold text-slate-600">Memverifikasi Sesi PMS...</p>
       </div>
     );
   }

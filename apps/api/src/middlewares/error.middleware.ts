@@ -15,12 +15,7 @@ export class AppError extends Error {
   }
 }
 
-export function errorHandler(
-  err: any,
-  _req: Request,
-  res: Response,
-  _next: NextFunction,
-) {
+export function errorHandler(err: any, _req: Request, res: Response, _next: NextFunction) {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       success: false,
@@ -30,9 +25,7 @@ export function errorHandler(
   }
 
   if (err instanceof ZodError) {
-    const errorMessages = err.errors.map(
-      (e) => `${e.path.join(".")}: ${e.message}`,
-    );
+    const errorMessages = err.errors.map((e) => `${e.path.join(".")}: ${e.message}`);
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       error: "Validasi data gagal",

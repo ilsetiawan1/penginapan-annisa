@@ -1,11 +1,11 @@
-import type { NextFunction, Request, Response } from "express";
-import * as cheerio from "cheerio";
-import { sendSuccess } from "../../utils/response.util";
-import { HTTP_STATUS } from "../../constants";
-import { articleService, type ArticleService } from "./article.service";
-import { s3Client } from "../../utils/r2.util";
-import { config } from "../../config";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
+import * as cheerio from "cheerio";
+import type { NextFunction, Request, Response } from "express";
+import { config } from "../../config";
+import { HTTP_STATUS } from "../../constants";
+import { s3Client } from "../../utils/r2.util";
+import { sendSuccess } from "../../utils/response.util";
+import { type ArticleService, articleService } from "./article.service";
 
 export class ArticleController {
   private service: ArticleService;
@@ -24,8 +24,7 @@ export class ArticleController {
 
       const articles = await this.service.getAllArticles({
         categorySlug: category,
-        isPublished:
-          isPublished !== undefined ? isPublished === "true" : undefined,
+        isPublished: isPublished !== undefined ? isPublished === "true" : undefined,
         search,
       });
 
@@ -35,11 +34,7 @@ export class ArticleController {
     }
   };
 
-  getArticleBySlug = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  getArticleBySlug = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { slug } = req.params as { slug: string };
       const article = await this.service.getArticleBySlug(slug);
@@ -49,11 +44,7 @@ export class ArticleController {
     }
   };
 
-  getAllCategories = async (
-    _req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  getAllCategories = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const categories = await this.service.getAllCategories();
       return sendSuccess(res, categories, "Daftar kategori artikel berhasil diambil.");
@@ -66,12 +57,7 @@ export class ArticleController {
     try {
       const authorId = req.user!.id;
       const article = await this.service.createArticle(authorId, req.body);
-      return sendSuccess(
-        res,
-        article,
-        "Artikel berhasil dipublikasikan!",
-        HTTP_STATUS.CREATED,
-      );
+      return sendSuccess(res, article, "Artikel berhasil dipublikasikan!", HTTP_STATUS.CREATED);
     } catch (error) {
       return next(error);
     }
@@ -115,32 +101,35 @@ export class ArticleController {
       const $ = cheerio.load(html);
 
       // Extract metadata (Kompas structure)
-      const title = $('h1.read__title').text().trim() || $('meta[property="og:title"]').attr('content') || '';
-      const coverImage = $('meta[property="og:image"]').attr('content') || '';
-      
+      const title =
+        $("h1.read__title").text().trim() || $('meta[property="og:title"]').attr("content") || "";
+      const coverImage = $('meta[property="og:image"]').attr("content") || "";
+
       // Extract first paragraph for summary
-      let summary = '';
-      const firstParagraph = $('.read__content p').first().text().trim();
+      let summary = "";
+      const firstParagraph = $(".read__content p").first().text().trim();
       if (firstParagraph) {
-        summary = firstParagraph.substring(0, 200) + (firstParagraph.length > 200 ? '...' : '');
+        summary = firstParagraph.substring(0, 200) + (firstParagraph.length > 200 ? "..." : "");
       }
 
       // Extract all paragraphs for content (converting to a simple markdown-like or HTML format)
-      let content = '';
-      $('.read__content p').each((_, el) => {
+      let content = "";
+      $(".read__content p").each((_, el) => {
         const text = $(el).text().trim();
         // Skip empty paragraphs or ads (Kompas often has "Baca juga" links inside p tags which we might want to keep or filter, but we keep it simple)
         if (text && !text.includes("Baca juga:")) {
-          content += text + '\n\n';
+          content += text + "\n\n";
         }
       });
 
       if (!title && !content) {
-        return res.status(400).json({ success: false, message: "Tidak dapat mengekstrak konten dari URL ini." });
+        return res
+          .status(400)
+          .json({ success: false, message: "Tidak dapat mengekstrak konten dari URL ini." });
       }
 
       let r2ImageUrl = coverImage;
-      
+
       // Auto-upload the scraped image to Cloudflare R2
       if (coverImage) {
         try {
@@ -148,14 +137,14 @@ export class ArticleController {
           if (imgRes.ok) {
             const buffer = await imgRes.arrayBuffer();
             const fileName = `articles/scrape-${Date.now()}.jpg`;
-            
+
             await s3Client.send(
               new PutObjectCommand({
                 Bucket: config.r2.bucketName,
                 Key: fileName,
                 Body: Buffer.from(buffer),
                 ContentType: imgRes.headers.get("content-type") || "image/jpeg",
-              })
+              }),
             );
             // Replace coverImage with the R2 URL
             r2ImageUrl = `${config.r2.publicUrl}/${fileName}`;
@@ -175,7 +164,9 @@ export class ArticleController {
       return sendSuccess(res, scrapedData, "Artikel berhasil diekstrak.");
     } catch (error: any) {
       console.error("Scraping error:", error);
-      return res.status(500).json({ success: false, message: "Terjadi kesalahan saat scraping: " + error.message });
+      return res
+        .status(500)
+        .json({ success: false, message: "Terjadi kesalahan saat scraping: " + error.message });
     }
   };
 }

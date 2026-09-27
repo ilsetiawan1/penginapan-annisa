@@ -1,17 +1,13 @@
-import { Router } from "express";
 import { loginInputSchema } from "@annisa/types";
-import { validateRequest } from "../../middlewares/validate.middleware";
+import { Router } from "express";
 import { authMiddleware } from "../../middlewares/auth.middleware";
+import { validateRequest } from "../../middlewares/validate.middleware";
 import { authController } from "./auth.controller";
 import "./auth.openapi"; // Register docs
 
 const router = Router();
 
-router.post(
-  "/login",
-  validateRequest({ body: loginInputSchema }),
-  authController.login,
-);
+router.post("/login", validateRequest({ body: loginInputSchema }), authController.login);
 
 router.get("/me", authMiddleware, authController.getMe);
 router.post("/logout", authController.logout);

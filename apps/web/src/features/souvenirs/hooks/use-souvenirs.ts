@@ -1,19 +1,17 @@
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { souvenirsApi } from "@/lib/api/souvenirs.api";
 import type {
   CreateSouvenirInput,
   PosCheckoutInput,
   SouvenirQuery,
   UpdateSouvenirInput,
 } from "@annisa/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { souvenirsApi } from "../api/souvenirs.api";
 
 export const SOUVENIRS_QUERY_KEY = ["souvenirs"] as const;
-export const SOUVENIR_CATEGORIES_QUERY_KEY = [
-  "souvenir-categories",
-] as const;
+export const SOUVENIR_CATEGORIES_QUERY_KEY = ["souvenir-categories"] as const;
 
 export function useSouvenirs(query?: SouvenirQuery) {
   return useQuery({
@@ -43,8 +41,7 @@ export function usePosCheckout() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (input: PosCheckoutInput) =>
-      souvenirsApi.processPosCheckout(input),
+    mutationFn: (input: PosCheckoutInput) => souvenirsApi.processPosCheckout(input),
     onSuccess: (receipt) => {
       toast.success(
         `Transaksi POS ${receipt.receiptNumber} berhasil! Stok telah terpotong otomatis.`,
@@ -53,8 +50,7 @@ export function usePosCheckout() {
       queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal memproses transaksi kasir POS.";
+      const msg = err instanceof Error ? err.message : "Gagal memproses transaksi kasir POS.";
       toast.error(msg);
     },
   });
@@ -64,15 +60,13 @@ export function useCreateSouvenir() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (input: CreateSouvenirInput) =>
-      souvenirsApi.createSouvenir(input),
+    mutationFn: (input: CreateSouvenirInput) => souvenirsApi.createSouvenir(input),
     onSuccess: () => {
       toast.success("Produk oleh-oleh baru berhasil ditambahkan!");
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal menambahkan produk.";
+      const msg = err instanceof Error ? err.message : "Gagal menambahkan produk.";
       toast.error(msg);
     },
   });
@@ -89,8 +83,7 @@ export function useUpdateSouvenir() {
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal memperbarui produk.";
+      const msg = err instanceof Error ? err.message : "Gagal memperbarui produk.";
       toast.error(msg);
     },
   });
@@ -106,8 +99,7 @@ export function useDeleteSouvenir() {
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
     },
     onError: (err: unknown) => {
-      const msg =
-        err instanceof Error ? err.message : "Gagal menghapus produk.";
+      const msg = err instanceof Error ? err.message : "Gagal menghapus produk.";
       toast.error(msg);
     },
   });

@@ -1,22 +1,22 @@
 "use client";
 
-import { use } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArticleCard } from "@/features/articles/components/public/article-card";
+import { useArticleBySlug, useArticles } from "@/features/articles/hooks/use-articles";
 import {
   ArrowLeft,
+  BedDouble,
   Calendar,
+  CheckCircle2,
+  ChevronRight,
   Clock,
+  Share2,
   Tag,
   User,
-  Share2,
-  CheckCircle2,
-  BedDouble,
-  ChevronRight,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useArticleBySlug, useArticles } from "@/features/articles/hooks/use-articles";
-import { ArticleCard } from "@/features/public/articles/components/article-card";
+import Image from "next/image";
+import Link from "next/link";
+import { use } from "react";
 import { toast } from "sonner";
 
 interface ArticleDetailPageProps {
@@ -57,9 +57,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
         <div className="w-16 h-16 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
           !
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">
-          Artikel Tidak Ditemukan
-        </h1>
+        <h1 className="text-2xl font-bold text-slate-900 mb-2">Artikel Tidak Ditemukan</h1>
         <p className="text-sm text-slate-500 mb-6">
           Artikel yang Anda cari mungkin telah dipindahkan atau dihapus.
         </p>
@@ -126,7 +124,6 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
           </span>
         </div>
 
-
         {/* Title */}
         <h1 className="text-2xl sm:text-4xl font-serif font-black text-slate-950 tracking-tight leading-snug sm:leading-tight mb-4">
           {article.title}
@@ -155,10 +152,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
         {/* Cover Image */}
         <div className="relative h-64 sm:h-[420px] w-full rounded-3xl overflow-hidden shadow-lg border border-slate-200 mb-8 bg-slate-100">
           <Image
-            src={
-              article.coverImage ||
-              "/artikel/bermain-perahu-di-pantai-liang.jpg"
-            }
+            src={article.coverImage || "/artikel/bermain-perahu-di-pantai-liang.jpg"}
             alt={article.title}
             fill
             priority
@@ -174,15 +168,11 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
             </p>
           )}
 
-
           {/* Render formatted content blocks */}
           {article.content.split("\n\n").map((paragraph, index) => {
             if (paragraph.startsWith("## ")) {
               return (
-                <h2
-                  key={index}
-                  className="text-xl sm:text-2xl font-bold text-slate-950 mt-8 mb-3"
-                >
+                <h2 key={index} className="text-xl sm:text-2xl font-bold text-slate-950 mt-8 mb-3">
                   {paragraph.replace("## ", "")}
                 </h2>
               );
@@ -219,8 +209,8 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                 Butuh Istirahat Dekat Bandara Pattimura?
               </h3>
               <p className="text-xs sm:text-sm text-purple-200 leading-relaxed">
-                Penginapan Annisa hanya 750 meter dari gerbang bandara. Fasilitas
-                AC dingin, kamar mandi dalam, kasur empuk, dan layanan antar jemput kilat.
+                Penginapan Annisa hanya 750 meter dari gerbang bandara. Fasilitas AC dingin, kamar
+                mandi dalam, kasur empuk, dan layanan antar jemput kilat.
               </p>
             </div>
             <Link href="/kamar" className="shrink-0 w-full md:w-auto">

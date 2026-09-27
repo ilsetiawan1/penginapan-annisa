@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
-import { sendSuccess } from "../../utils/response.util";
 import { HTTP_STATUS } from "../../constants";
-import { souvenirService, type SouvenirService } from "./souvenir.service";
+import { sendSuccess } from "../../utils/response.util";
+import { type SouvenirService, souvenirService } from "./souvenir.service";
 
 export class SouvenirController {
   private service: SouvenirService;
@@ -19,8 +19,7 @@ export class SouvenirController {
 
       const items = await this.service.getAllSouvenirs({
         categorySlug: category,
-        isAvailable:
-          isAvailable !== undefined ? isAvailable === "true" : undefined,
+        isAvailable: isAvailable !== undefined ? isAvailable === "true" : undefined,
       });
 
       return sendSuccess(res, items, "Katalog oleh-oleh berhasil diambil.");
@@ -39,11 +38,7 @@ export class SouvenirController {
     }
   };
 
-  getAllCategories = async (
-    _req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  getAllCategories = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const categories = await this.service.getAllCategories();
       return sendSuccess(res, categories, "Daftar kategori berhasil diambil.");
@@ -86,11 +81,7 @@ export class SouvenirController {
     }
   };
 
-  processPosCheckout = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  processPosCheckout = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const receipt = await this.service.processPosCheckout(req.body);
       return sendSuccess(

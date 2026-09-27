@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { ReservationService } from "../reservation.service";
 import { RoomService } from "../../room/room.service";
+import { ReservationService } from "../reservation.service";
 
 describe("📅 Reservation Module Service Tests", () => {
   const reservationService = new ReservationService();

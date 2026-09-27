@@ -1,6 +1,6 @@
 "use client";
 
-import { RoomMatrix } from "@/features/admin/rooms/components/room-matrix";
+import { RoomMatrix } from "@/features/rooms/components/admin/room-matrix";
 
 export default function AdminRoomsPage() {
   return (

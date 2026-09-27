@@ -1,6 +1,6 @@
 "use client";
 
-import { FinancialReports } from "@/features/admin/reports/components/financial-reports";
+import { FinancialReports } from "@/features/reports/components/financial-reports";
 
 export default function AdminReportsPage() {
   return (

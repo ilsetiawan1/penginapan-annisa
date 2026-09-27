@@ -1,11 +1,11 @@
-import { z } from "zod";
 import {
-  souvenirSchema,
-  souvenirCategorySchema,
   createSouvenirInputSchema,
-  updateSouvenirInputSchema,
   posCheckoutInputSchema,
+  souvenirCategorySchema,
+  souvenirSchema,
+  updateSouvenirInputSchema,
 } from "@annisa/types";
+import { z } from "zod";
 import { registry } from "../../docs/openapi";
 
 // Register Reusable Schemas
@@ -25,10 +25,7 @@ registry.registerPath({
   tags: ["4. Kasir POS & Oleh-Oleh"],
   request: {
     query: z.object({
-      category: z
-        .string()
-        .optional()
-        .openapi({ example: "minyak-kayu-putih-asli" }),
+      category: z.string().optional().openapi({ example: "minyak-kayu-putih-asli" }),
       isAvailable: z.enum(["true", "false"]).optional().openapi({ example: "true" }),
     }),
   },

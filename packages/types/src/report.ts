@@ -24,9 +24,7 @@ export const dashboardOverviewStatsSchema = z.object({
   activeGuestsCount: z.number().int().nonnegative(),
   pendingDpBookingsCount: z.number().int().nonnegative(),
 });
-export type DashboardOverviewStats = z.infer<
-  typeof dashboardOverviewStatsSchema
->;
+export type DashboardOverviewStats = z.infer<typeof dashboardOverviewStatsSchema>;
 
 export const monthlyRevenueReportSchema = z.object({
   month: z.string().regex(/^\d{4}-\d{2}$/, "Format bulan YYYY-MM"),
@@ -38,7 +36,10 @@ export const monthlyRevenueReportSchema = z.object({
 export type MonthlyRevenueReport = z.infer<typeof monthlyRevenueReportSchema>;
 
 export const monthlyRevenueQuerySchema = z.object({
-  month: z.string().regex(/^\d{4}-\d{2}$/, "Format bulan YYYY-MM").optional(),
+  month: z
+    .string()
+    .regex(/^\d{4}-\d{2}$/, "Format bulan YYYY-MM")
+    .optional(),
 });
 export type MonthlyRevenueQuery = z.infer<typeof monthlyRevenueQuerySchema>;
 
@@ -46,7 +47,4 @@ export const exportReservationsQuerySchema = z.object({
   startDate: z.string().optional(),
   endDate: z.string().optional(),
 });
-export type ExportReservationsQuery = z.infer<
-  typeof exportReservationsQuerySchema
->;
-
+export type ExportReservationsQuery = z.infer<typeof exportReservationsQuerySchema>;

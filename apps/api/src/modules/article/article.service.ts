@@ -1,10 +1,7 @@
-import { AppError } from "../../middlewares/error.middleware";
-import { HTTP_STATUS } from "../../constants";
 import type { CreateArticleInput, UpdateArticleInput } from "@annisa/types";
-import {
-  articleRepository,
-  type ArticleRepository,
-} from "./article.repository";
+import { HTTP_STATUS } from "../../constants";
+import { AppError } from "../../middlewares/error.middleware";
+import { type ArticleRepository, articleRepository } from "./article.repository";
 
 export class ArticleService {
   private repo: ArticleRepository;

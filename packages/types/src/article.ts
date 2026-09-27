@@ -58,4 +58,3 @@ export const articleQuerySchema = z.object({
   search: z.string().optional(),
 });
 export type ArticleQuery = z.infer<typeof articleQuerySchema>;
-

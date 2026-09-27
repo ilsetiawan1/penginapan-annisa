@@ -1,12 +1,9 @@
+import { updateRoomRateInputSchema, updateRoomStatusInputSchema } from "@annisa/types";
 import { Router } from "express";
 import { z } from "zod";
-import {
-  updateRoomRateInputSchema,
-  updateRoomStatusInputSchema,
-} from "@annisa/types";
-import { validateRequest } from "../../middlewares/validate.middleware";
 import { authMiddleware } from "../../middlewares/auth.middleware";
 import { requireRole } from "../../middlewares/role.middleware";
+import { validateRequest } from "../../middlewares/validate.middleware";
 import { roomController } from "./room.controller";
 import "./room.openapi"; // Register docs
 
@@ -59,4 +56,3 @@ router.put(
 );
 
 export const roomRouter = router;
-

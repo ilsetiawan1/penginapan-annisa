@@ -10,9 +10,7 @@ describe("📰 Article Module Service Tests", () => {
     expect(articles).toBeDefined();
     expect(articles.length).toBeGreaterThanOrEqual(2);
 
-    const transitArticle = articles.find((a) =>
-      a.slug.includes("panduan-transit"),
-    );
+    const transitArticle = articles.find((a) => a.slug.includes("panduan-transit"));
     expect(transitArticle).toBeDefined();
     expect(transitArticle?.category).toBeDefined();
   });
@@ -27,8 +25,8 @@ describe("📰 Article Module Service Tests", () => {
   });
 
   it("should throw not found error for non-existent slug", async () => {
-    expect(
-      articleService.getArticleBySlug("non-existent-article-slug-1234"),
-    ).rejects.toThrow("Artikel tidak ditemukan.");
+    expect(articleService.getArticleBySlug("non-existent-article-slug-1234")).rejects.toThrow(
+      "Artikel tidak ditemukan.",
+    );
   });
 });

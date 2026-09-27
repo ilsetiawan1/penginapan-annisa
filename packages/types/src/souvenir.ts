@@ -80,4 +80,3 @@ export const souvenirQuerySchema = z.object({
   isAvailable: z.boolean().optional(),
 });
 export type SouvenirQuery = z.infer<typeof souvenirQuerySchema>;
-

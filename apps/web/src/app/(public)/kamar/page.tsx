@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import type { RoomItem } from "@/features/public/rooms/components/room-card";
-import { RoomFilter } from "@/features/public/rooms/components/room-filter";
-import { RoomGrid } from "@/features/public/rooms/components/room-grid";
-import { RoomHero } from "@/features/public/rooms/components/room-hero";
+import type { RoomItem } from "@/features/rooms/components/public/room-card";
+import { RoomFilter } from "@/features/rooms/components/public/room-filter";
+import { RoomGrid } from "@/features/rooms/components/public/room-grid";
+import { RoomHero } from "@/features/rooms/components/public/room-hero";
 import { useRooms } from "@/features/rooms/hooks/use-rooms";
+import { useEffect, useMemo, useState } from "react";
 
 const LOCAL_STORAGE_KEY = "annisa_master_rooms_v3";
 
@@ -20,7 +20,14 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     dp: "137.500",
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
-    facilities: ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
+    facilities: [
+      "AC Dingin Nyaman",
+      "Kamar Mandi Dalam Pribadi",
+      "Shower Air Hangat",
+      "TV Layar Datar",
+      "WiFi Gratis Kencang",
+      "Handuk Bersih",
+    ],
     image: "",
   },
   {
@@ -32,7 +39,14 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     dp: "137.500",
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
-    facilities: ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
+    facilities: [
+      "AC Dingin Nyaman",
+      "Kamar Mandi Dalam Pribadi",
+      "Shower Air Hangat",
+      "TV Layar Datar",
+      "WiFi Gratis Kencang",
+      "Handuk Bersih",
+    ],
     image: "",
   },
   {
@@ -44,7 +58,13 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     dp: "100.000",
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
-    facilities: ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
+    facilities: [
+      "Kipas Angin Dinding",
+      "Kamar Mandi Dalam Pribadi",
+      "TV Layar Datar",
+      "WiFi Gratis Kencang",
+      "Handuk Bersih",
+    ],
     image: "",
   },
   {
@@ -56,7 +76,13 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     dp: "100.000",
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
-    facilities: ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
+    facilities: [
+      "Kipas Angin Dinding",
+      "Kamar Mandi Dalam Pribadi",
+      "TV Layar Datar",
+      "WiFi Gratis Kencang",
+      "Handuk Bersih",
+    ],
     image: "",
   },
 
@@ -70,7 +96,14 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     dp: "137.500",
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
-    facilities: ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
+    facilities: [
+      "AC Dingin Nyaman",
+      "Kamar Mandi Dalam Pribadi",
+      "Shower Air Hangat",
+      "TV Layar Datar",
+      "WiFi Gratis Kencang",
+      "Handuk Bersih",
+    ],
     image: "",
   },
   {
@@ -82,7 +115,14 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     dp: "137.500",
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
-    facilities: ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
+    facilities: [
+      "AC Dingin Nyaman",
+      "Kamar Mandi Dalam Pribadi",
+      "Shower Air Hangat",
+      "TV Layar Datar",
+      "WiFi Gratis Kencang",
+      "Handuk Bersih",
+    ],
     image: "",
   },
   {
@@ -94,7 +134,13 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     dp: "100.000",
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
-    facilities: ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
+    facilities: [
+      "Kipas Angin Dinding",
+      "Kamar Mandi Dalam Pribadi",
+      "TV Layar Datar",
+      "WiFi Gratis Kencang",
+      "Handuk Bersih",
+    ],
     image: "",
   },
   {
@@ -106,15 +152,19 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
     dp: "100.000",
     bed: "1 Kasur Queen (Double Bed)",
     capacity: "2–3 Tamu",
-    facilities: ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV Layar Datar", "WiFi Gratis Kencang", "Handuk Bersih"],
+    facilities: [
+      "Kipas Angin Dinding",
+      "Kamar Mandi Dalam Pribadi",
+      "TV Layar Datar",
+      "WiFi Gratis Kencang",
+      "Handuk Bersih",
+    ],
     image: "",
   },
 ];
 
 export default function KamarPage() {
-  const [filter, setFilter] = useState<"all" | "ac" | "kipas" | "tersedia">(
-    "all",
-  );
+  const [filter, setFilter] = useState<"all" | "ac" | "kipas" | "tersedia">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [checkInDate, setCheckInDate] = useState<string>(() => {
     const now = new Date();
@@ -145,18 +195,13 @@ export default function KamarPage() {
     return dbRooms.map((r: any) => {
       const isAc =
         r.roomType?.name?.toLowerCase().includes("ac") ||
-        (r.roomNumber?.startsWith("A") &&
-          !r.roomType?.name?.toLowerCase().includes("kipas"));
+        (r.roomNumber?.startsWith("A") && !r.roomType?.name?.toLowerCase().includes("kipas"));
       const priceNum = Number(r.roomType?.basePrice) || (isAc ? 275000 : 200000);
       const dpNum = Math.round(priceNum * 0.5);
 
       const rawImg = r.imageUrl;
       const cleanImg =
-        rawImg &&
-        !rawImg.includes("/rooms/room-") &&
-        !rawImg.startsWith("/images/")
-          ? rawImg
-          : "";
+        rawImg && !rawImg.includes("/rooms/room-") && !rawImg.startsWith("/images/") ? rawImg : "";
 
       return {
         number: r.roomNumber,
@@ -171,30 +216,16 @@ export default function KamarPage() {
           Array.isArray(r.roomType?.facilities) && r.roomType.facilities.length > 0
             ? r.roomType.facilities
             : isAc
-              ? [
-                  "AC Dingin Nyaman",
-                  "Kamar Mandi Dalam Pribadi",
-                  "Shower Air Hangat",
-                  "TV & WiFi",
-                ]
-              : [
-                  "Kipas Angin Dinding",
-                  "Kamar Mandi Dalam Pribadi",
-                  "TV & WiFi",
-                ],
+              ? ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV & WiFi"]
+              : ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV & WiFi"],
         image: cleanImg,
       };
     });
   }, [dbRooms]);
 
-
   const filteredRooms = rooms.filter((r) => {
     const matchCategory =
-      filter === "all"
-        ? true
-        : filter === "tersedia"
-          ? r.status === "tersedia"
-          : r.type === filter;
+      filter === "all" ? true : filter === "tersedia" ? r.status === "tersedia" : r.type === filter;
 
     const matchSearch =
       r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

@@ -1,11 +1,11 @@
 "use client";
 
+import type { ArticleItem } from "@/features/articles/components/public/article-card";
+import { ArticleFilter } from "@/features/articles/components/public/article-filter";
+import { ArticleGrid } from "@/features/articles/components/public/article-grid";
+import { ArticleHero } from "@/features/articles/components/public/article-hero";
+import { useArticleCategories, useArticles } from "@/features/articles/hooks/use-articles";
 import { useState } from "react";
-import type { ArticleItem } from "@/features/public/articles/components/article-card";
-import { ArticleFilter } from "@/features/public/articles/components/article-filter";
-import { ArticleGrid } from "@/features/public/articles/components/article-grid";
-import { ArticleHero } from "@/features/public/articles/components/article-hero";
-import { useArticles, useArticleCategories } from "@/features/articles/hooks/use-articles";
 
 export default function ArtikelPage() {
   const [activeCategory, setActiveCategory] = useState("Semua");
@@ -48,11 +48,8 @@ export default function ArtikelPage() {
     };
   });
 
-
-
   const filteredArticles = mappedArticles.filter((art) => {
-    const matchCategory =
-      activeCategory === "Semua" || art.category === activeCategory;
+    const matchCategory = activeCategory === "Semua" || art.category === activeCategory;
     const matchSearch =
       art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       art.desc.toLowerCase().includes(searchQuery.toLowerCase());

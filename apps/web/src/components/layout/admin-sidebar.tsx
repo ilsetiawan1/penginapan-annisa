@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 import {
   Bed,
   Calendar,
@@ -13,6 +10,7 @@ import {
   Gift,
   Home,
   LogOut,
+  Newspaper,
   Package,
   PanelLeftClose,
   PanelLeftOpen,
@@ -21,9 +19,11 @@ import {
   TrendingUp,
   Users,
   X,
-  Newspaper,
 } from "lucide-react";
-import { useAuth } from "@/features/auth/hooks/use-auth";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export type AdminRole = "owner" | "staff";
 
@@ -33,11 +33,7 @@ interface AdminSidebarProps {
   onCloseMobile: () => void;
 }
 
-export function AdminSidebar({
-  currentRole,
-  isMobileOpen,
-  onCloseMobile,
-}: AdminSidebarProps) {
+export function AdminSidebar({ currentRole, isMobileOpen, onCloseMobile }: AdminSidebarProps) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
@@ -206,9 +202,7 @@ export function AdminSidebar({
           {/* Navigation Links Grouped */}
           <nav className="space-y-4 overflow-y-auto max-h-[calc(100vh-14rem)] pr-0.5">
             {navSections.map((sec) => {
-              const visibleItems = sec.items.filter((item) =>
-                item.roles.includes(currentRole),
-              );
+              const visibleItems = sec.items.filter((item) => item.roles.includes(currentRole));
               if (visibleItems.length === 0) return null;
 
               return (
@@ -224,8 +218,7 @@ export function AdminSidebar({
                       const Icon = item.icon;
                       const isActive =
                         pathname === item.href ||
-                        (item.href !== "/admin/dashboard" &&
-                          pathname.startsWith(item.href));
+                        (item.href !== "/admin/dashboard" && pathname.startsWith(item.href));
 
                       return (
                         <div key={item.href} className="relative group">
@@ -246,9 +239,7 @@ export function AdminSidebar({
                                 isCollapsed ? "w-4.5 h-4.5" : "w-4 h-4"
                               } ${isActive ? "text-white" : "text-slate-400 group-hover:text-purple-700"}`}
                             />
-                            {!isCollapsed && (
-                              <span className="truncate">{item.label}</span>
-                            )}
+                            {!isCollapsed && <span className="truncate">{item.label}</span>}
                           </Link>
 
                           {/* Tooltip on Collapsed Mode */}
@@ -374,9 +365,7 @@ export function AdminSidebar({
 
           <nav className="space-y-4">
             {navSections.map((sec) => {
-              const visibleItems = sec.items.filter((item) =>
-                item.roles.includes(currentRole),
-              );
+              const visibleItems = sec.items.filter((item) => item.roles.includes(currentRole));
               if (visibleItems.length === 0) return null;
 
               return (

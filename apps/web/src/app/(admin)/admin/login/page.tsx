@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import { LoginForm } from "@/features/auth/components/login-form";
-import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Login PMS — Penginapan Annisa",

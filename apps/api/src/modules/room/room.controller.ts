@@ -1,7 +1,7 @@
-import type { NextFunction, Request, Response } from "express";
 import type { BuildingBlock, RoomStatus } from "@annisa/types";
+import type { NextFunction, Request, Response } from "express";
 import { sendSuccess } from "../../utils/response.util";
-import { roomService, type RoomService } from "./room.service";
+import { type RoomService, roomService } from "./room.service";
 
 export class RoomController {
   private service: RoomService;
@@ -23,11 +23,7 @@ export class RoomController {
     }
   };
 
-  getRoomByNumber = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  getRoomByNumber = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { roomNumber } = req.params as { roomNumber: string };
       const room = await this.service.getRoomByNumber(roomNumber);
@@ -37,17 +33,10 @@ export class RoomController {
     }
   };
 
-  updateRoomStatus = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  updateRoomStatus = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { roomNumber } = req.params as { roomNumber: string };
-      const updated = await this.service.updateRoomStatus(
-        roomNumber,
-        req.body,
-      );
+      const updated = await this.service.updateRoomStatus(roomNumber, req.body);
       return sendSuccess(
         res,
         updated,
@@ -58,11 +47,7 @@ export class RoomController {
     }
   };
 
-  getAllRoomTypes = async (
-    _req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  getAllRoomTypes = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const types = await this.service.getAllRoomTypes();
       return sendSuccess(res, types, "Daftar tipe kamar berhasil diambil.");
@@ -71,11 +56,7 @@ export class RoomController {
     }
   };
 
-  getRoomTypeById = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  getRoomTypeById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params as { id: string };
       const type = await this.service.getRoomTypeById(id);
@@ -89,11 +70,7 @@ export class RoomController {
     try {
       const { id } = req.params as { id: string };
       const updated = await this.service.updateRoomRate(id, req.body);
-      return sendSuccess(
-        res,
-        updated,
-        "Tarif dan fasilitas tipe kamar berhasil diperbarui.",
-      );
+      return sendSuccess(res, updated, "Tarif dan fasilitas tipe kamar berhasil diperbarui.");
     } catch (error) {
       return next(error);
     }
@@ -116,4 +93,3 @@ export class RoomController {
 }
 
 export const roomController = new RoomController();
-

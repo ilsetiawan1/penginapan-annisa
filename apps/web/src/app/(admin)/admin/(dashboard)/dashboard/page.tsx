@@ -1,6 +1,6 @@
 "use client";
 
-import { OperationalDashboard } from "@/features/admin/dashboard/components/operational-dashboard";
+import { OperationalDashboard } from "@/features/dashboard/components/operational-dashboard";
 import { useRouter } from "next/navigation";
 
 export default function AdminDashboardPage() {

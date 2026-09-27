@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
 import { GetObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
-import { s3Client } from "../../utils/r2.util";
+import type { NextFunction, Request, Response } from "express";
 import { config } from "../../config";
+import { s3Client } from "../../utils/r2.util";
 
 export const storageController = {
   getFile: async (req: Request, res: Response, next: NextFunction) => {
@@ -79,4 +79,3 @@ export const storageController = {
     }
   },
 };
-

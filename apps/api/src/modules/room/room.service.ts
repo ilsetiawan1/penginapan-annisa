@@ -1,8 +1,8 @@
 import { prisma } from "@annisa/db";
 import type { RoomStatus, UpdateRoomRateInput, UpdateRoomStatusInput } from "@annisa/types";
-import { AppError } from "../../middlewares/error.middleware";
 import { HTTP_STATUS } from "../../constants";
-import { roomRepository, type RoomRepository } from "./room.repository";
+import { AppError } from "../../middlewares/error.middleware";
+import { type RoomRepository, roomRepository } from "./room.repository";
 
 export class RoomService {
   private repo: RoomRepository;
@@ -32,8 +32,7 @@ export class RoomService {
     return rooms.map((room) => {
       const roomImage =
         room.roomType?.images?.find(
-          (img: any) =>
-            img.caption?.toUpperCase() === room.roomNumber.toUpperCase(),
+          (img: any) => img.caption?.toUpperCase() === room.roomNumber.toUpperCase(),
         )?.imageUrl || "";
 
       return {
@@ -54,8 +53,7 @@ export class RoomService {
     }
     const roomImage =
       room.roomType?.images?.find(
-        (img: any) =>
-          img.caption?.toUpperCase() === room.roomNumber.toUpperCase(),
+        (img: any) => img.caption?.toUpperCase() === room.roomNumber.toUpperCase(),
       )?.imageUrl || "";
 
     return {
@@ -68,10 +66,7 @@ export class RoomService {
   async updateRoomImage(roomNumber: string, imageUrl: string) {
     const room = await this.repo.findByRoomNumber(roomNumber);
     if (!room) {
-      throw new AppError(
-        `Kamar ${roomNumber} tidak ditemukan.`,
-        HTTP_STATUS.NOT_FOUND,
-      );
+      throw new AppError(`Kamar ${roomNumber} tidak ditemukan.`, HTTP_STATUS.NOT_FOUND);
     }
 
     // Hapus foto lama untuk kamar ini di RoomImage
@@ -84,11 +79,7 @@ export class RoomService {
 
     const cleanUrl = imageUrl?.trim() || "";
     // Simpan foto baru jika valid (bukan dummy dan bukan string kosong)
-    if (
-      cleanUrl &&
-      !cleanUrl.includes("/rooms/room-") &&
-      !cleanUrl.startsWith("/images/")
-    ) {
+    if (cleanUrl && !cleanUrl.includes("/rooms/room-") && !cleanUrl.startsWith("/images/")) {
       await prisma.roomImage.create({
         data: {
           roomTypeId: room.roomTypeId,
@@ -102,14 +93,10 @@ export class RoomService {
     return this.getRoomByNumber(roomNumber);
   }
 
-
   async updateRoomStatus(roomNumber: string, input: UpdateRoomStatusInput) {
     const existing = await this.repo.findByRoomNumber(roomNumber);
     if (!existing) {
-      throw new AppError(
-        `Kamar ${roomNumber} tidak ditemukan.`,
-        HTTP_STATUS.NOT_FOUND,
-      );
+      throw new AppError(`Kamar ${roomNumber} tidak ditemukan.`, HTTP_STATUS.NOT_FOUND);
     }
 
     const updated = await this.repo.updateRoomStatus(

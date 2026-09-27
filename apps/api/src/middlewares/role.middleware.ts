@@ -1,5 +1,5 @@
-import type { NextFunction, Request, Response } from "express";
 import type { UserRole } from "@annisa/types";
+import type { NextFunction, Request, Response } from "express";
 import { ERROR_MESSAGES, HTTP_STATUS } from "../constants";
 
 export function requireRole(...allowedRoles: UserRole[]) {
