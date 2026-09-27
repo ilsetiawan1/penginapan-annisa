@@ -53,11 +53,10 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
     );
   };
 
-  // Cek foto kamar dari database backend atau localStorage jika ada foto asli yang diunggah
+  // Cek foto kamar langsung dari database backend jika ada foto asli yang diunggah
   const [roomImage, setRoomImage] = useState<string>("");
 
   useEffect(() => {
-    // 1. Cek dari database server jika ada
     if (dbRooms && dbRooms.length > 0) {
       const matchDb = dbRooms.find((r: any) => {
         const isAc =
@@ -79,30 +78,7 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
         }
       }
     }
-
-    // 2. Cek dari localStorage
-    try {
-      const saved = localStorage.getItem("annisa_master_rooms_v3");
-      if (saved) {
-        const masterRooms = JSON.parse(saved);
-        if (Array.isArray(masterRooms)) {
-          const match = masterRooms.find(
-            (r: any) =>
-              r.type === selectedType &&
-              r.imageUrl &&
-              !r.imageUrl.includes("/rooms/room-") &&
-              !r.imageUrl.startsWith("/images/"),
-          );
-          if (match && match.imageUrl) {
-            setRoomImage(match.imageUrl);
-            return;
-          }
-        }
-      }
-      setRoomImage("");
-    } catch {
-      setRoomImage("");
-    }
+    setRoomImage("");
   }, [selectedType, dbRooms]);
 
 

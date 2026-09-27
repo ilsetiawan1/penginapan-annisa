@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -12,8 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
 import { useRooms } from "@/features/rooms/hooks/use-rooms";
-
-const LOCAL_STORAGE_KEY = "annisa_master_rooms_v3";
 
 interface FeaturedRoom {
   id: string;
@@ -61,146 +59,44 @@ const DEFAULT_3_FEATURED_ROOMS: FeaturedRoom[] = [
 
 export function HomeRoomsPreview() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [rooms, setRooms] = useState<FeaturedRoom[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (saved) {
-          const masterRooms = JSON.parse(saved);
-          if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-            return masterRooms.slice(0, 3).map((mr: any) => {
-              const isAc = mr.type === "ac";
-              const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
-              const dpNum = Math.round(priceNum * 0.5);
-
-              return {
-                id: mr.code,
-                name: mr.name || `Kamar #${mr.code} (${isAc ? "AC" : "Kipas"})`,
-                typeLabel: isAc ? "Tipe AC" : "Tipe Kipas",
-                price: `Rp ${priceNum.toLocaleString("id-ID")}`,
-                priceNum,
-                dp: `Rp ${dpNum.toLocaleString("id-ID")}`,
-                desc:
-                  mr.description ||
-                  "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-                image:
-                  mr.imageUrl &&
-                  !mr.imageUrl.includes("/rooms/room-") &&
-                  !mr.imageUrl.startsWith("/images/")
-                    ? mr.imageUrl
-                    : "",
-              };
-            });
-          }
-        }
-      } catch {
-        // fallback
-      }
-    }
-    return DEFAULT_3_FEATURED_ROOMS;
-  });
-
   const { data: dbRooms } = useRooms();
 
-  useEffect(() => {
-    try {
-      let currentRooms = rooms;
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (saved) {
-        const masterRooms = JSON.parse(saved);
-        if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-          currentRooms = masterRooms.slice(0, 3).map((mr: any) => {
-            const isAc = mr.type === "ac";
-            const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
-            const dpNum = Math.round(priceNum * 0.5);
-
-            return {
-              id: mr.code,
-              name: mr.name || `Kamar #${mr.code} (${isAc ? "AC" : "Kipas"})`,
-              typeLabel: isAc ? "Tipe AC" : "Tipe Kipas",
-              price: `Rp ${priceNum.toLocaleString("id-ID")}`,
-              priceNum,
-              dp: `Rp ${dpNum.toLocaleString("id-ID")}`,
-              desc:
-                mr.description ||
-                "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
-              image:
-                mr.imageUrl &&
-                !mr.imageUrl.includes("/rooms/room-") &&
-                !mr.imageUrl.startsWith("/images/")
-                  ? mr.imageUrl
-                  : "",
-            };
-          });
-        }
-      }
-
-      // Sinkronkan foto dari database backend (Cloudflare R2) jika tersedia
-      if (dbRooms && dbRooms.length > 0) {
-        currentRooms = currentRooms.map((cr) => {
-          const matchedDb = dbRooms.find(
-            (dbr: any) => dbr.roomNumber?.toUpperCase() === cr.id.toUpperCase(),
-          );
-          if (matchedDb && (matchedDb as any).imageUrl) {
-            const dbImg = (matchedDb as any).imageUrl;
-            if (
-              dbImg &&
-              !dbImg.includes("/rooms/room-") &&
-              !dbImg.startsWith("/images/")
-            ) {
-              return { ...cr, image: dbImg };
-            }
-          }
-          return cr;
-        });
-      }
-
-      setRooms(currentRooms);
-    } catch {
-      // fallback
+  // Sinkronkan 3 kamar unggulan secara langsung dari database backend (Cloudflare R2)
+  const rooms: FeaturedRoom[] = useMemo(() => {
+    if (!dbRooms || dbRooms.length === 0) {
+      return DEFAULT_3_FEATURED_ROOMS;
     }
+
+    return dbRooms.slice(0, 3).map((r: any) => {
+      const isAc =
+        r.roomType?.name?.toLowerCase().includes("ac") ||
+        (r.roomNumber?.startsWith("A") &&
+          !r.roomType?.name?.toLowerCase().includes("kipas"));
+      const priceNum = Number(r.roomType?.basePrice) || (isAc ? 275000 : 200000);
+      const dpNum = Math.round(priceNum * 0.5);
+
+      const rawImg = r.imageUrl;
+      const cleanImg =
+        rawImg &&
+        !rawImg.includes("/rooms/room-") &&
+        !rawImg.startsWith("/images/")
+          ? rawImg
+          : "";
+
+      return {
+        id: r.roomNumber,
+        name: `Kamar #${r.roomNumber} (${isAc ? "AC" : "Kipas"})`,
+        typeLabel: isAc ? "Tipe AC" : "Tipe Kipas",
+        price: `Rp ${priceNum.toLocaleString("id-ID")}`,
+        priceNum,
+        dp: `Rp ${dpNum.toLocaleString("id-ID")}`,
+        desc:
+          r.roomType?.description ||
+          "1 Kasur besar muat 2–3 tamu, kamar mandi dalam pribadi, TV, dan WiFi kencang.",
+        image: cleanImg,
+      };
+    });
   }, [dbRooms]);
-
-  // Dengarkan perubahan saat tab mendapat fokus atau ada update localStorage dari admin
-  useEffect(() => {
-    const syncLocal = () => {
-      try {
-        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (saved) {
-          const masterRooms = JSON.parse(saved);
-          if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-            setRooms((prev) =>
-              prev.map((r) => {
-                const match = masterRooms.find(
-                  (mr: any) => mr.code?.toUpperCase() === r.id.toUpperCase(),
-                );
-                if (match) {
-                  const cleanImg =
-                    match.imageUrl &&
-                    !match.imageUrl.includes("/rooms/room-") &&
-                    !match.imageUrl.startsWith("/images/")
-                      ? match.imageUrl
-                      : "";
-                  return {
-                    ...r,
-                    image: cleanImg || r.image,
-                  };
-                }
-                return r;
-              }),
-            );
-          }
-        }
-      } catch {}
-    };
-
-    window.addEventListener("focus", syncLocal);
-    window.addEventListener("storage", syncLocal);
-    return () => {
-      window.removeEventListener("focus", syncLocal);
-      window.removeEventListener("storage", syncLocal);
-    };
-  }, []);
 
 
   const count = rooms.length || 3;

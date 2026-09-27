@@ -256,17 +256,15 @@ export function RoomManagement() {
         }
       }
 
-      // Sinkronkan foto langsung dari database server jika ada
+      // Sinkronkan foto langsung dari database server (Single Source of Truth)
       if (serverRooms && serverRooms.length > 0) {
         currentRooms = currentRooms.map((r) => {
           const matchedDb = serverRooms.find(
             (sr: any) => sr.roomNumber?.toUpperCase() === r.code.toUpperCase(),
           );
-          if (matchedDb && (matchedDb as any).imageUrl) {
+          if (matchedDb) {
             const dbImg = cleanImageUrl((matchedDb as any).imageUrl);
-            if (dbImg) {
-              return { ...r, imageUrl: dbImg };
-            }
+            return { ...r, imageUrl: dbImg || "" };
           }
           return r;
         });

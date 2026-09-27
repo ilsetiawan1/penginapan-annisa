@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { RoomItem } from "@/features/public/rooms/components/room-card";
 import { RoomFilter } from "@/features/public/rooms/components/room-filter";
 import { RoomGrid } from "@/features/public/rooms/components/room-grid";
@@ -121,128 +121,70 @@ export default function KamarPage() {
   });
   const [nights, setNights] = useState<number>(1);
 
-  // Inisialisasi langsung dari localStorage secara instan (0 milidetik jeda)
-  const [rooms, setRooms] = useState<RoomItem[]>(() => {
+  // Ambil data kamar langsung dari database server (PostgreSQL & Cloudflare R2)
+  const { data: dbRooms } = useRooms();
+
+  // Bersihkan sisa localStorage lama agar tidak pernah meracuni cache browser
+  useEffect(() => {
     if (typeof window !== "undefined") {
       try {
-        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (saved) {
-          const masterRooms = JSON.parse(saved);
-          if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-            return masterRooms.map((mr: any) => {
-              const isAc = mr.type === "ac";
-              const priceNum = Number(mr.price) || (isAc ? 275000 : 200000);
-              const dpNum = Math.round(priceNum * 0.5);
-
-              return {
-                number: mr.code,
-                name: mr.name || `Kamar #${mr.code} (${isAc ? "AC" : "Kipas"})`,
-                type: isAc ? "ac" : "kipas",
-                status: "tersedia",
-                price: priceNum.toLocaleString("id-ID"),
-                dp: dpNum.toLocaleString("id-ID"),
-                bed: "1 Kasur Queen (Double Bed)",
-                capacity: `${mr.capacity || 2}–3 Tamu`,
-                facilities: Array.isArray(mr.facilities) && mr.facilities.length > 0
-                  ? mr.facilities
-                  : isAc
-                    ? ["AC Dingin Nyaman", "Kamar Mandi Dalam Pribadi", "Shower Air Hangat", "TV & WiFi"]
-                    : ["Kipas Angin Dinding", "Kamar Mandi Dalam Pribadi", "TV & WiFi"],
-                image:
-                  mr.imageUrl &&
-                  !mr.imageUrl.includes("/rooms/room-") &&
-                  !mr.imageUrl.startsWith("/images/")
-                    ? mr.imageUrl
-                    : "",
-              };
-            });
-          }
-        }
-      } catch {
-        // fallback
-      }
-    }
-    return DEFAULT_PUBLIC_ROOMS;
-  });
-
-  const { data: dbRooms, refetch: refetchRooms } = useRooms();
-
-  // Sinkronkan data ketersediaan kamar dan foto dari database server (Cloudflare R2)
-  useEffect(() => {
-    if (!dbRooms || dbRooms.length === 0) return;
-
-    setRooms((prevRooms) =>
-      prevRooms.map((r) => {
-        const matchedDb = dbRooms.find(
-          (dbr: any) => dbr.roomNumber?.toUpperCase() === r.number.toUpperCase(),
-        );
-        if (matchedDb) {
-          const dbImg = (matchedDb as any).imageUrl;
-          const cleanDbImg =
-            dbImg &&
-            !dbImg.includes("/rooms/room-") &&
-            !dbImg.startsWith("/images/")
-              ? dbImg
-              : "";
-
-          return {
-            ...r,
-            status: matchedDb.status === "ready" ? "tersedia" : "terisi",
-            image: cleanDbImg || "",
-          };
-        }
-        return r;
-      }),
-    );
-  }, [dbRooms]);
-
-  // Dengarkan perubahan saat tab mendapat fokus atau ada update localStorage dari admin
-  useEffect(() => {
-    const syncFromLocalStorage = () => {
-      try {
-        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (saved) {
-          const masterRooms = JSON.parse(saved);
-          if (Array.isArray(masterRooms) && masterRooms.length > 0) {
-            setRooms((prev) =>
-              prev.map((r) => {
-                const match = masterRooms.find(
-                  (mr: any) => mr.code?.toUpperCase() === r.number.toUpperCase(),
-                );
-                if (match) {
-                  const cleanImg =
-                    match.imageUrl &&
-                    !match.imageUrl.includes("/rooms/room-") &&
-                    !match.imageUrl.startsWith("/images/")
-                      ? match.imageUrl
-                      : "";
-                  return {
-                    ...r,
-                    image: cleanImg || "",
-                  };
-                }
-                return r;
-              }),
-            );
-          }
-        }
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
       } catch {
         // ignore
       }
-    };
+    }
+  }, []);
 
-    const onWindowFocus = () => {
-      refetchRooms();
-      syncFromLocalStorage();
-    };
+  // Data kamar 100% tersinkronisasi secara murni dengan database server (Single Source of Truth)
+  const rooms: RoomItem[] = useMemo(() => {
+    if (!dbRooms || dbRooms.length === 0) {
+      return DEFAULT_PUBLIC_ROOMS;
+    }
 
-    window.addEventListener("focus", onWindowFocus);
-    window.addEventListener("storage", syncFromLocalStorage);
-    return () => {
-      window.removeEventListener("focus", onWindowFocus);
-      window.removeEventListener("storage", syncFromLocalStorage);
-    };
-  }, [refetchRooms]);
+    return dbRooms.map((r: any) => {
+      const isAc =
+        r.roomType?.name?.toLowerCase().includes("ac") ||
+        (r.roomNumber?.startsWith("A") &&
+          !r.roomType?.name?.toLowerCase().includes("kipas"));
+      const priceNum = Number(r.roomType?.basePrice) || (isAc ? 275000 : 200000);
+      const dpNum = Math.round(priceNum * 0.5);
+
+      const rawImg = r.imageUrl;
+      const cleanImg =
+        rawImg &&
+        !rawImg.includes("/rooms/room-") &&
+        !rawImg.startsWith("/images/")
+          ? rawImg
+          : "";
+
+      return {
+        number: r.roomNumber,
+        name: `Kamar #${r.roomNumber} (${isAc ? "AC" : "Kipas"})`,
+        type: isAc ? "ac" : "kipas",
+        status: r.status === "ready" ? "tersedia" : "terisi",
+        price: priceNum.toLocaleString("id-ID"),
+        dp: dpNum.toLocaleString("id-ID"),
+        bed: r.roomType?.bedType || "1 Kasur Queen (Double Bed)",
+        capacity: `${r.roomType?.capacity || 2}–3 Tamu`,
+        facilities:
+          Array.isArray(r.roomType?.facilities) && r.roomType.facilities.length > 0
+            ? r.roomType.facilities
+            : isAc
+              ? [
+                  "AC Dingin Nyaman",
+                  "Kamar Mandi Dalam Pribadi",
+                  "Shower Air Hangat",
+                  "TV & WiFi",
+                ]
+              : [
+                  "Kipas Angin Dinding",
+                  "Kamar Mandi Dalam Pribadi",
+                  "TV & WiFi",
+                ],
+        image: cleanImg,
+      };
+    });
+  }, [dbRooms]);
 
 
   const filteredRooms = rooms.filter((r) => {
