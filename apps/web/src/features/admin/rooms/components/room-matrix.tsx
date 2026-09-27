@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar, Plus, RotateCw } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Button } from "../../../../components/ui/button";
 import {
@@ -117,10 +117,31 @@ const INITIAL_ROOMS: RoomItem[] = [
 ];
 
 export function RoomMatrix() {
+  const { data: dbRooms } = useRooms();
   const [rooms, setRooms] = useState<RoomItem[]>(INITIAL_ROOMS);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const queryClient = useQueryClient();
   const updateStatusMutation = useUpdateRoomStatus();
+
+  // Sync state dengan data live dari database (DB PostgreSQL)
+  useEffect(() => {
+    if (dbRooms && dbRooms.length > 0) {
+      setRooms((prev) =>
+        prev.map((r) => {
+          const matched = dbRooms.find(
+            (dbR) => dbR.roomNumber.toUpperCase() === r.code.toUpperCase(),
+          );
+          if (matched && matched.status) {
+            return {
+              ...r,
+              status: matched.status as RoomItem["status"],
+            };
+          }
+          return r;
+        }),
+      );
+    }
+  }, [dbRooms]);
 
   // Modal State
   const [checkInModalData, setCheckInModalData] = useState<RoomItem | null>(
