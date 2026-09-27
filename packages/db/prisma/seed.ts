@@ -125,24 +125,22 @@ async function main() {
   console.log("✅ Tipe Kamar seeded:", acType.name, "&", kipasType.name);
 
   // ----------------------------------------------------
-  // 3. SEED 8 UNIT KAMAR RESMI (BANGUNAN A: A1-A4, BANGUNAN B: B1-B4)
+  // 3. KOSONGKAN DATA RESERVASI DUMMY & SET SEMUA KAMAR TERSEDIA (READY)
   // ----------------------------------------------------
+  await prisma.reservation.deleteMany({});
+  await prisma.guest.deleteMany({});
+
   const officialRooms = [
-    // BANGUNAN A
+    // BANGUNAN A (Semua Tersedia / Ready)
     { number: "A1", building: "A", typeId: acType.id, status: "ready" },
-    { number: "A2", building: "A", typeId: acType.id, status: "occupied" },
-    { number: "A3", building: "A", typeId: kipasType.id, status: "dirty" },
+    { number: "A2", building: "A", typeId: acType.id, status: "ready" },
+    { number: "A3", building: "A", typeId: kipasType.id, status: "ready" },
     { number: "A4", building: "A", typeId: kipasType.id, status: "ready" },
-    // BANGUNAN B
-    { number: "B1", building: "B", typeId: acType.id, status: "booked" },
+    // BANGUNAN B (Semua Tersedia / Ready)
+    { number: "B1", building: "B", typeId: acType.id, status: "ready" },
     { number: "B2", building: "B", typeId: acType.id, status: "ready" },
-    { number: "B3", building: "B", typeId: kipasType.id, status: "occupied" },
-    {
-      number: "B4",
-      building: "B",
-      typeId: kipasType.id,
-      status: "maintenance",
-    },
+    { number: "B3", building: "B", typeId: kipasType.id, status: "ready" },
+    { number: "B4", building: "B", typeId: kipasType.id, status: "ready" },
   ];
 
   for (const r of officialRooms) {
@@ -151,18 +149,20 @@ async function main() {
       update: {
         roomTypeId: r.typeId,
         building: r.building,
-        status: r.status,
+        status: "ready",
+        notes: null,
       },
       create: {
         roomNumber: r.number,
         building: r.building,
         roomTypeId: r.typeId,
-        status: r.status,
+        status: "ready",
+        notes: null,
       },
     });
   }
 
-  console.log("✅ 8 Unit Kamar Resmi (A1–A4 & B1–B4) seeded successfully!");
+  console.log("✅ 8 Unit Kamar Resmi (A1–A4 & B1–B4) diset SEMUA TERSEDIA (READY)!");
 
   // ----------------------------------------------------
   // 3b. SEED FOTO RESMI CLOUDFLARE R2 UNTUK KAMAR (A1–A4)

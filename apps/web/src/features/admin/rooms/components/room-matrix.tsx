@@ -20,7 +20,7 @@ import { RoomDetailModal } from "./room-detail-modal";
 import { useRooms, useUpdateRoomStatus } from "@/features/rooms/hooks/use-rooms";
 import { useQueryClient } from "@tanstack/react-query";
 
-// 8 UNIT KAMAR RESMI PENGINAPAN ANNISA DENGAN SKENARIO REALISTIS
+// 8 UNIT KAMAR RESMI PENGINAPAN ANNISA (SEMUA TERSEDIA / READY)
 const INITIAL_ROOMS: RoomItem[] = [
   // BANGUNAN A (KIRI): 2 AC (A1, A2) & 2 KIPAS (A3, A4)
   {
@@ -37,15 +37,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    status: "occupied",
-    guestName: "Budi Santoso",
-    guestPhone: "081234567890",
-    checkInDate: "22 Agu 2026",
-    checkOutDate: "23 Agu 2026",
-    totalNights: 1,
-    totalAmount: 275000,
-    dpPaid: 275000,
-    remainingAmount: 0, // Lunas saat Check-in
+    status: "ready",
   },
   {
     code: "A3",
@@ -53,7 +45,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    status: "dirty",
+    status: "ready",
   },
   {
     code: "A4",
@@ -65,22 +57,13 @@ const INITIAL_ROOMS: RoomItem[] = [
   },
 
   // BANGUNAN B (KANAN): 2 AC (B1, B2) & 2 KIPAS (B3, B4)
-  // SKENARIO KHUSUS: #B1 TERBOOKING WA HARI INI (SUDAH DP 50%, MENUNGGU PELUNASAN KETIKA TAMU TIBA)
   {
     code: "B1",
     building: "B",
     type: "ac",
     typeName: "Kamar Tipe AC",
     price: 275000,
-    status: "booked", // 🟣 Terbooking WA
-    guestName: "Hendra Pratama",
-    guestPhone: "081399881122",
-    checkInDate: "22 Agu 2026",
-    checkOutDate: "23 Agu 2026",
-    totalNights: 1,
-    totalAmount: 275000,
-    dpPaid: 137500,
-    remainingAmount: 137500,
+    status: "ready",
   },
   {
     code: "B2",
@@ -96,15 +79,7 @@ const INITIAL_ROOMS: RoomItem[] = [
     type: "kipas",
     typeName: "Kamar Tipe Kipas",
     price: 200000,
-    status: "occupied",
-    guestName: "Siti Rahma",
-    guestPhone: "085299887766",
-    checkInDate: "21 Agu 2026",
-    checkOutDate: "23 Agu 2026",
-    totalNights: 2,
-    totalAmount: 400000,
-    dpPaid: 400000,
-    remainingAmount: 0, // Lunas
+    status: "ready",
   },
   {
     code: "B4",
@@ -132,9 +107,22 @@ export function RoomMatrix() {
             (dbR) => dbR.roomNumber.toUpperCase() === r.code.toUpperCase(),
           );
           if (matched && matched.status) {
+            const isAvailable = matched.status === "ready";
             return {
               ...r,
               status: matched.status as RoomItem["status"],
+              ...(isAvailable
+                ? {
+                    guestName: undefined,
+                    guestPhone: undefined,
+                    checkInDate: undefined,
+                    checkOutDate: undefined,
+                    totalNights: undefined,
+                    totalAmount: undefined,
+                    dpPaid: undefined,
+                    remainingAmount: undefined,
+                  }
+                : {}),
             };
           }
           return r;

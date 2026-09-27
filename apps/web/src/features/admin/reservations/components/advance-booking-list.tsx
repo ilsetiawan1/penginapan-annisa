@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
   type AdvanceBookingData,
@@ -11,66 +11,60 @@ import { BookingDateDetailsPanel } from "./booking-date-details-panel";
 import { useReservations, useCreateWalkInBooking } from "@/features/reservations/hooks/use-reservations";
 import { useQueryClient } from "@tanstack/react-query";
 
-const INITIAL_BOOKINGS: AdvanceBookingData[] = [
-  {
-    id: "BK-1082",
-    roomCode: "A1",
-    roomTypeName: "Tipe AC",
-    guestName: "Hendra Pratama",
-    guestPhone: "081399881122",
-    checkInDate: "5 Sep 2026",
-    checkOutDate: "6 Sep 2026",
-    nights: 1,
-    totalAmount: 275000,
-    dpPaid: 137500,
-    remainingAmount: 137500,
-    paymentMethod: "transfer",
-    status: "confirmed",
-  },
-  {
-    id: "BK-1083",
-    roomCode: "B2",
-    roomTypeName: "Tipe AC",
-    guestName: "dr. Amelia Siregar",
-    guestPhone: "081255443322",
-    checkInDate: "7 Sep 2026",
-    checkOutDate: "9 Sep 2026",
-    nights: 2,
-    totalAmount: 550000,
-    dpPaid: 275000,
-    remainingAmount: 275000,
-    paymentMethod: "qris",
-    status: "confirmed",
-  },
-  {
-    id: "BK-1084",
-    roomCode: "A4",
-    roomTypeName: "Tipe Kipas",
-    guestName: "Rahmat Hidayat",
-    guestPhone: "085211223344",
-    checkInDate: "12 Sep 2026",
-    checkOutDate: "13 Sep 2026",
-    nights: 1,
-    totalAmount: 200000,
-    dpPaid: 100000,
-    remainingAmount: 100000,
-    paymentMethod: "transfer",
-    status: "confirmed",
-  },
-];
+const INITIAL_BOOKINGS: AdvanceBookingData[] = [];
 
 interface AdvanceBookingListProps {
   onCheckInNow?: (booking: AdvanceBookingData) => void;
 }
 
 export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
-  const [currentMonth, setCurrentMonth] = useState<Date>(new Date(2026, 8, 1)); // September 2026
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date(2026, 8, 5)); // 5 September 2026 (ada booking Pak Hendra)
+  const { data: dbReservations } = useReservations();
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [bookings, setBookings] =
     useState<AdvanceBookingData[]>(INITIAL_BOOKINGS);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const createBookingMutation = useCreateWalkInBooking();
+
+  // Sinkronisasi data reservasi riil dari database (jika ada)
+  useEffect(() => {
+    const list = dbReservations?.items;
+    if (list && Array.isArray(list)) {
+      const mapped: AdvanceBookingData[] = list.map((r) => ({
+        id: r.code,
+        roomCode: r.room?.roomNumber || "A1",
+        roomTypeName: r.room?.roomType?.name || "Tipe Kamar",
+        guestName: r.guest?.name || "Tamu",
+        guestPhone: r.guest?.phone || "-",
+        checkInDate: new Date(r.checkInDate).toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
+        checkOutDate: new Date(r.checkOutDate).toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
+        nights: r.totalNights,
+        totalAmount: r.grandTotal,
+        dpPaid: r.dpAmount,
+        remainingAmount: r.remainingAmount,
+        paymentMethod: (["transfer", "qris", "cash"].includes(
+          r.paymentMethod?.toLowerCase() || "",
+        )
+          ? r.paymentMethod?.toLowerCase()
+          : "transfer") as "transfer" | "qris" | "cash",
+        status: (r.status === "checked_in"
+          ? "checked_in"
+          : r.status === "cancelled"
+            ? "cancelled"
+            : "confirmed") as "confirmed" | "checked_in" | "cancelled",
+      }));
+      setBookings(mapped);
+    }
+  }, [dbReservations]);
 
   const handlePrevMonth = () => {
     setCurrentMonth(
