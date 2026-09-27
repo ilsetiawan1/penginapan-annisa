@@ -71,13 +71,50 @@ export function useDeleteArticle() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => articlesApi.deleteArticle(id),
-    onSuccess: () => {
-      toast.success("Artikel berhasil dihapus!");
+    mutationFn: ({ id, permanent }: { id: string; permanent?: boolean }) =>
+      articlesApi.deleteArticle(id, permanent),
+    onSuccess: (_, variables) => {
+      toast.success(
+        variables.permanent
+          ? "Artikel berhasil dihapus permanen!"
+          : "Artikel dipindahkan ke sampah (dapat dipulihkan dalam 30 hari).",
+      );
       queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal menghapus artikel.";
+      toast.error(msg);
+    },
+  });
+}
+
+export function useRestoreArticle() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => articlesApi.restoreArticle(id),
+    onSuccess: () => {
+      toast.success("Artikel berhasil dipulihkan!");
+      queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
+    },
+    onError: (err: unknown) => {
+      const msg = err instanceof Error ? err.message : "Gagal memulihkan artikel.";
+      toast.error(msg);
+    },
+  });
+}
+
+export function useForceDeleteArticle() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => articlesApi.forceDeleteArticle(id),
+    onSuccess: () => {
+      toast.success("Artikel berhasil dihapus permanen!");
+      queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
+    },
+    onError: (err: unknown) => {
+      const msg = err instanceof Error ? err.message : "Gagal menghapus permanen artikel.";
       toast.error(msg);
     },
   });

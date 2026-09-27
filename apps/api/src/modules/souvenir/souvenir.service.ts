@@ -13,6 +13,7 @@ export class SouvenirService {
   async getAllSouvenirs(filter?: {
     categorySlug?: string;
     isAvailable?: boolean;
+    status?: "active" | "trash";
   }) {
     return this.repo.findAll(filter);
   }
@@ -41,13 +42,56 @@ export class SouvenirService {
     return this.repo.update(id, input);
   }
 
-  async deleteSouvenir(id: string) {
+  async deleteSouvenir(id: string, permanent?: boolean) {
     const existing = await this.repo.findById(id);
     if (!existing) {
       throw new AppError("Produk tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
     }
-    await this.repo.delete(id);
-    return { success: true, message: `Produk '${existing.name}' berhasil dihapus.` };
+
+    if (permanent) {
+      await this.repo.forceDelete(id);
+      return { success: true, message: `Produk '${existing.name}' berhasil dihapus permanen.` };
+    }
+
+    await this.repo.softDelete(id);
+    return {
+      success: true,
+      message: `Produk '${existing.name}' dipindahkan ke sampah (dapat dipulihkan dalam 30 hari).`,
+    };
+  }
+
+  async restoreSouvenir(id: string) {
+    const existing = await this.repo.findById(id);
+    if (!existing) {
+      throw new AppError("Produk tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
+    }
+
+    if (!existing.deletedAt) {
+      return { success: true, message: `Produk '${existing.name}' sudah dalam status aktif.` };
+    }
+
+    // Periksa apakah sudah lewat dari 30 hari
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    if (new Date(existing.deletedAt) < thirtyDaysAgo) {
+      await this.repo.forceDelete(id);
+      throw new AppError(
+        "Masa retensi 30 hari telah berakhir. Data produk ini sudah terhapus permanen dan tidak dapat dipulihkan.",
+        HTTP_STATUS.GONE,
+      );
+    }
+
+    await this.repo.restore(id);
+    return { success: true, message: `Produk '${existing.name}' berhasil dipulihkan.` };
+  }
+
+  async forceDeleteSouvenir(id: string) {
+    const existing = await this.repo.findById(id);
+    if (!existing) {
+      throw new AppError("Produk tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
+    }
+
+    await this.repo.forceDelete(id);
+    return { success: true, message: `Produk '${existing.name}' berhasil dihapus permanen.` };
   }
 
   async processPosCheckout(input: PosCheckoutInput) {

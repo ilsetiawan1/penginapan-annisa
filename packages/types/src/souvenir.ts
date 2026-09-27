@@ -22,6 +22,7 @@ export const souvenirSchema = z.object({
   description: z.string().nullable().optional(),
   imageUrl: z.string().url("URL gambar tidak valid").nullable().optional(),
   isAvailable: z.boolean().default(true),
+  deletedAt: z.union([z.date(), z.string()]).nullable().optional(),
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
   category: souvenirCategorySchema.optional(),

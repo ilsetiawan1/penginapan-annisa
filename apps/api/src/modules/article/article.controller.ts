@@ -16,16 +16,18 @@ export class ArticleController {
 
   getAllArticles = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { category, isPublished, search } = req.query as {
+      const { category, isPublished, search, status } = req.query as {
         category?: string;
         isPublished?: string;
         search?: string;
+        status?: "active" | "trash";
       };
 
       const articles = await this.service.getAllArticles({
         categorySlug: category,
         isPublished: isPublished !== undefined ? isPublished === "true" : undefined,
         search,
+        status,
       });
 
       return sendSuccess(res, articles, "Daftar artikel berhasil diambil.");
@@ -76,8 +78,29 @@ export class ArticleController {
   deleteArticle = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params as { id: string };
-      const result = await this.service.deleteArticle(id);
-      return sendSuccess(res, result, "Artikel berhasil dihapus.");
+      const { permanent } = req.query as { permanent?: string };
+      const result = await this.service.deleteArticle(id, permanent === "true");
+      return sendSuccess(res, result, result.message);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  restoreArticle = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params as { id: string };
+      const result = await this.service.restoreArticle(id);
+      return sendSuccess(res, result, result.message);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  forceDeleteArticle = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params as { id: string };
+      const result = await this.service.forceDeleteArticle(id);
+      return sendSuccess(res, result, result.message);
     } catch (error) {
       return next(error);
     }

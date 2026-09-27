@@ -1,101 +1,113 @@
 "use client";
 
-import { usePosCheckout, useSouvenirs } from "@/features/souvenirs/hooks/use-souvenirs";
+import {
+  usePosCheckout,
+  useSouvenirs,
+  useUpdateSouvenir,
+} from "@/features/souvenirs/hooks/use-souvenirs";
 import { useQueryClient } from "@tanstack/react-query";
-import { RotateCw, Search } from "lucide-react";
-import { useState } from "react";
+import { Loader2, PackageOpen, RotateCw, Search } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { SouvenirItemCard, type SouvenirProduct } from "./souvenir-item-card";
 import { type SaleRecord, SouvenirSalesHistory } from "./souvenir-sales-history";
 
-// PRODUK ETALASE OLEH-OLEH KHAS MALUKU (SESUAI PRD & TRD)
-const INITIAL_SOUVENIRS: SouvenirProduct[] = [
-  {
-    id: "mkp",
-    name: "Minyak Kayu Putih Asli Namlea",
-    category: "Minyak & Herbal",
-    price: 65000,
-    stock: 24,
-    image:
-      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "cengkeh",
-    name: "Minyak Cengkeh Asli Maluku",
-    category: "Minyak & Herbal",
-    price: 55000,
-    stock: 18,
-    image:
-      "https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "bagea",
-    name: "Kue Sagu Bagea Kenari Ambon",
-    category: "Makanan & Camilan",
-    price: 35000,
-    stock: 30,
-    image:
-      "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600&auto=format&fit=crop",
-  },
-  {
-    id: "roti",
-    name: "Roti Kenari Khas Maluku",
-    category: "Makanan & Camilan",
-    price: 45000,
-    stock: 12,
-    image:
-      "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop",
-  },
-];
-
 export function SouvenirPos() {
-  const [products, setProducts] = useState<SouvenirProduct[]>(INITIAL_SOUVENIRS);
+  const { data: dbProducts, isLoading, refetch } = useSouvenirs();
+  const updateMutation = useUpdateSouvenir();
+  const posCheckoutMutation = usePosCheckout();
+  const queryClient = useQueryClient();
+
+  const [products, setProducts] = useState<SouvenirProduct[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [recentSales, setRecentSales] = useState<SaleRecord[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const queryClient = useQueryClient();
-  const posCheckoutMutation = usePosCheckout();
 
-  const handleSell = (product: SouvenirProduct) => {
+  // Sinkronisasi dengan database PostgreSQL riil
+  useEffect(() => {
+    if (dbProducts && Array.isArray(dbProducts)) {
+      const mapped: SouvenirProduct[] = dbProducts
+        .filter((item) => !item.deletedAt && item.isAvailable !== false)
+        .map((item) => ({
+          id: item.id,
+          name: item.name,
+          category: item.category?.name || "Oleh-Oleh Khas Ambon",
+          price: item.price,
+          stock: item.stock,
+          image: item.imageUrl || "/souvenirs/default.jpg",
+        }));
+      setProducts(mapped);
+    }
+  }, [dbProducts]);
+
+  const handleSell = async (product: SouvenirProduct) => {
     if (product.stock <= 0) {
       toast.error(`Stok ${product.name} sudah habis!`);
       return;
     }
 
-    setProducts((prev) =>
-      prev.map((p) => (p.id === product.id ? { ...p, stock: p.stock - 1 } : p)),
-    );
+    try {
+      // Catat transaksi POS kasir riil ke API & kurangi stok fisik
+      await posCheckoutMutation.mutateAsync({
+        paymentMethod: "cash",
+        cashReceived: product.price,
+        items: [
+          {
+            souvenirId: product.id,
+            quantity: 1,
+          },
+        ],
+      });
 
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString("id-ID", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    setRecentSales((prev) => [
-      {
-        id: `${Date.now()}-${Math.random()}`,
-        name: product.name,
-        qty: 1,
-        total: product.price,
-        time: timeStr,
-      },
-      ...prev.slice(0, 4),
-    ]);
+      // Optimistic state update
+      setProducts((prev) =>
+        prev.map((p) => (p.id === product.id ? { ...p, stock: Math.max(0, p.stock - 1) } : p)),
+      );
 
-    toast.success(
-      `Penjualan Berhasil: 1x ${product.name} (Rp ${product.price.toLocaleString("id-ID")})`,
-    );
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      setRecentSales((prev) => [
+        {
+          id: `${Date.now()}-${Math.random()}`,
+          name: product.name,
+          qty: 1,
+          total: product.price,
+          time: timeStr,
+        },
+        ...prev.slice(0, 4),
+      ]);
+    } catch {
+      // Error ditangani hook
+    }
   };
 
-  const handleAddStock = (id: string) => {
-    setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, stock: p.stock + 5 } : p)));
-    toast.success("Stok berhasil ditambah +5 unit!");
+  const handleAddStock = async (id: string) => {
+    const target = products.find((p) => p.id === id);
+    if (!target) return;
+
+    const newStock = target.stock + 5;
+    try {
+      await updateMutation.mutateAsync({
+        id,
+        input: { stock: newStock },
+      });
+      setProducts((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, stock: newStock } : p)),
+      );
+      toast.success(`Stok ${target.name} berhasil ditambah +5 pcs!`);
+    } catch {
+      // Error ditangani hook
+    }
   };
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await queryClient.invalidateQueries();
-    toast.success("Katalog & stok oleh-oleh telah di-refresh!");
+    await refetch();
+    toast.success("Katalog & stok oleh-oleh riil telah di-refresh!");
     setIsRefreshing(false);
   };
 
@@ -119,8 +131,7 @@ export function SouvenirPos() {
             Penjualan Oleh-Oleh Khas di Meja Depan
           </h2>
           <p className="text-xs text-slate-500">
-            Klik tombol &quot;Catat Terjual&quot; saat tamu membeli oleh-oleh langsung di lobi
-            penginapan.
+            Terhubung langsung ke database stok fisik. Klik &quot;Catat Terjual&quot; saat tamu membeli oleh-oleh di lobi.
           </p>
         </div>
 
@@ -167,17 +178,38 @@ export function SouvenirPos() {
         )}
       </div>
 
-      {/* 4 Kartu Produk Oleh-Oleh */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {filteredProducts.map((item) => (
-          <SouvenirItemCard
-            key={item.id}
-            item={item}
-            onSell={handleSell}
-            onAddStock={handleAddStock}
-          />
-        ))}
-      </div>
+      {/* Grid Produk Oleh-Oleh dari Database Riil */}
+      {isLoading ? (
+        <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-2">
+          <Loader2 className="w-8 h-8 text-purple-600 animate-spin mx-auto" />
+          <p className="text-xs font-bold text-slate-600">Memuat stok produk dari database...</p>
+        </div>
+      ) : filteredProducts.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {filteredProducts.map((item) => (
+            <SouvenirItemCard
+              key={item.id}
+              item={item}
+              onSell={handleSell}
+              onAddStock={handleAddStock}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white rounded-3xl p-10 text-center border border-dashed border-purple-200 space-y-3">
+          <PackageOpen className="w-10 h-10 text-purple-400 mx-auto" />
+          <h3 className="text-sm font-black text-slate-800">Belum Ada Produk Oleh-Oleh</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            Produk oleh-oleh di database belum ditambahkan atau sedang kosong.
+          </p>
+          <Link
+            href="/admin/master-souvenirs"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-black shadow-xs transition"
+          >
+            + Kelola Produk di Master Oleh-Oleh
+          </Link>
+        </div>
+      )}
 
       {/* Sub-Komponen Riwayat Penjualan */}
       <SouvenirSalesHistory sales={recentSales} />

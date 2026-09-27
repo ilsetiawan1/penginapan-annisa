@@ -30,13 +30,29 @@ router.post(
   souvenirController.processPosCheckout,
 );
 
-// Protected Owner Only: CRUD Products
+// Protected Owner Only: CRUD Products & Soft Delete / Restore
 router.post(
   "/",
   authMiddleware,
   requireRole("owner"),
   validateRequest({ body: createSouvenirInputSchema }),
   souvenirController.createSouvenir,
+);
+
+router.post(
+  "/:id/restore",
+  authMiddleware,
+  requireRole("owner"),
+  validateRequest({ params: z.object({ id: z.string().uuid() }) }),
+  souvenirController.restoreSouvenir,
+);
+
+router.delete(
+  "/:id/force",
+  authMiddleware,
+  requireRole("owner"),
+  validateRequest({ params: z.object({ id: z.string().uuid() }) }),
+  souvenirController.forceDeleteSouvenir,
 );
 
 router.put(
@@ -58,4 +74,5 @@ router.delete(
   souvenirController.deleteSouvenir,
 );
 
+export const souvenirRoutes = router;
 export const souvenirRouter = router;

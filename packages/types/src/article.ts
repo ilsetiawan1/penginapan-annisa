@@ -24,6 +24,7 @@ export const articleSchema = z.object({
   coverImage: z.string().url("URL gambar tidak valid").nullable().optional(),
   isPublished: z.boolean().default(true),
   views: z.number().int().nonnegative().default(0),
+  deletedAt: z.union([z.date(), z.string()]).nullable().optional(),
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
   category: articleCategorySchema.optional(),

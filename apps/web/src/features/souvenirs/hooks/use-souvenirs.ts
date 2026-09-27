@@ -93,13 +93,50 @@ export function useDeleteSouvenir() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => souvenirsApi.deleteSouvenir(id),
-    onSuccess: () => {
-      toast.success("Produk berhasil dihapus!");
+    mutationFn: ({ id, permanent }: { id: string; permanent?: boolean }) =>
+      souvenirsApi.deleteSouvenir(id, permanent),
+    onSuccess: (_, variables) => {
+      toast.success(
+        variables.permanent
+          ? "Produk berhasil dihapus permanen!"
+          : "Produk dipindahkan ke sampah (dapat dipulihkan dalam 30 hari).",
+      );
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal menghapus produk.";
+      toast.error(msg);
+    },
+  });
+}
+
+export function useRestoreSouvenir() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => souvenirsApi.restoreSouvenir(id),
+    onSuccess: () => {
+      toast.success("Produk berhasil dipulihkan!");
+      queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
+    },
+    onError: (err: unknown) => {
+      const msg = err instanceof Error ? err.message : "Gagal memulihkan produk.";
+      toast.error(msg);
+    },
+  });
+}
+
+export function useForceDeleteSouvenir() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => souvenirsApi.forceDeleteSouvenir(id),
+    onSuccess: () => {
+      toast.success("Produk berhasil dihapus permanen!");
+      queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
+    },
+    onError: (err: unknown) => {
+      const msg = err instanceof Error ? err.message : "Gagal menghapus permanen produk.";
       toast.error(msg);
     },
   });

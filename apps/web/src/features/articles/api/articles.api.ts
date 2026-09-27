@@ -31,7 +31,16 @@ export const articlesApi = {
     return apiClient.put<Article>(`/articles/${id}`, input);
   },
 
-  deleteArticle: async (id: string): Promise<{ success: boolean; message: string }> => {
-    return apiClient.delete<{ success: boolean; message: string }>(`/articles/${id}`);
+  deleteArticle: async (id: string, permanent?: boolean): Promise<{ success: boolean; message: string }> => {
+    const url = permanent ? `/articles/${id}/force` : `/articles/${id}`;
+    return apiClient.delete<{ success: boolean; message: string }>(url);
+  },
+
+  restoreArticle: async (id: string): Promise<{ success: boolean; message: string }> => {
+    return apiClient.post<{ success: boolean; message: string }>(`/articles/${id}/restore`, {});
+  },
+
+  forceDeleteArticle: async (id: string): Promise<{ success: boolean; message: string }> => {
+    return apiClient.delete<{ success: boolean; message: string }>(`/articles/${id}/force`);
   },
 };

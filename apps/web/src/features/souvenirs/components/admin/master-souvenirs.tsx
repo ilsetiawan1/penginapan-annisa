@@ -6,28 +6,51 @@ import { ImageUpload, uploadBase64ToR2 } from "@/components/ui/image-upload";
 import {
   useCreateSouvenir,
   useDeleteSouvenir,
+  useForceDeleteSouvenir,
+  useRestoreSouvenir,
   useSouvenirCategories,
   useSouvenirs,
   useUpdateSouvenir,
 } from "@/features/souvenirs/hooks/use-souvenirs";
 import type { Souvenir } from "@annisa/types";
-import { Edit2, Package, Plus, RotateCw, Search, Tag, Trash2, X } from "lucide-react";
+import {
+  AlertTriangle,
+  ArchiveRestore,
+  Edit2,
+  Package,
+  Plus,
+  RotateCcw,
+  RotateCw,
+  Search,
+  Tag,
+  Trash2,
+  X,
+} from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 export function MasterSouvenirs() {
-  const { data: products, isLoading, refetch } = useSouvenirs();
+  const { data: allProducts, isLoading, refetch } = useSouvenirs();
   const { data: categories } = useSouvenirCategories();
   const createMutation = useCreateSouvenir();
   const updateMutation = useUpdateSouvenir();
   const deleteMutation = useDeleteSouvenir();
+  const restoreMutation = useRestoreSouvenir();
+  const forceDeleteMutation = useForceDeleteSouvenir();
+
+  // Tab State: 'active' vs 'trash'
+  const [activeTab, setActiveTab] = useState<"active" | "trash">("active");
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingItem, setEditingItem] = useState<Souvenir | null>(null);
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   // Form states
   const [name, setName] = useState("");
@@ -36,6 +59,25 @@ export function MasterSouvenirs() {
   const [stock, setStock] = useState<number>(20);
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+
+  // Pisahkan produk aktif vs sampah (soft-deleted)
+  const activeProducts = useMemo(() => {
+    return (allProducts || []).filter((item) => !item.deletedAt);
+  }, [allProducts]);
+
+  const trashProducts = useMemo(() => {
+    return (allProducts || []).filter((item) => !!item.deletedAt);
+  }, [allProducts]);
+
+  // Hitung sisa hari retensi 30 hari untuk item sampah
+  const getRemainingDays = (deletedAtStr: string | Date | null | undefined): number => {
+    if (!deletedAtStr) return 30;
+    const deletedDate = new Date(deletedAtStr);
+    const thirtyDaysInMs = 30 * 24 * 60 * 60 * 1000;
+    const expiryDate = new Date(deletedDate.getTime() + thirtyDaysInMs);
+    const remainingMs = expiryDate.getTime() - Date.now();
+    return Math.max(0, Math.ceil(remainingMs / (1000 * 60 * 60 * 24)));
+  };
 
   const handleOpenAdd = () => {
     setEditingItem(null);
@@ -74,7 +116,7 @@ export function MasterSouvenirs() {
       setIsSubmitting(true);
       let finalImageUrl = imageUrl;
 
-      // Jika URL adalah DataURL (Base64), artinya foto baru saja dipilih dan belum diupload
+      // Jika URL adalah DataURL (Base64), upload ke R2
       if (finalImageUrl.startsWith("data:")) {
         toast.loading("Mengunggah foto ke Cloudflare R2...", { id: "upload-toast" });
         try {
@@ -108,7 +150,7 @@ export function MasterSouvenirs() {
             price,
             stock,
             description,
-            imageUrl: finalImageUrl || undefined,
+            imageUrl: finalImageUrl,
           },
         });
       } else {
@@ -119,102 +161,208 @@ export function MasterSouvenirs() {
           stock,
           isAvailable: true,
           description,
-          imageUrl: finalImageUrl || undefined,
+          imageUrl: finalImageUrl,
         });
       }
 
       setIsModalOpen(false);
-    } catch (error) {
-      // Error handled by mutation
+    } catch {
+      // Error handled by mutation toast
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleDelete = async (id: string, itemName: string) => {
-    if (confirm(`Yakin ingin menghapus produk "${itemName}"?`)) {
-      await deleteMutation.mutateAsync(id);
-    }
+  // Soft Delete Handler
+  const handleSoftDelete = (item: Souvenir) => {
+    toast(`Pindahkan '${item.name}' ke Sampah?`, {
+      description: "Data akan disimpan di sampah selama 30 hari sebelum dihapus permanen.",
+      action: {
+        label: "Hapus ke Sampah",
+        onClick: () => deleteMutation.mutate({ id: item.id, permanent: false }),
+      },
+    });
   };
 
-  const filteredProducts = (products || []).filter((p) => {
-    const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchCat = selectedCategory === "all" || p.categoryId === selectedCategory;
-    return matchSearch && matchCat;
+  // Restore Handler
+  const handleRestore = (item: Souvenir) => {
+    restoreMutation.mutate(item.id);
+  };
+
+  // Force Delete Handler
+  const handleForceDelete = (item: Souvenir) => {
+    toast(`Hapus permanen '${item.name}'?`, {
+      description: "Data akan dihapus selamanya dari database dan tidak dapat dipulihkan.",
+      action: {
+        label: "Hapus Permanen",
+        onClick: () => forceDeleteMutation.mutate(item.id),
+      },
+    });
+  };
+
+  // Filter items berdasarkan tab aktif, pencarian & kategori
+  const sourceList = activeTab === "active" ? activeProducts : trashProducts;
+
+  const filteredItems = sourceList.filter((item) => {
+    const matchesSearch =
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesCategory =
+      selectedCategory === "all" || item.category?.slug === selectedCategory;
+    return matchesSearch && matchesCategory;
   });
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const paginatedItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      {/* Header Info */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-2xs">
+    <div className="space-y-6 max-w-7xl mx-auto">
+      {/* Header Halaman Master Oleh-Oleh */}
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 sm:p-6 rounded-3xl border border-slate-200 shadow-2xs">
         <div>
           <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-            Master Data Etalase
+            Master Data Etalase &amp; POS
           </span>
-          <h2 className="text-base sm:text-lg font-black text-slate-900 leading-tight mt-1">
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight mt-1">
             Kelola Produk Oleh-Oleh Khas Maluku
-          </h2>
-          <p className="text-xs text-slate-500">
-            Atur stok fisik POS kasir, harga jual, dan upload foto produk asli ke ImageKit CDN.
+          </h1>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Format tabel terstruktur untuk memantau stok fisik POS kasir, harga, foto, dan kebijakan retensi sampah 30 hari.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => refetch()}
-            title="Refresh Data"
-            className="p-2 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer shadow-2xs flex items-center gap-1.5"
+            className="rounded-xl border-slate-200 text-slate-600 hover:text-purple-700 h-9 gap-1.5"
           >
-            <RotateCw className={`w-4 h-4 ${isLoading ? "animate-spin text-purple-700" : ""}`} />
-            <span className="text-xs font-black hidden sm:inline">Refresh</span>
-          </button>
+            <RotateCw className="w-4 h-4" />
+            <span className="text-xs font-bold hidden sm:inline">Refresh</span>
+          </Button>
 
           <Button
-            type="button"
             onClick={handleOpenAdd}
-            className="rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-5 gap-2 shadow-md cursor-pointer"
+            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs h-9 px-4 gap-1.5 shadow-sm"
           >
             <Plus className="w-4 h-4" />
-            <span>Tambah Produk</span>
+            <span>+ Tambah Produk</span>
           </Button>
         </div>
       </div>
 
-      {/* Filter & Search Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs">
-        <div className="relative flex-1 min-w-[240px]">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+      {/* Tab Switcher: Semua Aktif vs Sampah 30 Hari */}
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab("active");
+            setCurrentPage(1);
+          }}
+          className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === "active"
+              ? "bg-purple-700 text-white shadow-2xs"
+              : "bg-white text-slate-600 hover:bg-purple-50 border border-slate-200"
+          }`}
+        >
+          <Package className="w-3.5 h-3.5" />
+          <span>Produk Aktif</span>
+          <span
+            className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${
+              activeTab === "active" ? "bg-white/25 text-white" : "bg-purple-100 text-purple-800"
+            }`}
+          >
+            {activeProducts.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab("trash");
+            setCurrentPage(1);
+          }}
+          className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === "trash"
+              ? "bg-rose-600 text-white shadow-2xs"
+              : "bg-white text-slate-600 hover:bg-rose-50 border border-slate-200"
+          }`}
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          <span>Sampah / Terhapus</span>
+          <span
+            className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${
+              activeTab === "trash" ? "bg-white/25 text-white" : "bg-rose-100 text-rose-800"
+            }`}
+          >
+            {trashProducts.length}
+          </span>
+        </button>
+      </div>
+
+      {/* Banner Khusus Tab Sampah */}
+      {activeTab === "trash" && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-3.5 text-xs text-amber-900 flex items-start gap-2.5">
+          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="font-black block">Kebijakan Soft Delete Retensi 30 Hari</strong>
+            <p className="text-[11px] text-amber-800 mt-0.5 leading-relaxed">
+              Produk di bawah ini dapat dipulihkan kembali ke katalog aktif dalam waktu 30 hari sejak dihapus.
+              Setelah melewati 30 hari, sistem akan menghapus data ini secara permanen dari database.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Bar Pencarian & Filter Kategori */}
+      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div className="w-full sm:w-80 bg-white rounded-2xl p-2.5 border border-slate-200 shadow-2xs flex items-center gap-2">
+          <Search className="w-4 h-4 text-purple-700 shrink-0 ml-1" />
           <input
             type="text"
-            placeholder="Cari nama produk oleh-oleh..."
+            placeholder="Cari nama atau deskripsi produk..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
+            className="w-full bg-transparent text-xs font-bold text-slate-800 outline-none placeholder:text-slate-400"
           />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="text-xs text-slate-400 hover:text-slate-700 pr-1 font-bold"
+            >
+              Reset
+            </button>
+          )}
         </div>
 
-        <div className="flex items-center gap-1.5 overflow-x-auto">
+        {/* Filter Kategori Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full sm:w-auto py-1">
           <button
             type="button"
             onClick={() => setSelectedCategory("all")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
               selectedCategory === "all"
-                ? "bg-purple-700 text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:bg-purple-50 hover:text-purple-900"
+                ? "bg-purple-700 text-white font-black shadow-2xs"
+                : "bg-white text-slate-600 hover:bg-purple-50 border border-slate-200"
             }`}
           >
-            Semua
+            Semua Kategori
           </button>
           {categories?.map((cat) => (
             <button
               key={cat.id}
               type="button"
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer whitespace-nowrap ${
-                selectedCategory === cat.id
-                  ? "bg-purple-700 text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:bg-purple-50 hover:text-purple-900"
+              onClick={() => setSelectedCategory(cat.slug)}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                selectedCategory === cat.slug
+                  ? "bg-purple-700 text-white font-black shadow-2xs"
+                  : "bg-white text-slate-600 hover:bg-purple-50 border border-slate-200"
               }`}
             >
               {cat.name}
@@ -223,146 +371,293 @@ export function MasterSouvenirs() {
         </div>
       </div>
 
-      {/* Grid List Produk */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredProducts.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white rounded-3xl border border-slate-200 p-4 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-3"
-          >
-            <div className="space-y-2.5">
-              <div className="relative h-40 w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
-                {item.imageUrl ? (
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.name}
-                    fill
-                    unoptimized
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="h-full flex items-center justify-center text-slate-400">
-                    <Package className="w-10 h-10" />
-                  </div>
-                )}
-                <span className="absolute top-2.5 left-2.5 bg-slate-950/80 backdrop-blur-md text-purple-200 text-[10px] font-black px-2.5 py-0.5 rounded-md uppercase">
-                  {item.category?.name || "Oleh-oleh"}
-                </span>
-              </div>
+      {/* ====================================================
+          TABEL PRODUK OLEH-OLEH (SESUAI REQUEST FORMAT TABEL)
+          ==================================================== */}
+      {isLoading ? (
+        <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-2">
+          <div className="w-7 h-7 border-2 border-purple-700 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-xs font-bold text-slate-600">Memuat data produk oleh-oleh...</p>
+        </div>
+      ) : paginatedItems.length === 0 ? (
+        <div className="bg-white rounded-3xl p-10 text-center border border-dashed border-purple-200 space-y-2">
+          <Package className="w-10 h-10 text-purple-300 mx-auto" />
+          <h3 className="text-sm font-black text-slate-800">
+            {activeTab === "active" ? "Tidak ada produk aktif" : "Kotak sampah kosong"}
+          </h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            {activeTab === "active"
+              ? "Belum ada produk oleh-oleh yang terdaftar di database."
+              : "Tidak ada produk yang sedang dalam masa retensi 30 hari."}
+          </p>
+        </div>
+      ) : (
+        <div className="bg-white rounded-3xl border border-slate-200/90 shadow-2xs overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-black text-[11px] uppercase tracking-wider">
+                  <th className="px-5 py-3.5 w-16 text-center">Foto</th>
+                  <th className="px-5 py-3.5 min-w-[200px]">Produk &amp; Deskripsi</th>
+                  <th className="px-5 py-3.5">Kategori</th>
+                  <th className="px-5 py-3.5">Harga</th>
+                  <th className="px-5 py-3.5 text-center">Stok POS</th>
+                  {activeTab === "trash" && <th className="px-5 py-3.5">Sisa Waktu Retensi</th>}
+                  <th className="px-5 py-3.5 text-right w-28">Aksi</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {paginatedItems.map((item) => {
+                  const remainingDays = getRemainingDays(item.deletedAt);
 
-              <div>
-                <h3 className="font-extrabold text-sm text-slate-900 line-clamp-1">{item.name}</h3>
-                <p className="text-[11px] text-slate-400 line-clamp-2 mt-0.5">
-                  {item.description || "Produk oleh-oleh asli khas Ambon Maluku."}
-                </p>
-              </div>
-            </div>
+                  return (
+                    <tr
+                      key={item.id}
+                      className="hover:bg-purple-50/30 transition-colors group"
+                    >
+                      {/* Thumbnail Foto */}
+                      <td className="px-5 py-3.5 text-center">
+                        <div className="w-11 h-11 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden relative mx-auto flex items-center justify-center">
+                          {item.imageUrl ? (
+                            <Image
+                              src={item.imageUrl}
+                              alt={item.name}
+                              fill
+                              className="object-cover"
+                            />
+                          ) : (
+                            <Package className="w-5 h-5 text-slate-400" />
+                          )}
+                        </div>
+                      </td>
 
-            <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
-              <div>
-                <span className="text-xs font-black text-purple-700 block">
-                  Rp {item.price.toLocaleString("id-ID")}
-                </span>
-                <span className="text-[10px] text-slate-500 font-semibold">
-                  Stok: <strong className="text-slate-800">{item.stock} pcs</strong>
-                </span>
-              </div>
+                      {/* Nama Produk & Deskripsi */}
+                      <td className="px-5 py-3.5">
+                        <strong className="font-extrabold text-slate-900 block leading-tight text-xs sm:text-sm">
+                          {item.name}
+                        </strong>
+                        <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">
+                          {item.description || "Tidak ada deskripsi"}
+                        </p>
+                      </td>
 
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => handleOpenEdit(item)}
-                  className="p-2 rounded-xl bg-purple-50 text-purple-800 hover:bg-purple-100 transition cursor-pointer"
-                  title="Edit Produk"
-                >
-                  <Edit2 className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(item.id, item.name)}
-                  className="p-2 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 transition cursor-pointer"
-                  title="Hapus Produk"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
+                      {/* Kategori Badge */}
+                      <td className="px-5 py-3.5 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-100">
+                          {item.category?.name || "Kategori"}
+                        </span>
+                      </td>
+
+                      {/* Harga Produk */}
+                      <td className="px-5 py-3.5 whitespace-nowrap font-black text-slate-900 text-xs">
+                        Rp {item.price.toLocaleString("id-ID")}
+                      </td>
+
+                      {/* Stok Fisik POS Kasir */}
+                      <td className="px-5 py-3.5 text-center whitespace-nowrap">
+                        <span
+                          className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black ${
+                            item.stock > 10
+                              ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                              : item.stock > 0
+                                ? "bg-amber-50 text-amber-800 border border-amber-200"
+                                : "bg-rose-50 text-rose-800 border border-rose-200"
+                          }`}
+                        >
+                          {item.stock} pcs
+                        </span>
+                      </td>
+
+                      {/* Sisa Waktu Retensi (Hanya di Tab Sampah) */}
+                      {activeTab === "trash" && (
+                        <td className="px-5 py-3.5 whitespace-nowrap">
+                          <div className="space-y-0.5">
+                            <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200">
+                              <AlertTriangle className="w-3 h-3" />
+                              <span>{remainingDays} hari tersisa</span>
+                            </span>
+                            <p className="text-[9px] text-slate-400">
+                              Dihapus: {new Date(item.deletedAt!).toLocaleDateString("id-ID")}
+                            </p>
+                          </div>
+                        </td>
+                      )}
+
+                      {/* Tombol Aksi */}
+                      <td className="px-5 py-3.5 text-right whitespace-nowrap">
+                        {activeTab === "active" ? (
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => handleOpenEdit(item)}
+                              title="Edit Produk"
+                              className="p-1.5 rounded-xl border border-slate-200 hover:border-purple-300 bg-white hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleSoftDelete(item)}
+                              title="Pindahkan ke Sampah"
+                              className="p-1.5 rounded-xl border border-slate-200 hover:border-rose-300 bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-600 transition cursor-pointer"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => handleRestore(item)}
+                              title="Pulihkan Produk ke Aktif"
+                              className="px-2.5 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-[10px] flex items-center gap-1 transition cursor-pointer shadow-2xs"
+                            >
+                              <RotateCcw className="w-3 h-3" />
+                              <span>Pulihkan</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleForceDelete(item)}
+                              title="Hapus Permanen"
+                              className="p-1 rounded-xl border border-rose-200 hover:bg-rose-100 text-rose-600 transition cursor-pointer"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
-        ))}
-      </div>
 
-      {/* Modal Form Tambah / Edit Produk */}
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-5 py-3.5 border-t border-slate-100 bg-slate-50/50">
+              <span className="text-xs text-slate-500 font-medium">
+                Halaman <span className="font-bold text-slate-800">{currentPage}</span> dari{" "}
+                <span className="font-bold text-slate-800">{totalPages}</span>
+              </span>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 text-xs font-semibold rounded-lg bg-white"
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                >
+                  Sebelumnya
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 text-xs font-semibold rounded-lg bg-white"
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                >
+                  Selanjutnya
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Modal Dialog Form Tambah / Edit Produk */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-md max-h-[90dvh] overflow-y-auto p-5 rounded-3xl bg-white border-0 shadow-2xl">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <h3 className="text-base font-black text-slate-900">
-              {editingItem ? "Edit Produk Oleh-Oleh" : "Tambah Produk Baru"}
-            </h3>
+        <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto p-0 bg-white border-0 rounded-2xl shadow-xl">
+          <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white/90 backdrop-blur-md z-10">
+            <div>
+              <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                {editingItem ? "Edit Data" : "Tambah Baru"}
+              </span>
+              <h2 className="text-lg font-black text-slate-900 leading-tight mt-0.5">
+                {editingItem ? "Edit Produk Oleh-Oleh" : "Tambah Produk Baru"}
+              </h2>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-full hover:bg-slate-100 text-slate-500"
+              onClick={() => setIsModalOpen(false)}
+            >
+              <X className="w-4 h-4" />
+            </Button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3.5 text-left pt-1">
-            <ImageUpload
-              value={imageUrl}
-              onChange={setImageUrl}
-              folder="/souvenirs"
-              autoUpload={false}
-              label="Foto Produk (Cloudflare R2)"
-              description="Upload foto produk untuk etalase publik dan kasir."
-            />
-
+          <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-4">
+            {/* Unggah Foto Produk */}
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">
-                Nama Produk <span className="text-red-500">*</span>
+              <label className="text-xs font-bold text-slate-700 mb-1.5 block">
+                Foto Produk (Cloudflare R2)
+              </label>
+              <ImageUpload
+                value={imageUrl}
+                onChange={setImageUrl}
+                folder="/souvenirs"
+                label="Upload Foto Produk"
+                autoUpload={false}
+              />
+            </div>
+
+            {/* Nama Produk */}
+            <div>
+              <label className="text-xs font-bold text-slate-700 mb-1.5 block">
+                Nama Produk Oleh-Oleh <span className="text-rose-500">*</span>
               </label>
               <input
                 type="text"
                 required
-                placeholder="Contoh: Minyak Kayu Putih Namlea (100ml)"
+                placeholder="Contoh: Minyak Kayu Putih Asli Namlea 100ml"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-[#faf9fd] border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
+                className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-xl text-xs font-bold outline-none"
               />
             </div>
 
+            {/* Kategori */}
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">
-                Kategori Produk <span className="text-red-500">*</span>
+              <label className="text-xs font-bold text-slate-700 mb-1.5 block">
+                Kategori <span className="text-rose-500">*</span>
               </label>
               <select
                 required
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full bg-[#faf9fd] border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition cursor-pointer"
+                className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-xl text-xs font-bold outline-none cursor-pointer"
               >
                 <option value="" disabled>
-                  Pilih Kategori
+                  Pilih Kategori Produk
                 </option>
-                {categories?.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
+                {categories?.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
                   </option>
                 ))}
               </select>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            {/* Harga & Stok */}
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">
-                  Harga Jual (Rp) <span className="text-red-500">*</span>
+                <label className="text-xs font-bold text-slate-700 mb-1.5 block">
+                  Harga Jual (Rp) <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="number"
                   required
-                  min={1000}
+                  min={0}
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                  className="w-full bg-[#faf9fd] border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-xl text-xs font-bold outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">
-                  Stok Fisik POS <span className="text-red-500">*</span>
+                <label className="text-xs font-bold text-slate-700 mb-1.5 block">
+                  Stok Fisik POS <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="number"
@@ -370,42 +665,40 @@ export function MasterSouvenirs() {
                   min={0}
                   value={stock}
                   onChange={(e) => setStock(Number(e.target.value))}
-                  className="w-full bg-[#faf9fd] border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-xl text-xs font-bold outline-none"
                 />
               </div>
             </div>
 
+            {/* Deskripsi */}
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">
-                Deskripsi Singkat
+              <label className="text-xs font-bold text-slate-700 mb-1.5 block">
+                Deskripsi Ringkas
               </label>
               <textarea
-                rows={2}
-                placeholder="Khasiat atau informasi rasa produk..."
+                rows={3}
+                placeholder="Rincian khasiat, rasa, atau kemasan oleh-oleh..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full bg-[#faf9fd] border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition resize-none"
+                className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 focus:border-purple-600 rounded-xl text-xs font-medium outline-none resize-none"
               />
             </div>
 
-            <div className="pt-2 flex items-center justify-end gap-2">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl border-slate-200 text-xs font-bold"
+                className="rounded-xl h-9 px-4 text-xs font-bold text-slate-600 cursor-pointer"
               >
                 Batal
               </Button>
               <Button
                 type="submit"
-                disabled={createMutation.isPending || updateMutation.isPending || isSubmitting}
-                className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-extrabold px-5 shadow-xs"
+                disabled={isSubmitting}
+                className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs h-9 px-5 shadow-md cursor-pointer"
               >
-                {(createMutation.isPending || updateMutation.isPending || isSubmitting) && (
-                  <RotateCw className="w-4 h-4 mr-2 animate-spin" />
-                )}
-                {editingItem ? "Simpan Perubahan" : "Tambah Produk"}
+                {isSubmitting ? "Menyimpan..." : editingItem ? "Simpan Perubahan" : "Tambah Produk"}
               </Button>
             </div>
           </form>

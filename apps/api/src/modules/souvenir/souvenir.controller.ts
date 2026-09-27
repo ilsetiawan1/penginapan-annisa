@@ -12,14 +12,16 @@ export class SouvenirController {
 
   getAllSouvenirs = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { category, isAvailable } = req.query as {
+      const { category, isAvailable, status } = req.query as {
         category?: string;
         isAvailable?: string;
+        status?: "active" | "trash";
       };
 
       const items = await this.service.getAllSouvenirs({
         categorySlug: category,
         isAvailable: isAvailable !== undefined ? isAvailable === "true" : undefined,
+        status,
       });
 
       return sendSuccess(res, items, "Katalog oleh-oleh berhasil diambil.");
@@ -74,8 +76,29 @@ export class SouvenirController {
   deleteSouvenir = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params as { id: string };
-      const result = await this.service.deleteSouvenir(id);
-      return sendSuccess(res, result, "Produk berhasil dihapus.");
+      const { permanent } = req.query as { permanent?: string };
+      const result = await this.service.deleteSouvenir(id, permanent === "true");
+      return sendSuccess(res, result, result.message);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  restoreSouvenir = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params as { id: string };
+      const result = await this.service.restoreSouvenir(id);
+      return sendSuccess(res, result, result.message);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  forceDeleteSouvenir = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params as { id: string };
+      const result = await this.service.forceDeleteSouvenir(id);
+      return sendSuccess(res, result, result.message);
     } catch (error) {
       return next(error);
     }
@@ -84,12 +107,7 @@ export class SouvenirController {
   processPosCheckout = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const receipt = await this.service.processPosCheckout(req.body);
-      return sendSuccess(
-        res,
-        receipt,
-        "Transaksi kasir POS berhasil! Stok produk telah dipotong otomatis.",
-        HTTP_STATUS.CREATED,
-      );
+      return sendSuccess(res, receipt, "Transaksi POS kasir berhasil.", HTTP_STATUS.CREATED);
     } catch (error) {
       return next(error);
     }

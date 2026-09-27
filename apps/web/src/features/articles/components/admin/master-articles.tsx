@@ -8,23 +8,26 @@ import {
   useArticles,
   useCreateArticle,
   useDeleteArticle,
+  useForceDeleteArticle,
+  useRestoreArticle,
   useScrapeArticle,
   useUpdateArticle,
 } from "@/features/articles/hooks/use-articles";
 import type { Article } from "@annisa/types";
 import {
-  ChevronDown,
-  ChevronUp,
+  AlertTriangle,
+  ArchiveRestore,
   Edit2,
   Newspaper,
   Plus,
+  RotateCcw,
   RotateCw,
   Search,
   Trash2,
   Wand2,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 export function MasterArticles() {
@@ -33,7 +36,12 @@ export function MasterArticles() {
   const createMutation = useCreateArticle();
   const updateMutation = useUpdateArticle();
   const deleteMutation = useDeleteArticle();
+  const restoreMutation = useRestoreArticle();
+  const forceDeleteMutation = useForceDeleteArticle();
   const scrapeMutation = useScrapeArticle();
+
+  // Tab State: 'active' vs 'trash'
+  const [activeTab, setActiveTab] = useState<"active" | "trash">("active");
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -43,7 +51,7 @@ export function MasterArticles() {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 8;
 
   // Form states
   const [title, setTitle] = useState("");
@@ -52,6 +60,25 @@ export function MasterArticles() {
   const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [scrapeUrl, setScrapeUrl] = useState("");
+
+  // Pisahkan artikel aktif vs sampah (soft-deleted)
+  const activeArticles = useMemo(() => {
+    return (articles || []).filter((item) => !item.deletedAt);
+  }, [articles]);
+
+  const trashArticles = useMemo(() => {
+    return (articles || []).filter((item) => !!item.deletedAt);
+  }, [articles]);
+
+  // Hitung sisa hari retensi 30 hari untuk item sampah
+  const getRemainingDays = (deletedAtStr: string | Date | null | undefined): number => {
+    if (!deletedAtStr) return 30;
+    const deletedDate = new Date(deletedAtStr);
+    const thirtyDaysInMs = 30 * 24 * 60 * 60 * 1000;
+    const expiryDate = new Date(deletedDate.getTime() + thirtyDaysInMs);
+    const remainingMs = expiryDate.getTime() - Date.now();
+    return Math.max(0, Math.ceil(remainingMs / (1000 * 60 * 60 * 24)));
+  };
 
   const handleOpenAdd = () => {
     setEditingItem(null);
@@ -86,8 +113,6 @@ export function MasterArticles() {
       setTitle(data.title);
       setSummary(data.summary);
       setContent(data.content);
-      // For cover image, we might receive the kompas URL.
-      // It's not a local file yet. We can preview it.
       setCoverImage(data.coverImage);
       toast.success("Berita berhasil diekstrak!", { id: "scrape" });
     } catch (err: any) {
@@ -130,7 +155,6 @@ export function MasterArticles() {
           return;
         }
       }
-      // TODO: Handle remote images (like Kompas CDN) to be downloaded and uploaded to R2
 
       const payload = {
         title,
@@ -157,18 +181,43 @@ export function MasterArticles() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (confirm("Apakah Anda yakin ingin menghapus artikel ini?")) {
-      await deleteMutation.mutateAsync(id);
-    }
+  // Soft Delete Handler
+  const handleSoftDelete = (item: Article) => {
+    toast(`Pindahkan '${item.title}' ke Sampah?`, {
+      description: "Artikel akan disimpan di sampah selama 30 hari sebelum dihapus permanen.",
+      action: {
+        label: "Hapus ke Sampah",
+        onClick: () => deleteMutation.mutate({ id: item.id, permanent: false }),
+      },
+    });
   };
 
-  const filteredArticles =
-    articles?.filter((item) => {
-      const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchCategory = selectedCategory === "all" || item.categoryId === selectedCategory;
-      return matchSearch && matchCategory;
-    }) || [];
+  // Restore Handler
+  const handleRestore = (item: Article) => {
+    restoreMutation.mutate(item.id);
+  };
+
+  // Force Delete Handler
+  const handleForceDelete = (item: Article) => {
+    toast(`Hapus permanen '${item.title}'?`, {
+      description: "Data akan dihapus selamanya dari database dan tidak dapat dipulihkan.",
+      action: {
+        label: "Hapus Permanen",
+        onClick: () => forceDeleteMutation.mutate(item.id),
+      },
+    });
+  };
+
+  // Filter items berdasarkan tab aktif, pencarian & kategori
+  const sourceList = activeTab === "active" ? activeArticles : trashArticles;
+
+  const filteredArticles = sourceList.filter((item) => {
+    const matchSearch =
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (item.summary && item.summary.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchCategory = selectedCategory === "all" || item.categoryId === selectedCategory;
+    return matchSearch && matchCategory;
+  });
 
   const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
   const paginatedArticles = filteredArticles.slice(
@@ -178,43 +227,111 @@ export function MasterArticles() {
 
   return (
     <div className="w-full max-w-6xl mx-auto space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm">
+      {/* Header CMS Artikel */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-6 rounded-3xl border border-slate-200 shadow-2xs">
         <div>
-          <span className="text-xs font-bold tracking-wider text-purple-600 uppercase mb-1 block">
-            CMS Marketing & SEO
+          <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+            CMS Marketing &amp; SEO
           </span>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Kelola Artikel Wisata</h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Gunakan fitur Scraper untuk menyedot konten dari portal berita secara instan.
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight mt-1">
+            Kelola Artikel Wisata &amp; Panduan
+          </h1>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Format tabel terstruktur dengan Auto-Scraper berita dan fitur soft delete retensi 30 hari.
           </p>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
           <Button
             variant="outline"
-            className="rounded-xl flex-1 sm:flex-none border-slate-200 text-slate-600"
+            size="sm"
+            className="rounded-xl border-slate-200 text-slate-600 hover:text-purple-700 h-9 gap-1.5"
             onClick={() => refetch()}
             disabled={isLoading}
           >
-            <RotateCw className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
-            Refresh
+            <RotateCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
+            <span className="text-xs font-bold hidden sm:inline">Refresh</span>
           </Button>
           <Button
-            className="rounded-xl bg-purple-600 hover:bg-purple-700 text-white flex-1 sm:flex-none shadow-md shadow-purple-200 transition-all"
+            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs h-9 px-4 gap-1.5 shadow-sm"
             onClick={handleOpenAdd}
           >
-            <Plus className="w-4 h-4 mr-2" />
-            Tambah Artikel
+            <Plus className="w-4 h-4" />
+            <span>Tambah Artikel</span>
           </Button>
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col sm:flex-row gap-3">
+      {/* Tab Switcher: Artikel Aktif vs Sampah 30 Hari */}
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab("active");
+            setCurrentPage(1);
+          }}
+          className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === "active"
+              ? "bg-purple-700 text-white shadow-2xs"
+              : "bg-white text-slate-600 hover:bg-purple-50 border border-slate-200"
+          }`}
+        >
+          <Newspaper className="w-3.5 h-3.5" />
+          <span>Artikel Aktif</span>
+          <span
+            className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${
+              activeTab === "active" ? "bg-white/25 text-white" : "bg-purple-100 text-purple-800"
+            }`}
+          >
+            {activeArticles.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab("trash");
+            setCurrentPage(1);
+          }}
+          className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === "trash"
+              ? "bg-rose-600 text-white shadow-2xs"
+              : "bg-white text-slate-600 hover:bg-rose-50 border border-slate-200"
+          }`}
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          <span>Sampah / Terhapus</span>
+          <span
+            className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${
+              activeTab === "trash" ? "bg-white/25 text-white" : "bg-rose-100 text-rose-800"
+            }`}
+          >
+            {trashArticles.length}
+          </span>
+        </button>
+      </div>
+
+      {/* Banner Khusus Tab Sampah */}
+      {activeTab === "trash" && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-3.5 text-xs text-amber-900 flex items-start gap-2.5">
+          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="font-black block">Kebijakan Soft Delete Retensi 30 Hari</strong>
+            <p className="text-[11px] text-amber-800 mt-0.5 leading-relaxed">
+              Artikel di bawah ini dapat dipulihkan kembali ke website dalam waktu 30 hari sejak dihapus.
+              Setelah melewati 30 hari, sistem otomatis menghapus artikel ini secara permanen dari database.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Bar Pencarian & Filter Kategori */}
+      <div className="bg-white p-4 rounded-2xl shadow-2xs border border-slate-200 flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             placeholder="Cari judul artikel..."
-            className="w-full pl-9 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-purple-100 transition-all"
+            className="w-full pl-9 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-purple-100 transition-all font-medium text-slate-800 outline-none"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
@@ -227,8 +344,8 @@ export function MasterArticles() {
             variant={selectedCategory === "all" ? "primary" : "outline"}
             className={`rounded-full px-4 text-xs h-9 whitespace-nowrap ${
               selectedCategory === "all"
-                ? "bg-purple-600 hover:bg-purple-700"
-                : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                ? "bg-purple-700 hover:bg-purple-800 font-bold"
+                : "border-slate-200 text-slate-600 hover:bg-slate-50 font-medium"
             }`}
             onClick={() => {
               setSelectedCategory("all");
@@ -243,8 +360,8 @@ export function MasterArticles() {
               variant={selectedCategory === cat.id ? "primary" : "outline"}
               className={`rounded-full px-4 text-xs h-9 whitespace-nowrap ${
                 selectedCategory === cat.id
-                  ? "bg-purple-600 hover:bg-purple-700"
-                  : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                  ? "bg-purple-700 hover:bg-purple-800 font-bold"
+                  : "border-slate-200 text-slate-600 hover:bg-slate-50 font-medium"
               }`}
               onClick={() => {
                 setSelectedCategory(cat.id);
@@ -258,89 +375,151 @@ export function MasterArticles() {
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="bg-white rounded-3xl border border-slate-200 p-8 space-y-3">
           {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl h-[300px] animate-pulse border border-slate-100"
-            />
+            <div key={i} className="h-16 bg-slate-100 rounded-2xl animate-pulse" />
           ))}
         </div>
       ) : filteredArticles.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-slate-100 p-12 flex flex-col items-center justify-center text-center">
-          <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-            <Newspaper className="w-8 h-8 text-slate-400" />
+        <div className="bg-white rounded-3xl border border-slate-200 p-12 flex flex-col items-center justify-center text-center">
+          <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4 border border-slate-100">
+            {activeTab === "trash" ? (
+              <Trash2 className="w-8 h-8 text-slate-400" />
+            ) : (
+              <Newspaper className="w-8 h-8 text-slate-400" />
+            )}
           </div>
-          <h3 className="text-lg font-bold text-slate-800">Belum ada artikel</h3>
-          <p className="text-slate-500 text-sm mt-1 max-w-sm">
-            Mulai tambahkan artikel wisata untuk menarik pengunjung dari Google.
+          <h3 className="text-base font-black text-slate-800">
+            {activeTab === "trash" ? "Tempat Sampah Bersih" : "Belum ada artikel"}
+          </h3>
+          <p className="text-slate-500 text-xs mt-1 max-w-sm">
+            {activeTab === "trash"
+              ? "Tidak ada artikel yang sedang dalam masa retensi 30 hari."
+              : "Mulai tambahkan artikel wisata untuk menarik pengunjung dari Google."}
           </p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-2xs overflow-hidden flex flex-col">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100 uppercase text-[10px] tracking-wider">
+              <thead className="bg-slate-50 text-slate-500 font-bold border-b border-slate-200 uppercase text-[10px] tracking-wider">
                 <tr>
-                  <th className="px-6 py-4 rounded-tl-2xl">Foto</th>
+                  <th className="px-6 py-4">Foto</th>
                   <th className="px-6 py-4 w-1/3">Judul Artikel</th>
                   <th className="px-6 py-4">Kategori</th>
                   <th className="px-6 py-4 text-center">Views</th>
-                  <th className="px-6 py-4 text-right rounded-tr-2xl">Aksi</th>
+                  {activeTab === "trash" && (
+                    <th className="px-6 py-4 text-center">Sisa Retensi</th>
+                  )}
+                  <th className="px-6 py-4 text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {paginatedArticles.map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="w-16 h-12 rounded-lg bg-slate-100 overflow-hidden flex items-center justify-center border border-slate-200/50 relative">
-                        {item.coverImage ? (
-                          <img
-                            src={item.coverImage}
-                            alt={item.title}
-                            className="w-full h-full object-cover"
-                          />
+                {paginatedArticles.map((item) => {
+                  const remainingDays = getRemainingDays(item.deletedAt);
+
+                  return (
+                    <tr
+                      key={item.id}
+                      className={`hover:bg-slate-50/70 transition-colors group ${
+                        activeTab === "trash" ? "bg-rose-50/20" : ""
+                      }`}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="w-16 h-12 rounded-xl bg-slate-100 overflow-hidden flex items-center justify-center border border-slate-200 relative">
+                          {item.coverImage ? (
+                            <img
+                              src={item.coverImage}
+                              alt={item.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <Newspaper className="w-4 h-4 text-slate-400 opacity-50" />
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="font-bold text-slate-900 line-clamp-2">{item.title}</div>
+                        <div className="text-xs text-slate-500 mt-1 line-clamp-1">{item.summary}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black bg-purple-50 text-purple-700 uppercase tracking-wide border border-purple-200">
+                          {item.category?.name || "Uncategorized"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
+                        <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg">
+                          {item.views}
+                        </span>
+                      </td>
+
+                      {/* Kolom Sisa Retensi (Khusus Sampah) */}
+                      {activeTab === "trash" && (
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          <span
+                            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                              remainingDays <= 3
+                                ? "bg-rose-100 text-rose-800 border border-rose-300 animate-pulse"
+                                : remainingDays <= 7
+                                ? "bg-amber-100 text-amber-800 border border-amber-300"
+                                : "bg-slate-100 text-slate-700 border border-slate-300"
+                            }`}
+                          >
+                            {remainingDays} hari tersisa
+                          </span>
+                        </td>
+                      )}
+
+                      {/* Tombol Aksi */}
+                      <td className="px-6 py-4 whitespace-nowrap text-right">
+                        {activeTab === "active" ? (
+                          <div className="flex justify-end gap-1">
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg"
+                              onClick={() => handleOpenEdit(item)}
+                              title="Edit Artikel"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg"
+                              onClick={() => handleSoftDelete(item)}
+                              title="Pindahkan ke Sampah"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
                         ) : (
-                          <Newspaper className="w-4 h-4 text-slate-400 opacity-50" />
+                          <div className="flex justify-end gap-1.5">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleRestore(item)}
+                              className="h-8 px-2.5 text-xs font-black text-purple-700 border-purple-200 hover:bg-purple-50 rounded-lg gap-1"
+                              title="Pulihkan Artikel"
+                            >
+                              <RotateCcw className="w-3.5 h-3.5" />
+                              <span>Pulihkan</span>
+                            </Button>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              onClick={() => handleForceDelete(item)}
+                              className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg"
+                              title="Hapus Permanen"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
                         )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="font-bold text-slate-800 line-clamp-2">{item.title}</div>
-                      <div className="text-xs text-slate-500 mt-1 line-clamp-1">{item.summary}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 uppercase tracking-wide border border-purple-100/50">
-                        {item.category?.name || "Uncategorized"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
-                      <span className="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">
-                        {item.views}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right">
-                      <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="h-8 w-8 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg"
-                          onClick={() => handleOpenEdit(item)}
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

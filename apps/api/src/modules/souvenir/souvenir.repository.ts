@@ -3,7 +3,25 @@ import { HTTP_STATUS } from "../../constants";
 import { AppError } from "../../middlewares/error.middleware";
 
 export class SouvenirRepository {
-  async findAll(filter?: { categorySlug?: string; isAvailable?: boolean }) {
+  async findAll(filter?: {
+    categorySlug?: string;
+    isAvailable?: boolean;
+    status?: "active" | "trash";
+  }) {
+    // 1. Auto-Pruning: Hapus permanen produk yang sudah berada di sampah lebih dari 30 hari
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    await prisma.souvenir
+      .deleteMany({
+        where: {
+          deletedAt: {
+            not: null,
+            lt: thirtyDaysAgo,
+          },
+        },
+      })
+      .catch(() => {});
+
+    // 2. Filter data
     const where: any = {};
     if (filter?.categorySlug) {
       where.category = { slug: filter.categorySlug };
@@ -12,9 +30,15 @@ export class SouvenirRepository {
       where.isAvailable = filter.isAvailable;
     }
 
+    if (filter?.status === "trash") {
+      where.deletedAt = { not: null, gte: thirtyDaysAgo };
+    } else {
+      where.deletedAt = null;
+    }
+
     return prisma.souvenir.findMany({
       where,
-      orderBy: { createdAt: "desc" },
+      orderBy: filter?.status === "trash" ? { deletedAt: "desc" } : { createdAt: "desc" },
       include: {
         category: true,
       },
@@ -34,7 +58,9 @@ export class SouvenirRepository {
     return prisma.souvenirCategory.findMany({
       orderBy: { name: "asc" },
       include: {
-        items: true,
+        items: {
+          where: { deletedAt: null },
+        },
       },
     });
   }
@@ -73,10 +99,28 @@ export class SouvenirRepository {
     });
   }
 
-  async delete(id: string) {
+  async softDelete(id: string) {
+    return prisma.souvenir.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+  }
+
+  async restore(id: string) {
+    return prisma.souvenir.update({
+      where: { id },
+      data: { deletedAt: null },
+    });
+  }
+
+  async forceDelete(id: string) {
     return prisma.souvenir.delete({
       where: { id },
     });
+  }
+
+  async delete(id: string) {
+    return this.softDelete(id);
   }
 
   async processCheckout(items: { souvenirId: string; quantity: number }[]) {
@@ -90,46 +134,39 @@ export class SouvenirRepository {
           include: { category: true },
         });
 
-        if (!product) {
+        if (!product || product.deletedAt !== null) {
           throw new AppError(
-            `Produk dengan ID ${item.souvenirId} tidak ditemukan.`,
+            `Produk dengan ID ${item.souvenirId} tidak ditemukan atau sudah dihapus.`,
             HTTP_STATUS.NOT_FOUND,
           );
         }
 
         if (product.stock < item.quantity) {
           throw new AppError(
-            `Stok untuk '${product.name}' tidak mencukupi (Tersedia: ${product.stock}, Diminta: ${item.quantity}).`,
+            `Stok untuk produk '${product.name}' tidak mencukupi (Tersisa: ${product.stock}, Diminta: ${item.quantity}).`,
             HTTP_STATUS.BAD_REQUEST,
           );
         }
 
-        // Potong stok produk
-        const updated = await tx.souvenir.update({
-          where: { id: product.id },
-          data: {
-            stock: product.stock - item.quantity,
-          },
-        });
-
         const subtotal = product.price * item.quantity;
         grandTotal += subtotal;
+
+        await tx.souvenir.update({
+          where: { id: product.id },
+          data: { stock: { decrement: item.quantity } },
+        });
 
         detailedItems.push({
           souvenirId: product.id,
           name: product.name,
-          category: product.category.name,
+          categoryName: product.category.name,
           price: product.price,
           quantity: item.quantity,
           subtotal,
-          remainingStock: updated.stock,
         });
       }
 
-      return {
-        detailedItems,
-        grandTotal,
-      };
+      return { detailedItems, grandTotal };
     });
   }
 }

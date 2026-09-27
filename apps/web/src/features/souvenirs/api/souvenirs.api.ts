@@ -48,8 +48,17 @@ export const souvenirsApi = {
     return apiClient.put<Souvenir>(`/souvenirs/${id}`, input);
   },
 
-  deleteSouvenir: async (id: string): Promise<{ success: boolean; message: string }> => {
-    return apiClient.delete<{ success: boolean; message: string }>(`/souvenirs/${id}`);
+  deleteSouvenir: async (id: string, permanent?: boolean): Promise<{ success: boolean; message: string }> => {
+    const url = permanent ? `/souvenirs/${id}/force` : `/souvenirs/${id}`;
+    return apiClient.delete<{ success: boolean; message: string }>(url);
+  },
+
+  restoreSouvenir: async (id: string): Promise<{ success: boolean; message: string }> => {
+    return apiClient.post<{ success: boolean; message: string }>(`/souvenirs/${id}/restore`, {});
+  },
+
+  forceDeleteSouvenir: async (id: string): Promise<{ success: boolean; message: string }> => {
+    return apiClient.delete<{ success: boolean; message: string }>(`/souvenirs/${id}/force`);
   },
 
   processPosCheckout: async (input: PosCheckoutInput): Promise<PosReceipt> => {

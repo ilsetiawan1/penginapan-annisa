@@ -44,6 +44,22 @@ router.put(
   articleController.updateArticle,
 );
 
+router.post(
+  "/:id/restore",
+  authMiddleware,
+  requireRole("owner"),
+  validateRequest({ params: z.object({ id: z.string().uuid() }) }),
+  articleController.restoreArticle,
+);
+
+router.delete(
+  "/:id/force",
+  authMiddleware,
+  requireRole("owner"),
+  validateRequest({ params: z.object({ id: z.string().uuid() }) }),
+  articleController.forceDeleteArticle,
+);
+
 router.delete(
   "/:id",
   authMiddleware,

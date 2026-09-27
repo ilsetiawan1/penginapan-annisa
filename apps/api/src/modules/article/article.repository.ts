@@ -5,7 +5,22 @@ export class ArticleRepository {
     categorySlug?: string;
     isPublished?: boolean;
     search?: string;
+    status?: "active" | "trash";
   }) {
+    // 1. Auto-Pruning: Hapus permanen artikel yang berada di sampah lebih dari 30 hari
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    await prisma.article
+      .deleteMany({
+        where: {
+          deletedAt: {
+            not: null,
+            lt: thirtyDaysAgo,
+          },
+        },
+      })
+      .catch(() => {});
+
+    // 2. Filter query
     const where: any = {};
 
     if (filter?.categorySlug) {
@@ -23,9 +38,15 @@ export class ArticleRepository {
       ];
     }
 
+    if (filter?.status === "trash") {
+      where.deletedAt = { not: null, gte: thirtyDaysAgo };
+    } else {
+      where.deletedAt = null;
+    }
+
     return prisma.article.findMany({
       where,
-      orderBy: { createdAt: "desc" },
+      orderBy: filter?.status === "trash" ? { deletedAt: "desc" } : { createdAt: "desc" },
       include: {
         category: true,
         author: {
@@ -36,8 +57,8 @@ export class ArticleRepository {
   }
 
   async findBySlug(slug: string) {
-    return prisma.article.findUnique({
-      where: { slug },
+    return prisma.article.findFirst({
+      where: { slug, deletedAt: null },
       include: {
         category: true,
         author: {
@@ -73,7 +94,7 @@ export class ArticleRepository {
       orderBy: { name: "asc" },
       include: {
         articles: {
-          where: { isPublished: true },
+          where: { isPublished: true, deletedAt: null },
         },
       },
     });
@@ -124,10 +145,28 @@ export class ArticleRepository {
     });
   }
 
-  async delete(id: string) {
+  async softDelete(id: string) {
+    return prisma.article.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+  }
+
+  async restore(id: string) {
+    return prisma.article.update({
+      where: { id },
+      data: { deletedAt: null },
+    });
+  }
+
+  async forceDelete(id: string) {
     return prisma.article.delete({
       where: { id },
     });
+  }
+
+  async delete(id: string) {
+    return this.softDelete(id);
   }
 }
 

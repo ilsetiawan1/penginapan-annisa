@@ -23,6 +23,7 @@ export class ArticleService {
     categorySlug?: string;
     isPublished?: boolean;
     search?: string;
+    status?: "active" | "trash";
   }) {
     return this.repo.findAll(filter);
   }
@@ -84,14 +85,56 @@ export class ArticleService {
     });
   }
 
-  async deleteArticle(id: string) {
+  async deleteArticle(id: string, permanent?: boolean) {
     const existing = await this.repo.findById(id);
     if (!existing) {
       throw new AppError("Artikel tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
     }
 
-    await this.repo.delete(id);
-    return { success: true, message: `Artikel '${existing.title}' berhasil dihapus.` };
+    if (permanent) {
+      await this.repo.forceDelete(id);
+      return { success: true, message: `Artikel '${existing.title}' berhasil dihapus permanen.` };
+    }
+
+    await this.repo.softDelete(id);
+    return {
+      success: true,
+      message: `Artikel '${existing.title}' dipindahkan ke sampah (dapat dipulihkan dalam 30 hari).`,
+    };
+  }
+
+  async restoreArticle(id: string) {
+    const existing = await this.repo.findById(id);
+    if (!existing) {
+      throw new AppError("Artikel tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
+    }
+
+    if (!existing.deletedAt) {
+      return { success: true, message: `Artikel '${existing.title}' sudah dalam status aktif.` };
+    }
+
+    // Periksa batas retensi 30 hari
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    if (new Date(existing.deletedAt) < thirtyDaysAgo) {
+      await this.repo.forceDelete(id);
+      throw new AppError(
+        "Masa retensi 30 hari telah berakhir. Data artikel ini sudah terhapus permanen dan tidak dapat dipulihkan.",
+        HTTP_STATUS.GONE,
+      );
+    }
+
+    await this.repo.restore(id);
+    return { success: true, message: `Artikel '${existing.title}' berhasil dipulihkan.` };
+  }
+
+  async forceDeleteArticle(id: string) {
+    const existing = await this.repo.findById(id);
+    if (!existing) {
+      throw new AppError("Artikel tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
+    }
+
+    await this.repo.forceDelete(id);
+    return { success: true, message: `Artikel '${existing.title}' berhasil dihapus permanen.` };
   }
 }
 
