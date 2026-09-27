@@ -120,7 +120,7 @@ export function CheckInModal({
               </span>
             </div>
             <DialogTitle className="text-lg sm:text-xl font-serif font-black text-slate-900 tracking-tight leading-tight">
-              Check-In Kamar #{roomNumber} ({roomTypeName})
+              Check-In Kamar #{roomNumber} • {roomTypeName}
             </DialogTitle>
             <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
               Tamu langsung tiba di meja resepsionis Penginapan Annisa.
@@ -141,8 +141,7 @@ export function CheckInModal({
                   htmlFor="checkin-guest-name"
                   className="text-xs font-bold text-slate-700 block whitespace-nowrap"
                 >
-                  Nama Lengkap Tamu{" "}
-                  <span className="text-purple-700 font-bold">*</span>
+                  Nama Lengkap Tamu
                 </label>
                 <div className="relative flex items-center">
                   <div className="absolute left-3.5 text-purple-700">
@@ -211,7 +210,7 @@ export function CheckInModal({
                   }}
                   className="w-full bg-[#f8f7fc] border border-purple-150/90 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold text-slate-900 outline-none focus:bg-white focus:border-purple-600 transition cursor-pointer"
                 >
-                  <option value={1}>1 Malam (Transit Standar)</option>
+                  <option value={1}>1 Malam</option>
                   <option value={2}>2 Malam</option>
                   <option value={3}>3 Malam</option>
                   <option value={4}>4 Malam</option>
@@ -231,7 +230,7 @@ export function CheckInModal({
                     htmlFor="checkin-dp"
                     className="text-xs font-bold text-slate-700 whitespace-nowrap shrink-0 block"
                   >
-                    Uang Diterima / DP (Rp)
+                    Uang Diterima / DP
                   </label>
                   {/* Preset Pills Dinamis */}
                   <div className="flex items-center gap-1 shrink-0">
@@ -326,7 +325,7 @@ export function CheckInModal({
               <div className="bg-[#faf9fd] border border-purple-100/90 rounded-2xl p-3 flex items-center justify-between text-xs">
                 <div>
                   <span className="text-[10px] text-slate-400 font-medium block">
-                    Total ({nights} Malam):
+                    Total Tagihan • {nights} Malam:
                   </span>
                   <strong className="text-xs sm:text-sm font-black text-slate-900">
                     Rp {totalAmount.toLocaleString("id-ID")}
@@ -346,7 +345,7 @@ export function CheckInModal({
                     }`}
                   >
                     {remainingAmount === 0
-                      ? "Lunas 100% ✨"
+                      ? "Lunas 100%"
                       : `Rp ${remainingAmount.toLocaleString("id-ID")}`}
                   </strong>
                 </div>

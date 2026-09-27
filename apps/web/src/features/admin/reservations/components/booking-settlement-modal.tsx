@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, X } from "lucide-react";
+import { Banknote, CheckCircle2, Landmark, QrCode, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "../../../../components/ui/button";
@@ -135,35 +135,38 @@ export function BookingSettlementModal({
               <button
                 type="button"
                 onClick={() => setPaymentMethod("tunai")}
-                className={`py-2 rounded-xl border text-xs font-black transition cursor-pointer ${
+                className={`py-2 px-1 rounded-xl border text-xs font-black transition cursor-pointer flex items-center justify-center gap-1.5 ${
                   paymentMethod === "tunai"
                     ? "bg-purple-700 text-white border-purple-700 shadow-xs"
                     : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200"
                 }`}
               >
-                💵 Tunai
+                <Banknote className="w-3.5 h-3.5 shrink-0" />
+                <span>Tunai</span>
               </button>
               <button
                 type="button"
                 onClick={() => setPaymentMethod("qris")}
-                className={`py-2 rounded-xl border text-xs font-black transition cursor-pointer ${
+                className={`py-2 px-1 rounded-xl border text-xs font-black transition cursor-pointer flex items-center justify-center gap-1.5 ${
                   paymentMethod === "qris"
                     ? "bg-purple-700 text-white border-purple-700 shadow-xs"
                     : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200"
                 }`}
               >
-                📱 QRIS
+                <QrCode className="w-3.5 h-3.5 shrink-0" />
+                <span>QRIS</span>
               </button>
               <button
                 type="button"
                 onClick={() => setPaymentMethod("transfer")}
-                className={`py-2 rounded-xl border text-xs font-black transition cursor-pointer ${
+                className={`py-2 px-1 rounded-xl border text-xs font-black transition cursor-pointer flex items-center justify-center gap-1.5 ${
                   paymentMethod === "transfer"
                     ? "bg-purple-700 text-white border-purple-700 shadow-xs"
                     : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200"
                 }`}
               >
-                🏦 Transfer
+                <Landmark className="w-3.5 h-3.5 shrink-0" />
+                <span>Transfer</span>
               </button>
             </div>
           </div>

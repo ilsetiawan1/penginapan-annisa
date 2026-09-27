@@ -1,6 +1,15 @@
 "use client";
 
-import { Calendar, Check, Phone, Plus, User } from "lucide-react";
+import {
+  Banknote,
+  Calendar,
+  Check,
+  Landmark,
+  Phone,
+  Plus,
+  QrCode,
+  User,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "../../../../components/ui/button";
 import {
@@ -47,49 +56,49 @@ const ROOM_OPTIONS = [
   {
     code: "A1",
     building: "A",
-    name: "Kamar #A1 (Bangunan A - Tipe AC)",
+    name: "Kamar A1 — Bangunan A • Tipe AC",
     price: 275000,
   },
   {
     code: "A2",
     building: "A",
-    name: "Kamar #A2 (Bangunan A - Tipe AC)",
+    name: "Kamar A2 — Bangunan A • Tipe AC",
     price: 275000,
   },
   {
     code: "A3",
     building: "A",
-    name: "Kamar #A3 (Bangunan A - Tipe Kipas)",
+    name: "Kamar A3 — Bangunan A • Tipe Kipas",
     price: 200000,
   },
   {
     code: "A4",
     building: "A",
-    name: "Kamar #A4 (Bangunan A - Tipe Kipas)",
+    name: "Kamar A4 — Bangunan A • Tipe Kipas",
     price: 200000,
   },
   {
     code: "B1",
     building: "B",
-    name: "Kamar #B1 (Bangunan B - Tipe AC)",
+    name: "Kamar B1 — Bangunan B • Tipe AC",
     price: 275000,
   },
   {
     code: "B2",
     building: "B",
-    name: "Kamar #B2 (Bangunan B - Tipe AC)",
+    name: "Kamar B2 — Bangunan B • Tipe AC",
     price: 275000,
   },
   {
     code: "B3",
     building: "B",
-    name: "Kamar #B3 (Bangunan B - Tipe Kipas)",
+    name: "Kamar B3 — Bangunan B • Tipe Kipas",
     price: 200000,
   },
   {
     code: "B4",
     building: "B",
-    name: "Kamar #B4 (Bangunan B - Tipe Kipas)",
+    name: "Kamar B4 — Bangunan B • Tipe Kipas",
     price: 200000,
   },
 ];
@@ -179,10 +188,10 @@ export function AdvanceBookingModal({
         <DialogHeader className="text-left pb-1 border-b border-slate-100 flex flex-row items-center justify-between">
           <div>
             <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-              Booking Mendatang (Advance Booking)
+              Booking Mendatang
             </span>
             <DialogTitle className="text-base sm:text-lg font-black text-slate-900 leading-tight mt-0.5">
-              Catat Reservasi WhatsApp (Jadwal Masa Depan)
+              Catat Reservasi WhatsApp
             </DialogTitle>
           </div>
         </DialogHeader>
@@ -200,7 +209,7 @@ export function AdvanceBookingModal({
                   htmlFor="adv-room"
                   className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
                 >
-                  Pilih Unit Kamar yang Dipesan *
+                  Pilih Unit Kamar yang Dipesan
                 </label>
                 <select
                   id="adv-room"
@@ -229,7 +238,7 @@ export function AdvanceBookingModal({
                     htmlFor="adv-date"
                     className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
                   >
-                    Tgl Check-In Tamu *
+                    Tgl Check-In Tamu
                   </label>
                   <input
                     id="adv-date"
@@ -259,7 +268,7 @@ export function AdvanceBookingModal({
                     }}
                     className="w-full bg-slate-50 border-2 border-slate-200 focus:border-purple-600 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-900 outline-none cursor-pointer"
                   >
-                    <option value={1}>1 Malam (Transit)</option>
+                    <option value={1}>1 Malam</option>
                     <option value={2}>2 Malam</option>
                     <option value={3}>3 Malam</option>
                     <option value={4}>4 Malam</option>
@@ -274,7 +283,7 @@ export function AdvanceBookingModal({
                   htmlFor="adv-name"
                   className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
                 >
-                  Nama Lengkap Pemesan *
+                  Nama Lengkap Pemesan
                 </label>
                 <div className="flex items-center gap-2 bg-slate-50 border-2 border-slate-200 focus-within:border-purple-600 rounded-xl px-3 py-1.5">
                   <User className="w-4 h-4 text-purple-700 shrink-0" />
@@ -301,7 +310,7 @@ export function AdvanceBookingModal({
                   htmlFor="adv-phone"
                   className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
                 >
-                  No. WhatsApp Tamu *
+                  No. WhatsApp Tamu
                 </label>
                 <div className="flex items-center gap-2 bg-slate-50 border-2 border-slate-200 focus-within:border-purple-600 rounded-xl px-3 py-1.5">
                   <Phone className="w-4 h-4 text-purple-700 shrink-0" />
@@ -324,7 +333,7 @@ export function AdvanceBookingModal({
                     htmlFor="adv-dp"
                     className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
                   >
-                    Nominal DP Ditransfer (Rp)
+                    Nominal DP Ditransfer
                   </label>
                   <div className="flex items-center gap-1">
                     <button
@@ -363,17 +372,16 @@ export function AdvanceBookingModal({
                       key={m}
                       type="button"
                       onClick={() => setPaymentMethod(m)}
-                      className={`py-1.5 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer ${
+                      className={`py-1.5 px-2 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                         paymentMethod === m
                           ? "bg-purple-700 text-white shadow-2xs"
                           : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                       }`}
                     >
-                      {m === "transfer"
-                        ? "🏦 Transfer"
-                        : m === "qris"
-                          ? "📱 QRIS"
-                          : "💵 Tunai"}
+                      {m === "transfer" && <Landmark className="w-3.5 h-3.5 shrink-0" />}
+                      {m === "qris" && <QrCode className="w-3.5 h-3.5 shrink-0" />}
+                      {m === "cash" && <Banknote className="w-3.5 h-3.5 shrink-0" />}
+                      <span>{m === "transfer" ? "Transfer" : m === "qris" ? "QRIS" : "Tunai"}</span>
                     </button>
                   ))}
                 </div>
@@ -383,7 +391,7 @@ export function AdvanceBookingModal({
               <div className="bg-purple-50/90 border border-purple-200/80 rounded-xl p-2.5 flex items-center justify-between text-xs">
                 <div>
                   <span className="text-[10px] text-slate-500 font-medium block">
-                    Total ({nights} Malam):
+                    Total Tagihan • {nights} Malam:
                   </span>
                   <strong className="text-xs sm:text-sm font-black text-slate-900">
                     Rp {totalAmount.toLocaleString("id-ID")}

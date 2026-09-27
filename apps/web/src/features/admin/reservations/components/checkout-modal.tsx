@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, LogOut } from "lucide-react";
+import { Banknote, Check, Landmark, LogOut, QrCode } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import {
@@ -58,7 +58,7 @@ export function CheckOutModal({
               Pelunasan &amp; Check-Out
             </span>
             <DialogTitle className="text-base sm:text-lg font-black text-slate-900 leading-tight mt-0.5">
-              Check-Out Kamar #{roomNumber} ({roomTypeName})
+              Check-Out Kamar #{roomNumber} • {roomTypeName}
             </DialogTitle>
           </div>
           <span className="text-xs font-extrabold text-slate-500">
@@ -111,24 +111,23 @@ export function CheckOutModal({
                       key={m}
                       type="button"
                       onClick={() => setPaymentMethod(m)}
-                      className={`py-2 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer ${
+                      className={`py-2 px-1 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                         paymentMethod === m
                           ? "bg-slate-900 text-white shadow-2xs"
                           : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                       }`}
                     >
-                      {m === "cash"
-                        ? "💵 Tunai"
-                        : m === "qris"
-                          ? "📱 QRIS"
-                          : "🏦 Transfer"}
+                      {m === "cash" && <Banknote className="w-3.5 h-3.5 shrink-0" />}
+                      {m === "qris" && <QrCode className="w-3.5 h-3.5 shrink-0" />}
+                      {m === "transfer" && <Landmark className="w-3.5 h-3.5 shrink-0" />}
+                      <span>{m === "cash" ? "Tunai" : m === "qris" ? "QRIS" : "Transfer"}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               <div className="p-2 rounded-xl bg-amber-50/70 border border-amber-200/70 text-[11px] text-amber-900 font-medium">
-                Setelah check-out, status kamar otomatis berubah ke 🟡{" "}
+                Setelah check-out, status kamar otomatis berubah ke{" "}
                 <strong>Perlu Bersih</strong> untuk housekeeping.
               </div>
             </div>
