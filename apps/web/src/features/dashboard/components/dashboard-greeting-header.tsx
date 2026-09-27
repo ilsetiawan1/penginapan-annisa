@@ -1,9 +1,8 @@
 "use client";
 
 import { useAuth } from "@/features/auth/hooks/use-auth";
-import { ChevronDown, RotateCw, Sparkles } from "lucide-react";
+import { ChevronDown, RotateCw } from "lucide-react";
 import { useState } from "react";
-import { LiveClockWIT } from "./live-clock-wit";
 
 interface DashboardGreetingHeaderProps {
   onRefresh: () => void;
@@ -31,7 +30,7 @@ export function DashboardGreetingHeader({
     periods.find((p) => p.id === selectedPeriod)?.label || "Minggu Ini";
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       {/* Breadcrumb Mini Header */}
       <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-400">
         <span className="hover:text-slate-600 transition cursor-pointer">Operasional PMS</span>
@@ -40,25 +39,25 @@ export function DashboardGreetingHeader({
       </div>
 
       {/* Main Greeting & Filter Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
             <span>Halo, {user?.name || "Ibu Annisa"}</span>
             <span className="inline-block animate-wave origin-bottom-right">👋</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+          <p className="text-xs text-slate-500 font-medium mt-0.5">
             Berikut ringkasan performa hunian kamar, pendapatan harian, dan pantauan operasional transit bandara hari ini.
           </p>
         </div>
 
-        {/* Right Controls: Period Filter + Live Clock WIT + Refresh */}
-        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+        {/* Right Controls: Period Filter + Refresh */}
+        <div className="flex items-center gap-2 shrink-0">
           {/* Period Dropdown Pill */}
           <div className="relative">
             <button
               type="button"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200/90 text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-2xs transition cursor-pointer"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200/90 text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-2xs transition cursor-pointer"
             >
               <span>{currentLabel}</span>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -87,15 +86,12 @@ export function DashboardGreetingHeader({
             )}
           </div>
 
-          {/* Real-time Clock WIT Capsule */}
-          <LiveClockWIT />
-
           {/* Refresh Action Button */}
           <button
             type="button"
             onClick={onRefresh}
             title="Refresh Data Dashboard"
-            className="w-9 h-9 rounded-xl border border-slate-200/90 bg-white hover:bg-purple-50 text-slate-600 hover:text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
+            className="w-8 h-8 rounded-xl border border-slate-200/90 bg-white hover:bg-purple-50 text-slate-600 hover:text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
           >
             <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
           </button>

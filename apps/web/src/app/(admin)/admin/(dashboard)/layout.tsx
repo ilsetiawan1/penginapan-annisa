@@ -76,8 +76,8 @@ export default function AdminDashboardLayout({
   };
 
   return (
-    <div className="min-h-screen bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-4 lg:p-5 items-center">
-      <div className="w-full max-w-[1600px] flex flex-1 gap-4 lg:gap-5 items-start">
+    <div className="min-h-screen bg-[#f3f2f7] text-slate-900 font-sans flex flex-col antialiased p-3 sm:p-4 lg:p-5">
+      <div className="w-full flex flex-1 gap-4 lg:gap-5 items-start">
         {/* Left Collapsible SaaS Sidebar */}
         <AdminSidebar
           currentRole={currentRole}
