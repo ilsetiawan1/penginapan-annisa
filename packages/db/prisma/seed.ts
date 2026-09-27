@@ -165,6 +165,69 @@ async function main() {
   console.log("✅ 8 Unit Kamar Resmi (A1–A4 & B1–B4) seeded successfully!");
 
   // ----------------------------------------------------
+  // 3b. SEED FOTO RESMI CLOUDFLARE R2 UNTUK KAMAR (A1–A4)
+  // ----------------------------------------------------
+  const apiBase =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+
+  const officialRoomImages = [
+    {
+      roomTypeId: acType.id,
+      caption: "A1",
+      imageUrl: `${apiBase}/storage/view?key=rooms%2Fkamar-tipe-ac-1790413634948.jpg`,
+      isPrimary: true,
+    },
+    {
+      roomTypeId: acType.id,
+      caption: "A2",
+      imageUrl: `${apiBase}/storage/view?key=rooms%2Fkamar-tipe-ac-1790413648957.jpg`,
+      isPrimary: false,
+    },
+    {
+      roomTypeId: kipasType.id,
+      caption: "A3",
+      imageUrl: `${apiBase}/storage/view?key=rooms%2Fkamar-tipe-kipas-1790413667288.jpg`,
+      isPrimary: true,
+    },
+    {
+      roomTypeId: kipasType.id,
+      caption: "A4",
+      imageUrl: `${apiBase}/storage/view?key=rooms%2Fkamar-tipe-kipas-1790413690278.jpg`,
+      isPrimary: false,
+    },
+  ];
+
+  for (const img of officialRoomImages) {
+    const existing = await prisma.roomImage.findFirst({
+      where: {
+        roomTypeId: img.roomTypeId,
+        caption: img.caption,
+      },
+    });
+
+    if (existing) {
+      await prisma.roomImage.update({
+        where: { id: existing.id },
+        data: {
+          imageUrl: img.imageUrl,
+          isPrimary: img.isPrimary,
+        },
+      });
+    } else {
+      await prisma.roomImage.create({
+        data: {
+          roomTypeId: img.roomTypeId,
+          caption: img.caption,
+          imageUrl: img.imageUrl,
+          isPrimary: img.isPrimary,
+        },
+      });
+    }
+  }
+
+  console.log("✅ Foto Resmi Kamar Cloudflare R2 (A1–A4) seeded successfully!");
+
+  // ----------------------------------------------------
   // 4. SEED KATEGORI & PRODUK OLEH-OLEH KHAS AMBON
   // ----------------------------------------------------
   const herbalCategory = await prisma.souvenirCategory.upsert({
