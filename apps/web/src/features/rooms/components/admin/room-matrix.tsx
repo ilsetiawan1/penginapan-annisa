@@ -110,6 +110,7 @@ export function RoomMatrix() {
               totalAmount: (matched as any).totalAmount,
               dpPaid: (matched as any).dpPaid,
               remainingAmount: (matched as any).remainingAmount,
+              paymentStatus: (matched as any).paymentStatus,
               notes: (matched as any).notes,
               ...(isAvailable
                 ? {
@@ -121,6 +122,7 @@ export function RoomMatrix() {
                     totalAmount: undefined,
                     dpPaid: undefined,
                     remainingAmount: undefined,
+                    paymentStatus: undefined,
                     notes: undefined,
                   }
                 : {}),

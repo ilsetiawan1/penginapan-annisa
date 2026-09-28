@@ -21,6 +21,7 @@ export interface RoomItem {
   totalAmount?: number;
   dpPaid?: number;
   remainingAmount?: number;
+  paymentStatus?: string; // "paid" | "dp_paid" | "unpaid"
   notes?: string;
 }
 

@@ -46,14 +46,27 @@ export function RoomCardActions({
       {/* 2. STATUS TERBOOKING WA */}
       {isBooked && (
         <div className="grid grid-cols-12 gap-1.5 w-full">
-          <button
-            type="button"
-            onClick={() => onOpenSettlement && onOpenSettlement(room)}
-            className="col-span-9 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[11px] transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1"
-          >
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>Pelunasan &amp; Masuk</span>
-          </button>
+          {room.paymentStatus === "paid" ? (
+            // Sudah lunas 100% — langsung serahkan kunci, tanpa form pelunasan
+            <button
+              type="button"
+              onClick={() => onOpenSettlement && onOpenSettlement(room)}
+              className="col-span-9 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[11px] transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Serahkan Kunci</span>
+            </button>
+          ) : (
+            // Masih ada sisa pembayaran — perlu pelunasan dulu
+            <button
+              type="button"
+              onClick={() => onOpenSettlement && onOpenSettlement(room)}
+              className="col-span-9 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-[11px] transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Pelunasan &amp; Masuk</span>
+            </button>
+          )}
           {room.guestPhone ? (
             <a
               href={`https://wa.me/${room.guestPhone.replace(/[^0-9]/g, "")}`}

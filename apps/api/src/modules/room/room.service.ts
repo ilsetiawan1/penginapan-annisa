@@ -85,6 +85,7 @@ export class RoomService {
           totalAmount: todayResv.grandTotal,
           dpPaid: todayResv.dpAmount,
           remainingAmount: todayResv.remainingAmount,
+          paymentStatus: todayResv.paymentStatus,
           reservationCode: todayResv.code,
           reservationId: todayResv.id,
           notes: todayResv.notes,
@@ -99,15 +100,36 @@ export class RoomService {
             })
             .catch(() => {});
         }
-      } else if (room.status === "booked" || room.status === "occupied") {
-        // Reservasi sudah lewat atau belum tiba, kembalikan ke ready di DB
-        effectiveStatus = "ready";
-        prisma.room
-          .update({
-            where: { id: room.id },
-            data: { status: "ready" },
-          })
-          .catch(() => {});
+      } else {
+        // Tidak ada reservasi aktif hari ini.
+        // Cek apakah ada reservasi confirmed yang sudah MELEWATI tanggal checkout (tamu no-show / tidak datang)
+        const expiredResv = activeResvs.find((res: any) => {
+          const resOut = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+            new Date(res.checkOutDate),
+          );
+          // Reservasi confirmed (belum check-in) yang checkout date-nya sudah lewat hari ini
+          return res.status === "confirmed" && resOut <= todayWitStr;
+        });
+
+        if (expiredResv) {
+          // Reservasi WA yang tanggalnya sudah lewat: auto-release kamar & cancel reservasi
+          effectiveStatus = "ready";
+          prisma.room
+            .update({ where: { id: room.id }, data: { status: "ready" } })
+            .catch(() => {});
+          prisma.reservation
+            .update({ where: { id: expiredResv.id }, data: { status: "cancelled" } })
+            .catch(() => {});
+        } else if (room.status === "booked" || room.status === "occupied") {
+          // Tidak ada reservasi aktif hari ini, kembalikan ke ready di DB
+          effectiveStatus = "ready";
+          prisma.room
+            .update({
+              where: { id: room.id },
+              data: { status: "ready" },
+            })
+            .catch(() => {});
+        }
       }
     } else if (todayResv) {
       guestInfo = {
@@ -119,6 +141,7 @@ export class RoomService {
         totalAmount: todayResv.grandTotal,
         dpPaid: todayResv.dpAmount,
         remainingAmount: todayResv.remainingAmount,
+        paymentStatus: todayResv.paymentStatus,
         reservationCode: todayResv.code,
         reservationId: todayResv.id,
         notes: todayResv.notes,
