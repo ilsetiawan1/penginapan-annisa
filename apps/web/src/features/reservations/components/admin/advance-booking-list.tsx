@@ -62,6 +62,7 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
           paymentMethod: (["transfer", "qris", "cash"].includes(r.paymentMethod?.toLowerCase() || "")
             ? r.paymentMethod?.toLowerCase()
             : "transfer") as "transfer" | "qris" | "cash",
+          notes: r.notes || undefined,
           status: (r.status === "checked_in"
             ? "checked_in"
             : r.status === "cancelled"

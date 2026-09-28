@@ -13,8 +13,34 @@ import {
 interface BookingDateDetailsPanelProps {
   selectedDate: Date;
   bookings: AdvanceBookingData[];
-  onOpenAddModal: () => void;
+  onOpenAddModal?: () => void;
   onCheckInNow?: (booking: AdvanceBookingData) => void;
+}
+
+function formatStayRange(inDateStr: string, outDateStr: string): string {
+  try {
+    const dIn = new Date(inDateStr);
+    const dOut = new Date(outDateStr);
+    if (isNaN(dIn.getTime()) || isNaN(dOut.getTime())) {
+      return `${formatIdDate(inDateStr)} – ${formatIdDate(outDateStr)}`;
+    }
+    const dayIn = dIn.getDate();
+    const monthIn = dIn.toLocaleDateString("id-ID", { month: "short" });
+    const yearIn = dIn.getFullYear();
+    const dayOut = dOut.getDate();
+    const monthOut = dOut.toLocaleDateString("id-ID", { month: "short" });
+    const yearOut = dOut.getFullYear();
+
+    if (yearIn === yearOut) {
+      if (monthIn === monthOut) {
+        return `${dayIn}–${dayOut} ${monthIn} ${yearIn}`;
+      }
+      return `${dayIn} ${monthIn} – ${dayOut} ${monthOut} ${yearIn}`;
+    }
+    return `${dayIn} ${monthIn} ${yearIn} – ${dayOut} ${monthOut} ${yearOut}`;
+  } catch {
+    return `${formatIdDate(inDateStr)} – ${formatIdDate(outDateStr)}`;
+  }
 }
 
 export function BookingDateDetailsPanel({
@@ -99,8 +125,8 @@ export function BookingDateDetailsPanel({
                       <strong className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
                         {b.guestName}
                       </strong>
-                      <span className="text-[10px] text-slate-500 font-semibold block">
-                        Kamar {b.roomTypeName} • {b.nights} Malam
+                      <span className="text-[10px] text-slate-500 font-semibold block truncate max-w-[160px]">
+                        {b.roomTypeName.replace(/^Kamar\s+/i, "")} • {b.nights} Malam
                       </span>
                     </div>
                   </div>
@@ -119,26 +145,32 @@ export function BookingDateDetailsPanel({
                 </div>
 
                 {/* Kotak Rincian Glass Translucent */}
-                <div className="bg-purple-50/50 backdrop-blur-xs rounded-xl p-2.5 border border-purple-100/60 space-y-1 text-[11px]">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-500">Rentang Tanggal:</span>
-                    <strong className="text-slate-800 font-bold">
-                      {formatIdDate(b.checkInDate)} – {formatIdDate(b.checkOutDate)}
+                <div className="bg-purple-50/60 backdrop-blur-xs rounded-xl p-2.5 border border-purple-100/70 space-y-1.5 text-xs">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-slate-500 text-[11px] shrink-0">Rentang Tgl:</span>
+                    <strong className="text-slate-900 font-bold text-[11px] truncate text-right">
+                      {formatStayRange(b.checkInDate, b.checkOutDate)}
                     </strong>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-500">No. WhatsApp:</span>
-                    <strong className="text-slate-800 font-bold">{b.guestPhone}</strong>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-slate-500 text-[11px] shrink-0">No. WhatsApp:</span>
+                    <strong className="text-slate-900 font-bold text-[11px] truncate text-right">{b.guestPhone}</strong>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-500">DP Ditransfer:</span>
-                    <strong className="text-emerald-700 font-black">
+                  {b.notes && (
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-slate-500 text-[11px] shrink-0">Jam Tiba:</span>
+                      <strong className="text-purple-800 font-bold text-[11px] truncate text-right">{b.notes}</strong>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-slate-500 text-[11px] shrink-0">DP Ditransfer:</span>
+                    <strong className="text-emerald-700 font-black text-[11px] truncate text-right">
                       Rp {b.dpPaid.toLocaleString("id-ID")}
                     </strong>
                   </div>
-                  <div className="flex items-center justify-between pt-1 border-t border-purple-100/80">
-                    <span className="text-slate-500">Sisa Pelunasan di Lokasi:</span>
-                    <strong className="text-purple-950 font-black">
+                  <div className="flex items-center justify-between gap-2 pt-1 border-t border-purple-100/80">
+                    <span className="text-slate-500 text-[11px] shrink-0">Sisa Pelunasan:</span>
+                    <strong className="text-purple-950 font-black text-xs truncate text-right">
                       Rp {b.remainingAmount.toLocaleString("id-ID")}
                     </strong>
                   </div>
@@ -182,16 +214,6 @@ export function BookingDateDetailsPanel({
           </div>
         )}
       </div>
-
-      {/* Tombol Tambah Reservasi Khusus Tanggal Ini */}
-      <button
-        type="button"
-        onClick={onOpenAddModal}
-        className="w-full py-2.5 rounded-2xl bg-gradient-to-r from-slate-900 to-purple-950 hover:from-purple-900 hover:to-slate-900 text-white text-xs font-black flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg cursor-pointer transition-all duration-200"
-      >
-        <Plus className="w-3.5 h-3.5" />
-        <span>+ Catat Booking di Tanggal Ini</span>
-      </button>
     </div>
   );
 }

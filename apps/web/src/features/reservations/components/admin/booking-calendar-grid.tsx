@@ -137,7 +137,7 @@ export function BookingCalendarGrid({
             className="px-3.5 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-black shadow-xs flex items-center gap-1.5 cursor-pointer transition"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>+ Catat Booking WA</span>
+            <span>Catat Booking WA</span>
           </button>
         </div>
       </div>
