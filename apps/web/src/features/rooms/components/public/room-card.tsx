@@ -91,14 +91,14 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
               </div>
 
               {isAvailable ? (
-                <span className="text-emerald-700 font-bold flex items-center gap-1">
+                <span className="text-emerald-700 font-bold flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
                   <span>Tersedia</span>
                 </span>
               ) : (
-                <span className="text-slate-400 font-semibold flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 inline-block" />
-                  <span>Terisi</span>
+                <span className="text-rose-700 font-bold flex items-center gap-1 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block" />
+                  <span>Terisi di Tgl Ini</span>
                 </span>
               )}
             </div>
@@ -128,16 +128,34 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
             </span>
           </div>
 
-          <Button
-            asChild
-            onClick={(e) => e.stopPropagation()}
-            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
-          >
-            <a href={waUrl} target="_blank" rel="noreferrer">
-              <FaWhatsapp className="w-4 h-4" />
-              <span>Pesan Kamar</span>
-            </a>
-          </Button>
+          {isAvailable ? (
+            <Button
+              asChild
+              onClick={(e) => e.stopPropagation()}
+              className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
+            >
+              <a href={waUrl} target="_blank" rel="noreferrer">
+                <FaWhatsapp className="w-4 h-4" />
+                <span>Pesan Kamar</span>
+              </a>
+            </Button>
+          ) : (
+            <Button
+              asChild
+              variant="outline"
+              onClick={(e) => e.stopPropagation()}
+              className="rounded-xl border-slate-300 text-slate-600 hover:bg-slate-100 font-bold text-xs h-9 px-2.5 gap-1.5 cursor-pointer shrink-0"
+            >
+              <a
+                href={`https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(`Halo Penginapan Annisa, saya ingin tanya jadwal ketersediaan ${room.name} untuk tanggal lain (karena terisi pada ${formattedDateStr}). Terima kasih.`)}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaWhatsapp className="w-4 h-4 text-emerald-600" />
+                <span>Kamar Terisi</span>
+              </a>
+            </Button>
+          )}
         </div>
       </Card>
 

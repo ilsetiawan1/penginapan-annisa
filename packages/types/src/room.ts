@@ -45,6 +45,19 @@ export const roomSchema = z.object({
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
   roomType: roomTypeSchema.optional(),
+  imageUrl: z.string().optional(),
+  isAvailable: z.boolean().optional(),
+  hasConflict: z.boolean().optional(),
+  guestName: z.string().optional(),
+  guestPhone: z.string().optional(),
+  checkInDate: z.union([z.date(), z.string()]).optional(),
+  checkOutDate: z.union([z.date(), z.string()]).optional(),
+  totalNights: z.number().optional(),
+  totalAmount: z.number().optional(),
+  dpPaid: z.number().optional(),
+  remainingAmount: z.number().optional(),
+  reservationCode: z.string().optional(),
+  reservationId: z.string().optional(),
 });
 export type Room = z.infer<typeof roomSchema>;
 
@@ -65,5 +78,7 @@ export type UpdateRoomRateInput = z.infer<typeof updateRoomRateInputSchema>;
 export const roomQuerySchema = z.object({
   building: buildingBlockSchema.optional(),
   status: roomStatusSchema.optional(),
+  checkInDate: z.string().optional(),
+  checkOutDate: z.string().optional(),
 });
 export type RoomQuery = z.infer<typeof roomQuerySchema>;

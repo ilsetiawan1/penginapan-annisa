@@ -12,11 +12,13 @@ export class RoomController {
 
   getAllRooms = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { building, status } = req.query as {
+      const { building, status, checkInDate, checkOutDate } = req.query as {
         building?: BuildingBlock;
         status?: RoomStatus;
+        checkInDate?: string;
+        checkOutDate?: string;
       };
-      const rooms = await this.service.getAllRooms({ building, status });
+      const rooms = await this.service.getAllRooms({ building, status, checkInDate, checkOutDate });
       return sendSuccess(res, rooms, "Daftar kamar berhasil diambil.");
     } catch (error) {
       return next(error);

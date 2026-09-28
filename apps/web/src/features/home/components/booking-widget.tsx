@@ -6,7 +6,7 @@ import { useRooms } from "@/features/rooms/hooks/use-rooms";
 import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 import { Bed, Check, Clock, Wind } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type RoomType = "ac" | "kipas";
 
@@ -26,7 +26,41 @@ export function BookingWidget() {
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
 
-  const { data: dbRooms } = useRooms();
+  const checkOutDate = useMemo(() => {
+    try {
+      const d = new Date(checkInDate);
+      d.setDate(d.getDate() + nights);
+      return d.toISOString().split("T")[0];
+    } catch {
+      return undefined;
+    }
+  }, [checkInDate, nights]);
+
+  const { data: dbRooms } = useRooms({
+    checkInDate,
+    checkOutDate,
+  });
+
+  const availableAcCount = useMemo(() => {
+    if (!dbRooms) return 4;
+    return dbRooms.filter((r: any) => {
+      const isAc =
+        r.roomType?.name?.toLowerCase().includes("ac") || r.roomNumber?.startsWith("A");
+      return isAc && r.isAvailable !== false;
+    }).length;
+  }, [dbRooms]);
+
+  const availableKipasCount = useMemo(() => {
+    if (!dbRooms) return 4;
+    return dbRooms.filter((r: any) => {
+      const isAc =
+        r.roomType?.name?.toLowerCase().includes("ac") || r.roomNumber?.startsWith("A");
+      return !isAc && r.isAvailable !== false;
+    }).length;
+  }, [dbRooms]);
+
+  const currentAvailableCount = selectedType === "ac" ? availableAcCount : availableKipasCount;
+  const isSelectedTypeFull = Boolean(dbRooms && dbRooms.length > 0 && currentAvailableCount === 0);
 
   // Harga per malam
   const pricePerNight = selectedType === "ac" ? 275000 : 200000;
@@ -42,7 +76,13 @@ export function BookingWidget() {
 
     const typeName = selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas";
 
-    const waMessage = `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
+    const waMessage = isSelectedTypeFull
+      ? `*Halo Penginapan Annisa, saya melihat unit ${typeName} sedang penuh untuk tgl ${formattedDate} (${nights} malam).*
+- Nama: *${guestName || "-"}*
+- No. WhatsApp: *${guestPhone || "-"}*
+
+Apakah ada unit kamar lain atau tanggal alternatif yang masih kosong? Terima kasih.`
+      : `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
 - Tipe: *${typeName}*
 - Tgl Check-In: *${formattedDate}*
 - Durasi: *${nights} Malam*
@@ -148,7 +188,7 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
               <p
                 className={`text-[10px] ${selectedType === "ac" ? "text-purple-200" : "text-purple-700 font-bold"}`}
               >
-                Rp 275rb/mlm
+                Rp 275rb/mlm • {availableAcCount > 0 ? `Sisa ${availableAcCount}` : "Penuh"}
               </p>
             </div>
             {selectedType === "ac" && (
@@ -172,7 +212,7 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
               <p
                 className={`text-[10px] ${selectedType === "kipas" ? "text-purple-200" : "text-purple-700 font-bold"}`}
               >
-                Rp 200rb/mlm
+                Rp 200rb/mlm • {availableKipasCount > 0 ? `Sisa ${availableKipasCount}` : "Penuh"}
               </p>
             </div>
             {selectedType === "kipas" && (
@@ -282,13 +322,28 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
             </div>
           </div>
 
+          {/* Warning banner jika tipe kamar penuh di tanggal ini */}
+          {isSelectedTypeFull && (
+            <div className="bg-amber-50 border border-amber-200 text-amber-900 text-xs px-3 py-2 rounded-xl text-center font-bold">
+              Semua unit {selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas"} sudah terisi penuh di tanggal yang Anda pilih.
+            </div>
+          )}
+
           {/* Tombol Reservasi Lebar Penuh */}
           <Button
             type="button"
             onClick={handleBooking}
-            className="w-full rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-11 gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center"
+            className={`w-full rounded-2xl ${
+              isSelectedTypeFull
+                ? "bg-slate-800 hover:bg-slate-900 shadow-md"
+                : "bg-purple-700 hover:bg-purple-800 shadow-md hover:shadow-lg"
+            } text-white font-extrabold text-xs sm:text-sm h-11 gap-2 transition-all cursor-pointer flex items-center justify-center`}
           >
-            <span>Lanjut Reservasi (DP 50%)</span>
+            <span>
+              {isSelectedTypeFull
+                ? "Tipe Penuh - Tanya Alternatif via WhatsApp"
+                : "Lanjut Reservasi (DP 50%)"}
+            </span>
             <span className="text-xs">➔</span>
           </Button>
         </div>

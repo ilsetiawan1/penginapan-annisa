@@ -22,6 +22,17 @@ export class RoomRepository {
             },
           },
         },
+        reservations: {
+          where: {
+            status: { in: ["confirmed", "checked_in"] },
+          },
+          include: {
+            guest: true,
+          },
+          orderBy: {
+            checkInDate: "asc",
+          },
+        },
       },
     });
   }
@@ -33,6 +44,17 @@ export class RoomRepository {
         roomType: {
           include: {
             images: true,
+          },
+        },
+        reservations: {
+          where: {
+            status: { in: ["confirmed", "checked_in"] },
+          },
+          include: {
+            guest: true,
+          },
+          orderBy: {
+            checkInDate: "asc",
           },
         },
       },

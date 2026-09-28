@@ -27,23 +27,154 @@ export class RoomService {
     };
   }
 
-  async getAllRooms(filter?: { building?: string; status?: string }) {
-    const rooms = await this.repo.findAllRooms(filter);
-    return rooms.map((room) => {
-      const roomImage =
-        room.roomType?.images?.find(
-          (img: any) => img.caption?.toUpperCase() === room.roomNumber.toUpperCase(),
-        )?.imageUrl || "";
+  private computeRoomAvailabilityAndStatus(
+    room: any,
+    targetInStr?: string,
+    targetOutStr?: string,
+  ) {
+    const todayWitStr = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Jayapura",
+    }).format(new Date());
 
-      return {
-        ...room,
-        imageUrl: roomImage,
-        roomType: room.roomType ? this.parseFacilities(room.roomType) : null,
-      };
+    const queryInStr = targetInStr || todayWitStr;
+    let queryOutStr = targetOutStr;
+    if (!queryOutStr) {
+      const [y, m, d] = queryInStr.split("-").map(Number);
+      const nextDay = new Date(y, m - 1, d + 1);
+      queryOutStr = `${nextDay.getFullYear()}-${String(nextDay.getMonth() + 1).padStart(2, "0")}-${String(nextDay.getDate()).padStart(2, "0")}`;
+    }
+
+    const activeResvs = room.reservations || [];
+
+    // 1. Cek reservasi aktif untuk HARI INI (untuk status operasional real-time PMS)
+    const todayResv = activeResvs.find((res: any) => {
+      const resIn = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+        new Date(res.checkInDate),
+      );
+      const resOut = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+        new Date(res.checkOutDate),
+      );
+      return todayWitStr >= resIn && todayWitStr < resOut;
     });
+
+    // 2. Cek reservasi yang bentrok dengan rentang tanggal yang diminta [queryInStr, queryOutStr)
+    const conflictingResv = activeResvs.find((res: any) => {
+      const resIn = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+        new Date(res.checkInDate),
+      );
+      const resOut = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+        new Date(res.checkOutDate),
+      );
+      // Kondisi overlap jadwal: resIn < queryOut && resOut > queryIn
+      return resIn < queryOutStr && resOut > queryInStr;
+    });
+
+    // Tentukan status operasional hari ini
+    let effectiveStatus = room.status;
+    let guestInfo: any = {};
+
+    if (room.status !== "maintenance" && room.status !== "dirty") {
+      if (todayResv) {
+        effectiveStatus = todayResv.status === "checked_in" ? "occupied" : "booked";
+        guestInfo = {
+          guestName: todayResv.guest?.name,
+          guestPhone: todayResv.guest?.phone,
+          checkInDate: todayResv.checkInDate,
+          checkOutDate: todayResv.checkOutDate,
+          totalNights: todayResv.totalNights,
+          totalAmount: todayResv.grandTotal,
+          dpPaid: todayResv.dpAmount,
+          remainingAmount: todayResv.remainingAmount,
+          reservationCode: todayResv.code,
+          reservationId: todayResv.id,
+        };
+
+        // Sinkronkan status kamar di DB jika berbeda
+        if (room.status !== effectiveStatus) {
+          prisma.room
+            .update({
+              where: { id: room.id },
+              data: { status: effectiveStatus },
+            })
+            .catch(() => {});
+        }
+      } else if (room.status === "booked" || room.status === "occupied") {
+        // Reservasi sudah lewat atau belum tiba, kembalikan ke ready di DB
+        effectiveStatus = "ready";
+        prisma.room
+          .update({
+            where: { id: room.id },
+            data: { status: "ready" },
+          })
+          .catch(() => {});
+      }
+    } else if (todayResv) {
+      guestInfo = {
+        guestName: todayResv.guest?.name,
+        guestPhone: todayResv.guest?.phone,
+        checkInDate: todayResv.checkInDate,
+        checkOutDate: todayResv.checkOutDate,
+        totalNights: todayResv.totalNights,
+        totalAmount: todayResv.grandTotal,
+        dpPaid: todayResv.dpAmount,
+        remainingAmount: todayResv.remainingAmount,
+        reservationCode: todayResv.code,
+        reservationId: todayResv.id,
+      };
+    }
+
+    const isTargetToday = queryInStr === todayWitStr;
+    const isAvailable =
+      room.status !== "maintenance" &&
+      (!isTargetToday || room.status !== "dirty") &&
+      !conflictingResv;
+
+    const roomImage =
+      room.roomType?.images?.find(
+        (img: any) => img.caption?.toUpperCase() === room.roomNumber.toUpperCase(),
+      )?.imageUrl || "";
+
+    return {
+      id: room.id,
+      roomTypeId: room.roomTypeId,
+      roomNumber: room.roomNumber,
+      building: room.building,
+      status: effectiveStatus,
+      notes: room.notes,
+      createdAt: room.createdAt,
+      updatedAt: room.updatedAt,
+      imageUrl: roomImage,
+      roomType: room.roomType ? this.parseFacilities(room.roomType) : null,
+      isAvailable,
+      hasConflict: Boolean(conflictingResv),
+      conflictReservation: conflictingResv
+        ? {
+            code: conflictingResv.code,
+            guestName: conflictingResv.guest?.name,
+            checkInDate: conflictingResv.checkInDate,
+            checkOutDate: conflictingResv.checkOutDate,
+          }
+        : null,
+      ...guestInfo,
+    };
   }
 
-  async getRoomByNumber(roomNumber: string) {
+  async getAllRooms(filter?: {
+    building?: string;
+    status?: string;
+    checkInDate?: string;
+    checkOutDate?: string;
+  }) {
+    const rooms = await this.repo.findAllRooms(filter);
+    return rooms.map((room) =>
+      this.computeRoomAvailabilityAndStatus(room, filter?.checkInDate, filter?.checkOutDate),
+    );
+  }
+
+  async getRoomByNumber(
+    roomNumber: string,
+    queryDates?: { checkInDate?: string; checkOutDate?: string },
+  ) {
     const room = await this.repo.findByRoomNumber(roomNumber);
     if (!room) {
       throw new AppError(
@@ -51,16 +182,11 @@ export class RoomService {
         HTTP_STATUS.NOT_FOUND,
       );
     }
-    const roomImage =
-      room.roomType?.images?.find(
-        (img: any) => img.caption?.toUpperCase() === room.roomNumber.toUpperCase(),
-      )?.imageUrl || "";
-
-    return {
-      ...room,
-      imageUrl: roomImage,
-      roomType: room.roomType ? this.parseFacilities(room.roomType) : null,
-    };
+    return this.computeRoomAvailabilityAndStatus(
+      room,
+      queryDates?.checkInDate,
+      queryDates?.checkOutDate,
+    );
   }
 
   async updateRoomImage(roomNumber: string, imageUrl: string) {

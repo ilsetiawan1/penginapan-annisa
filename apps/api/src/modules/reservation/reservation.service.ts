@@ -269,10 +269,18 @@ export class ReservationService {
     });
 
     // 8. Logika Best Practice Status Kamar:
-    // Jika tanggal check-in adalah hari ini (lokal), tandai kamar sebagai 'booked'
-    const now = new Date();
-    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-    if (input.checkInDate === todayStr) {
+    // Jika hari ini berada dalam rentang menginap [checkInDate, checkOutDate), tandai kamar sebagai 'booked'
+    const todayWitStr = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Jayapura",
+    }).format(new Date());
+    const inWitStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+      checkInDate,
+    );
+    const outWitStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+      checkOutDate,
+    );
+
+    if (todayWitStr >= inWitStr && todayWitStr < outWitStr) {
       await this.repo.updateRoomStatusById(
         targetRoom.id,
         "booked",

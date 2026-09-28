@@ -48,7 +48,11 @@ export function RoomDetailModal({
 
 Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
 
+  const waInquiryMessage = `*Halo Penginapan Annisa, saya melihat unit ${room.name} sudah terisi untuk tanggal ${formattedDateStr} (${nights} malam).*
+Apakah ada unit kamar lain atau tanggal alternatif yang masih kosong? Terima kasih.`;
+
   const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+  const waInquiryUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waInquiryMessage)}`;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -245,16 +249,34 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
             </div>
           </div>
 
-          {/* Action Button: Chat WhatsApp Langsung (Sangat Nyaman Tanpa Scroll) */}
-          <Button
-            asChild
-            className="w-full rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-10 sm:h-11 gap-2 shadow-md shadow-purple-900/20 hover:shadow-lg transition-all cursor-pointer shrink-0"
-          >
-            <a href={waUrl} target="_blank" rel="noreferrer">
-              <FaWhatsapp className="w-4 h-4" />
-              <span>Reservasi {room.name} via WhatsApp</span>
-            </a>
-          </Button>
+          {/* Action Button: Chat WhatsApp Langsung */}
+          {isAvailable ? (
+            <Button
+              asChild
+              className="w-full rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-10 sm:h-11 gap-2 shadow-md shadow-purple-900/20 hover:shadow-lg transition-all cursor-pointer shrink-0"
+            >
+              <a href={waUrl} target="_blank" rel="noreferrer">
+                <FaWhatsapp className="w-4 h-4" />
+                <span>Reservasi {room.name} via WhatsApp</span>
+              </a>
+            </Button>
+          ) : (
+            <div className="flex flex-col gap-2 shrink-0">
+              <div className="bg-amber-50 border border-amber-200 text-amber-900 text-xs px-3 py-2 rounded-xl text-center font-bold">
+                Unit {room.name} sedang terisi di tanggal yang Anda pilih ({formattedDateStr}).
+              </div>
+              <Button
+                asChild
+                variant="outline"
+                className="w-full rounded-2xl border-purple-300 text-purple-700 hover:bg-purple-50 font-bold text-xs sm:text-sm h-10 gap-2 cursor-pointer"
+              >
+                <a href={waInquiryUrl} target="_blank" rel="noreferrer">
+                  <FaWhatsapp className="w-4 h-4" />
+                  <span>Tanya Kamar Kosong / Tanggal Lain via WA</span>
+                </a>
+              </Button>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

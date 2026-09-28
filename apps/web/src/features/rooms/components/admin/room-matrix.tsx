@@ -102,6 +102,14 @@ export function RoomMatrix() {
             return {
               ...r,
               status: matched.status as RoomItem["status"],
+              guestName: (matched as any).guestName,
+              guestPhone: (matched as any).guestPhone,
+              checkInDate: (matched as any).checkInDate ? String((matched as any).checkInDate) : undefined,
+              checkOutDate: (matched as any).checkOutDate ? String((matched as any).checkOutDate) : undefined,
+              totalNights: (matched as any).totalNights,
+              totalAmount: (matched as any).totalAmount,
+              dpPaid: (matched as any).dpPaid,
+              remainingAmount: (matched as any).remainingAmount,
               ...(isAvailable
                 ? {
                     guestName: undefined,

@@ -172,8 +172,16 @@ export default function KamarPage() {
   });
   const [nights, setNights] = useState<number>(1);
 
-  // Ambil data kamar langsung dari database server (PostgreSQL & Cloudflare R2)
-  const { data: dbRooms } = useRooms();
+  // Hitung tanggal check-out berdasarkan tanggal check-in dan durasi malam
+  const checkOutDate = useMemo(() => {
+    if (!checkInDate) return undefined;
+    const [y, m, d] = checkInDate.split("-").map(Number);
+    const out = new Date(y, m - 1, d + nights);
+    return `${out.getFullYear()}-${String(out.getMonth() + 1).padStart(2, "0")}-${String(out.getDate()).padStart(2, "0")}`;
+  }, [checkInDate, nights]);
+
+  // Ambil data kamar langsung dari database server dengan parameter tanggal check-in & check-out
+  const { data: dbRooms } = useRooms({ checkInDate, checkOutDate });
 
   // Bersihkan sisa localStorage lama agar tidak pernah meracuni cache browser
   useEffect(() => {
@@ -203,11 +211,14 @@ export default function KamarPage() {
       const cleanImg =
         rawImg && !rawImg.includes("/rooms/room-") && !rawImg.startsWith("/images/") ? rawImg : "";
 
+      // Kamar berstatus tersedia HANYA JIKA tidak ada reservasi aktif pada rentang tanggal yang dipilih
+      const isAvailable = r.isAvailable !== undefined ? r.isAvailable : r.status === "ready";
+
       return {
         number: r.roomNumber,
         name: `Kamar #${r.roomNumber} (${isAc ? "AC" : "Kipas"})`,
         type: isAc ? "ac" : "kipas",
-        status: r.status === "ready" ? "tersedia" : "terisi",
+        status: isAvailable ? "tersedia" : "terisi",
         price: priceNum.toLocaleString("id-ID"),
         dp: dpNum.toLocaleString("id-ID"),
         bed: r.roomType?.bedType || "1 Kasur Queen (Double Bed)",
