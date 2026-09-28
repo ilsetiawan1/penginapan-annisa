@@ -404,7 +404,7 @@ export function AdvanceBookingModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-[96vw] max-h-[94vh] overflow-y-auto bg-white rounded-3xl p-4 sm:p-6 shadow-2xl border border-slate-200 text-slate-900">
+      <DialogContent className="max-w-4xl w-[96vw] max-h-[94vh] overflow-y-auto bg-white rounded-3xl p-4 sm:p-5 shadow-2xl border border-slate-200 text-slate-900">
         <DialogHeader className="text-left pb-2 border-b border-slate-100 flex flex-row items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
@@ -424,7 +424,7 @@ export function AdvanceBookingModal({
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+        <form onSubmit={handleSubmit} className="space-y-3 pt-1">
           {/* ====================================================
               2 KOLOM: KIRI (KALENDER & RENTANG TANGGAL) • KANAN (FORM DATA & KAMAR)
               ==================================================== */}
@@ -915,43 +915,37 @@ export function AdvanceBookingModal({
                   </div>
                 </div>
 
-                {/* Sisa Tagihan Ringkas */}
-                <div className="flex items-center justify-between text-[11px] text-slate-600 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-bold">
-                  <span>Tagihan: <strong className="text-slate-900">Rp {totalAmount.toLocaleString("id-ID")}</strong></span>
-                  <span>Sisa di Lokasi: <strong className="text-amber-700">Rp {remainingAmount.toLocaleString("id-ID")}</strong></span>
+                {/* Tombol Aksi (Batal & Simpan Jadwal) Naik Rapi Sejajar */}
+                <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={onClose}
+                    className="rounded-xl h-9 px-4 text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer"
+                  >
+                    Batal
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={createAdvanceMutation.isPending || isSelectedRoomOccupied || availableRoomsCount === 0}
+                    className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-9 px-5 gap-1.5 shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {createAdvanceMutation.isPending ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span>Menyimpan ke DB...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Check className="w-4 h-4" />
+                        <span>Simpan Jadwal Booking WA</span>
+                      </>
+                    )}
+                  </Button>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Footer Aksi */}
-          <DialogFooter className="flex flex-row items-center justify-end gap-2 pt-2 border-t border-slate-100">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              className="rounded-xl h-9 px-4 text-xs font-bold text-slate-600 cursor-pointer"
-            >
-              Batal
-            </Button>
-            <Button
-              type="submit"
-              disabled={createAdvanceMutation.isPending || isSelectedRoomOccupied || availableRoomsCount === 0}
-              className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-9 px-5 gap-1.5 shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {createAdvanceMutation.isPending ? (
-                <>
-                  <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Menyimpan ke DB...</span>
-                </>
-              ) : (
-                <>
-                  <Check className="w-4 h-4" />
-                  <span>Simpan Jadwal Booking WA</span>
-                </>
-              )}
-            </Button>
-          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
