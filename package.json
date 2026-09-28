@@ -4,7 +4,7 @@
   "private": true,
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
-    "clean:ports": "powershell -Command \"Get-NetTCPConnection -LocalPort 3000, 4000 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }; exit 0\"",
+    "clean:ports": "bun scripts/clean-ports.ts",
     "dev:clean": "bun run clean:ports && bun dev",
     "dev": "bun --filter '*' dev",
     "dev:web": "bun --filter '@annisa/web' dev",
