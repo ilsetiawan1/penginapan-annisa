@@ -43,15 +43,15 @@ export function BookingWidget() {
     const typeName = selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas";
 
     const waMessage = `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
-• Tipe: *${typeName}*
-• Tgl Check-In: *${formattedDate}*
-• Durasi: *${nights} Malam*
-• Nama Pemesan: *${guestName || "-"}*
-• No. WhatsApp: *${guestPhone || "-"}*
-• Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*
-• DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*
+- Tipe: *${typeName}*
+- Tgl Check-In: *${formattedDate}*
+- Durasi: *${nights} Malam*
+- Nama Pemesan: *${guestName || "-"}*
+- No. WhatsApp: *${guestPhone || "-"}*
+- Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*
+- DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*
 
-Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
+Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
 
     window.open(
       `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`,

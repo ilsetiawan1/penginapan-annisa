@@ -40,13 +40,13 @@ export function RoomDetailModal({
     : "Hari Ini";
 
   const waMessage = `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
-• Tipe: *${room.name}*
-• Tgl Check-In: *${formattedDateStr}*
-• Durasi: *${nights} Malam*
-• Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*
-• DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*
+- Tipe: *${room.name}*
+- Tgl Check-In: *${formattedDateStr}*
+- Durasi: *${nights} Malam*
+- Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*
+- DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*
 
-Apakah kamar ini tersedia di tanggal tersebut? Terima kasih! 🙏`;
+Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
 
   const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
 

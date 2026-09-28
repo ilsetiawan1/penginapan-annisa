@@ -115,7 +115,7 @@ export function AdminSidebar({ currentRole, isMobileOpen, onCloseMobile }: Admin
         },
         {
           href: "/admin/master-articles",
-          label: "Kelola Artikel & SEO",
+          label: "Kelola Artikel",
           icon: Newspaper,
           roles: ["owner"],
         },

@@ -61,16 +61,16 @@ export function SouvenirOrderModal({ item, isOpen, onClose }: SouvenirOrderModal
     const waMessage = `*Halo Resepsionis Penginapan Annisa, saya ingin Titip Ambil Oleh-Oleh:*
 
 *Detail Produk:*
-• Nama Produk: *${item.name}*
-• Kategori: *${item.categoryLabel}*
-• Jumlah: *${quantity} pcs*
-• Harga Satuan: *${item.price}*
-• *Total Tagihan: Rp ${totalPrice.toLocaleString("id-ID")}*
+- Nama Produk: *${item.name}*
+- Kategori: *${item.categoryLabel}*
+- Jumlah: *${quantity} pcs*
+- Harga Satuan: *${item.price}*
+- *Total Tagihan: Rp ${totalPrice.toLocaleString("id-ID")}*
 
 *Identitas Pemesan:*
-• Nama Pemesan: *${guestName.trim()}*
-• No. WhatsApp: *${guestPhone.trim()}*
-• *Estimasi Waktu Ambil:* *${effectivePickupSchedule}*
+- Nama Pemesan: *${guestName.trim()}*
+- No. WhatsApp: *${guestPhone.trim()}*
+- *Estimasi Waktu Ambil:* *${effectivePickupSchedule}*
 
 *Lokasi Pengambilan:* Meja Resepsionis Penginapan Annisa (750m Bandara Pattimura).
 Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Terima kasih.`;

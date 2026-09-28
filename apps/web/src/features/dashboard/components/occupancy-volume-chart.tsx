@@ -71,30 +71,36 @@ export function OccupancyVolumeChart({
             </h3>
           </div>
 
-          {/* Period Toggle */}
-          <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/70 text-[11px] font-bold">
-            <button
-              type="button"
-              onClick={() => setPeriod("weekly")}
-              className={`px-3 py-1 rounded-lg transition cursor-pointer ${
-                period === "weekly"
-                  ? "bg-white text-slate-900 shadow-2xs font-extrabold"
-                  : "text-slate-500 hover:text-slate-800"
-              }`}
-            >
-              Mingguan
-            </button>
-            <button
-              type="button"
-              onClick={() => setPeriod("monthly")}
-              className={`px-3 py-1 rounded-lg transition cursor-pointer ${
-                period === "monthly"
-                  ? "bg-white text-slate-900 shadow-2xs font-extrabold"
-                  : "text-slate-500 hover:text-slate-800"
-              }`}
-            >
-              Bulanan
-            </button>
+          {/* Target Indicator & Period Toggle */}
+          <div className="flex items-center gap-2">
+            <span className="hidden sm:inline-flex items-center text-[10px] font-bold text-slate-500 bg-purple-50/70 border border-purple-100 px-2 py-1 rounded-lg">
+              Target: 6 Kamar (75%)
+            </span>
+
+            <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/70 text-[11px] font-bold">
+              <button
+                type="button"
+                onClick={() => setPeriod("weekly")}
+                className={`px-3 py-1 rounded-lg transition cursor-pointer ${
+                  period === "weekly"
+                    ? "bg-white text-slate-900 shadow-2xs font-extrabold"
+                    : "text-slate-500 hover:text-slate-800"
+                }`}
+              >
+                Mingguan
+              </button>
+              <button
+                type="button"
+                onClick={() => setPeriod("monthly")}
+                className={`px-3 py-1 rounded-lg transition cursor-pointer ${
+                  period === "monthly"
+                    ? "bg-white text-slate-900 shadow-2xs font-extrabold"
+                    : "text-slate-500 hover:text-slate-800"
+                }`}
+              >
+                Bulanan
+              </button>
+            </div>
           </div>
         </div>
 
@@ -115,16 +121,6 @@ export function OccupancyVolumeChart({
 
       {/* Main Bar Chart Container */}
       <div className="mt-3 relative pt-4 flex-1 min-h-0 flex flex-col justify-end">
-        {/* Horizontal Dotted Target Line (e.g. Target 75% / 6 Kamar) */}
-        <div
-          className="absolute left-0 right-10 border-b border-dashed border-slate-300 pointer-events-none z-0"
-          style={{ bottom: "58px" }}
-        >
-          <span className="absolute -top-4 left-1 text-[10px] font-bold text-slate-400 bg-white/90 px-1 rounded">
-            Target Okupansi 75% (6 Kamar)
-          </span>
-        </div>
-
         {/* Chart Bars and Right Y-Axis */}
         <div className="flex items-end justify-between gap-2 sm:gap-4 h-36 sm:h-44 lg:h-48 relative z-10">
           {/* 7 Daily Bars */}

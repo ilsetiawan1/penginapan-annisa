@@ -66,9 +66,9 @@ ${itemsSummary}
 *TOTAL TAGIHAN: Rp ${totalPrice.toLocaleString("id-ID")}*
 
 *Identitas Pemesan:*
-• Nama Pemesan: *${guestName.trim()}*
-• No. WhatsApp: *${guestPhone.trim()}*
-• *Estimasi Waktu Ambil:* *${effectivePickupSchedule}*
+- Nama Pemesan: *${guestName.trim()}*
+- No. WhatsApp: *${guestPhone.trim()}*
+- *Estimasi Waktu Ambil:* *${effectivePickupSchedule}*
 
 *Lokasi Pengambilan:* Meja Resepsionis Penginapan Annisa (750m Bandara Pattimura).
 Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Terima kasih.`;

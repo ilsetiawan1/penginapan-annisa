@@ -44,26 +44,26 @@ export function ReceiptModal({
 }: ReceiptModalProps) {
   const [copied, setCopied] = useState<boolean>(false);
 
-  const receiptText = `*🧾 BUKTI TRANSAKSI RESERVASI — PENGINAPAN ANNISA AMBON*
+  const receiptText = `*BUKTI TRANSAKSI RESERVASI — PENGINAPAN ANNISA AMBON*
 Jl. Bandara Pattimura, Tawiri (750m dari Bandara)
 WhatsApp: 0812-4216-3116
 ---------------------------------------------
 Halo Bpk/Ibu *${guestName}*, terima kasih telah memilih Penginapan Annisa.
 
 *DETAIL RESERVASI:*
-• No. Kamar: *Kamar #${roomNumber}* (${roomTypeName})
-• Check-In: *${checkInDate}* (Mulai 06:00 WIT)
-• Check-Out: *${checkOutDate}* (Maksimal 12:00 WIT)
-• Durasi: *${totalNights} Malam*
+- No. Kamar: *Kamar #${roomNumber}* (${roomTypeName})
+- Check-In: *${checkInDate}* (Mulai 06:00 WIT)
+- Check-Out: *${checkOutDate}* (Maksimal 12:00 WIT)
+- Durasi: *${totalNights} Malam*
 
 *RINCIAN BIAYA:*
-• Total Tagihan: *Rp ${totalAmount.toLocaleString("id-ID")}*
-• DP Dibayar: *Rp ${dpPaid.toLocaleString("id-ID")}* (LUNAS)
-• Sisa Pelunasan: *Rp ${remainingAmount.toLocaleString("id-ID")}* (${remainingAmount === 0 ? "LUNAS 100%" : "Dibayar saat Check-In/Out"})
+- Total Tagihan: *Rp ${totalAmount.toLocaleString("id-ID")}*
+- DP Dibayar: *Rp ${dpPaid.toLocaleString("id-ID")}* (LUNAS)
+- Sisa Pelunasan: *Rp ${remainingAmount.toLocaleString("id-ID")}* (${remainingAmount === 0 ? "LUNAS 100%" : "Dibayar saat Check-In/Out"})
 
 Fasilitas: 100% Kamar Mandi Dalam Pribadi, AC/Kipas, TV, WiFi Kencang, Handuk & Air Mineral.
 
-Ada pertanyaan atau butuh petunjuk arah dari bandara? Silakan balas pesan ini ya! 🙏✨`;
+Ada pertanyaan atau butuh petunjuk arah dari bandara? Silakan balas pesan ini. Terima kasih.`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(receiptText);
