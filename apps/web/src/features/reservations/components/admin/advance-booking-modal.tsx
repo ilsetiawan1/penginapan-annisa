@@ -20,6 +20,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Clock,
   Info,
   Landmark,
   Phone,
@@ -188,6 +189,7 @@ export function AdvanceBookingModal({
   const [guestPhone, setGuestPhone] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<"transfer" | "qris" | "cash">("transfer");
   const [dpPaid, setDpPaid] = useState<number>(137500);
+  const [notes, setNotes] = useState<string>("Landing 14.30 WIT");
 
   // Mini Calendar Navigation State
   const [calendarMonth, setCalendarMonth] = useState<Date>(() =>
@@ -204,6 +206,7 @@ export function AdvanceBookingModal({
       setCalendarMonth(parseIsoDate(initIso));
       setGuestName("");
       setGuestPhone("");
+      setNotes("Landing 14.30 WIT");
     }
   }, [isOpen, initialDate, todayIso]);
 
@@ -345,6 +348,7 @@ export function AdvanceBookingModal({
         nights,
         dpPaid,
         paymentMethod,
+        notes: notes.trim() || undefined,
       });
 
       onConfirm({
@@ -368,11 +372,13 @@ export function AdvanceBookingModal({
         dpPaid,
         remainingAmount,
         paymentMethod,
+        notes: notes.trim() || undefined,
         status: "confirmed",
       });
 
       setGuestName("");
       setGuestPhone("");
+      setNotes("Landing 14.30 WIT");
       onClose();
     } catch {
       // Error ditangani hook toast
@@ -763,6 +769,54 @@ export function AdvanceBookingModal({
                       className="w-full bg-transparent text-xs font-bold text-slate-900 outline-none placeholder:text-slate-400"
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* Estimasi Jam Tiba / Jam Landing (WIT) */}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="adv-notes"
+                    className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
+                  >
+                    Estimasi Jam Tiba / Landing Tamu (WIT)
+                  </label>
+                  <span className="text-[9px] text-purple-700 font-bold bg-purple-50 px-1.5 py-0.5 rounded">
+                    Bisa Disesuaikan
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 bg-slate-50 border-2 border-slate-200 focus-within:border-purple-600 rounded-xl px-2.5 py-1.5">
+                  <Clock className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+                  <input
+                    id="adv-notes"
+                    type="text"
+                    placeholder="Contoh: Landing 14.30 WIT / Pesawat Sore Lion Air"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="w-full bg-transparent text-xs font-bold text-slate-900 outline-none placeholder:text-slate-400"
+                  />
+                </div>
+                {/* Quick Chips Pilihan Jam Landing Cepat */}
+                <div className="flex flex-wrap gap-1 pt-0.5">
+                  {[
+                    "Landing 14.30 WIT",
+                    "Landing 18.00 WIT",
+                    "Tiba Malam (21.00 WIT)",
+                    "Transit Pagi (06.00 WIT)",
+                  ].map((chip) => (
+                    <button
+                      key={chip}
+                      type="button"
+                      onClick={() => setNotes(chip)}
+                      className={`text-[9px] font-bold px-2 py-0.5 rounded-lg border transition-all cursor-pointer ${
+                        notes === chip
+                          ? "bg-purple-100 text-purple-900 border-purple-400 shadow-2xs"
+                          : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
+                      }`}
+                    >
+                      {chip}
+                    </button>
+                  ))}
                 </div>
               </div>
 

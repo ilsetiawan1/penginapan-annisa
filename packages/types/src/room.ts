@@ -58,6 +58,7 @@ export const roomSchema = z.object({
   remainingAmount: z.number().optional(),
   reservationCode: z.string().optional(),
   reservationId: z.string().optional(),
+  notes: z.string().nullable().optional(),
 });
 export type Room = z.infer<typeof roomSchema>;
 

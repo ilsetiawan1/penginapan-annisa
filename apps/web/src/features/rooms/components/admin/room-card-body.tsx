@@ -61,7 +61,9 @@ export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
             </span>
           </div>
           <div className="flex items-center justify-between text-[10px] text-slate-500 pt-0.5 border-t border-purple-100/60">
-            <span>Landing 14.30 WIT</span>
+            <span className="truncate max-w-[130px]" title={room.notes || "Landing 14.30 WIT"}>
+              {room.notes || "Landing 14.30 WIT"}
+            </span>
             <span className="text-purple-800 font-bold">
               Sisa Rp {(room.remainingAmount || room.price * 0.5).toLocaleString("id-ID")}
             </span>

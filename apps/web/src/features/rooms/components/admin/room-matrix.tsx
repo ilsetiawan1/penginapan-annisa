@@ -110,6 +110,7 @@ export function RoomMatrix() {
               totalAmount: (matched as any).totalAmount,
               dpPaid: (matched as any).dpPaid,
               remainingAmount: (matched as any).remainingAmount,
+              notes: (matched as any).notes,
               ...(isAvailable
                 ? {
                     guestName: undefined,
@@ -120,6 +121,7 @@ export function RoomMatrix() {
                     totalAmount: undefined,
                     dpPaid: undefined,
                     remainingAmount: undefined,
+                    notes: undefined,
                   }
                 : {}),
             };

@@ -21,6 +21,7 @@ export interface RoomItem {
   totalAmount?: number;
   dpPaid?: number;
   remainingAmount?: number;
+  notes?: string;
 }
 
 interface RoomCardProps {

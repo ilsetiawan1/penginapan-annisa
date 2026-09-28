@@ -87,6 +87,7 @@ export class RoomService {
           remainingAmount: todayResv.remainingAmount,
           reservationCode: todayResv.code,
           reservationId: todayResv.id,
+          notes: todayResv.notes,
         };
 
         // Sinkronkan status kamar di DB jika berbeda
@@ -120,6 +121,7 @@ export class RoomService {
         remainingAmount: todayResv.remainingAmount,
         reservationCode: todayResv.code,
         reservationId: todayResv.id,
+        notes: todayResv.notes,
       };
     }
 

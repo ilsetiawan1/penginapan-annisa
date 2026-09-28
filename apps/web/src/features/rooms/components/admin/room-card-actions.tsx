@@ -36,7 +36,7 @@ export function RoomCardActions({
         <button
           type="button"
           onClick={() => onOpenCheckIn(room)}
-          className="w-full py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs transition-all shadow-sm hover:shadow-md cursor-pointer flex items-center justify-center gap-1.5"
+          className="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition-all shadow-sm hover:shadow-md cursor-pointer flex items-center justify-center gap-1.5"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Check-In Tamu</span>
