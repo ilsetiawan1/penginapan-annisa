@@ -426,14 +426,13 @@ export function AdvanceBookingModal({
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           {/* ====================================================
-              2 KOLOM: KIRI (KALENDER RENTANG TANGGAL) • KANAN (FORM INPUT)
+              2 KOLOM: KIRI (KALENDER & RENTANG TANGGAL) • KANAN (FORM DATA & KAMAR)
               ==================================================== */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             {/* ================================================
-                KOLOM KIRI (5/12): KALENDER INTERAKTIF RENTANG TANGGAL
-                (Sesuai referensi visual Gambar 4)
+                KOLOM KIRI (5/12): JADWAL KALENDER & RINCIAN TANGGAL
                 ================================================ */}
-            <div className="lg:col-span-5 bg-[#faf8fe] rounded-2xl p-3.5 sm:p-4 border border-purple-100/90 shadow-2xs space-y-3">
+            <div className="lg:col-span-5 bg-[#faf8fe] rounded-2xl p-3 sm:p-3.5 border border-purple-100/90 shadow-2xs space-y-2.5">
               {/* Header Mini Calendar */}
               <div className="flex items-center justify-between">
                 <h4 className="text-xs sm:text-sm font-black text-slate-900 capitalize tracking-tight flex items-center gap-1.5">
@@ -484,7 +483,7 @@ export function AdvanceBookingModal({
                   return (
                     <div
                       key={`p-${pDay}`}
-                      className="h-8 flex items-center justify-center text-[10px] text-slate-300 select-none"
+                      className="h-7 sm:h-7.5 flex items-center justify-center text-[10px] text-slate-300 select-none"
                     >
                       {pDay}
                     </div>
@@ -500,9 +499,9 @@ export function AdvanceBookingModal({
                   const isCheckOut = thisIso === checkOutDate;
                   const isInStayRange = thisIso >= checkInDate && thisIso < checkOutDate;
 
-                  // Styling pita rentang tanggal (Visual seperti Gambar 4)
+                  // Styling pita rentang tanggal
                   let dayClass =
-                    "h-8 text-xs font-bold transition-all relative flex items-center justify-center cursor-pointer ";
+                    "h-7 sm:h-7.5 text-xs font-bold transition-all relative flex items-center justify-center cursor-pointer ";
 
                   if (isPast) {
                     dayClass += "text-slate-300 cursor-not-allowed ";
@@ -533,100 +532,108 @@ export function AdvanceBookingModal({
                 })}
               </div>
 
-              {/* Rangkuman Rentang Tanggal di Bawah Kalender */}
-              <div className="pt-2 border-t border-purple-100/90 text-[11px] space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500 font-medium">Rentang Menginap:</span>
-                  <span className="font-extrabold text-purple-900 bg-purple-100 px-2 py-0.5 rounded-md">
-                    {nights} Malam
-                  </span>
+              {/* Input Tanggal Langsung & Durasi Menginap */}
+              <div className="pt-2 border-t border-purple-100/90 space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-0.5">
+                    <label
+                      htmlFor="adv-in"
+                      className="text-[9px] font-black text-slate-700 uppercase tracking-wider block"
+                    >
+                      Tgl Check-In
+                    </label>
+                    <input
+                      id="adv-in"
+                      type="date"
+                      required
+                      min={todayIso}
+                      value={checkInDate}
+                      onChange={(e) => handleCheckInChange(e.target.value)}
+                      className="w-full bg-white border border-purple-200 focus:border-purple-600 rounded-lg px-2 py-1 text-xs font-black text-slate-900 outline-none"
+                    />
+                  </div>
+
+                  <div className="space-y-0.5">
+                    <label
+                      htmlFor="adv-out"
+                      className="text-[9px] font-black text-slate-700 uppercase tracking-wider block"
+                    >
+                      Tgl Check-Out
+                    </label>
+                    <input
+                      id="adv-out"
+                      type="date"
+                      required
+                      min={addDays(checkInDate, 1)}
+                      value={checkOutDate}
+                      onChange={(e) => handleCheckOutChange(e.target.value)}
+                      className="w-full bg-white border border-purple-200 focus:border-purple-600 rounded-lg px-2 py-1 text-xs font-black text-slate-900 outline-none"
+                    />
+                  </div>
                 </div>
-                <div className="bg-white p-2 rounded-xl border border-purple-100/80 text-[11px] font-bold text-slate-800">
-                  <p className="flex items-center gap-1.5 text-purple-950">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                    <span>
-                      {formatIdDate(checkInDate)} – {formatIdDate(checkOutDate)}
+
+                {/* Selector Durasi Malam */}
+                <div className="space-y-0.5">
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="adv-dur"
+                      className="text-[9px] font-black text-slate-700 uppercase tracking-wider block"
+                    >
+                      Durasi Menginap
+                    </label>
+                    <span className="text-[10px] font-extrabold text-purple-700 bg-purple-100 px-1.5 py-0.5 rounded">
+                      {nights} Malam
                     </span>
-                  </p>
-                  <p className="text-[10px] text-slate-500 mt-0.5 font-normal">
-                    Check-in pkl 14:00 WIT • Check-out pkl 12:00 WIT
-                  </p>
+                  </div>
+                  <select
+                    id="adv-dur"
+                    value={nights}
+                    onChange={(e) => handleNightsChange(Number(e.target.value))}
+                    className="w-full bg-white border border-purple-200 focus:border-purple-600 rounded-lg px-2 py-1 text-xs font-bold text-slate-900 outline-none cursor-pointer"
+                  >
+                    <option value={1}>1 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 1))})</option>
+                    <option value={2}>2 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 2))})</option>
+                    <option value={3}>3 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 3))})</option>
+                    <option value={4}>4 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 4))})</option>
+                    <option value={5}>5 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 5))})</option>
+                    <option value={7}>7 Malam (1 Minggu)</option>
+                    <option value={14}>14 Malam (2 Minggu)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Rangkuman Biaya & Waktu Check-In/Out */}
+              <div className="bg-white p-2.5 rounded-xl border border-purple-200/90 text-xs shadow-2xs space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">
+                      Total Tagihan • {nights} Malam
+                    </span>
+                    <strong className="text-xs sm:text-sm font-black text-purple-950">
+                      Rp {totalAmount.toLocaleString("id-ID")}
+                    </strong>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">
+                      Sisa di Lokasi
+                    </span>
+                    <strong className="text-xs sm:text-sm font-black text-amber-700">
+                      Rp {remainingAmount.toLocaleString("id-ID")}
+                    </strong>
+                  </div>
+                </div>
+                <div className="pt-1 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Check-in 14:00 WIT</span>
+                  <span>•</span>
+                  <span>Check-out 12:00 WIT</span>
                 </div>
               </div>
             </div>
 
             {/* ================================================
-                KOLOM KANAN (7/12): FORM INPUT DATA RESERVASI
+                KOLOM KANAN (7/12): UNIT KAMAR, DATA TAMU & PEMBAYARAN
                 ================================================ */}
-            <div className="lg:col-span-7 space-y-3.5">
-              {/* Input Tanggal Check-In & Check-Out Langsung */}
-              <div className="grid grid-cols-2 gap-2">
-                <div className="space-y-1">
-                  <label
-                    htmlFor="adv-in"
-                    className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
-                  >
-                    Tgl Check-In Tamu
-                  </label>
-                  <input
-                    id="adv-in"
-                    type="date"
-                    required
-                    min={todayIso}
-                    value={checkInDate}
-                    onChange={(e) => handleCheckInChange(e.target.value)}
-                    className="w-full bg-slate-50 border-2 border-slate-200 focus:border-purple-600 rounded-xl px-2.5 py-1.5 text-xs font-black text-slate-900 outline-none"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label
-                    htmlFor="adv-out"
-                    className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
-                  >
-                    Tgl Check-Out Tamu
-                  </label>
-                  <input
-                    id="adv-out"
-                    type="date"
-                    required
-                    min={addDays(checkInDate, 1)}
-                    value={checkOutDate}
-                    onChange={(e) => handleCheckOutChange(e.target.value)}
-                    className="w-full bg-slate-50 border-2 border-slate-200 focus:border-purple-600 rounded-xl px-2.5 py-1.5 text-xs font-black text-slate-900 outline-none"
-                  />
-                </div>
-              </div>
-
-              {/* Selector Durasi Malam */}
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="adv-dur"
-                    className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
-                  >
-                    Durasi Menginap (Malam)
-                  </label>
-                  <span className="text-[10px] font-extrabold text-purple-700">
-                    {nights} Malam • {formatIdDate(checkInDate)} s/d {formatIdDate(checkOutDate)}
-                  </span>
-                </div>
-                <select
-                  id="adv-dur"
-                  value={nights}
-                  onChange={(e) => handleNightsChange(Number(e.target.value))}
-                  className="w-full bg-slate-50 border-2 border-slate-200 focus:border-purple-600 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-900 outline-none cursor-pointer"
-                >
-                  <option value={1}>1 Malam (Check-out {formatIdDate(addDays(checkInDate, 1))})</option>
-                  <option value={2}>2 Malam (Check-out {formatIdDate(addDays(checkInDate, 2))})</option>
-                  <option value={3}>3 Malam (Check-out {formatIdDate(addDays(checkInDate, 3))})</option>
-                  <option value={4}>4 Malam (Check-out {formatIdDate(addDays(checkInDate, 4))})</option>
-                  <option value={5}>5 Malam (Check-out {formatIdDate(addDays(checkInDate, 5))})</option>
-                  <option value={7}>7 Malam (1 Minggu)</option>
-                  <option value={14}>14 Malam (2 Minggu)</option>
-                </select>
-              </div>
-
+            <div className="lg:col-span-7 space-y-3">
               {/* ====================================================
                   PILIHAN UNIT KAMAR (DENGAN DISABLED UNTUK KAMAR PENUH)
                   ==================================================== */}
@@ -653,7 +660,7 @@ export function AdvanceBookingModal({
                     const room = ROOM_OPTIONS.find((r) => r.code === code);
                     if (room) setDpPaid(Math.round(room.price * nights * 0.5));
                   }}
-                  className={`w-full border-2 rounded-xl px-3 py-2 text-xs font-bold outline-none cursor-pointer transition ${
+                  className={`w-full border-2 rounded-xl px-3 py-1.5 text-xs font-bold outline-none cursor-pointer transition ${
                     isSelectedRoomOccupied
                       ? "border-rose-400 bg-rose-50/50 text-rose-800"
                       : "border-slate-200 focus:border-purple-600 bg-slate-50 text-slate-900"
@@ -851,7 +858,7 @@ export function AdvanceBookingModal({
               </div>
 
               {/* DP & Pembayaran */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="adv-dp"
@@ -907,25 +914,11 @@ export function AdvanceBookingModal({
                     ))}
                   </div>
                 </div>
-              </div>
 
-              {/* Rincian Ringkas Tagihan */}
-              <div className="bg-purple-50/90 border border-purple-200/90 rounded-xl p-2.5 flex items-center justify-between text-xs">
-                <div>
-                  <span className="text-[10px] text-slate-500 font-medium block">
-                    Total Tagihan • {nights} Malam:
-                  </span>
-                  <strong className="text-xs sm:text-sm font-black text-slate-900">
-                    Rp {totalAmount.toLocaleString("id-ID")}
-                  </strong>
-                </div>
-                <div className="text-right">
-                  <span className="text-[10px] text-slate-500 font-medium block">
-                    Sisa Pelunasan di Lokasi:
-                  </span>
-                  <strong className="text-xs sm:text-sm font-black text-amber-700">
-                    Rp {remainingAmount.toLocaleString("id-ID")}
-                  </strong>
+                {/* Sisa Tagihan Ringkas */}
+                <div className="flex items-center justify-between text-[11px] text-slate-600 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-bold">
+                  <span>Tagihan: <strong className="text-slate-900">Rp {totalAmount.toLocaleString("id-ID")}</strong></span>
+                  <span>Sisa di Lokasi: <strong className="text-amber-700">Rp {remainingAmount.toLocaleString("id-ID")}</strong></span>
                 </div>
               </div>
             </div>
