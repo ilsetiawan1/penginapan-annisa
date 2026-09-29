@@ -11,7 +11,7 @@ interface RoomGridProps {
 
 export function RoomGrid({ rooms, searchQuery, checkInDate, nights, onReset }: RoomGridProps) {
   return (
-    <section className="max-w-6xl mx-auto px-4 pt-2 pb-16 sm:pb-20 space-y-4 sm:space-y-6">
+    <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 pb-16 sm:pb-20 space-y-4 sm:space-y-6">
       {/* Section Header Konsisten dengan /oleh-oleh & /artikel */}
       <div className="flex items-center justify-between mt-4 sm:mt-6 mb-2 sm:mb-4">
         <div>

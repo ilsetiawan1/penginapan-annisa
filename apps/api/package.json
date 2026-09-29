@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "build": "tsc",
+    "start": "node dist/index.js",
+    "start:ts": "npx tsx src/index.ts",
     "test": "bun test src"
   },
   "dependencies": {

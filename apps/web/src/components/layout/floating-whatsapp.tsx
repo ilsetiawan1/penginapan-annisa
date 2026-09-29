@@ -12,7 +12,7 @@ export function FloatingWhatsApp() {
   const [isDismissed, setIsDismissed] = useState(false);
   const [showCloseBadge, setShowCloseBadge] = useState(false);
 
-  const isSouvenirPage = pathname?.includes("/oleh-oleh") || pathname === "/";
+  const isSouvenirPage = pathname?.includes("/souvenirs") || pathname?.includes("/oleh-oleh") || pathname === "/";
   const hasActiveCart = isSouvenirPage && totalItemsCount > 0;
 
   useEffect(() => {

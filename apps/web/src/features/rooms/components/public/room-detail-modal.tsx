@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
-import { Bed, Car, Check, Clock, Fan, Navigation, Tv, Wifi, Wind } from "lucide-react";
+import { Bed, Check, Clock, Fan, Tag, Tv, Wifi, Wind } from "lucide-react";
 import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa6";
 import { MdOutlineShower, MdOutlineWash } from "react-icons/md";
@@ -31,6 +31,10 @@ export function RoomDetailModal({
   const totalPrice = numericPrice * nights;
   const dpPrice = Math.round(totalPrice * 0.5);
 
+  const cleanRoomTitle = room.number
+    ? `Kamar #${room.number}`
+    : room.name.replace(/\s*\([^)]*\)/, "");
+
   const formattedDateStr = checkInDate
     ? new Date(checkInDate).toLocaleDateString("id-ID", {
         day: "numeric",
@@ -40,6 +44,7 @@ export function RoomDetailModal({
     : "Hari Ini";
 
   const waUrl = getRoomBookingWhatsAppUrl({
+    roomNumber: room.number,
     roomName: room.name,
     price: room.price,
     checkInDate: formattedDateStr,
@@ -49,7 +54,7 @@ export function RoomDetailModal({
   });
 
   const waInquiryUrl = getRoomAvailabilityInquiryUrl({
-    roomName: room.name,
+    roomName: cleanRoomTitle,
     dateStr: formattedDateStr,
     nights,
   });
@@ -65,39 +70,40 @@ export function RoomDetailModal({
             <div className="w-full h-full bg-gradient-to-br from-purple-900 to-slate-950 flex flex-col items-center justify-center gap-2 text-purple-300/80 p-4">
               <Bed className="w-8 h-8 stroke-[1.5]" />
               <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                {room.name}
+                {cleanRoomTitle}
               </span>
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
 
-          {/* Badges Status & Tipe di Foto */}
+          {/* Badges Status & Tipe di Foto (Konsisten dengan Image 2: Icon Tag & Text Tipe AC/Kipas Ungu) */}
           <div className="absolute top-3 left-3 flex items-center gap-1.5">
-            <span className="bg-white/95 backdrop-blur-md text-purple-900 border border-purple-200/80 px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-sm">
-              {room.type === "ac" ? "Tipe AC" : "Tipe Kipas"}
-            </span>
+            <div className="bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1.5 text-purple-700 text-[10px] sm:text-xs font-bold border border-purple-100">
+              <Tag className="w-3 h-3 text-purple-600 shrink-0" />
+              <span>{room.type === "ac" ? "Tipe AC" : "Tipe Kipas"}</span>
+            </div>
 
             {isAvailable ? (
-              <span className="bg-emerald-600/95 backdrop-blur-md text-white px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold shadow-sm flex items-center gap-1">
+              <span className="bg-emerald-600/95 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-sm flex items-center gap-1">
                 <Check className="w-3 h-3 stroke-[3]" />
                 <span>Tersedia</span>
               </span>
             ) : (
-              <span className="bg-slate-700/95 backdrop-blur-md text-white px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold shadow-sm flex items-center gap-1">
+              <span className="bg-slate-700/95 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-sm flex items-center gap-1">
                 <Clock className="w-3 h-3" />
                 <span>Terisi</span>
               </span>
             )}
           </div>
 
-          {/* Judul & Harga di Bawah Foto */}
+          {/* Judul & Harga di Bawah Foto (Tanpa duplikasi teks tipe kamar) */}
           <div className="absolute bottom-2.5 sm:bottom-3.5 left-3 sm:left-4 right-3 sm:right-4 flex items-end justify-between text-white">
             <div>
               <span className="text-[9px] sm:text-[10px] text-purple-200 font-bold uppercase tracking-wider block leading-none mb-0.5">
                 UNIT KAMAR TRANSIT
               </span>
               <h2 className="text-xl sm:text-2xl font-serif font-black leading-tight drop-shadow-md">
-                {room.name}
+                {cleanRoomTitle}
               </h2>
             </div>
             <div className="text-right">
@@ -113,7 +119,7 @@ export function RoomDetailModal({
 
         {/* Content Body (Strict Non-Scroll Layout on Mobile) */}
         <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between space-y-2.5 sm:space-y-3.5">
-          {/* Section 1: Fasilitas Kamar (Visual 4-Col Grid Ala Luxury Hotel) */}
+          {/* Section 1: Fasilitas Kamar (6 Fasilitas Esensial Bersih & Proporsional) */}
           <div>
             <div className="flex items-center justify-between mb-1.5 sm:mb-2 px-0.5">
               <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-800">
@@ -124,8 +130,8 @@ export function RoomDetailModal({
               </span>
             </div>
 
-            {/* 4 Kolom x 2 Baris yang Sangat Padat & Proporsional */}
-            <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+            {/* 6 Kolom yang Bersih & Seimbang (3 Kolom di Mobile, 6 Kolom di Layar Lebih Lebar) */}
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 sm:gap-2">
               {/* 1. Kasur Besar */}
               <div className="bg-white p-1.5 sm:p-2.5 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col items-center text-center">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center mb-1">
@@ -167,18 +173,18 @@ export function RoomDetailModal({
                 <span className="text-[9px] text-slate-400 hidden sm:block mt-0.5">Terawat</span>
               </div>
 
-              {/* 4. TV Layar Datar */}
+              {/* 4. TV */}
               <div className="bg-white p-1.5 sm:p-2.5 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col items-center text-center">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center mb-1">
                   <Tv className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <span className="text-[10px] sm:text-[11px] font-bold text-slate-900 leading-tight">
-                  TV Layar Datar
+                  TV
                 </span>
                 <span className="text-[9px] text-slate-400 hidden sm:block mt-0.5">Hiburan</span>
               </div>
 
-              {/* 5. WiFi Gratis */}
+              {/* 5. WiFi Kencang */}
               <div className="bg-white p-1.5 sm:p-2.5 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col items-center text-center">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center mb-1">
                   <Wifi className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -200,30 +206,6 @@ export function RoomDetailModal({
                   Handuk Bersih
                 </span>
                 <span className="text-[9px] text-slate-400 hidden sm:block mt-0.5">Higienis</span>
-              </div>
-
-              {/* 7. Parkir */}
-              <div className="bg-white p-1.5 sm:p-2.5 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col items-center text-center">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center mb-1">
-                  <Car className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-bold text-slate-900 leading-tight">
-                  Area Parkir
-                </span>
-                <span className="text-[9px] text-slate-400 hidden sm:block mt-0.5">
-                  Mobil &amp; Motor
-                </span>
-              </div>
-
-              {/* 8. Jarak Bandara */}
-              <div className="bg-white p-1.5 sm:p-2.5 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col items-center text-center">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center mb-1">
-                  <Navigation className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-bold text-slate-900 leading-tight">
-                  750m Bandara
-                </span>
-                <span className="text-[9px] text-slate-400 hidden sm:block mt-0.5">2–3 Menit</span>
               </div>
             </div>
           </div>
@@ -249,7 +231,7 @@ export function RoomDetailModal({
             </div>
           </div>
 
-          {/* Action Button: Chat WhatsApp Langsung */}
+          {/* Action Button: Chat WhatsApp Langsung (Tanpa Teks Duplicate) */}
           {isAvailable ? (
             <Button
               asChild
@@ -257,13 +239,13 @@ export function RoomDetailModal({
             >
               <a href={waUrl} target="_blank" rel="noreferrer">
                 <FaWhatsapp className="w-4 h-4" />
-                <span>Reservasi {room.name} via WhatsApp</span>
+                <span>Reservasi {cleanRoomTitle} via WhatsApp</span>
               </a>
             </Button>
           ) : (
             <div className="flex flex-col gap-2 shrink-0">
               <div className="bg-amber-50 border border-amber-200 text-amber-900 text-xs px-3 py-2 rounded-xl text-center font-bold">
-                Unit {room.name} sedang terisi di tanggal yang Anda pilih ({formattedDateStr}).
+                Unit {cleanRoomTitle} sedang terisi di tanggal yang Anda pilih ({formattedDateStr}).
               </div>
               <Button
                 asChild
@@ -272,7 +254,7 @@ export function RoomDetailModal({
               >
                 <a href={waInquiryUrl} target="_blank" rel="noreferrer">
                   <FaWhatsapp className="w-4 h-4" />
-                  <span>Tanya Kamar Kosong / Tanggal Lain via WA</span>
+                  <span>Tanya Kamar Kosong via WhatsApp</span>
                 </a>
               </Button>
             </div>

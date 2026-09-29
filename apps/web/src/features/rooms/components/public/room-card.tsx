@@ -1,12 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
-import { Bed, Check, Clock, Tag } from "lucide-react";
+import { ArrowRight, Bed, Check, Clock, Tag } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { FaWhatsapp } from "react-icons/fa6";
 import { RoomDetailModal } from "./room-detail-modal";
 
 export interface RoomItem {
@@ -34,31 +31,6 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
   const isAvailable = room.status === "tersedia";
   const numericPrice = Number(room.price.replace(/\./g, ""));
   const totalPrice = numericPrice * nights;
-  const dpPrice = Math.round(totalPrice * 0.5);
-
-  const formattedDateStr = checkInDate
-    ? new Date(checkInDate).toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })
-    : "Hari Ini";
-
-  // URL WhatsApp dengan Draf Pesan Bersih & Elegan
-  const waUrl = getRoomBookingWhatsAppUrl({
-    roomName: room.name,
-    price: room.price,
-    checkInDate: formattedDateStr,
-    nights,
-    total: totalPrice.toLocaleString("id-ID"),
-    dp: dpPrice.toLocaleString("id-ID"),
-  });
-
-  const waInquiryUrl = getRoomAvailabilityInquiryUrl({
-    roomName: room.name,
-    dateStr: formattedDateStr,
-    nights,
-  });
 
   return (
     <>
@@ -107,7 +79,7 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
               )}
             </div>
 
-            {/* Nama Kamar (Poppins Font) */}
+            {/* Nama Kamar */}
             <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug group-hover:text-purple-700 transition">
               {room.name}
             </h3>
@@ -119,47 +91,23 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
           </div>
         </div>
 
-        {/* Baris Bawah: Harga & Aksi Reservasi */}
-        <div className="p-4 sm:p-5 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between gap-2">
-          <div>
-            <span className="text-base sm:text-lg font-black text-purple-700 leading-none block">
+        {/* Baris Bawah: Harga Bersih & Bernapas + Aksi Lihat Kamar Minimalis */}
+        <div className="px-3.5 sm:px-4 py-3 border-t border-slate-100 flex items-center justify-between gap-2">
+          {/* Kontainer Harga Terproteksi dari Line-Break */}
+          <div className="whitespace-nowrap shrink-0 flex items-baseline">
+            <span className="text-sm sm:text-base font-black text-slate-900 group-hover:text-purple-700 transition-colors">
               Rp {totalPrice.toLocaleString("id-ID")}
             </span>
-            <span className="text-[10px] text-slate-400 font-semibold mt-0.5 block">
-              {nights > 1
-                ? `DP 50%: Rp ${dpPrice.toLocaleString("id-ID")}`
-                : `DP 50%: Rp ${room.dp}`}
+            <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium ml-1">
+              /malam
             </span>
           </div>
 
-          {isAvailable ? (
-            <Button
-              asChild
-              onClick={(e) => e.stopPropagation()}
-              className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
-            >
-              <a href={waUrl} target="_blank" rel="noreferrer">
-                <FaWhatsapp className="w-4 h-4" />
-                <span>Pesan Kamar</span>
-              </a>
-            </Button>
-          ) : (
-            <Button
-              asChild
-              variant="outline"
-              onClick={(e) => e.stopPropagation()}
-              className="rounded-xl border-slate-300 text-slate-600 hover:bg-slate-100 font-bold text-xs h-9 px-2.5 gap-1.5 cursor-pointer shrink-0"
-            >
-              <a
-                href={waInquiryUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaWhatsapp className="w-4 h-4 text-emerald-600" />
-                <span>Kamar Terisi</span>
-              </a>
-            </Button>
-          )}
+          {/* Tombol Aksi Minimalis dengan shrink-0 */}
+          <div className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-600 group-hover:text-purple-700 bg-slate-50 group-hover:bg-purple-50 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-slate-200/80 group-hover:border-purple-200 transition-all shrink-0">
+            <span>Lihat Kamar</span>
+            <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform group-hover:translate-x-0.5" />
+          </div>
         </div>
       </Card>
 

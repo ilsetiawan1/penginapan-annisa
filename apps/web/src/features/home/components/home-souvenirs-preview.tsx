@@ -214,7 +214,7 @@ export function HomeSouvenirsPreview() {
       {/* Link Buka Seluruh Etalase */}
       <div className="text-center mt-6 sm:mt-8">
         <Link
-          href="/oleh-oleh"
+          href="/souvenirs"
           className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-purple-700 hover:text-purple-900 hover:underline transition"
         >
           <span>Lihat Seluruh Produk Oleh-oleh Khas di Etalase Lengkap</span>

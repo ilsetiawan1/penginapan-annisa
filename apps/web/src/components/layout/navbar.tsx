@@ -24,9 +24,9 @@ export function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Beranda", icon: Home },
-    { href: "/kamar", label: "Tipe Kamar", icon: Bed },
-    { href: "/oleh-oleh", label: "Oleh-oleh", icon: Gift },
-    { href: "/artikel", label: "Artikel", icon: BookOpen },
+    { href: "/rooms", label: "Tipe Kamar", icon: Bed },
+    { href: "/souvenirs", label: "Oleh-oleh", icon: Gift },
+    { href: "/articles", label: "Artikel", icon: BookOpen },
     { href: "/contact", label: "Kontak", icon: MapPin },
   ];
 
@@ -96,12 +96,15 @@ export function Navbar() {
           {/* Booking CTA Button (Hidden on Mobile) */}
           <Button
             asChild
-            variant="primary"
             size="sm"
-            className="hidden sm:inline-flex rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-xs items-center justify-center shrink-0 transition"
+            className={`hidden sm:inline-flex rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold items-center justify-center shrink-0 transition ${
+              pathname === "/rooms"
+                ? "bg-white/10 hover:bg-white/20 text-white border border-white/25 backdrop-blur-md shadow-none"
+                : "bg-purple-700 hover:bg-purple-800 text-white shadow-xs"
+            }`}
             title="Pilih dan Pesan Kamar Transit"
           >
-            <Link href="/kamar">
+            <Link href="/rooms">
               <Bed className="w-3.5 h-3.5 mr-1.5" />
               <span>Pesan Kamar</span>
             </Link>

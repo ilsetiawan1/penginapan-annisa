@@ -68,7 +68,7 @@ export function HeroSection() {
             </div>
 
             <Link
-              href="/kamar"
+              href="/rooms"
               className="flex items-center gap-2.5 p-2.5 sm:p-3 bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600 text-white rounded-2xl shadow-lg hover:shadow-xl hover:from-purple-800 hover:to-indigo-700 transition-all group cursor-pointer"
             >
               <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0">

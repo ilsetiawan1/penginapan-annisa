@@ -61,7 +61,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
         <p className="text-sm text-slate-500 mb-6">
           Artikel yang Anda cari mungkin telah dipindahkan atau dihapus.
         </p>
-        <Link href="/artikel">
+        <Link href="/articles">
           <Button className="rounded-full cursor-pointer bg-purple-700 hover:bg-purple-800 text-white">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Kembali ke Semua Artikel
@@ -97,7 +97,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
       <div className="max-w-4xl mx-auto px-4 pt-8 pb-4">
         <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
           <Link
-            href="/artikel"
+            href="/articles"
             className="inline-flex items-center gap-1.5 font-semibold text-purple-700 hover:text-purple-800 transition"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -213,7 +213,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                 mandi dalam, kasur empuk, dan layanan antar jemput kilat.
               </p>
             </div>
-            <Link href="/kamar" className="shrink-0 w-full md:w-auto">
+            <Link href="/rooms" className="shrink-0 w-full md:w-auto">
               <Button
                 size="lg"
                 className="w-full md:w-auto rounded-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-7 cursor-pointer shadow-lg"
@@ -238,7 +238,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                 </p>
               </div>
               <Link
-                href="/artikel"
+                href="/articles"
                 className="inline-flex items-center gap-1 text-xs font-bold text-purple-700 hover:text-purple-800"
               >
                 Lihat Semua <ChevronRight className="w-4 h-4" />

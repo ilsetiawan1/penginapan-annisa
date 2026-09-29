@@ -98,17 +98,17 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/kamar" className="hover:text-purple-700 transition">
+                  <Link href="/rooms" className="hover:text-purple-700 transition">
                     Pilihan Kamar
                   </Link>
                 </li>
                 <li>
-                  <Link href="/oleh-oleh" className="hover:text-purple-700 transition">
+                  <Link href="/souvenirs" className="hover:text-purple-700 transition">
                     Oleh-oleh Khas
                   </Link>
                 </li>
                 <li>
-                  <Link href="/artikel" className="hover:text-purple-700 transition">
+                  <Link href="/articles" className="hover:text-purple-700 transition">
                     Artikel Wisata
                   </Link>
                 </li>

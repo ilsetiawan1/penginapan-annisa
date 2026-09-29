@@ -21,6 +21,30 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/kamar",
+        destination: "/rooms",
+        permanent: true,
+      },
+      {
+        source: "/oleh-oleh",
+        destination: "/souvenirs",
+        permanent: true,
+      },
+      {
+        source: "/artikel",
+        destination: "/articles",
+        permanent: true,
+      },
+      {
+        source: "/artikel/:slug*",
+        destination: "/articles/:slug*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

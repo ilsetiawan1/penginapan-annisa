@@ -21,7 +21,7 @@ interface ArticleCardProps {
 export function ArticleCard({ article }: ArticleCardProps) {
   return (
     <article className="bg-white rounded-3xl border border-slate-200/90 shadow-2xs hover:border-purple-300 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
-      <Link href={`/artikel/${article.slug}`} className="block">
+      <Link href={`/articles/${article.slug}`} className="block">
         {/* Article Thumbnail (100% Bersih Tanpa Badge Penutup) */}
         <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden">
           <Image
@@ -57,7 +57,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
             {article.date}
           </span>
           <Link
-            href={`/artikel/${article.slug}`}
+            href={`/articles/${article.slug}`}
             className="inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform cursor-pointer"
           >
             <span>Baca Selengkapnya</span>

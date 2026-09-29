@@ -283,7 +283,7 @@ export function HomeRoomsPreview() {
       {/* Link ke Katalog Lengkap */}
       <div className="text-center mt-6 sm:mt-8">
         <Link
-          href="/kamar"
+          href="/rooms"
           className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-purple-700 hover:text-purple-900 hover:underline transition"
         >
           <span>Lihat Seluruh 8 Unit Kamar di Halaman Katalog Lengkap</span>
