@@ -71,9 +71,9 @@ export const createOnlineBookingInputSchema = z.object({
 export type CreateOnlineBookingInput = z.infer<typeof createOnlineBookingInputSchema>;
 
 export const createWalkInBookingInputSchema = z.object({
-  roomId: z.string().uuid("Pilih kamar yang valid"),
+  roomId: z.string().min(1, "Pilih unit kamar yang valid"),
   guestName: z.string().min(2, "Nama tamu wajib diisi"),
-  guestPhone: z.string().min(8, "Nomor WhatsApp wajib diisi"),
+  guestPhone: z.string().min(4, "Nomor kontak minimal 4 karakter").default("081200000000"),
   idCardNumber: z.string().optional(),
   totalNights: z.number().int().positive("Durasi minimal 1 malam").default(1),
   paymentMethod: paymentMethodSchema.default("cash"),

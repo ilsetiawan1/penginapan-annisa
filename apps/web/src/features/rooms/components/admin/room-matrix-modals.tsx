@@ -29,7 +29,7 @@ interface RoomMatrixModalsProps {
   setIsAdvanceBookingOpen: (val: boolean) => void;
   onConfirmCheckIn: (data: CheckInFormData) => void;
   onConfirmSettlement: (roomCode: string, paymentMethod: string) => void;
-  onConfirmCheckOut: () => void;
+  onConfirmCheckOut: (paymentMethod?: "cash" | "qris" | "transfer") => void;
   onMarkClean: (roomCode: string) => void;
   onFinishMaintenance: (roomCode: string) => void;
   onConfirmAdvanceBooking: (data: AdvanceBookingData) => void;
@@ -62,6 +62,7 @@ export function RoomMatrixModals({
         <CheckInModal
           isOpen={Boolean(checkInModalData)}
           onClose={() => setCheckInModalData(null)}
+          roomId={checkInModalData.id}
           roomNumber={checkInModalData.code}
           roomPrice={checkInModalData.price}
           roomTypeName={checkInModalData.typeName}
@@ -82,7 +83,7 @@ export function RoomMatrixModals({
           totalAmount={checkOutModalData.totalAmount || checkOutModalData.price}
           dpPaid={checkOutModalData.dpPaid || 0}
           remainingAmount={checkOutModalData.remainingAmount || 0}
-          onConfirmCheckOut={() => onConfirmCheckOut()}
+          onConfirmCheckOut={(pm) => onConfirmCheckOut(pm)}
         />
       )}
 

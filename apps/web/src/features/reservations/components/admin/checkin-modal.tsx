@@ -46,6 +46,7 @@ function formatIdDate(isoOrDate: string | Date): string {
 // INTERFACES & PROPS
 // ==========================================
 export interface CheckInFormData {
+  roomId?: string;
   roomNumber: string;
   guestName: string;
   guestPhone: string;
@@ -61,6 +62,7 @@ export interface CheckInFormData {
 interface CheckInModalProps {
   isOpen: boolean;
   onClose: () => void;
+  roomId?: string;
   roomNumber: string;
   roomPrice: number;
   roomTypeName: string;
@@ -70,6 +72,7 @@ interface CheckInModalProps {
 export function CheckInModal({
   isOpen,
   onClose,
+  roomId,
   roomNumber = "A1",
   roomPrice = 200000,
   roomTypeName = "Kamar Standar",
@@ -113,9 +116,10 @@ export function CheckInModal({
     if (!guestName.trim()) return;
 
     onConfirm({
+      roomId,
       roomNumber,
       guestName: guestName.trim(),
-      guestPhone: guestPhone.trim() || "0812-xxxx-xxxx",
+      guestPhone: guestPhone.trim() || "081200000000",
       checkInDate: formatIdDate(checkInDate),
       checkOutDate: formatIdDate(checkOutDate),
       totalNights: nights,

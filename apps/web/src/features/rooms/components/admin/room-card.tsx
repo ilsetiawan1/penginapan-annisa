@@ -8,6 +8,7 @@ export type RoomStatus = "ready" | "occupied" | "dirty" | "maintenance" | "booke
 
 export interface RoomItem {
   code: string; // "A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"
+  id?: string;
   building: "A" | "B";
   type: "ac" | "kipas";
   typeName: string; // "Kamar Tipe AC" | "Kamar Tipe Kipas"
@@ -22,6 +23,8 @@ export interface RoomItem {
   dpPaid?: number;
   remainingAmount?: number;
   paymentStatus?: string; // "paid" | "dp_paid" | "unpaid"
+  reservationId?: string;
+  reservationCode?: string;
   notes?: string;
 }
 

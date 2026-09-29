@@ -2,6 +2,11 @@
 
 import type { AdvanceBookingData } from "@/features/reservations/components/admin/advance-booking-modal";
 import type { CheckInFormData } from "@/features/reservations/components/admin/checkin-modal";
+import {
+  useCheckIn,
+  useCheckOut,
+  useCreateWalkInBooking,
+} from "@/features/reservations/hooks/use-reservations";
 import { useRooms, useUpdateRoomStatus } from "@/features/rooms/hooks/use-rooms";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -88,6 +93,9 @@ export function RoomMatrix() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const queryClient = useQueryClient();
   const updateStatusMutation = useUpdateRoomStatus();
+  const createWalkInMutation = useCreateWalkInBooking();
+  const checkInMutation = useCheckIn();
+  const checkOutMutation = useCheckOut();
 
   // Sync state dengan data live dari database (DB PostgreSQL)
   useEffect(() => {
@@ -101,6 +109,7 @@ export function RoomMatrix() {
             const isAvailable = matched.status === "ready";
             return {
               ...r,
+              id: matched.id,
               status: matched.status as RoomItem["status"],
               guestName: (matched as any).guestName,
               guestPhone: (matched as any).guestPhone,
@@ -111,6 +120,8 @@ export function RoomMatrix() {
               dpPaid: (matched as any).dpPaid,
               remainingAmount: (matched as any).remainingAmount,
               paymentStatus: (matched as any).paymentStatus,
+              reservationId: (matched as any).reservationId,
+              reservationCode: (matched as any).reservationCode,
               notes: (matched as any).notes,
               ...(isAvailable
                 ? {
@@ -123,6 +134,8 @@ export function RoomMatrix() {
                     dpPaid: undefined,
                     remainingAmount: undefined,
                     paymentStatus: undefined,
+                    reservationId: undefined,
+                    reservationCode: undefined,
                     notes: undefined,
                   }
                 : {}),
@@ -163,8 +176,9 @@ export function RoomMatrix() {
   const bookedCount = rooms.filter((r) => r.status === "booked").length;
   const dirtyCount = rooms.filter((r) => r.status === "dirty").length;
 
-  // Handle Check-In Tamu Walk-In
-  const handleConfirmCheckIn = (data: CheckInFormData) => {
+  // Handle Check-In Tamu Walk-In (Tersimpan ke Database PostgreSQL)
+  const handleConfirmCheckIn = async (data: CheckInFormData) => {
+    // 1. Optimistic Update di UI seketika
     setRooms((prev) =>
       prev.map((r) => {
         if (r.code === data.roomNumber) {
@@ -184,17 +198,32 @@ export function RoomMatrix() {
         return r;
       }),
     );
-    updateStatusMutation.mutate({
-      roomNumber: data.roomNumber,
-      input: { status: "occupied" },
-    });
-    toast.success(
-      `Check-In Berhasil! Kamar #${data.roomNumber} kini Terisi untuk ${data.guestName}.`,
+
+    const matchedRoom = dbRooms?.find(
+      (dbR) => dbR.roomNumber.toUpperCase() === data.roomNumber.toUpperCase(),
     );
+    const targetRoomId = data.roomId || matchedRoom?.id || data.roomNumber;
+
+    try {
+      await createWalkInMutation.mutateAsync({
+        roomId: targetRoomId,
+        guestName: data.guestName,
+        guestPhone: data.guestPhone || "081200000000",
+        totalNights: data.totalNights || 1,
+        paymentMethod: data.paymentMethod || "cash",
+        isFullPayment: true,
+      });
+    } catch (err) {
+      console.error("Gagal check-in walk-in:", err);
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+    }
   };
 
   // Handle Pelunasan & Check-In Tamu Booking WA yang Baru Saja Tiba di Resepsionis
-  const handleConfirmSettlement = (roomCode: string, paymentMethod: string) => {
+  const handleConfirmSettlement = async (roomCode: string, paymentMethod: string) => {
+    const targetRoom = rooms.find((r) => r.code === roomCode);
+    const resvId = targetRoom?.reservationId;
+
     setRooms((prev) =>
       prev.map((r) => {
         if (r.code === roomCode) {
@@ -208,19 +237,41 @@ export function RoomMatrix() {
         return r;
       }),
     );
-    updateStatusMutation.mutate({
-      roomNumber: roomCode,
-      input: { status: "occupied" },
-    });
-    toast.success(
-      `Pelunasan Berhasil (${paymentMethod.toUpperCase()})! Kamar #${roomCode} kini Lunas 100% dan Siap Ditempati.`,
-    );
+
+    const mappedPayment =
+      paymentMethod === "tunai" ? "cash" : paymentMethod === "qris" ? "qris" : "transfer";
+
+    try {
+      if (resvId) {
+        await checkInMutation.mutateAsync({
+          id: resvId,
+          input: {
+            paymentMethod: mappedPayment,
+          },
+        });
+      } else {
+        await updateStatusMutation.mutateAsync({
+          roomNumber: roomCode,
+          input: { status: "occupied" },
+        });
+        toast.success(
+          `Pelunasan Berhasil (${paymentMethod.toUpperCase()})! Kamar #${roomCode} kini Lunas 100% dan Siap Ditempati.`,
+        );
+      }
+    } catch (err) {
+      console.error("Gagal pelunasan check-in:", err);
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+    }
   };
 
   // Handle Check-Out Tamu
-  const handleConfirmCheckOut = () => {
+  const handleConfirmCheckOut = async (
+    paymentMethod: "cash" | "qris" | "transfer" = "cash",
+  ) => {
     if (!checkOutModalData) return;
     const roomCode = checkOutModalData.code;
+    const resvId = checkOutModalData.reservationId;
+
     setRooms((prev) =>
       prev.map((r) => {
         if (r.code === roomCode) {
@@ -235,16 +286,33 @@ export function RoomMatrix() {
             totalAmount: undefined,
             dpPaid: undefined,
             remainingAmount: undefined,
+            reservationId: undefined,
+            reservationCode: undefined,
           };
         }
         return r;
       }),
     );
-    updateStatusMutation.mutate({
-      roomNumber: roomCode,
-      input: { status: "dirty" },
-    });
-    toast.info(`Check-Out Berhasil! Kamar #${roomCode} kini masuk status Perlu Bersih.`);
+
+    try {
+      if (resvId) {
+        await checkOutMutation.mutateAsync({
+          id: resvId,
+          input: {
+            markAsDirty: true,
+          },
+        });
+      } else {
+        await updateStatusMutation.mutateAsync({
+          roomNumber: roomCode,
+          input: { status: "dirty" },
+        });
+        toast.info(`Check-Out Berhasil! Kamar #${roomCode} kini masuk status Perlu Bersih.`);
+      }
+    } catch (err) {
+      console.error("Gagal check-out:", err);
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+    }
   };
 
   // Handle Tandai Kamar Bersih (Housekeeping Selesai)

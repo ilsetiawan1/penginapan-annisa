@@ -54,6 +54,9 @@ export class RoomService {
       const resOut = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
         new Date(res.checkOutDate),
       );
+      if (res.status === "checked_in") {
+        return todayWitStr >= resIn;
+      }
       return todayWitStr >= resIn && todayWitStr < resOut;
     });
 

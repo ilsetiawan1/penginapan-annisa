@@ -121,33 +121,48 @@ export class ReservationService {
     };
   }
 
-  async createWalkInBooking(userId: string, input: CreateWalkInBookingInput) {
-    const today = new Date();
-    const checkInDate = new Date(today.setHours(14, 0, 0, 0));
-    const checkOutDate = new Date(today.getTime() + input.totalNights * 24 * 60 * 60 * 1000);
+  async createWalkInBooking(userId: string | undefined, input: CreateWalkInBookingInput) {
+    const todayWitStr = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Jayapura",
+    }).format(new Date());
+
+    const checkInDate = new Date(`${todayWitStr}T14:00:00+09:00`);
+    const checkOutDate = new Date(checkInDate.getTime() + input.totalNights * 24 * 60 * 60 * 1000);
     checkOutDate.setHours(12, 0, 0, 0);
 
-    const room = await this.repo.findReservationById(input.roomId);
-    const roomRecord = await this.repo.findAvailableRoomForType(
-      input.roomId,
-      checkInDate,
-      checkOutDate,
-    );
-
-    // Ambil data kamar
-    const targetRoom = await (await import("@annisa/db")).prisma.room.findUnique({
-      where: { id: input.roomId },
+    // Ambil data kamar berdasarkan ID (UUID) atau nomor kamar ("A1", "A2", dll)
+    const targetRoom = await prisma.room.findFirst({
+      where: {
+        OR: [
+          { id: input.roomId },
+          { roomNumber: { equals: input.roomId, mode: "insensitive" } },
+        ],
+      },
       include: { roomType: true },
     });
 
     if (!targetRoom) {
-      throw new AppError("Kamar tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
+      throw new AppError("Unit kamar tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
     }
 
-    if (targetRoom.status !== "ready") {
+    if (targetRoom.status === "dirty" || targetRoom.status === "maintenance") {
       throw new AppError(
-        `Kamar ${targetRoom.roomNumber} saat ini berstatus '${targetRoom.status}' dan belum siap untuk check-in.`,
+        `Kamar #${targetRoom.roomNumber} saat ini berstatus '${targetRoom.status}' dan belum siap untuk check-in.`,
         HTTP_STATUS.BAD_REQUEST,
+      );
+    }
+
+    // Proteksi Anti-Bentrok Jadwal
+    const conflicts = await this.repo.findConflictingReservations(
+      targetRoom.id,
+      checkInDate,
+      checkOutDate,
+    );
+
+    if (conflicts.length > 0) {
+      throw new AppError(
+        `Kamar #${targetRoom.roomNumber} sudah memiliki reservasi aktif (${conflicts[0].code}) pada jadwal tersebut.`,
+        HTTP_STATUS.CONFLICT,
       );
     }
 
