@@ -340,13 +340,17 @@ export function RoomMatrix() {
     const now = new Date();
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
-    if (data.checkInDate === todayStr || data.checkInDate.includes(now.getDate().toString())) {
+    const isLiveStay =
+      data.checkInDate <= todayStr || data.checkInDate.includes(now.getDate().toString());
+    const isOccupied = data.remainingAmount === 0 || data.checkInDate < todayStr;
+
+    if (isLiveStay) {
       setRooms((prev) =>
         prev.map((r) => {
           if (r.code === data.roomCode) {
             return {
               ...r,
-              status: "booked",
+              status: isOccupied ? "occupied" : "booked",
               guestName: data.guestName,
               guestPhone: data.guestPhone,
               checkInDate: data.checkInDate,

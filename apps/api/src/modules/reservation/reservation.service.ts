@@ -264,7 +264,26 @@ export class ReservationService {
     const yearMonth = new Date().toISOString().slice(0, 7).replace("-", "");
     const code = `ANNISA-${yearMonth}-${String(seq).padStart(3, "0")}`;
 
-    // 7. Simpan Reservasi ke Database
+    // 7. Logika Status Awal Reservasi & Kamar:
+    const todayWitStr = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Jayapura",
+    }).format(new Date());
+    const inWitStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+      checkInDate,
+    );
+    const outWitStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
+      checkOutDate,
+    );
+
+    const isLiveStay = todayWitStr >= inWitStr && todayWitStr < outWitStr;
+    const isPastInDate = todayWitStr > inWitStr;
+    const isFullyPaid = paymentStatus === "paid" || remainingAmount === 0;
+
+    // Jika menginap saat ini dan sudah lunas 100%, atau menginap sudah berjalan dari hari sebelumnya:
+    // langsung berstatus 'checked_in' dan kamar 'occupied'
+    const resvStatus = isLiveStay && (isFullyPaid || isPastInDate) ? "checked_in" : "confirmed";
+
+    // 8. Simpan Reservasi ke Database
     const reservation = await this.repo.createReservation({
       code,
       roomId: targetRoom.id,
@@ -277,29 +296,19 @@ export class ReservationService {
       grandTotal,
       dpAmount,
       remainingAmount,
-      status: "confirmed",
+      status: resvStatus,
       paymentStatus,
       paymentMethod: input.paymentMethod,
       notes: input.notes,
     });
 
-    // 8. Logika Best Practice Status Kamar:
-    // Jika hari ini berada dalam rentang menginap [checkInDate, checkOutDate), tandai kamar sebagai 'booked'
-    const todayWitStr = new Intl.DateTimeFormat("en-CA", {
-      timeZone: "Asia/Jayapura",
-    }).format(new Date());
-    const inWitStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
-      checkInDate,
-    );
-    const outWitStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jayapura" }).format(
-      checkOutDate,
-    );
-
-    if (todayWitStr >= inWitStr && todayWitStr < outWitStr) {
+    // 9. Sinkronkan status unit kamar
+    if (isLiveStay) {
+      const roomEffectiveStatus = resvStatus === "checked_in" ? "occupied" : "booked";
       await this.repo.updateRoomStatusById(
         targetRoom.id,
-        "booked",
-        `Booking WA: ${guest.name} (${code})`,
+        roomEffectiveStatus,
+        `${roomEffectiveStatus === "occupied" ? "Tamu Menginap" : "Booking WA"}: ${guest.name} (${code})`,
       );
     }
 

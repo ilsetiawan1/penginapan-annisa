@@ -78,7 +78,17 @@ export class RoomService {
 
     if (room.status !== "maintenance" && room.status !== "dirty") {
       if (todayResv) {
-        effectiveStatus = todayResv.status === "checked_in" ? "occupied" : "booked";
+        const todayResvInStr = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Asia/Jayapura",
+        }).format(new Date(todayResv.checkInDate));
+        const isPastCheckInDate = todayWitStr > todayResvInStr;
+        const isFullyPaid = todayResv.paymentStatus === "paid" || todayResv.remainingAmount === 0;
+
+        if (todayResv.status === "checked_in" || isFullyPaid || isPastCheckInDate) {
+          effectiveStatus = "occupied";
+        } else {
+          effectiveStatus = "booked";
+        }
         guestInfo = {
           guestName: todayResv.guest?.name,
           guestPhone: todayResv.guest?.phone,
