@@ -161,7 +161,10 @@ async function main() {
   // ----------------------------------------------------
   // 3b. SEED FOTO RESMI CLOUDFLARE R2 UNTUK KAMAR (A1–A4)
   // ----------------------------------------------------
-  const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+  const apiBase =
+    process.env.API_BASE_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    "http://localhost:4000/api/v1";
 
   const officialRoomImages = [
     {

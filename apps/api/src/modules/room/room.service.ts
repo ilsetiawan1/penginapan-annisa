@@ -2,6 +2,7 @@ import { prisma } from "@annisa/db";
 import type { RoomStatus, UpdateRoomRateInput, UpdateRoomStatusInput } from "@annisa/types";
 import { HTTP_STATUS } from "../../constants";
 import { AppError } from "../../middlewares/error.middleware";
+import { normalizeImageUrl } from "../../utils/url.util";
 import { type RoomRepository, roomRepository } from "./room.repository";
 
 export class RoomService {
@@ -167,10 +168,11 @@ export class RoomService {
       (!isTargetToday || room.status !== "dirty") &&
       !conflictingResv;
 
-    const roomImage =
+    const roomImage = normalizeImageUrl(
       room.roomType?.images?.find(
         (img: any) => img.caption?.toUpperCase() === room.roomNumber.toUpperCase(),
-      )?.imageUrl || "";
+      )?.imageUrl || "",
+    );
 
     return {
       id: room.id,
