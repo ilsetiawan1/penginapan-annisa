@@ -89,40 +89,6 @@ export function LoginForm() {
           )}
         </button>
 
-        {/* Quick Autofill Pills (Hanya Tampil di Mode Development / Localhost) */}
-        {process.env.NODE_ENV !== "production" && (
-          <div className="pt-2 flex items-center justify-center gap-1.5">
-            <span className="text-[10px] text-slate-400 font-medium">Isi Cepat:</span>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("owner@penginapan-annisa.com");
-                setPassword("owner123");
-              }}
-              className={`text-[10px] font-bold px-2.5 py-1 rounded-full border transition cursor-pointer ${
-                email === "owner@penginapan-annisa.com"
-                  ? "bg-purple-100 text-purple-900 border-purple-300 shadow-2xs"
-                  : "bg-white/60 hover:bg-white text-slate-600 border-white/80"
-              }`}
-            >
-              👑 Owner
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("staff@penginapan-annisa.com");
-                setPassword("staff123");
-              }}
-              className={`text-[10px] font-bold px-2.5 py-1 rounded-full border transition cursor-pointer ${
-                email === "staff@penginapan-annisa.com"
-                  ? "bg-purple-100 text-purple-900 border-purple-300 shadow-2xs"
-                  : "bg-white/60 hover:bg-white text-slate-600 border-white/80"
-              }`}
-            >
-              🛎️ Staf
-            </button>
-          </div>
-        )}
       </form>
     </div>
   );
