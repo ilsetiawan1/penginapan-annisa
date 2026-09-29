@@ -17,9 +17,9 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-[390px] bg-white/70 backdrop-blur-2xl border border-white/80 rounded-[32px] p-7 sm:p-9 shadow-[0_20px_60px_rgba(0,0,0,0.07)] transition-all">
+    <div className="w-full max-w-[390px] bg-white/75 backdrop-blur-2xl border border-white/90 rounded-[32px] p-7 sm:p-9 shadow-[0_24px_64px_rgba(147,51,234,0.12)] transition-all">
       {/* Icon Badge Minimalist (Sesuai Referensi) */}
-      <div className="w-14 h-14 bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-white flex items-center justify-center mx-auto text-slate-800 mb-4 shadow-slate-200/50">
+      <div className="w-14 h-14 bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-white flex items-center justify-center mx-auto text-slate-800 mb-4 shadow-purple-200/50">
         <LogIn className="w-6 h-6 text-slate-700" />
       </div>
 
