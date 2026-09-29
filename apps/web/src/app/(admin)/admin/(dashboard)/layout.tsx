@@ -42,7 +42,7 @@ export default function AdminDashboardLayout({
   // Auth Guard Effect
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push("/admin/login");
+      router.push("/internal");
     }
   }, [isLoading, isAuthenticated, router]);
 

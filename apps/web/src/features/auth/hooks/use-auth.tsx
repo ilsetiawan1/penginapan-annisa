@@ -61,10 +61,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await authApi.logout();
       setUser(null);
       toast.info("Anda telah berhasil logout.");
-      router.push("/admin/login");
+      router.push("/internal");
     } catch {
       setUser(null);
-      router.push("/admin/login");
+      router.push("/internal");
     } finally {
       setIsLoading(false);
     }
