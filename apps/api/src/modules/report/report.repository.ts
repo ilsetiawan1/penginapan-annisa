@@ -95,24 +95,73 @@ export class ReportRepository {
         createdAt: { gte: startOfMonth, lte: endOfMonth },
         status: { in: ["confirmed", "checked_in", "checked_out"] },
       },
+      include: {
+        guest: true,
+        room: {
+          include: { roomType: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
     });
 
     let roomRevenue = 0;
+    let totalNightsBooked = 0;
     for (const r of reservations) {
       roomRevenue += r.dpAmount;
       if (r.paymentStatus === "paid") {
         roomRevenue += r.remainingAmount;
       }
+      totalNightsBooked += r.totalNights;
     }
 
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const totalCapacity = 8 * daysInMonth;
+    const occupancyRate =
+      totalCapacity > 0
+        ? Math.min(100, Math.round((totalNightsBooked / totalCapacity) * 1000) / 10)
+        : 0;
+
     const monthFormatted = `${year}-${String(month + 1).padStart(2, "0")}`;
+    const monthNames = [
+      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "Oktober", "November", "Desember",
+    ];
+    const monthLabel = `${monthNames[month]} ${year}`;
+
+    const transactions = reservations.map((r) => {
+      const dateStr = new Intl.DateTimeFormat("id-ID", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }).format(new Date(r.createdAt));
+
+      const isLunas = r.paymentStatus === "paid";
+
+      return {
+        id: r.code,
+        date: dateStr,
+        room: `#${r.room?.roomNumber || "-"} (${r.room?.roomType?.name || "Kamar"})`,
+        guest: r.guest?.name || "Tamu",
+        nights: r.totalNights,
+        amount: r.grandTotal,
+        status: isLunas ? ("Lunas" as const) : ("DP 50%" as const),
+      };
+    });
 
     return {
+      id: monthFormatted,
       month: monthFormatted,
-      totalReservations: reservations.length,
+      label: monthLabel,
+      totalOmzet: roomRevenue,
       roomRevenue,
-      posSouvenirRevenue: 0, // In base model, souvenir transactions can be combined
+      posSouvenirRevenue: 0,
+      souvenirOmzet: 0,
+      souvenirItems: 0,
       grandTotalRevenue: roomRevenue,
+      totalGuests: reservations.length,
+      totalReservations: reservations.length,
+      occupancyRate,
+      transactions,
     };
   }
 

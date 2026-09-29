@@ -3,24 +3,46 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { MONTHLY_REPORTS } from "../data/monthly-reports.data";
+import type { MonthReportData } from "../data/monthly-reports.data";
+import { useMonthlyReport } from "../hooks/use-monthly-report";
 import { generateReportPdf } from "../utils/report-pdf-generator";
 import { ReportHeaderBanner } from "./report-header-banner";
 import { RevenueStatsCards } from "./revenue-stats-cards";
 import { TransactionTable } from "./transaction-table";
 
 export function FinancialReports() {
-  const [selectedMonth, setSelectedMonth] = useState<string>("2026-08");
+  const [selectedMonth, setSelectedMonth] = useState<string>("2026-09");
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [isExporting, setIsExporting] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const currentReport = MONTHLY_REPORTS[selectedMonth] || MONTHLY_REPORTS["2026-08"];
+  const { data: reportData, refetch } = useMonthlyReport(selectedMonth);
+
+  const fallbackLabel =
+    selectedMonth === "2026-09"
+      ? "September 2026"
+      : selectedMonth === "2026-08"
+        ? "Agustus 2026"
+        : selectedMonth === "2026-07"
+          ? "Juli 2026"
+          : selectedMonth;
+
+  const currentReport: MonthReportData = reportData || {
+    id: selectedMonth,
+    label: fallbackLabel,
+    totalOmzet: 0,
+    occupancyRate: 0,
+    totalGuests: 0,
+    souvenirOmzet: 0,
+    souvenirItems: 0,
+    transactions: [],
+  };
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await queryClient.invalidateQueries();
-    toast.success("Laporan omzet & okupansi kamar telah diperbarui!");
+    await refetch();
+    await queryClient.invalidateQueries({ queryKey: ["monthly-report"] });
+    toast.success("Laporan omzet & okupansi kamar telah diperbarui dari database!");
     setIsRefreshing(false);
   };
 

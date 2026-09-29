@@ -35,29 +35,37 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
-            {transactions.map((trx) => (
-              <tr key={trx.id} className="hover:bg-purple-50/40 transition">
-                <td className="py-3 font-bold text-slate-900">{trx.id}</td>
-                <td className="py-3 text-slate-500">{trx.date}</td>
-                <td className="py-3 font-bold text-purple-700">{trx.room}</td>
-                <td className="py-3 font-bold text-slate-900">{trx.guest}</td>
-                <td className="py-3">{trx.nights} Malam</td>
-                <td className="py-3 font-black text-slate-900">
-                  Rp {trx.amount.toLocaleString("id-ID")}
-                </td>
-                <td className="py-3">
-                  <span
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-black ${
-                      trx.status === "Lunas"
-                        ? "bg-emerald-100 text-emerald-800"
-                        : "bg-amber-100 text-amber-900"
-                    }`}
-                  >
-                    {trx.status}
-                  </span>
+            {transactions.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="py-10 text-center text-slate-400 font-medium">
+                  Belum ada riwayat transaksi pada periode ini. Data akan otomatis muncul saat ada tamu yang check-in atau memesan kamar.
                 </td>
               </tr>
-            ))}
+            ) : (
+              transactions.map((trx) => (
+                <tr key={trx.id} className="hover:bg-purple-50/40 transition">
+                  <td className="py-3 font-bold text-slate-900">{trx.id}</td>
+                  <td className="py-3 text-slate-500">{trx.date}</td>
+                  <td className="py-3 font-bold text-purple-700">{trx.room}</td>
+                  <td className="py-3 font-bold text-slate-900">{trx.guest}</td>
+                  <td className="py-3">{trx.nights} Malam</td>
+                  <td className="py-3 font-black text-slate-900">
+                    Rp {trx.amount.toLocaleString("id-ID")}
+                  </td>
+                  <td className="py-3">
+                    <span
+                      className={`px-2.5 py-1 rounded-full text-[10px] font-black ${
+                        trx.status === "Lunas"
+                          ? "bg-emerald-100 text-emerald-800"
+                          : "bg-amber-100 text-amber-900"
+                      }`}
+                    >
+                      {trx.status}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
