@@ -12,7 +12,7 @@ Backend REST API untuk **Penginapan Annisa PMS & Reservation System** yang berja
 - **Logger:** Pino Logger (`pino-http` + `pino-pretty`)
 - **Database:** Prisma ORM v6 + PostgreSQL (Lokal / Self-Hosted VPS)
 - **Validation & OpenAPI:** Zod v3 + `@asteasolutions/zod-to-openapi`
-- **Media Storage:** ImageKit.io CDN SDK (Auto-WebP, 24/7 Always Active)
+- **Media Storage:** Cloudflare CDN / R2 (Auto-WebP, Global Edge Caching)
 - **Auth:** Bun Native Password Hashing (`Bun.password.hash`) + JWT (`jsonwebtoken`)
 - **Documentation:** Scalar API Reference (`@scalar/express-api-reference`) pada `/docs`
 - **Testing:** Bun Native Test Runner (`bun test`)
@@ -101,7 +101,7 @@ Atau ambil format JSON OpenAPI spesifikasi dinamis:
 |          |                                  | `?category=minyak-kayu-putih-asli` : Filter kategori |                |
 | `POST`   | `/api/v1/souvenirs/pos/checkout` | Transaksi kasir POS & pemotongan stok otomatis       | Staff / Owner  |
 | `POST`   | `/api/v1/souvenirs`              | Tambah produk oleh-oleh baru                         | Owner          |
-| `PUT`    | `/api/v1/souvenirs/:id`          | Update nama, harga, stok, & foto ImageKit            | Owner          |
+| `PUT`    | `/api/v1/souvenirs/:id`          | Update nama, harga, stok, & foto Cloudflare CDN          | Owner          |
 | `DELETE` | `/api/v1/souvenirs/:id`          | Hapus produk dari etalase kasir                      | Owner          |
 
 ### 📰 Articles Domain (`/api/v1/articles`)
@@ -111,7 +111,7 @@ Atau ambil format JSON OpenAPI spesifikasi dinamis:
 | `GET`    | `/api/v1/articles`       | Ambil daftar artikel wisata terpublikasi        | Public |
 | `GET`    | `/api/v1/articles/:slug` | Baca isi lengkap artikel & auto increment views | Public |
 | `POST`   | `/api/v1/articles`       | Publikasi artikel panduan wisata baru           | Owner  |
-| `PUT`    | `/api/v1/articles/:id`   | Edit konten artikel & cover ImageKit            | Owner  |
+| `PUT`    | `/api/v1/articles/:id`   | Edit konten artikel & cover Cloudflare CDN      | Owner  |
 | `DELETE` | `/api/v1/articles/:id`   | Hapus artikel dari CMS                          | Owner  |
 
 ### 📊 Reports & Analytics Domain (`/api/v1/reports`)
