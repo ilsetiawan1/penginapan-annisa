@@ -43,7 +43,7 @@ Gunakan akun berikut untuk login ke PMS dan mencoba endpoint autentikasi:
 
 | Role        | Email                         | Password   | Akses & Izin                                                |
 | :---------- | :---------------------------- | :--------- | :---------------------------------------------------------- |
-| **Owner**   | `owner@penginapan-annisa.com` | `admin123` | Akses penuh: Laporan omzet, ubah tarif, kelola produk & CMS |
+| **Owner**   | `owner@penginapan-annisa.com` | `owner123` | Akses penuh: Laporan omzet, ubah tarif, kelola produk & CMS |
 | **Staff**   | `staff@penginapan-annisa.com` | `staff123` | Akses operasional: Matriks kamar, reservasi, & kasir POS    |
 
 ---
