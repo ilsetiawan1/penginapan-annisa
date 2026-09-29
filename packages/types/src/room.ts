@@ -13,7 +13,7 @@ export type BuildingBlock = z.infer<typeof buildingBlockSchema>;
 export const roomImageSchema = z.object({
   id: z.string().uuid(),
   roomTypeId: z.string().uuid(),
-  imageUrl: z.string().url("URL ImageKit tidak valid"),
+  imageUrl: z.string().url("URL gambar tidak valid"),
   caption: z.string().nullable().optional(),
   isPrimary: z.boolean().default(false),
   createdAt: z.union([z.date(), z.string()]),

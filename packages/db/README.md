@@ -20,7 +20,7 @@ Package internal basis data untuk **Penginapan Annisa**, mengelola skema **Prism
 3. **`Room`:** 8 Unit fisik kamar resmi:
    - **Bangunan A:** `#A1`, `#A2` (AC) • `#A3`, `#A4` (Kipas)
    - **Bangunan B:** `#B1`, `#B2` (AC) • `#B3`, `#B4` (Kipas)
-4. **`RoomImage`:** Galeri foto kamar beresolusi tinggi yang terhubung ke ImageKit.io CDN.
+4. **`RoomImage`:** Galeri foto kamar beresolusi tinggi yang terhubung ke Cloudflare CDN.
 5. **`Guest`:** Direktori buku tamu dan nomor kontak WhatsApp aktif.
 6. **`Reservation`:** Transaksi reservasi, kalkulasi DP 50%, pelunasan, dan status operasional check-in/out.
 7. **`Souvenir` & `SouvenirCategory`:** Etalase produk dan stok inventaris kasir POS oleh-oleh khas Maluku.

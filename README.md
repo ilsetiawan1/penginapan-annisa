@@ -35,7 +35,7 @@ penginapan-annisa/
 | **Frontend Web**          | **Next.js 15 (App Router)**              | React 19 + Tailwind CSS + Radix UI + TanStack Query v5 + Lucide Icons   |
 | **Backend REST API**      | **Express.js (TypeScript)**              | Berjalan di atas Bun Runtime + Pino Logger + JWT Auth (Port 4000)       |
 | **Database & ORM**        | **Prisma v6 + PostgreSQL (Lokal / VPS)** | 8 Unit Kamar Resmi (A1–A4 & B1–B4), Tamu, Reservasi, Oleh-Oleh, Artikel |
-| **Media & Image Storage** | **ImageKit.io CDN**                      | Free Tier 20GB/bulan, Auto-WebP Optimization, 24/7 Always Active        |
+| **Media & Image Storage** | **Cloudflare CDN / R2**                  | Global Edge Caching, WebP Optimization, 24/7 Always Active              |
 | **Validasi & Tipe Data**  | **Zod v3 (`z.infer`)**                   | Runtime validation + OpenAPI 3.1 Contract Generation                    |
 | **API Documentation**     | **Scalar API Reference**                 | Dokumentasi interaktif via Scalar (`/docs` port 4000)                   |
 | **Server Target**         | **Self-Hosted VPS (Ubuntu) / Docker**    | Efisien, mandiri, performa tinggi, dan bebas jeda inaktivitas           |
