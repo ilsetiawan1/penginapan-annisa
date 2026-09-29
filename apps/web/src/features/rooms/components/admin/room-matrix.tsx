@@ -296,7 +296,7 @@ export function RoomMatrix() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between gap-3 sm:gap-3.5 min-h-0">
+    <div className="w-full flex flex-col gap-3 sm:gap-4 pb-4">
       {/* 1. TOP TOOLBAR: Capsule Filters (Left) + Quick Actions (Right) */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shrink-0">
         <RoomMatrixFilter
@@ -319,9 +319,9 @@ export function RoomMatrix() {
       </div>
 
       {/* 2. GRID 2 BANGUNAN DENGAN KARTU TRI-COLOR ELEGAN */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 items-stretch flex-1 min-h-0">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-3.5 sm:gap-4 items-start">
         {/* BANGUNAN A (4 KAMAR: #A1 s/d #A4) */}
-        <div className="flex flex-col justify-between space-y-2 min-h-0">
+        <div className="flex flex-col space-y-2.5 bg-white/40 p-3 sm:p-3.5 rounded-2xl border border-purple-100/60 shadow-2xs">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
@@ -332,7 +332,7 @@ export function RoomMatrix() {
             <span className="text-[10px] font-bold text-slate-400">2 AC • 2 Kipas</span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 flex-1 min-h-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
             {roomsA.map((room) => (
               <RoomCard
                 key={room.code}
@@ -350,7 +350,7 @@ export function RoomMatrix() {
         </div>
 
         {/* BANGUNAN B (4 KAMAR: #B1 s/d #B4) */}
-        <div className="flex flex-col justify-between space-y-2 min-h-0">
+        <div className="flex flex-col space-y-2.5 bg-white/40 p-3 sm:p-3.5 rounded-2xl border border-purple-100/60 shadow-2xs">
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-700" />
@@ -361,7 +361,7 @@ export function RoomMatrix() {
             <span className="text-[10px] font-bold text-slate-400">2 AC • 2 Kipas</span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 flex-1 min-h-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
             {roomsB.map((room) => (
               <RoomCard
                 key={room.code}

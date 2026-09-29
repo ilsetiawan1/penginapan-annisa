@@ -147,8 +147,8 @@ export default function AdminDashboardLayout({
             </div>
           </header>
 
-          {/* Main Page Body: 100vh on Desktop & Tablet, Scrollable on Mobile */}
-          <main className="flex-1 min-w-0 min-h-0 overflow-y-auto md:overflow-hidden flex flex-col">
+          {/* Main Page Body: Naturally scrollable whenever content exceeds viewport */}
+          <main className="flex-1 min-w-0 min-h-0 overflow-y-auto flex flex-col pr-0.5">
             {children}
           </main>
         </div>
