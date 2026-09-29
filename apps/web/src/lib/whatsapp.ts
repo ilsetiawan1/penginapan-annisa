@@ -6,6 +6,19 @@
 export const ANNISA_WA_NUMBER = "6281242163116";
 
 /**
+ * Helper to normalize room title without repeating room codes.
+ * E.g., if roomName is already "Kamar #A1 (AC)", returns "Kamar #A1 (AC)".
+ * If roomNumber is "A1" and roomName is "Kamar AC", returns "Kamar #A1 (AC)".
+ */
+export function formatRoomTitle(roomName: string, roomNumber?: string): string {
+  if (!roomNumber) return roomName;
+  if (roomName.includes(`#${roomNumber}`) || roomName.includes(roomNumber)) {
+    return roomName;
+  }
+  return `Kamar #${roomNumber} (${roomName})`;
+}
+
+/**
  * Generates WhatsApp booking URL for room inquiries & reservations.
  */
 export function getRoomBookingWhatsAppUrl(params: {
@@ -18,25 +31,28 @@ export function getRoomBookingWhatsAppUrl(params: {
   dp?: string;
 }) {
   const { roomNumber, roomName, price, checkInDate, nights, total, dp } = params;
+  const cleanRoomName = formatRoomTitle(roomName, roomNumber);
 
-  let text = `Halo Penginapan Annisa, saya tertarik memesan ${
-    roomNumber ? `Kamar #${roomNumber} (${roomName})` : roomName
-  } tarif Rp ${price}/malam.`;
-
-  if (checkInDate) {
-    text += `\n- Tanggal Check-in: ${checkInDate}`;
+  // Jika dari preview beranda tanpa tanggal spesifik
+  if (!checkInDate) {
+    const text = `Halo Penginapan Annisa, saya tertarik untuk memesan *${cleanRoomName}* (Rp ${price}/malam).\n\nApakah unit kamar ini tersedia untuk jadwal transit dalam waktu dekat? Terima kasih.`;
+    return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
   }
+
+  // Jika dari pencarian dengan tanggal reservasi
+  let text = `Halo Penginapan Annisa, saya ingin reservasi kamar:\n• Unit: *${cleanRoomName}*\n• Tarif: Rp ${price}/malam\n• Tgl Check-In: *${checkInDate}*`;
+
   if (nights && nights > 1) {
-    text += `\n- Durasi: ${nights} Malam`;
+    text += `\n• Durasi: *${nights} Malam*`;
   }
   if (total) {
-    text += `\n- Estimasi Total: Rp ${total}`;
+    text += `\n• Estimasi Total: *Rp ${total}*`;
   }
   if (dp) {
-    text += `\n- DP 50%: Rp ${dp}`;
+    text += `\n• DP 50%: *Rp ${dp}*`;
   }
 
-  text += "\n\nApakah unit tersedia pada jadwal tersebut?";
+  text += "\n\nApakah unit tersedia pada jadwal tersebut? Terima kasih.";
 
   return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
 }
@@ -44,8 +60,30 @@ export function getRoomBookingWhatsAppUrl(params: {
 /**
  * Generates WhatsApp URL when asking for room availability on occupied rooms.
  */
-export function getRoomAvailabilityInquiryUrl(roomNumber: string, roomName: string) {
-  const text = `Halo Penginapan Annisa, saya ingin tanya kapan Kamar #${roomNumber} (${roomName}) bisa dipesan kembali untuk transit?`;
+export function getRoomAvailabilityInquiryUrl(
+  paramsOrRoomNumber:
+    | { roomName: string; roomNumber?: string; dateStr?: string; nights?: number }
+    | string,
+  legacyRoomName?: string,
+) {
+  if (typeof paramsOrRoomNumber === "string") {
+    const cleanRoomName = formatRoomTitle(legacyRoomName || "", paramsOrRoomNumber);
+    const text = `Halo Penginapan Annisa, saya ingin menanyakan ketersediaan *${cleanRoomName}*.\n\nApakah ada jadwal kosong di tanggal terdekat, atau rekomendasi kamar transit lainnya? Terima kasih.`;
+    return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
+  }
+
+  const { roomName, roomNumber, dateStr, nights } = paramsOrRoomNumber;
+  const cleanRoomName = formatRoomTitle(roomName, roomNumber);
+
+  const dateContext =
+    dateStr && dateStr !== "Hari Ini"
+      ? `untuk tanggal *${dateStr}*`
+      : "untuk hari ini";
+
+  const nightsContext = nights && nights > 1 ? ` (${nights} malam)` : "";
+
+  const text = `Halo Penginapan Annisa, saya ingin menanyakan ketersediaan *${cleanRoomName}*.\n\nSaya melihat unit ini sedang terisi ${dateContext}${nightsContext}. Apakah ada jadwal kosong di tanggal terdekat, atau rekomendasi kamar transit lainnya? Terima kasih.`;
+
   return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
+import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
 import { Bed, Car, Check, Clock, Fan, Navigation, Tv, Wifi, Wind } from "lucide-react";
 import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa6";
@@ -39,20 +39,20 @@ export function RoomDetailModal({
       })
     : "Hari Ini";
 
-  const waMessage = `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
-- Tipe: *${room.name}*
-- Tgl Check-In: *${formattedDateStr}*
-- Durasi: *${nights} Malam*
-- Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*
-- DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*
+  const waUrl = getRoomBookingWhatsAppUrl({
+    roomName: room.name,
+    price: room.price,
+    checkInDate: formattedDateStr,
+    nights,
+    total: totalPrice.toLocaleString("id-ID"),
+    dp: dpPrice.toLocaleString("id-ID"),
+  });
 
-Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
-
-  const waInquiryMessage = `*Halo Penginapan Annisa, saya melihat unit ${room.name} sudah terisi untuk tanggal ${formattedDateStr} (${nights} malam).*
-Apakah ada unit kamar lain atau tanggal alternatif yang masih kosong? Terima kasih.`;
-
-  const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
-  const waInquiryUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waInquiryMessage)}`;
+  const waInquiryUrl = getRoomAvailabilityInquiryUrl({
+    roomName: room.name,
+    dateStr: formattedDateStr,
+    nights,
+  });
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>

@@ -77,21 +77,8 @@ export function BookingWidget() {
     const typeName = selectedType === "ac" ? "Kamar Tipe AC" : "Kamar Tipe Kipas";
 
     const waMessage = isSelectedTypeFull
-      ? `*Halo Penginapan Annisa, saya melihat unit ${typeName} sedang penuh untuk tgl ${formattedDate} (${nights} malam).*
-- Nama: *${guestName || "-"}*
-- No. WhatsApp: *${guestPhone || "-"}*
-
-Apakah ada unit kamar lain atau tanggal alternatif yang masih kosong? Terima kasih.`
-      : `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
-- Tipe: *${typeName}*
-- Tgl Check-In: *${formattedDate}*
-- Durasi: *${nights} Malam*
-- Nama Pemesan: *${guestName || "-"}*
-- No. WhatsApp: *${guestPhone || "-"}*
-- Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*
-- DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*
-
-Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
+      ? `Halo Penginapan Annisa, saya ingin menanyakan ketersediaan kamar *${typeName}*.\n\nSaya melihat tipe ini sedang terisi untuk tanggal *${formattedDate}* (${nights} malam).\n• Nama: *${guestName || "-"}*\n• WhatsApp: *${guestPhone || "-"}*\n\nApakah ada unit kamar lain atau tanggal alternatif yang masih kosong? Terima kasih.`
+      : `Halo Penginapan Annisa, saya ingin reservasi kamar:\n• Tipe: *${typeName}*\n• Tgl Check-In: *${formattedDate}*\n• Durasi: *${nights} Malam*\n• Nama Pemesan: *${guestName || "-"}*\n• WhatsApp: *${guestPhone || "-"}*\n• Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*\n• DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*\n\nApakah kamar ini tersedia di jadwal tersebut? Terima kasih.`;
 
     window.open(
       `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`,

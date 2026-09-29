@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
+import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
 import { Bed, Check, Clock, Tag } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -44,17 +44,21 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
       })
     : "Hari Ini";
 
-  // URL WhatsApp dengan Draf Pesan Lengkap Otomatis
-  const waMessage = `*Halo Penginapan Annisa, saya ingin reservasi kamar:*
-- Tipe: *${room.name}*
-- Tgl Check-In: *${formattedDateStr}*
-- Durasi: *${nights} Malam*
-- Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*
-- DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*
+  // URL WhatsApp dengan Draf Pesan Bersih & Elegan
+  const waUrl = getRoomBookingWhatsAppUrl({
+    roomName: room.name,
+    price: room.price,
+    checkInDate: formattedDateStr,
+    nights,
+    total: totalPrice.toLocaleString("id-ID"),
+    dp: dpPrice.toLocaleString("id-ID"),
+  });
 
-Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
-
-  const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+  const waInquiryUrl = getRoomAvailabilityInquiryUrl({
+    roomName: room.name,
+    dateStr: formattedDateStr,
+    nights,
+  });
 
   return (
     <>
@@ -147,7 +151,7 @@ Apakah kamar ini tersedia di tanggal tersebut? Terima kasih.`;
               className="rounded-xl border-slate-300 text-slate-600 hover:bg-slate-100 font-bold text-xs h-9 px-2.5 gap-1.5 cursor-pointer shrink-0"
             >
               <a
-                href={`https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(`Halo Penginapan Annisa, saya ingin tanya jadwal ketersediaan ${room.name} untuk tanggal lain (karena terisi pada ${formattedDateStr}). Terima kasih.`)}`}
+                href={waInquiryUrl}
                 target="_blank"
                 rel="noreferrer"
               >
