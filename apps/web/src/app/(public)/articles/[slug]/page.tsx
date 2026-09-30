@@ -94,7 +94,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
   return (
     <div className="w-full bg-gradient-to-b from-purple-50/40 via-white to-slate-50">
       {/* Breadcrumb & Top Bar */}
-      <div className="max-w-4xl mx-auto px-4 pt-8 pb-4">
+      <div className="max-w-4xl mx-auto px-4 pt-24 sm:pt-28 md:pt-32 pb-4">
         <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
           <Link
             href="/articles"
