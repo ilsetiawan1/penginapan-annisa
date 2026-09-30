@@ -87,7 +87,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
           year: "numeric",
         }),
         desc: a.summary || a.content.slice(0, 120) + "...",
-        image: a.coverImage || "/artikel/bermain-perahu-di-pantai-liang.jpg",
+        image: a.coverImage || "/images/artikel/bermain-perahu-di-pantai-liang.jpg",
         author: a.author?.name || "Tim Redaksi Annisa",
       })) || [];
 
@@ -152,7 +152,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
         {/* Cover Image */}
         <div className="relative h-64 sm:h-[420px] w-full rounded-3xl overflow-hidden shadow-lg border border-slate-200 mb-8 bg-slate-100">
           <Image
-            src={article.coverImage || "/artikel/bermain-perahu-di-pantai-liang.jpg"}
+            src={article.coverImage || "/images/artikel/bermain-perahu-di-pantai-liang.jpg"}
             alt={article.title}
             fill
             priority

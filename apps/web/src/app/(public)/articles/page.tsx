@@ -43,7 +43,7 @@ export default function ArtikelPage() {
         year: "numeric",
       }),
       desc: art.summary || (art.content || "").slice(0, 120) + "...",
-      image: art.coverImage || "/artikel/bermain-perahu-di-pantai-liang.jpg",
+      image: art.coverImage || "/images/artikel/bermain-perahu-di-pantai-liang.jpg",
       author: (art as any).author?.name || "Penginapan Annisa",
     };
   });

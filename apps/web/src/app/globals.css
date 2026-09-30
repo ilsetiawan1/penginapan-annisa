@@ -32,3 +32,12 @@ nextjs-portal,
 [data-nextjs-toast] {
   display: none !important;
 }
+
+/* Hide scrollbars utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
