@@ -45,6 +45,19 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    const backendUrl = process.env.INTERNAL_API_URL || "http://103.143.12.212/api/v1";
+    return [
+      {
+        source: "/api/v1/:path*",
+        destination: `${backendUrl}/:path*`,
+      },
+      {
+        source: "/backend-health",
+        destination: "http://103.143.12.212/health",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
