@@ -16,7 +16,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
     "db:push": "bun --filter '@annisa/db' db:push",
     "db:generate": "bun --filter '@annisa/db' db:generate",
-    "db:seed": "bun --filter '@annisa/db' seed"
+    "db:seed": "bun --filter '@annisa/db' seed",
+    "postinstall": "bun run db:generate"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
