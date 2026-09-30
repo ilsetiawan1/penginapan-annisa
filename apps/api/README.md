@@ -37,14 +37,16 @@ bun test
 
 ---
 
-## 🔑 Default Accounts (Seeded Demo Credentials)
+## 🔑 Akun PMS (Sistem Manajemen Penginapan)
 
-Gunakan akun berikut untuk login ke PMS dan mencoba endpoint autentikasi:
+Untuk login ke sistem PMS (Admin & Staf):
 
-| Role        | Email                         | Password   | Akses & Izin                                                |
-| :---------- | :---------------------------- | :--------- | :---------------------------------------------------------- |
-| **Owner**   | `owner@penginapan-annisa.com` | `owner123` | Akses penuh: Laporan omzet, ubah tarif, kelola produk & CMS |
-| **Staff**   | `staff@penginapan-annisa.com` | `staff123` | Akses operasional: Matriks kamar, reservasi, & kasir POS    |
+| Role        | Email                         | Keterangan Akses                                            |
+| :---------- | :---------------------------- | :---------------------------------------------------------- |
+| **Owner**   | `owner@penginapan-annisa.com` | Akses penuh: Laporan omzet, ubah tarif, kelola produk & CMS |
+| **Staff**   | `staff@penginapan-annisa.com` | Akses operasional: Matriks kamar, reservasi, & kasir POS    |
+
+> ⚠️ **Catatan Keamanan Production:** Password akun dikonfigurasi secara aman di database/lingkungan production dan tidak disimpan dalam dokumentasi publik.
 
 ---
 

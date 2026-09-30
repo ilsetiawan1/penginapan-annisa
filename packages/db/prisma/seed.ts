@@ -8,11 +8,14 @@ async function main() {
   // ----------------------------------------------------
   // 1. SEED AKUN USER (OWNER & STAF)
   // ----------------------------------------------------
-  const ownerPassword = await Bun.password.hash("owner123", {
+  const defaultOwnerPassword = process.env.SEED_OWNER_PASSWORD || "dev_owner_local_only";
+  const defaultStaffPassword = process.env.SEED_STAFF_PASSWORD || "dev_staff_local_only";
+
+  const ownerPassword = await Bun.password.hash(defaultOwnerPassword, {
     algorithm: "bcrypt",
     cost: 10,
   });
-  const staffPassword = await Bun.password.hash("staff123", {
+  const staffPassword = await Bun.password.hash(defaultStaffPassword, {
     algorithm: "bcrypt",
     cost: 10,
   });
@@ -21,7 +24,7 @@ async function main() {
     where: { email: "owner@penginapan-annisa.com" },
     update: {
       role: "owner",
-      passwordHash: ownerPassword,
+      // Jangan timpa passwordHash yang sudah diubah di production
     },
     create: {
       name: "Ibu Annisa (Owner)",
@@ -35,7 +38,7 @@ async function main() {
     where: { email: "staff@penginapan-annisa.com" },
     update: {
       role: "staff",
-      passwordHash: staffPassword,
+      // Jangan timpa passwordHash yang sudah diubah di production
     },
     create: {
       name: "Resepsionis Annisa",
