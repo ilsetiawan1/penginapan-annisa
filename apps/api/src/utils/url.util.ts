@@ -8,7 +8,7 @@ export function normalizeImageUrl(url: string | null | undefined): string {
   const apiBase =
     process.env.API_BASE_URL ||
     process.env.NEXT_PUBLIC_API_URL ||
-    "http://localhost:4000/api/v1";
+    "/api/v1";
 
   // Jika URL di database masih mengarah ke localhost:4000 tetapi server sekarang berjalan di production
   if (url.includes("localhost:4000/api/v1")) {
