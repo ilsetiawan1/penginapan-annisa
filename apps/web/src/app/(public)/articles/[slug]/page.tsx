@@ -129,20 +129,17 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
           {article.title}
         </h1>
 
-        {/* Author & Date */}
-        <div className="flex items-center gap-4 text-xs text-slate-500 pb-6 border-b border-slate-200">
-          <span className="inline-flex items-center gap-1.5 font-semibold text-slate-700">
-            <User className="w-3.5 h-3.5 text-purple-600" />
-            {article.author?.name || "Tim Redaksi Annisa"}
-          </span>
-          <span>•</span>
-          <span className="inline-flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5 text-slate-400" />
-            {new Date(article.createdAt).toLocaleDateString("id-ID", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+        {/* Date */}
+        <div className="flex items-center gap-2 text-xs text-slate-500 pb-6 border-b border-slate-200">
+          <span className="inline-flex items-center gap-1.5 font-medium text-slate-600">
+            <Calendar className="w-3.5 h-3.5 text-purple-600" />
+            <span>
+              {new Date(article.createdAt).toLocaleDateString("id-ID", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </span>
           </span>
         </div>
       </div>
