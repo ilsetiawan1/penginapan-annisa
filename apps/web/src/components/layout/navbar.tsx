@@ -35,11 +35,11 @@ export function Navbar() {
 
   return (
     <div className="fixed top-3 sm:top-5 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-4 pointer-events-none">
-      {/* Floating Capsule Header: Transparent Putih Blur (Top) -> Dark / Light Blur based on page/scroll */}
+      {/* Floating Capsule Header: Pearl White Blur (Top) -> Dark / Light Blur based on page/scroll */}
       <header
         className={`w-full max-w-5xl rounded-full px-3.5 sm:px-5 py-2 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
           isLightPage
-            ? "bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-xl shadow-purple-950/5 text-slate-800"
+            ? "bg-[#faf9f6]/95 backdrop-blur-xl border border-[#e8e4dc] shadow-lg shadow-stone-950/5 text-stone-800"
             : isScrolled
               ? "bg-slate-950/85 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/25 text-white"
               : "bg-white/20 backdrop-blur-xl border border-white/30 shadow-lg text-white"
@@ -54,7 +54,7 @@ export function Navbar() {
           <div
             className={`relative w-8 h-8 rounded-full overflow-hidden border flex items-center justify-center shrink-0 shadow-2xs ${
               isLightPage
-                ? "bg-purple-100/60 border-purple-200"
+                ? "bg-[#f2eee7] border-[#dfd9ce]"
                 : "bg-white/20 border-white/30"
             }`}
           >
@@ -70,15 +70,15 @@ export function Navbar() {
             <span
               className={`font-extrabold text-xs sm:text-sm tracking-tight block leading-tight transition whitespace-nowrap ${
                 isLightPage
-                  ? "text-slate-900 group-hover:text-purple-700"
-                  : "text-white group-hover:text-purple-200"
+                  ? "text-stone-900 group-hover:text-stone-700"
+                  : "text-white group-hover:text-stone-200"
               }`}
             >
               Penginapan Annisa
             </span>
             <span
               className={`text-[10px] font-semibold block leading-none whitespace-nowrap ${
-                isLightPage ? "text-purple-600" : "text-purple-200"
+                isLightPage ? "text-stone-500" : "text-stone-300"
               }`}
             >
               750m Bandara Pattimura
@@ -90,7 +90,7 @@ export function Navbar() {
         <nav
           className={`hidden lg:flex items-center gap-1 p-1 rounded-full border backdrop-blur-md transition-colors ${
             isLightPage
-              ? "bg-slate-100/90 border-slate-200/90"
+              ? "bg-[#f0ebe3]/80 border-[#e2dcd2]"
               : isScrolled
                 ? "bg-white/10 border-white/15"
                 : "bg-white/15 border-white/20"
@@ -105,10 +105,10 @@ export function Navbar() {
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   isActive
                     ? isLightPage || isScrolled
-                      ? "bg-purple-700 text-white shadow-xs"
-                      : "bg-white text-purple-950 shadow-xs"
+                      ? "bg-stone-900 text-[#faf9f6] shadow-xs"
+                      : "bg-white text-stone-950 shadow-xs"
                     : isLightPage
-                      ? "text-slate-700 hover:text-purple-700 hover:bg-slate-200/70"
+                      ? "text-stone-600 hover:text-stone-900 hover:bg-white/60"
                       : "text-white/90 hover:text-white hover:bg-white/20"
                 }`}
               >
@@ -124,7 +124,7 @@ export function Navbar() {
           <Button
             asChild
             size="sm"
-            className="hidden sm:inline-flex rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold items-center justify-center shrink-0 transition bg-purple-700 hover:bg-purple-800 text-white shadow-xs"
+            className="hidden sm:inline-flex rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold items-center justify-center shrink-0 transition bg-stone-900 hover:bg-black text-[#faf9f6] shadow-xs border border-stone-800"
             title="Pilih dan Pesan Kamar Transit"
           >
             <Link href="/rooms">
@@ -139,15 +139,15 @@ export function Navbar() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`lg:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center border transition-colors cursor-pointer ${
               isLightPage
-                ? "bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-200"
+                ? "bg-[#f0ebe3] hover:bg-[#e8e1d6] text-stone-800 border-[#e2dcd2]"
                 : "bg-white/20 hover:bg-white/30 text-white border-white/30"
             }`}
             aria-label="Toggle Menu"
           >
             {isMobileMenuOpen ? (
-              <X className={`w-4 h-4 ${isLightPage ? "text-slate-800" : "text-white"}`} />
+              <X className={`w-4 h-4 ${isLightPage ? "text-stone-800" : "text-white"}`} />
             ) : (
-              <Menu className={`w-4 h-4 ${isLightPage ? "text-slate-800" : "text-white"}`} />
+              <Menu className={`w-4 h-4 ${isLightPage ? "text-stone-800" : "text-white"}`} />
             )}
           </button>
         </div>
@@ -166,7 +166,7 @@ export function Navbar() {
           <div
             className={`w-full max-w-sm sm:max-w-md mt-2 p-3.5 sm:p-4 backdrop-blur-xl border shadow-2xl rounded-2xl sm:rounded-3xl pointer-events-auto transition-all animate-in fade-in slide-in-from-top-2 duration-200 z-50 ${
               isLightPage
-                ? "bg-white/95 border-slate-200/90 text-slate-800"
+                ? "bg-[#faf9f6]/98 border-[#e8e4dc] text-stone-800 shadow-stone-950/10"
                 : "bg-slate-950/85 border-white/20 text-white"
             }`}
           >
@@ -181,15 +181,15 @@ export function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold transition-all ${
                       isActive
-                        ? "bg-purple-700 text-white shadow-xs"
+                        ? "bg-stone-900 text-[#faf9f6] shadow-xs"
                         : isLightPage
-                          ? "bg-slate-50 text-slate-700 hover:bg-purple-50 hover:text-purple-700 border border-slate-200/80"
+                          ? "bg-white text-stone-700 hover:bg-[#f3efe8] hover:text-stone-900 border border-[#e8e4dc]"
                           : "bg-white/10 text-white hover:bg-white/20 border border-white/15 backdrop-blur-md"
                     }`}
                   >
                     <Icon
                       className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                        isActive ? "text-white" : isLightPage ? "text-purple-600" : "text-purple-300"
+                        isActive ? "text-white" : isLightPage ? "text-stone-500" : "text-stone-300"
                       }`}
                     />
                     <span>{link.label}</span>
@@ -201,12 +201,12 @@ export function Navbar() {
             <div
               className={`mt-3 pt-2.5 border-t px-2 flex items-center justify-between text-[11px] sm:text-xs font-semibold ${
                 isLightPage
-                  ? "border-slate-200 text-slate-600"
+                  ? "border-[#e8e4dc] text-stone-600"
                   : "border-white/15 text-slate-200"
               }`}
             >
               <span>Buka 06:00 – 22:00 WIT</span>
-              <span className={isLightPage ? "text-purple-700 font-extrabold" : "text-purple-300 font-extrabold"}>
+              <span className={isLightPage ? "text-stone-900 font-extrabold" : "text-stone-300 font-extrabold"}>
                 750m Bandara
               </span>
             </div>
