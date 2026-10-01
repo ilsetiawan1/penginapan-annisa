@@ -77,7 +77,7 @@ export function generateReportPdf(report: MonthReportData): boolean {
         .report-period {
           font-size: 12px;
           font-weight: 800;
-          color: #7c3aed;
+          color: #7a68b7;
           margin: 4px 0 0 0;
         }
         .kpi-grid {
@@ -105,7 +105,7 @@ export function generateReportPdf(report: MonthReportData): boolean {
           color: #0f172a;
           margin-top: 4px;
         }
-        .kpi-purple { color: #7c3aed; }
+        .kpi-purple { color: #594791; }
         .kpi-amber { color: #b45309; }
         table {
           width: 100%;
@@ -166,7 +166,7 @@ export function generateReportPdf(report: MonthReportData): boolean {
           position: sticky;
           top: 0;
           margin: -24px -24px 20px -24px;
-          background: #1e1b4b;
+          background: #36285d;
           color: #ffffff;
           padding: 12px 24px;
           display: flex;
@@ -176,7 +176,7 @@ export function generateReportPdf(report: MonthReportData): boolean {
           z-index: 9999;
         }
         .btn-print {
-          background: #7c3aed;
+          background: #7a68b7;
           color: white;
           border: none;
           padding: 8px 16px;
@@ -190,7 +190,7 @@ export function generateReportPdf(report: MonthReportData): boolean {
           transition: background 0.2s;
         }
         .btn-print:hover {
-          background: #6d28d9;
+          background: #6c59aa;
         }
         .btn-close {
           background: rgba(255, 255, 255, 0.12);
@@ -251,7 +251,7 @@ export function generateReportPdf(report: MonthReportData): boolean {
             <p class="brand-sub">Jl. Bandara Pattimura, Tawiri, Ambon • Telp / WA: 0812-4040-5050</p>
           </div>
           <div style="text-align: right;">
-            <span style="background: #f3e8ff; color: #6b21a8; font-size: 9.5px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; border: 1px solid #d8b4fe;">DOKUMEN RESMI PMS</span>
+            <span style="background: #ede8f8; color: #594791; font-size: 9.5px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; border: 1px solid #ddd3f3;">DOKUMEN RESMI PMS</span>
             <p style="font-size: 9.5px; color: #94a3b8; margin: 6px 0 0 0;">Dicetak: ${currentDateStr}</p>
           </div>
         </div>
@@ -303,7 +303,7 @@ export function generateReportPdf(report: MonthReportData): boolean {
               <tr>
                 <td style="font-weight: 700;">${t.id}</td>
                 <td>${t.date}</td>
-                <td style="color: #6b21a8; font-weight: 700;">${t.room}</td>
+                <td style="color: #594791; font-weight: 700;">${t.room}</td>
                 <td style="font-weight: 700;">${t.guest}</td>
                 <td>${t.nights} Malam</td>
                 <td class="text-right" style="font-weight: 800;">Rp ${t.amount.toLocaleString("id-ID")}</td>

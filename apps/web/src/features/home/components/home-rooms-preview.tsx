@@ -111,9 +111,9 @@ export function HomeRoomsPreview() {
     <div className="w-full relative overflow-hidden py-4 sm:py-6">
       {/* Centered Section Header */}
       <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8 px-4">
-        <span className="text-[11px] font-black uppercase tracking-widest text-purple-700 block mb-1.5">
-          PILIHAN KAMAR TRANSIT
-        </span>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ede8f8] text-[#594791] border border-[#ddd3f3] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider mb-2.5">
+          <span>PILIHAN KAMAR TRANSIT</span>
+        </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-slate-900 leading-tight">
           Unit Kamar Bersih &amp; Terawat
         </h2>
@@ -130,7 +130,7 @@ export function HomeRoomsPreview() {
           type="button"
           onClick={handlePrev}
           aria-label="Kamar Sebelumnya"
-          className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
+          className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-[#7a68b7] hover:border-[#7a68b7]/50 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
@@ -140,7 +140,7 @@ export function HomeRoomsPreview() {
           type="button"
           onClick={handleNext}
           aria-label="Kamar Berikutnya"
-          className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
+          className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-[#7a68b7] hover:border-[#7a68b7]/50 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
@@ -174,7 +174,7 @@ export function HomeRoomsPreview() {
                   <div
                     className={`rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 flex flex-col justify-between ${
                       isCenter
-                        ? "border-2 border-purple-400/90 shadow-xl shadow-purple-950/10"
+                        ? "border-2 border-[#7a68b7] shadow-xl shadow-[#7a68b7]/15"
                         : "border border-slate-200/80 shadow-sm"
                     }`}
                   >
@@ -188,7 +188,7 @@ export function HomeRoomsPreview() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-purple-50 via-purple-100/40 to-slate-100 flex flex-col items-center justify-center gap-1.5 text-purple-700/60 p-4">
+                        <div className="w-full h-full bg-gradient-to-br from-[#faf8fd] via-[#ede8f8]/60 to-slate-100 flex flex-col items-center justify-center gap-1.5 text-[#7a68b7]/60 p-4">
                           <Bed className="w-8 h-8 stroke-[1.5]" />
                           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                             {room.name}
@@ -201,8 +201,8 @@ export function HomeRoomsPreview() {
                     <div className="p-3 sm:p-4 text-left flex-1 flex flex-col justify-between space-y-1.5">
                       <div>
                         {/* Kategori Tipe Kamar */}
-                        <div className="flex items-center gap-1 text-purple-700 font-bold text-[10px] sm:text-[11px] mb-0.5">
-                          <Tag className="w-3 h-3 text-purple-600 shrink-0" />
+                        <div className="flex items-center gap-1 text-[#7a68b7] font-bold text-[10px] sm:text-[11px] mb-0.5">
+                          <Tag className="w-3 h-3 text-[#7a68b7] shrink-0" />
                           <span className="truncate">{room.typeLabel}</span>
                         </div>
 
@@ -220,7 +220,7 @@ export function HomeRoomsPreview() {
                       {/* Baris Harga & Aksi WhatsApp */}
                       <div className="pt-2.5 border-t border-slate-100 mt-2 flex items-center justify-between gap-2">
                         <div>
-                          <span className="text-base sm:text-lg font-black text-purple-700 leading-none block">
+                          <span className="text-base sm:text-lg font-black text-[#594791] leading-none block">
                             {room.price}
                           </span>
                           <span className="text-[10px] text-slate-600 font-semibold mt-0.5 block">
@@ -231,7 +231,7 @@ export function HomeRoomsPreview() {
                         {isCenter ? (
                           <Button
                             asChild
-                            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
+                            className="rounded-xl bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-[#7a68b7]/25 border border-[#6c59aa]/40 cursor-pointer shrink-0"
                           >
                             <a
                               href={getRoomBookingWhatsAppUrl({
@@ -247,7 +247,7 @@ export function HomeRoomsPreview() {
                             </a>
                           </Button>
                         ) : (
-                          <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-700 shrink-0">
+                          <div className="w-8 h-8 rounded-xl bg-[#ede8f8] border border-[#ddd3f3] flex items-center justify-center text-[#7a68b7] shrink-0">
                             <Bed className="w-4 h-4" />
                           </div>
                         )}
@@ -273,7 +273,7 @@ export function HomeRoomsPreview() {
               aria-label={`Lihat ${room.name}`}
               className={`transition-all duration-300 rounded-full cursor-pointer ${
                 idx === activeDotIndex
-                  ? "w-6 h-2 bg-purple-700 shadow-xs"
+                  ? "w-6 h-2 bg-[#7a68b7] shadow-xs"
                   : "w-2 h-2 bg-slate-300 hover:bg-slate-400"
               }`}
             />
@@ -285,7 +285,7 @@ export function HomeRoomsPreview() {
       <div className="text-center mt-6 sm:mt-8">
         <Link
           href="/rooms"
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-purple-700 hover:text-purple-900 hover:underline transition"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-[#7a68b7] hover:text-[#594791] hover:underline transition"
         >
           <span>Lihat Seluruh 8 Unit Kamar di Halaman Katalog Lengkap</span>
           <ArrowRight className="w-4 h-4" />

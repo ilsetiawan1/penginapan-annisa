@@ -63,9 +63,9 @@ export function HomeSouvenirsPreview() {
     <div className="w-full relative overflow-hidden py-4 sm:py-6">
       {/* Header Elegan dengan Font Serif */}
       <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8 px-4">
-        <span className="text-[11px] font-black uppercase tracking-widest text-purple-700 block mb-1.5">
-          OLEH-OLEH TRADISIONAL
-        </span>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ede8f8] text-[#594791] border border-[#ddd3f3] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider mb-2.5">
+          <span>OLEH-OLEH TRADISIONAL</span>
+        </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-slate-900 leading-tight">
           Produk Unggulan &amp; Paling Dicari
         </h2>
@@ -82,7 +82,7 @@ export function HomeSouvenirsPreview() {
           type="button"
           onClick={handlePrev}
           aria-label="Produk Sebelumnya"
-          className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
+          className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-[#7a68b7] hover:border-[#7a68b7]/50 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
@@ -92,7 +92,7 @@ export function HomeSouvenirsPreview() {
           type="button"
           onClick={handleNext}
           aria-label="Produk Berikutnya"
-          className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-purple-700 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
+          className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-[#7a68b7] hover:border-[#7a68b7]/50 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
@@ -126,7 +126,7 @@ export function HomeSouvenirsPreview() {
                   <div
                     className={`rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 flex flex-col justify-between ${
                       isCenter
-                        ? "border-2 border-purple-400/90 shadow-xl shadow-purple-950/10"
+                        ? "border-2 border-[#7a68b7] shadow-xl shadow-[#7a68b7]/15"
                         : "border border-slate-200/80 shadow-sm"
                     }`}
                   >
@@ -145,8 +145,8 @@ export function HomeSouvenirsPreview() {
                     {/* Content Card Body */}
                     <div className="p-3 sm:p-4 text-left flex-1 flex flex-col justify-between space-y-1.5">
                       <div>
-                        <div className="flex items-center gap-1 text-purple-700 font-bold text-[10px] sm:text-[11px] mb-0.5">
-                          <Tag className="w-3 h-3 text-purple-600 shrink-0" />
+                        <div className="flex items-center gap-1 text-[#7a68b7] font-bold text-[10px] sm:text-[11px] mb-0.5">
+                          <Tag className="w-3 h-3 text-[#7a68b7] shrink-0" />
                           <span className="truncate">{item.categoryLabel}</span>
                         </div>
 
@@ -161,7 +161,7 @@ export function HomeSouvenirsPreview() {
 
                       {/* Price & Pick-Up Action */}
                       <div className="pt-2.5 border-t border-slate-100 mt-2 flex items-center justify-between gap-2">
-                        <span className="text-base sm:text-lg font-black text-purple-700 leading-none">
+                        <span className="text-base sm:text-lg font-black text-[#594791] leading-none">
                           {item.price}
                         </span>
 
@@ -172,13 +172,13 @@ export function HomeSouvenirsPreview() {
                               e.stopPropagation();
                               setSelectedItem(item);
                             }}
-                            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-purple-900/20 cursor-pointer shrink-0"
+                            className="rounded-xl bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-[#7a68b7]/25 border border-[#6c59aa]/40 cursor-pointer shrink-0"
                           >
                             <ShoppingBag className="w-4 h-4" />
                             <span>Titip Ambil</span>
                           </Button>
                         ) : (
-                          <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-700 shrink-0">
+                          <div className="w-8 h-8 rounded-xl bg-[#ede8f8] border border-[#ddd3f3] flex items-center justify-center text-[#7a68b7] shrink-0">
                             <ShoppingBag className="w-4 h-4" />
                           </div>
                         )}
@@ -204,7 +204,7 @@ export function HomeSouvenirsPreview() {
               aria-label={`Lihat ${item.name}`}
               className={`transition-all duration-300 rounded-full cursor-pointer ${
                 idx === activeDotIndex
-                  ? "w-6 h-2 bg-purple-700 shadow-xs"
+                  ? "w-6 h-2 bg-[#7a68b7] shadow-xs"
                   : "w-2 h-2 bg-slate-300 hover:bg-slate-400"
               }`}
             />
@@ -216,7 +216,7 @@ export function HomeSouvenirsPreview() {
       <div className="text-center mt-6 sm:mt-8">
         <Link
           href="/souvenirs"
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-purple-700 hover:text-purple-900 hover:underline transition"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-[#7a68b7] hover:text-[#594791] hover:underline transition"
         >
           <span>Lihat Seluruh Produk Oleh-oleh Khas di Etalase Lengkap</span>
           <ArrowRight className="w-4 h-4" />

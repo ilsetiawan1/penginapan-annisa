@@ -33,9 +33,9 @@ export function FaqSection() {
     <div className="max-w-3xl mx-auto pt-10 sm:pt-16">
       {/* Centered Section Header */}
       <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
-        <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block mb-1">
-          TANYA JAWAB
-        </span>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ede8f8] text-[#594791] border border-[#ddd3f3] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider mb-2.5">
+          <span>TANYA JAWAB</span>
+        </div>
         <h2 className="text-xl sm:text-3xl font-serif font-black text-slate-900 leading-tight">
           Pertanyaan Seputar Transit
         </h2>
@@ -53,8 +53,8 @@ export function FaqSection() {
               key={faq.q}
               className={`rounded-2xl bg-white/95 border transition-all overflow-hidden text-left ${
                 isOpen
-                  ? "border-purple-300 shadow-sm"
-                  : "border-purple-100/90 hover:border-purple-200 shadow-2xs"
+                  ? "border-[#ddd3f3] shadow-sm ring-2 ring-[#ede8f8]/80"
+                  : "border-slate-200/80 hover:border-[#ddd3f3] shadow-2xs"
               }`}
             >
               {/* Question Trigger Button */}
@@ -67,14 +67,14 @@ export function FaqSection() {
                 <div className="flex items-center gap-3">
                   <div
                     className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                      isOpen ? "bg-purple-100 text-purple-700" : "bg-slate-100 text-slate-500"
+                      isOpen ? "bg-[#ede8f8] text-[#7a68b7]" : "bg-slate-100 text-slate-500"
                     }`}
                   >
                     <HelpCircle className="w-4 h-4" />
                   </div>
                   <h3
                     className={`font-extrabold text-xs sm:text-sm leading-snug transition-colors ${
-                      isOpen ? "text-purple-900" : "text-slate-900"
+                      isOpen ? "text-[#594791]" : "text-slate-900"
                     }`}
                   >
                     {faq.q}
@@ -83,7 +83,7 @@ export function FaqSection() {
 
                 <div
                   className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                    isOpen ? "rotate-180 text-purple-700 bg-purple-50" : "text-slate-400"
+                    isOpen ? "rotate-180 text-[#7a68b7] bg-[#ede8f8]" : "text-slate-400"
                   }`}
                 >
                   <ChevronDown className="w-4 h-4" />
@@ -93,7 +93,7 @@ export function FaqSection() {
               {/* Collapsible Answer */}
               {isOpen && (
                 <div className="px-4 pb-4 pt-0 pl-14 animate-in fade-in slide-in-from-top-1 duration-200">
-                  <p className="text-xs text-slate-600 leading-relaxed border-t border-purple-50 pt-2.5">
+                  <p className="text-xs text-slate-600 leading-relaxed border-t border-[#ede8f8] pt-2.5">
                     {faq.a}
                   </p>
                 </div>

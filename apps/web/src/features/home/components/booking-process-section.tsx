@@ -31,9 +31,9 @@ export function BookingProcessSection() {
       <div className="max-w-6xl mx-auto w-full">
         {/* Centered Section Header */}
         <div className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
-          <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-purple-700 block mb-1.5">
-            ALUR RESERVASI
-          </span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ede8f8] text-[#594791] border border-[#ddd3f3] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider mb-3">
+            <span>ALUR RESERVASI</span>
+          </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-slate-900 leading-tight">
             3 Langkah Mudah Booking
           </h2>
@@ -54,9 +54,9 @@ export function BookingProcessSection() {
             >
               <defs>
                 <linearGradient id="purpleCurveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#C084FC" stopOpacity="0.5" />
-                  <stop offset="50%" stopColor="#7E22CE" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#9333EA" stopOpacity="0.7" />
+                  <stop offset="0%" stopColor="#c4b5e6" stopOpacity="0.6" />
+                  <stop offset="50%" stopColor="#7a68b7" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#6c59aa" stopOpacity="0.8" />
                 </linearGradient>
                 <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
                   <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -85,10 +85,10 @@ export function BookingProcessSection() {
                 1
               </span>
               <div className="relative mb-3.5">
-                <div className="w-14 h-14 rounded-2xl bg-white border border-purple-200 shadow-lg shadow-purple-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Bed className="w-6 h-6 text-purple-700" />
+                <div className="w-14 h-14 rounded-2xl bg-white border border-[#ddd3f3] shadow-lg shadow-[#7a68b7]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Bed className="w-6 h-6 text-[#7a68b7]" />
                 </div>
-                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-purple-700 text-white font-black text-[10px] flex items-center justify-center shadow-xs">
+                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[#7a68b7] text-white font-black text-[10px] flex items-center justify-center shadow-xs">
                   1
                 </span>
               </div>
@@ -102,14 +102,14 @@ export function BookingProcessSection() {
 
             {/* Step 2: Peak Center Node */}
             <div className="flex flex-col items-center text-center -mt-3 group relative">
-              <span className="absolute -top-6 left-12 text-7xl font-black text-purple-200/50 select-none pointer-events-none -z-10">
+              <span className="absolute -top-6 left-12 text-7xl font-black text-[#ded5f2]/60 select-none pointer-events-none -z-10">
                 2
               </span>
               <div className="relative mb-3.5">
-                <div className="w-16 h-16 rounded-2xl bg-white border-2 border-purple-300 shadow-xl shadow-purple-500/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ring-4 ring-purple-50">
-                  <FaWhatsapp className="w-8 h-8 text-purple-700" />
+                <div className="w-16 h-16 rounded-2xl bg-white border-2 border-[#7a68b7] shadow-xl shadow-[#7a68b7]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ring-4 ring-[#ede8f8]">
+                  <FaWhatsapp className="w-8 h-8 text-[#7a68b7]" />
                 </div>
-                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-purple-700 text-white font-black text-[10px] flex items-center justify-center shadow-xs">
+                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[#7a68b7] text-white font-black text-[10px] flex items-center justify-center shadow-xs">
                   2
                 </span>
               </div>
@@ -127,10 +127,10 @@ export function BookingProcessSection() {
                 3
               </span>
               <div className="relative mb-3.5">
-                <div className="w-14 h-14 rounded-2xl bg-white border border-purple-200 shadow-lg shadow-purple-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <KeyRound className="w-6 h-6 text-purple-700" />
+                <div className="w-14 h-14 rounded-2xl bg-white border border-[#ddd3f3] shadow-lg shadow-[#7a68b7]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <KeyRound className="w-6 h-6 text-[#7a68b7]" />
                 </div>
-                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-purple-700 text-white font-black text-[10px] flex items-center justify-center shadow-xs">
+                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[#7a68b7] text-white font-black text-[10px] flex items-center justify-center shadow-xs">
                   3
                 </span>
               </div>
@@ -147,7 +147,7 @@ export function BookingProcessSection() {
         {/* Mobile View: Open Clean Flow with Generous White Space */}
         <div className="md:hidden relative space-y-7 pl-3 py-2 max-w-sm mx-auto">
           {/* Continuous Vertical Dotted Connecting Line */}
-          <div className="absolute left-[33px] top-6 bottom-6 w-0.5 border-l-2 border-dashed border-purple-300 pointer-events-none z-0" />
+          <div className="absolute left-[33px] top-6 bottom-6 w-0.5 border-l-2 border-dashed border-[#ddd3f3] pointer-events-none z-0" />
 
           {STEPS.map((step) => {
             const Icon = step.icon;
@@ -155,10 +155,10 @@ export function BookingProcessSection() {
               <div key={step.step} className="relative z-10 flex items-start gap-4 group">
                 {/* Floating Icon Node anchored directly on dotted line */}
                 <div className="relative shrink-0">
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-purple-200 text-purple-700 shadow-sm shadow-purple-500/10 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-white border border-[#ddd3f3] text-[#7a68b7] shadow-sm shadow-[#7a68b7]/10 flex items-center justify-center">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-purple-700 text-white font-black text-[10px] flex items-center justify-center shadow-xs">
+                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#7a68b7] text-white font-black text-[10px] flex items-center justify-center shadow-xs">
                     {step.step}
                   </span>
                 </div>

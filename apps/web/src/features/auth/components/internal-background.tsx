@@ -8,7 +8,7 @@ export function InternalBackground() {
         className="absolute -top-[15%] left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[550px] rounded-full blur-[120px] opacity-70"
         style={{
           background:
-            "radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(216, 180, 254, 0.25) 45%, rgba(255, 255, 255, 0) 70%)",
+            "radial-gradient(circle, rgba(159, 142, 200, 0.3) 0%, rgba(222, 213, 242, 0.22) 45%, rgba(255, 255, 255, 0) 70%)",
         }}
       />
 
@@ -16,7 +16,7 @@ export function InternalBackground() {
         className="absolute top-[35%] -left-[10%] w-[500px] sm:w-[650px] h-[500px] rounded-full blur-[130px] opacity-60"
         style={{
           background:
-            "radial-gradient(circle, rgba(147, 51, 234, 0.28) 0%, rgba(192, 132, 252, 0.18) 50%, rgba(255, 255, 255, 0) 75%)",
+            "radial-gradient(circle, rgba(122, 104, 183, 0.22) 0%, rgba(196, 181, 230, 0.16) 50%, rgba(255, 255, 255, 0) 75%)",
         }}
       />
 
@@ -24,7 +24,7 @@ export function InternalBackground() {
         className="absolute -bottom-[10%] -right-[5%] w-[550px] sm:w-[700px] h-[550px] rounded-full blur-[140px] opacity-65"
         style={{
           background:
-            "radial-gradient(circle, rgba(126, 34, 206, 0.22) 0%, rgba(233, 213, 255, 0.3) 55%, rgba(255, 255, 255, 0) 80%)",
+            "radial-gradient(circle, rgba(122, 104, 183, 0.2) 0%, rgba(237, 232, 248, 0.35) 55%, rgba(255, 255, 255, 0) 80%)",
         }}
       />
 
@@ -84,8 +84,8 @@ export function InternalBackground() {
             x2="100%"
             y2="100%"
           >
-            <stop offset="0%" stopColor="#c084fc" stopOpacity="0.35" />
-            <stop offset="50%" stopColor="#e9d5ff" stopOpacity="0.2" />
+            <stop offset="0%" stopColor="#c4b5e6" stopOpacity="0.35" />
+            <stop offset="50%" stopColor="#ede8f8" stopOpacity="0.25" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0.5" />
           </linearGradient>
         </defs>

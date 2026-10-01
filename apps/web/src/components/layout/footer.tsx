@@ -12,11 +12,11 @@ export function Footer() {
           FLOATING OVERLAPPING CTA CARD (Scenic Glassmorphism Effect)
           ==================================================== */}
       <div className="relative max-w-5xl mx-auto px-4 -mb-14 sm:-mb-20 z-20">
-        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-purple-950/35 backdrop-blur-xl text-white p-6 sm:p-10 md:p-12 shadow-2xl shadow-purple-950/30 border border-white/30">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#2d224e]/50 backdrop-blur-xl text-white p-6 sm:p-10 md:p-12 shadow-2xl shadow-[#36285d]/30 border border-white/30">
           {/* Frosted Glass Gradient Overlay with Ambient Glow Orbs */}
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-950/75 via-slate-950/60 to-purple-950/75 backdrop-blur-md pointer-events-none" />
-          <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-purple-400/20 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-fuchsia-400/20 blur-3xl pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2d224e]/85 via-slate-950/70 to-[#2d224e]/85 backdrop-blur-md pointer-events-none" />
+          <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-[#7a68b7]/25 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-[#9f8ec8]/25 blur-3xl pointer-events-none" />
 
           {/* Content inside Floating Glass Card */}
           <div className="relative z-10 max-w-xl mx-auto text-center space-y-3 sm:space-y-4">
@@ -35,7 +35,7 @@ export function Footer() {
             <div className="pt-1.5 sm:pt-2">
               <Button
                 asChild
-                className="rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm h-11 sm:h-12 px-6 sm:px-8 gap-2 shadow-xl shadow-purple-950/40 transition-all hover:scale-105 border border-white/30 cursor-pointer"
+                className="rounded-full bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-bold text-xs sm:text-sm h-11 sm:h-12 px-6 sm:px-8 gap-2 shadow-xl shadow-[#7a68b7]/30 transition-all hover:scale-105 border border-[#6c59aa]/40 cursor-pointer"
               >
                 <a
                   href={`https://wa.me/${ANNISA_WA_NUMBER}?text=Halo%20Penginapan%20Annisa,%20saya%20ingin%20tanya%20ketersediaan%20kamar%20transit`}

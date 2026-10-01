@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     display: "standalone",
     background_color: "#faf9fc",
-    theme_color: "#7e22ce",
+    theme_color: "#7a68b7",
     icons: [
       {
         src: "/logo-penginapan-annisa.png",
