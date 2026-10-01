@@ -40,7 +40,12 @@ export default function OlehOlehPage() {
       : SOUVENIR_COLLECTION;
 
   const filteredSouvenirs = items.filter((item) => {
-    const matchCategory = activeCategory === "Semua" || item.category === activeCategory;
+    const matchCategory =
+      activeCategory === "Semua" ||
+      item.category === activeCategory ||
+      item.categoryLabel === activeCategory ||
+      item.categoryLabel.toLowerCase().includes(activeCategory.toLowerCase()) ||
+      activeCategory.toLowerCase().includes(item.categoryLabel.toLowerCase());
     const matchSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||

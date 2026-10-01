@@ -30,7 +30,8 @@ export function Navbar() {
     { href: "/contact", label: "Kontak", icon: MapPin },
   ];
 
-  const isLightPage = pathname.startsWith("/articles/") && pathname !== "/articles";
+  const isLightPage =
+    (pathname.startsWith("/articles/") && pathname !== "/articles") || pathname === "/";
 
   return (
     <div className="fixed top-3 sm:top-5 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-4 pointer-events-none">

@@ -103,9 +103,9 @@ export function HomeRoomsPreview() {
     setCurrentIndex((prev) => prev + 1);
   };
 
-  const CARD_WIDTH = 280; // px
-  const CARD_GAP = 20; // px
-  const TOTAL_CARD_UNIT = CARD_WIDTH + CARD_GAP; // 300px
+  const CARD_WIDTH = 270; // px
+  const CARD_GAP = 16; // px
+  const TOTAL_CARD_UNIT = CARD_WIDTH + CARD_GAP; // 286px
 
   return (
     <div className="w-full relative overflow-hidden py-4 sm:py-6">
@@ -163,12 +163,12 @@ export function HomeRoomsPreview() {
                 <div
                   key={`${room.id}-${index}`}
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-[260px] sm:w-[280px] shrink-0 mx-2.5 transition-all duration-500 cursor-pointer ${
+                  className={`w-[270px] shrink-0 mx-2 transition-all duration-500 cursor-pointer ${
                     isCenter
-                      ? "scale-105 sm:scale-110 z-20 opacity-100"
+                      ? "scale-100 sm:scale-105 z-20 opacity-100"
                       : isAdjacent
-                        ? "scale-95 sm:scale-100 z-10 opacity-75 blur-[0.5px]"
-                        : "scale-90 opacity-40 blur-[1px]"
+                        ? "scale-95 z-10 opacity-80 sm:opacity-90"
+                        : "scale-90 opacity-40"
                   }`}
                 >
                   <div
@@ -184,6 +184,7 @@ export function HomeRoomsPreview() {
                         <img
                           src={room.image}
                           alt={room.name}
+                          loading="eager"
                           className="w-full h-full object-cover"
                         />
                       ) : (

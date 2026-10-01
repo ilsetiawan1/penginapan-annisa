@@ -6,44 +6,44 @@ const STEPS = [
     step: "1",
     label: "Langkah 1",
     title: "Pilih Tipe Kamar",
-    desc: "Tentukan kamar Tipe AC (Rp 275rb) atau Kipas (Rp 200rb) sesuai kebutuhan transit.",
+    desc: "Pilihan kamar AC atau Kipas sesuai kebutuhan Anda.",
     icon: Bed,
   },
   {
     step: "2",
     label: "Langkah 2",
-    title: "Kirim Data via WhatsApp",
-    desc: "1-klik terhubung langsung ke WhatsApp Admin dengan format pesanan otomatis.",
+    title: "Chat WhatsApp",
+    desc: "Format otomatis, langsung terhubung ke admin.",
     icon: FaWhatsapp,
   },
   {
     step: "3",
     label: "Langkah 3",
-    title: "Transfer DP & Check-In",
-    desc: "Kunci kamar aman dengan DP 50%, siap langsung masuk istirahat setiba di Ambon.",
+    title: "DP & Siap Istirahat",
+    desc: "Kamar aman terisi, siap pakai setiba di penginapan.",
     icon: KeyRound,
   },
 ];
 
 export function BookingProcessSection() {
   return (
-    <section className="relative w-full py-8 sm:py-10 px-4 bg-[#faf9fc] overflow-hidden">
+    <section className="relative w-full py-12 sm:py-20 px-4 sm:px-6 bg-[#faf9fc] overflow-hidden">
       <div className="max-w-6xl mx-auto w-full">
         {/* Centered Section Header */}
-        <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block mb-1">
+        <div className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
+          <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-purple-700 block mb-1.5">
             ALUR RESERVASI
           </span>
-          <h2 className="text-xl sm:text-3xl font-serif font-black text-slate-900 leading-tight">
-            3 Langkah Mudah Booking Kamar Transit
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-slate-900 leading-tight">
+            3 Langkah Mudah Booking
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
-            Proses kilat tanpa ribet, transparan, dan langsung terhubung dengan resepsionis.
+          <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-sm mx-auto leading-relaxed">
+            Cepat, praktis, dan langsung terhubung dengan resepsionis.
           </p>
         </div>
 
         {/* Desktop Curved Process Timeline (md & up) */}
-        <div className="hidden md:block relative max-w-4xl mx-auto pt-4 pb-2">
+        <div className="hidden md:block relative max-w-4xl mx-auto pt-6 pb-4">
           {/* Exact Connecting SVG Sinusoidal Curve */}
           <div className="absolute inset-x-0 top-0 h-28 pointer-events-none z-0">
             <svg
@@ -78,24 +78,24 @@ export function BookingProcessSection() {
           </div>
 
           {/* 3 Step Columns with Floating Icon Nodes on Curve */}
-          <div className="grid grid-cols-3 gap-6 items-start relative z-10">
+          <div className="grid grid-cols-3 gap-8 items-start relative z-10">
             {/* Step 1: Left Node */}
             <div className="flex flex-col items-center text-center pt-8 group relative">
               <span className="absolute -top-4 left-6 text-7xl font-black text-slate-200/50 select-none pointer-events-none -z-10">
                 1
               </span>
-              <div className="relative mb-3">
-                <div className="w-14 h-14 rounded-2xl bg-white border-2 border-purple-200 shadow-lg shadow-purple-500/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <div className="relative mb-3.5">
+                <div className="w-14 h-14 rounded-2xl bg-white border border-purple-200 shadow-lg shadow-purple-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Bed className="w-6 h-6 text-purple-700" />
                 </div>
                 <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-purple-700 text-white font-black text-[10px] flex items-center justify-center shadow-xs">
                   1
                 </span>
               </div>
-              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-tight mb-1">
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-tight mb-1.5">
                 {STEPS[0].title}
               </h3>
-              <p className="text-xs text-slate-600 max-w-[220px] leading-relaxed">
+              <p className="text-xs text-slate-500 max-w-[210px] leading-relaxed">
                 {STEPS[0].desc}
               </p>
             </div>
@@ -105,18 +105,18 @@ export function BookingProcessSection() {
               <span className="absolute -top-6 left-12 text-7xl font-black text-purple-200/50 select-none pointer-events-none -z-10">
                 2
               </span>
-              <div className="relative mb-3">
-                <div className="w-16 h-16 rounded-2xl bg-white border-2 border-purple-300 shadow-xl shadow-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ring-4 ring-purple-50">
+              <div className="relative mb-3.5">
+                <div className="w-16 h-16 rounded-2xl bg-white border-2 border-purple-300 shadow-xl shadow-purple-500/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ring-4 ring-purple-50">
                   <FaWhatsapp className="w-8 h-8 text-purple-700" />
                 </div>
                 <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-purple-700 text-white font-black text-[10px] flex items-center justify-center shadow-xs">
                   2
                 </span>
               </div>
-              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-tight mb-1">
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-tight mb-1.5">
                 {STEPS[1].title}
               </h3>
-              <p className="text-xs text-slate-600 max-w-[220px] leading-relaxed">
+              <p className="text-xs text-slate-500 max-w-[210px] leading-relaxed">
                 {STEPS[1].desc}
               </p>
             </div>
@@ -126,28 +126,28 @@ export function BookingProcessSection() {
               <span className="absolute -top-4 right-6 text-7xl font-black text-slate-200/50 select-none pointer-events-none -z-10">
                 3
               </span>
-              <div className="relative mb-3">
-                <div className="w-14 h-14 rounded-2xl bg-white border-2 border-purple-200 shadow-lg shadow-purple-500/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <div className="relative mb-3.5">
+                <div className="w-14 h-14 rounded-2xl bg-white border border-purple-200 shadow-lg shadow-purple-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <KeyRound className="w-6 h-6 text-purple-700" />
                 </div>
                 <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-purple-700 text-white font-black text-[10px] flex items-center justify-center shadow-xs">
                   3
                 </span>
               </div>
-              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-tight mb-1">
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-tight mb-1.5">
                 {STEPS[2].title}
               </h3>
-              <p className="text-xs text-slate-600 max-w-[220px] leading-relaxed">
+              <p className="text-xs text-slate-500 max-w-[210px] leading-relaxed">
                 {STEPS[2].desc}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Mobile View: Open Connected Timeline (No Card Containers) */}
-        <div className="md:hidden relative space-y-6 pl-2 py-2">
+        {/* Mobile View: Open Clean Flow with Generous White Space */}
+        <div className="md:hidden relative space-y-7 pl-3 py-2 max-w-sm mx-auto">
           {/* Continuous Vertical Dotted Connecting Line */}
-          <div className="absolute left-[29px] top-6 bottom-6 w-0.5 border-l-2 border-dashed border-purple-400 pointer-events-none z-0" />
+          <div className="absolute left-[33px] top-6 bottom-6 w-0.5 border-l-2 border-dashed border-purple-300 pointer-events-none z-0" />
 
           {STEPS.map((step) => {
             const Icon = step.icon;
@@ -155,7 +155,7 @@ export function BookingProcessSection() {
               <div key={step.step} className="relative z-10 flex items-start gap-4 group">
                 {/* Floating Icon Node anchored directly on dotted line */}
                 <div className="relative shrink-0">
-                  <div className="w-12 h-12 rounded-2xl bg-white border-2 border-purple-200 text-purple-700 shadow-md shadow-purple-500/10 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-white border border-purple-200 text-purple-700 shadow-sm shadow-purple-500/10 flex items-center justify-center">
                     <Icon className="w-5 h-5" />
                   </div>
                   <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-purple-700 text-white font-black text-[10px] flex items-center justify-center shadow-xs">
@@ -163,12 +163,12 @@ export function BookingProcessSection() {
                   </span>
                 </div>
 
-                {/* Clean Text directly on canvas without card borders */}
-                <div className="flex-1 min-w-0 pt-0.5">
-                  <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 mb-0.5 leading-tight">
+                {/* Clean, airy text with spacious line height */}
+                <div className="flex-1 min-w-0 pt-1">
+                  <h3 className="font-extrabold text-sm text-slate-900 mb-1 leading-tight">
                     {step.title}
                   </h3>
-                  <p className="text-[11px] text-slate-600 leading-relaxed">{step.desc}</p>
+                  <p className="text-xs text-slate-500 leading-relaxed font-normal">{step.desc}</p>
                 </div>
               </div>
             );
