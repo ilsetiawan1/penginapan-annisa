@@ -109,3 +109,17 @@ nextjs-portal,
 .shadow-glow {
   box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.25);
 }
+
+/* Slow Smooth Bounce for Scroll Down Indicator */
+@keyframes bounceSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 2.4s ease-in-out infinite;
+}

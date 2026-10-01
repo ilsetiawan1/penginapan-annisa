@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ChevronDown, Sparkles } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface SouvenirFilterProps {
@@ -56,7 +56,7 @@ export function SouvenirFilter({
         })}
       </div>
 
-      {/* MOBILE VIEW: Ultra-clean, smooth dropdown menu (No awkward stacking) */}
+      {/* MOBILE VIEW: Ultra-clean, smooth dropdown menu without emoji/icon */}
       <div ref={dropdownRef} className="md:hidden relative w-full max-w-xs">
         {/* Trigger Button */}
         <button
@@ -64,12 +64,9 @@ export function SouvenirFilter({
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
-          className="w-full bg-white/95 backdrop-blur-md rounded-full py-2.5 px-4 shadow-lg border border-purple-200/80 flex items-center justify-between gap-2.5 text-xs font-bold text-slate-800 transition active:scale-[0.98] cursor-pointer"
+          className="w-full bg-white/95 backdrop-blur-md rounded-full py-2.5 px-4 shadow-lg border border-purple-200/80 flex items-center justify-between gap-2 text-xs font-bold text-slate-800 transition active:scale-[0.98] cursor-pointer"
         >
-          <div className="flex items-center gap-2 truncate">
-            <span className="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
-              <Sparkles className="w-3.5 h-3.5" />
-            </span>
+          <div className="flex items-center gap-1.5 truncate">
             <span className="text-slate-500 font-medium">Kategori:</span>
             <span className="text-purple-700 font-extrabold truncate">{activeCategory}</span>
           </div>

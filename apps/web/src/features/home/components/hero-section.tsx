@@ -1,4 +1,4 @@
-import { HeroContent, HeroFloatingCards } from "./hero";
+import { HeroContent, HeroFloatingCards, HeroScrollDown } from "./hero";
 
 export function HeroSection() {
   return (
@@ -15,6 +15,9 @@ export function HeroSection() {
 
       {/* AREA FLOATING CARDS (Hanya tampil di Desktop/Layar Lebar) */}
       <HeroFloatingCards />
+
+      {/* TOMBOL SCROLL DOWN (Bounce halus, auto-scroll ke pilihan kamar, hilang saat scroll manual) */}
+      <HeroScrollDown />
     </section>
   );
 }
