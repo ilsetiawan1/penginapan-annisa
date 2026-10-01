@@ -19,6 +19,7 @@ export function SouvenirFilter({
               key={cat}
               type="button"
               onClick={() => onCategoryChange(cat)}
+              aria-pressed={isActive}
               className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 isActive
                   ? "bg-purple-700 text-white shadow-xs"

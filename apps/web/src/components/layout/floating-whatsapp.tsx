@@ -77,9 +77,9 @@ export function FloatingWhatsApp() {
             }}
             title="Tutup WhatsApp"
             aria-label="Tutup WhatsApp"
-            className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-slate-900 hover:bg-red-600 text-white rounded-full flex items-center justify-center border-2 border-white shadow-md transition-all animate-in zoom-in-75 duration-200 cursor-pointer z-10"
+            className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-slate-900 hover:bg-red-600 text-white rounded-full flex items-center justify-center border-2 border-white shadow-md transition-all animate-in zoom-in-75 duration-200 cursor-pointer z-10 after:absolute after:-inset-2.5 after:content-['']"
           >
-            <X className="w-2.5 h-2.5 stroke-[3]" />
+            <X className="w-3 h-3 stroke-[3]" />
           </button>
         )}
       </div>

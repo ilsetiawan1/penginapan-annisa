@@ -35,7 +35,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
         {/* Article Info */}
         <div className="p-4 sm:p-5">
           {/* Metadata: Kategori Saja */}
-          <div className="flex items-center gap-2 text-[10px] sm:text-xs text-slate-400 font-medium mb-1.5">
+          <div className="flex items-center gap-2 text-[10px] sm:text-xs text-slate-600 font-medium mb-1.5">
             <span className="flex items-center gap-1 text-purple-700 font-bold">
               <Tag className="w-3 h-3 text-purple-600" />
               <span>{article.category}</span>
@@ -52,7 +52,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
       {/* Bottom Read More Action */}
       <div className="p-4 sm:p-5 pt-0">
         <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-700 group-hover:text-purple-800">
-          <span className="flex items-center gap-1 text-[11px] text-slate-400 font-medium">
+          <span className="flex items-center gap-1 text-[11px] text-slate-600 font-medium">
             <Calendar className="w-3 h-3" />
             {article.date}
           </span>

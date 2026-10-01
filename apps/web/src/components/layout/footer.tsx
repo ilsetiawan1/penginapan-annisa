@@ -157,9 +157,9 @@ export function Footer() {
         </div>
 
         {/* Bottom Copyright Strip */}
-        <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-1.5 text-[10px] sm:text-[11px] text-slate-400 font-medium text-center sm:text-left">
+        <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-1.5 text-[10px] sm:text-[11px] text-slate-600 font-medium text-center sm:text-left">
           <p>© 2026 Penginapan Annisa. Hak Cipta Dilindungi.</p>
-          <p className="text-slate-500 font-medium">Tawiri, Ambon, Maluku</p>
+          <p className="text-slate-600 font-medium">Tawiri, Ambon, Maluku</p>
         </div>
       </div>
     </footer>

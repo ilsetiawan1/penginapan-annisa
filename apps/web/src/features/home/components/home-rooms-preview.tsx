@@ -222,7 +222,7 @@ export function HomeRoomsPreview() {
                           <span className="text-base sm:text-lg font-black text-purple-700 leading-none block">
                             {room.price}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-semibold mt-0.5 block">
+                          <span className="text-[10px] text-slate-600 font-semibold mt-0.5 block">
                             DP 50%: {room.dp}
                           </span>
                         </div>

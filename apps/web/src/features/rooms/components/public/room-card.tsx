@@ -98,7 +98,7 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
             <span className="text-sm sm:text-base font-black text-slate-900 group-hover:text-purple-700 transition-colors">
               Rp {totalPrice.toLocaleString("id-ID")}
             </span>
-            <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium ml-1">
+            <span className="text-[10px] sm:text-[11px] text-slate-600 font-medium ml-1">
               /malam
             </span>
           </div>

@@ -38,18 +38,24 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
 
         {/* Floating Search Bar */}
         <div className="max-w-xl mx-auto bg-white rounded-full p-1.5 sm:p-2 shadow-2xl flex items-center gap-2 border border-white/80">
-          <div className="pl-3.5 sm:pl-4 text-slate-400">
-            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+          <label htmlFor="souvenir-search-input" className="sr-only">
+            Cari produk oleh-oleh khas Ambon
+          </label>
+          <div className="pl-3.5 sm:pl-4 text-slate-500">
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" />
           </div>
           <input
+            id="souvenir-search-input"
             type="text"
+            aria-label="Cari produk oleh-oleh khas Ambon"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Cari oleh-oleh (misal: Minyak Kayu Putih, Bagea)..."
-            className="w-full bg-transparent text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm font-medium outline-none py-1"
+            className="w-full bg-transparent text-slate-900 placeholder:text-slate-500 text-xs sm:text-sm font-medium outline-none py-1"
           />
           <Button
             type="button"
+            aria-label="Tombol cari oleh-oleh"
             className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 h-9 sm:h-10 shrink-0 shadow-md transition-all cursor-pointer"
           >
             Cari

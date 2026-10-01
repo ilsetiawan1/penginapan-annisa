@@ -37,8 +37,11 @@ export function RoomFilter({
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 items-center">
           {/* Box Tanggal Check-In */}
           <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-purple-600 transition flex items-center justify-between">
+            <label htmlFor="kamar-checkin-date" className="sr-only">
+              Tanggal Check-In
+            </label>
             <div>
-              <span className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+              <span className="text-[9px] sm:text-[10px] font-black text-slate-600 uppercase tracking-wider block">
                 TGL CHECK-IN
               </span>
               <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
@@ -48,6 +51,7 @@ export function RoomFilter({
             <Calendar className="w-4 h-4 text-purple-700 shrink-0" />
             <input
               id="kamar-checkin-date"
+              aria-label="Tanggal Check-In"
               type="date"
               min={todayStr}
               value={checkInDate}
@@ -58,8 +62,11 @@ export function RoomFilter({
 
           {/* Box Lama Menginap */}
           <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-purple-600 transition flex items-center justify-between">
+            <label htmlFor="kamar-nights" className="sr-only">
+              Lama Menginap
+            </label>
             <div>
-              <span className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+              <span className="text-[9px] sm:text-[10px] font-black text-slate-600 uppercase tracking-wider block">
                 LAMA MENGINAP
               </span>
               <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
@@ -69,6 +76,7 @@ export function RoomFilter({
             <Moon className="w-4 h-4 text-purple-700 shrink-0" />
             <select
               id="kamar-nights"
+              aria-label="Lama Menginap"
               value={nights}
               onChange={(e) => onNightsChange(Number(e.target.value))}
               className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
@@ -86,7 +94,7 @@ export function RoomFilter({
             <span className="text-[10px] font-bold text-purple-700 block">
               DP Otomatis: <strong>50% Transfer</strong>
             </span>
-            <span className="text-[10px] text-slate-500 font-medium">
+            <span className="text-[10px] text-slate-600 font-medium">
               Pelunasan 50% saat tiba di lokasi
             </span>
           </div>
@@ -97,6 +105,7 @@ export function RoomFilter({
           <button
             type="button"
             onClick={() => onFilterChange("all")}
+            aria-pressed={activeFilter === "all"}
             className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer ${
               activeFilter === "all"
                 ? "bg-purple-700 text-white shadow-xs"
@@ -108,6 +117,7 @@ export function RoomFilter({
           <button
             type="button"
             onClick={() => onFilterChange("ac")}
+            aria-pressed={activeFilter === "ac"}
             className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
               activeFilter === "ac"
                 ? "bg-purple-700 text-white shadow-xs"
@@ -120,6 +130,7 @@ export function RoomFilter({
           <button
             type="button"
             onClick={() => onFilterChange("kipas")}
+            aria-pressed={activeFilter === "kipas"}
             className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
               activeFilter === "kipas"
                 ? "bg-purple-700 text-white shadow-xs"
@@ -132,6 +143,7 @@ export function RoomFilter({
           <button
             type="button"
             onClick={() => onFilterChange("tersedia")}
+            aria-pressed={activeFilter === "tersedia"}
             className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer ${
               activeFilter === "tersedia"
                 ? "bg-emerald-600 text-white shadow-xs"

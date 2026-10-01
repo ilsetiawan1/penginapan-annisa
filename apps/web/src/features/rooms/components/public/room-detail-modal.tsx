@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
 import { Bed, Check, Clock, Fan, Tag, Tv, Wifi, Wind } from "lucide-react";
 import Image from "next/image";
@@ -62,6 +62,10 @@ export function RoomDetailModal({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-lg max-h-[96dvh] sm:max-h-[90vh] overflow-hidden p-0 rounded-3xl border-0 shadow-2xl bg-[#faf9fc] flex flex-col justify-between">
+        <DialogTitle className="sr-only">{cleanRoomTitle}</DialogTitle>
+        <DialogDescription className="sr-only">
+          Detail informasi fasilitas dan reservasi {cleanRoomTitle} Penginapan Annisa
+        </DialogDescription>
         {/* Header Photo Banner (Compact & Crisp) */}
         <div className="relative h-36 sm:h-52 w-full bg-slate-900 overflow-hidden shrink-0">
           {room.image ? (

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useCart } from "@/features/souvenirs/hooks/use-cart";
 import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 import { Calendar, Clock, Minus, Plus, ShoppingBag, Store, Trash2, User } from "lucide-react";
@@ -83,6 +83,10 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-md max-h-[88dvh] overflow-y-auto p-0 rounded-2xl sm:rounded-3xl border-0 shadow-2xl bg-[#faf9fc] flex flex-col">
+        <DialogTitle className="sr-only">Keranjang Titip Ambil</DialogTitle>
+        <DialogDescription className="sr-only">
+          Daftar belanja produk oleh-oleh khas Maluku untuk titip ambil di meja resepsionis
+        </DialogDescription>
         {/* Header Visual Bar */}
         <div className="bg-gradient-to-r from-purple-900 via-purple-950 to-indigo-950 text-white py-3 px-4 sm:py-3.5 sm:px-5 pr-12 rounded-t-2xl sm:rounded-t-3xl relative overflow-hidden shrink-0 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -103,10 +107,10 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
         {/* Body Content */}
         <div className="p-3 sm:p-4 space-y-2.5 text-left">
           {items.length === 0 ? (
-            <div className="py-6 text-center text-slate-400">
-              <ShoppingBag className="w-8 h-8 mx-auto mb-1.5 text-slate-300" />
-              <p className="text-xs font-bold text-slate-600">Keranjang belanja masih kosong</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">
+            <div className="py-6 text-center text-slate-500">
+              <ShoppingBag className="w-8 h-8 mx-auto mb-1.5 text-slate-400" />
+              <p className="text-xs font-bold text-slate-700">Keranjang belanja masih kosong</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">
                 Pilih produk oleh-oleh khas Maluku untuk ditambahkan.
               </p>
             </div>
@@ -155,6 +159,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                       <div className="flex items-center gap-1 bg-purple-50 p-0.5 rounded-lg border border-purple-100">
                         <button
                           type="button"
+                          aria-label="Kurangi jumlah pesanan"
                           onClick={() => updateQuantity(it.id, it.quantity - 1)}
                           className="w-5 h-5 rounded-md bg-white hover:bg-purple-100 text-purple-900 flex items-center justify-center font-bold text-xs transition cursor-pointer shadow-2xs"
                         >
@@ -165,6 +170,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                         </span>
                         <button
                           type="button"
+                          aria-label="Tambah jumlah pesanan"
                           onClick={() => updateQuantity(it.id, it.quantity + 1)}
                           className="w-5 h-5 rounded-md bg-purple-700 hover:bg-purple-800 text-white flex items-center justify-center font-bold text-xs transition cursor-pointer shadow-2xs"
                         >
@@ -174,8 +180,9 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
                       <button
                         type="button"
+                        aria-label="Hapus produk dari keranjang"
                         onClick={() => removeItem(it.id)}
-                        className="w-6 h-6 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition cursor-pointer"
+                        className="w-6 h-6 rounded-md text-slate-500 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition cursor-pointer"
                         title="Hapus"
                       >
                         <Trash2 className="w-3 h-3" />
@@ -194,11 +201,13 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-600 block mb-0.5">
+                    <label htmlFor="cart-guest-name" className="text-[10px] font-semibold text-slate-600 block mb-0.5">
                       Nama <span className="text-red-500">*</span>
                     </label>
                     <input
+                      id="cart-guest-name"
                       type="text"
+                      aria-label="Nama Pemesan"
                       placeholder="Nama Pemesan"
                       value={guestName}
                       onChange={(e) => setGuestName(e.target.value)}
@@ -207,11 +216,13 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-600 block mb-0.5">
+                    <label htmlFor="cart-guest-phone" className="text-[10px] font-semibold text-slate-600 block mb-0.5">
                       No. WhatsApp <span className="text-red-500">*</span>
                     </label>
                     <input
+                      id="cart-guest-phone"
                       type="tel"
+                      aria-label="Nomor WhatsApp"
                       placeholder="081234567890"
                       value={guestPhone}
                       onChange={(e) => setGuestPhone(e.target.value)}
@@ -222,14 +233,16 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5">
+                    <label htmlFor="cart-pickup-date" className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5">
                       <Calendar className="w-2.5 h-2.5 text-purple-600" />
                       <span>
                         Tgl Ambil <span className="text-red-500">*</span>
                       </span>
                     </label>
                     <input
+                      id="cart-pickup-date"
                       type="date"
+                      aria-label="Tanggal Ambil"
                       value={pickupDate}
                       onChange={(e) => setPickupDate(e.target.value)}
                       className="w-full h-8 bg-[#faf9fd] border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
@@ -237,14 +250,16 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5">
+                    <label htmlFor="cart-pickup-time" className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5">
                       <Clock className="w-2.5 h-2.5 text-purple-600" />
                       <span>
                         Jam WIT <span className="text-red-500">*</span>
                       </span>
                     </label>
                     <input
+                      id="cart-pickup-time"
                       type="time"
+                      aria-label="Jam Pengambilan WIT"
                       value={pickupTime}
                       onChange={(e) => setPickupTime(e.target.value)}
                       className="w-full h-8 bg-[#faf9fd] border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"

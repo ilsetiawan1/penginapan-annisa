@@ -160,9 +160,12 @@ export function BookingWidget() {
       {/* 2. Interactive Form Inputs */}
       <div className="p-3.5 sm:p-5 space-y-3">
         {/* Room Type Selector */}
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Pilih Tipe Kamar">
           <button
             type="button"
+            role="radio"
+            aria-checked={selectedType === "ac"}
+            aria-label="Kamar Tipe AC Rp 275.000 per malam"
             onClick={() => setSelectedType("ac")}
             className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
               selectedType === "ac"
@@ -187,6 +190,9 @@ export function BookingWidget() {
 
           <button
             type="button"
+            role="radio"
+            aria-checked={selectedType === "kipas"}
+            aria-label="Kamar Tipe Kipas Rp 200.000 per malam"
             onClick={() => setSelectedType("kipas")}
             className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
               selectedType === "kipas"
@@ -215,12 +221,13 @@ export function BookingWidget() {
           <div className="bg-slate-50 border border-slate-200/90 focus-within:border-purple-600 rounded-2xl p-2 sm:p-2.5 transition">
             <label
               htmlFor="booking-checkin-date"
-              className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-0.5"
+              className="text-[10px] font-black text-slate-600 uppercase tracking-wider block mb-0.5"
             >
               TGL CHECK-IN
             </label>
             <input
               id="booking-checkin-date"
+              aria-label="Tanggal Check-In"
               type="date"
               min={todayStr}
               value={checkInDate}
@@ -232,12 +239,13 @@ export function BookingWidget() {
           <div className="bg-slate-50 border border-slate-200/90 focus-within:border-purple-600 rounded-2xl p-2 sm:p-2.5 transition">
             <label
               htmlFor="booking-nights-select"
-              className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-0.5"
+              className="text-[10px] font-black text-slate-600 uppercase tracking-wider block mb-0.5"
             >
               LAMA MENGINAP
             </label>
             <select
               id="booking-nights-select"
+              aria-label="Lama Menginap"
               value={nights}
               onChange={(e) => setNights(Number(e.target.value))}
               className="w-full bg-transparent text-xs sm:text-sm font-extrabold text-slate-950 outline-none cursor-pointer"
@@ -256,34 +264,36 @@ export function BookingWidget() {
           <div className="bg-slate-50 border border-slate-200/90 focus-within:border-purple-600 rounded-2xl p-2 sm:p-2.5 transition">
             <label
               htmlFor="booking-guest-name"
-              className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-0.5"
+              className="text-[10px] font-black text-slate-600 uppercase tracking-wider block mb-0.5"
             >
               NAMA PEMESAN
             </label>
             <input
               id="booking-guest-name"
+              aria-label="Nama Pemesan"
               type="text"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
               placeholder="Contoh: Budi"
-              className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-400 outline-none"
+              className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-500 outline-none"
             />
           </div>
 
           <div className="bg-slate-50 border border-slate-200/90 focus-within:border-purple-600 rounded-2xl p-2 sm:p-2.5 transition">
             <label
               htmlFor="booking-guest-phone"
-              className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-0.5"
+              className="text-[10px] font-black text-slate-600 uppercase tracking-wider block mb-0.5"
             >
               NO. WHATSAPP
             </label>
             <input
               id="booking-guest-phone"
+              aria-label="Nomor WhatsApp"
               type="tel"
               value={guestPhone}
               onChange={(e) => setGuestPhone(e.target.value)}
               placeholder="0812xxxx"
-              className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-400 outline-none"
+              className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-500 outline-none"
             />
           </div>
         </div>

@@ -30,9 +30,11 @@ export function ContactForm() {
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label className="text-[11px] font-bold text-slate-700 block mb-1">Nama Anda</label>
+          <label htmlFor="contact-name" className="text-[11px] font-bold text-slate-700 block mb-1">Nama Anda</label>
           <input
+            id="contact-name"
             type="text"
+            aria-label="Nama Anda"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Contoh: Rahmat Hidayat"
@@ -41,11 +43,13 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label className="text-[11px] font-bold text-slate-700 block mb-1">
+          <label htmlFor="contact-phone" className="text-[11px] font-bold text-slate-700 block mb-1">
             Nomor WhatsApp Anda
           </label>
           <input
+            id="contact-phone"
             type="tel"
+            aria-label="Nomor WhatsApp Anda"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Contoh: 081234567890"
@@ -54,10 +58,12 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label className="text-[11px] font-bold text-slate-700 block mb-1">
+          <label htmlFor="contact-topic" className="text-[11px] font-bold text-slate-700 block mb-1">
             Topik Pertanyaan
           </label>
           <select
+            id="contact-topic"
+            aria-label="Topik Pertanyaan"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 outline-none focus:border-purple-500 focus:bg-white transition"
@@ -72,10 +78,12 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label className="text-[11px] font-bold text-slate-700 block mb-1">
+          <label htmlFor="contact-message" className="text-[11px] font-bold text-slate-700 block mb-1">
             Isi Pesan / Pertanyaan
           </label>
           <textarea
+            id="contact-message"
+            aria-label="Isi Pesan atau Pertanyaan"
             rows={3}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
