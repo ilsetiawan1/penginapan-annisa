@@ -14,12 +14,12 @@ export function HeroContent() {
         Akses super dekat, praktis, dan bebas macet langsung dari Bandara Internasional Pattimura Ambon.
       </p>
 
-      {/* CTA Button: Lihat Kamar */}
-      <div className="mt-5 sm:mt-6">
+      {/* CTA Button: Lihat Kamar dengan animasi bounce */}
+      <div className="mt-6 sm:mt-8 animate-bounce">
         <Link
           href="/rooms"
           aria-label="Lihat pilihan unit kamar transit"
-          className="inline-flex items-center gap-2.5 bg-slate-950 hover:bg-black text-white text-xs sm:text-sm font-bold py-3.5 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 group border border-slate-800"
+          className="inline-flex items-center gap-2.5 bg-slate-950 hover:bg-black text-white text-xs sm:text-sm font-bold py-3.5 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 group border border-slate-800"
         >
           <span>Lihat Kamar</span>
           <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
