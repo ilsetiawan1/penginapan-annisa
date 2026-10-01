@@ -40,12 +40,12 @@ export function HeroScrollDown() {
         className="flex flex-col items-center gap-1.5 group cursor-pointer focus:outline-hidden"
       >
         {/* Lingkaran dengan Chevron Down beranimasi bounce lambat & halus */}
-        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-slate-300/80 bg-white/90 backdrop-blur-md shadow-xs group-hover:shadow-md group-hover:border-purple-300 flex items-center justify-center transition-all duration-300 animate-bounce-slow">
-          <ChevronDown className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-500 group-hover:text-purple-700 transition-colors" />
+        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-slate-300/80 bg-white/90 backdrop-blur-md shadow-xs group-hover:shadow-md group-hover:border-[#7a68b7]/50 flex items-center justify-center transition-all duration-300 animate-bounce-slow">
+          <ChevronDown className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-500 group-hover:text-[#7a68b7] transition-colors" />
         </div>
 
         {/* Label Teks Scroll Down */}
-        <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-slate-500 group-hover:text-purple-700 transition-colors select-none">
+        <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-slate-500 group-hover:text-[#7a68b7] transition-colors select-none">
           Scroll Down
         </span>
       </button>
