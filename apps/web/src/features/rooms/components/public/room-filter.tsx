@@ -36,7 +36,7 @@ export function RoomFilter({
         {/* Baris 1: Date & Duration (2 Kolom Berdampingan dengan Desain Modern Traveloka/Airbnb Style) */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 items-center">
           {/* Box Tanggal Check-In */}
-          <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-purple-600 transition flex items-center justify-between">
+          <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-[#7a68b7] transition flex items-center justify-between">
             <label htmlFor="kamar-checkin-date" className="sr-only">
               Tanggal Check-In
             </label>
@@ -48,7 +48,7 @@ export function RoomFilter({
                 {formattedDate}
               </span>
             </div>
-            <Calendar className="w-4 h-4 text-purple-700 shrink-0" />
+            <Calendar className="w-4 h-4 text-[#7a68b7] shrink-0" />
             <input
               id="kamar-checkin-date"
               aria-label="Tanggal Check-In"
@@ -61,7 +61,7 @@ export function RoomFilter({
           </div>
 
           {/* Box Lama Menginap */}
-          <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-purple-600 transition flex items-center justify-between">
+          <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-[#7a68b7] transition flex items-center justify-between">
             <label htmlFor="kamar-nights" className="sr-only">
               Lama Menginap
             </label>
@@ -73,7 +73,7 @@ export function RoomFilter({
                 {nights} Malam {nights === 1 ? "Transit" : ""}
               </span>
             </div>
-            <Moon className="w-4 h-4 text-purple-700 shrink-0" />
+            <Moon className="w-4 h-4 text-[#7a68b7] shrink-0" />
             <select
               id="kamar-nights"
               aria-label="Lama Menginap"
@@ -90,8 +90,8 @@ export function RoomFilter({
           </div>
 
           {/* Indikator DP 50% (Hanya tampil di tablet/desktop agar tampilan mobile sangat ringkas) */}
-          <div className="hidden sm:flex bg-purple-50/80 border border-purple-100 rounded-2xl p-2 text-center flex-col justify-center">
-            <span className="text-[10px] font-bold text-purple-700 block">
+          <div className="hidden sm:flex bg-[#ede8f8]/80 border border-[#ddd3f3] rounded-2xl p-2 text-center flex-col justify-center">
+            <span className="text-[10px] font-bold text-[#594791] block">
               DP Otomatis: <strong>50% Transfer</strong>
             </span>
             <span className="text-[10px] text-slate-600 font-medium">
@@ -108,8 +108,8 @@ export function RoomFilter({
             aria-pressed={activeFilter === "all"}
             className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer ${
               activeFilter === "all"
-                ? "bg-purple-700 text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:text-purple-700"
+                ? "bg-[#7a68b7] text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8]/60"
             }`}
           >
             Semua Kamar
@@ -120,8 +120,8 @@ export function RoomFilter({
             aria-pressed={activeFilter === "ac"}
             className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
               activeFilter === "ac"
-                ? "bg-purple-700 text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:text-purple-700"
+                ? "bg-[#7a68b7] text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8]/60"
             }`}
           >
             <span>Tipe AC</span>
@@ -133,8 +133,8 @@ export function RoomFilter({
             aria-pressed={activeFilter === "kipas"}
             className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
               activeFilter === "kipas"
-                ? "bg-purple-700 text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:text-purple-700"
+                ? "bg-[#7a68b7] text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8]/60"
             }`}
           >
             <span>Tipe Kipas</span>

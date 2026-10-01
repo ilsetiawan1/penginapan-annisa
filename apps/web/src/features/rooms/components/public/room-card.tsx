@@ -36,7 +36,7 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
     <>
       <Card
         onClick={() => setIsDetailOpen(true)}
-        className="overflow-hidden p-0 rounded-3xl bg-white hover:shadow-xl border border-slate-200/90 hover:border-purple-300 transition-all duration-300 flex flex-col justify-between group cursor-pointer h-full"
+        className="overflow-hidden p-0 rounded-3xl bg-white hover:shadow-xl border border-slate-200/90 hover:border-[#ddd3f3] transition-all duration-300 flex flex-col justify-between group cursor-pointer h-full"
       >
         <div>
           {/* Foto Kamar Bersih atau Placeholder Elegan */}
@@ -48,8 +48,8 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
                 className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-purple-50 via-purple-100/40 to-slate-100 flex flex-col items-center justify-center gap-2 text-purple-700/60 p-4">
-                <Bed className="w-8 h-8 stroke-[1.5] text-purple-600/70" />
+              <div className="w-full h-full bg-gradient-to-br from-[#faf8fd] via-[#ede8f8]/60 to-slate-100 flex flex-col items-center justify-center gap-2 text-[#7a68b7]/60 p-4">
+                <Bed className="w-8 h-8 stroke-[1.5] text-[#7a68b7]/70" />
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                   {room.name}
                 </span>
@@ -61,8 +61,8 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
           <div className="p-4 sm:p-5 space-y-2 text-left">
             {/* Kategori Tipe & Status Ketersediaan Halus */}
             <div className="flex items-center justify-between text-[11px] font-bold">
-              <div className="flex items-center gap-1.5 text-purple-700">
-                <Tag className="w-3 h-3 text-purple-600 shrink-0" />
+              <div className="flex items-center gap-1.5 text-[#7a68b7]">
+                <Tag className="w-3 h-3 text-[#7a68b7] shrink-0" />
                 <span>{room.type === "ac" ? "Tipe AC" : "Tipe Kipas"}</span>
               </div>
 
@@ -80,7 +80,7 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
             </div>
 
             {/* Nama Kamar */}
-            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug group-hover:text-purple-700 transition">
+            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug group-hover:text-[#594791] transition">
               {room.name}
             </h3>
 
@@ -95,7 +95,7 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
         <div className="px-3.5 sm:px-4 py-3 border-t border-slate-100 flex items-center justify-between gap-2">
           {/* Kontainer Harga Terproteksi dari Line-Break */}
           <div className="whitespace-nowrap shrink-0 flex items-baseline">
-            <span className="text-sm sm:text-base font-black text-slate-900 group-hover:text-purple-700 transition-colors">
+            <span className="text-sm sm:text-base font-black text-slate-900 group-hover:text-[#594791] transition-colors">
               Rp {totalPrice.toLocaleString("id-ID")}
             </span>
             <span className="text-[10px] sm:text-[11px] text-slate-600 font-medium ml-1">
@@ -104,7 +104,7 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
           </div>
 
           {/* Tombol Aksi Minimalis dengan shrink-0 */}
-          <div className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-600 group-hover:text-purple-700 bg-slate-50 group-hover:bg-purple-50 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-slate-200/80 group-hover:border-purple-200 transition-all shrink-0">
+          <div className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-600 group-hover:text-[#594791] bg-slate-50 group-hover:bg-[#ede8f8] px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-slate-200/80 group-hover:border-[#ddd3f3] transition-all shrink-0">
             <span>Lihat Kamar</span>
             <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform group-hover:translate-x-0.5" />
           </div>

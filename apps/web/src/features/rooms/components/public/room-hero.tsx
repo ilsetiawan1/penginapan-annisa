@@ -24,7 +24,7 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-14 sm:pt-16">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-3 sm:mb-4 shadow-sm">
-          <Bed className="w-3.5 h-3.5 text-purple-300" />
+          <Bed className="w-3.5 h-3.5 text-[#c4b5e6]" />
           <span>KATALOG 8 UNIT KAMAR</span>
         </div>
 
@@ -57,7 +57,7 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
           <Button
             type="button"
             aria-label="Tombol cari kamar"
-            className="rounded-full bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 h-9 sm:h-10 shrink-0 shadow-md transition-all cursor-pointer"
+            className="rounded-full bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 h-9 sm:h-10 shrink-0 shadow-md shadow-[#7a68b7]/25 border border-[#6c59aa]/40 transition-all cursor-pointer active:scale-95"
           >
             Cari
           </Button>

@@ -21,8 +21,8 @@ export function ArticleFilter({
               onClick={() => onCategoryChange(cat)}
               className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 isActive
-                  ? "bg-purple-700 text-white shadow-xs"
-                  : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/60"
+                  ? "bg-[#7a68b7] text-white shadow-xs"
+                  : "text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8]/60"
               }`}
             >
               {cat}

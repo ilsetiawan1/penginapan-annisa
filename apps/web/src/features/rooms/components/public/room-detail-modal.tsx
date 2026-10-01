@@ -203,7 +203,7 @@ export function RoomDetailModal({
 
               {/* 6. Handuk Bersih */}
               <div className="bg-white p-1.5 sm:p-2.5 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col items-center text-center">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center mb-1">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-[#ede8f8] text-[#7a68b7] flex items-center justify-center mb-1">
                   <MdOutlineWash className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <span className="text-[10px] sm:text-[11px] font-bold text-slate-900 leading-tight">
@@ -215,9 +215,9 @@ export function RoomDetailModal({
           </div>
 
           {/* Section 2: Ringkasan Ramping Biaya & DP 50% */}
-          <div className="bg-purple-50/80 p-2.5 sm:p-3.5 rounded-2xl border border-purple-100 flex items-center justify-between text-left">
+          <div className="bg-[#ede8f8]/80 p-2.5 sm:p-3.5 rounded-2xl border border-[#ddd3f3] flex items-center justify-between text-left">
             <div>
-              <span className="text-[9px] sm:text-[10px] font-black text-purple-800 uppercase tracking-wider block leading-none mb-0.5">
+              <span className="text-[9px] sm:text-[10px] font-black text-[#594791] uppercase tracking-wider block leading-none mb-0.5">
                 ESTIMASI BIAYA ({nights} MALAM)
               </span>
               <span className="text-xs sm:text-sm font-extrabold text-slate-900">
@@ -229,7 +229,7 @@ export function RoomDetailModal({
               <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase block leading-none mb-0.5">
                 DP 50% TRANSFER
               </span>
-              <strong className="text-xs sm:text-sm md:text-base font-black text-purple-700">
+              <strong className="text-xs sm:text-sm md:text-base font-black text-[#594791]">
                 Rp {dpPrice.toLocaleString("id-ID")}
               </strong>
             </div>
@@ -239,7 +239,7 @@ export function RoomDetailModal({
           {isAvailable ? (
             <Button
               asChild
-              className="w-full rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm h-10 sm:h-11 gap-2 shadow-md shadow-purple-900/20 hover:shadow-lg transition-all cursor-pointer shrink-0"
+              className="w-full rounded-2xl bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-extrabold text-xs sm:text-sm h-10 sm:h-11 gap-2 shadow-md shadow-[#7a68b7]/25 border border-[#6c59aa]/40 hover:shadow-lg transition-all cursor-pointer shrink-0"
             >
               <a href={waUrl} target="_blank" rel="noreferrer">
                 <FaWhatsapp className="w-4 h-4" />
@@ -254,7 +254,7 @@ export function RoomDetailModal({
               <Button
                 asChild
                 variant="outline"
-                className="w-full rounded-2xl border-purple-300 text-purple-700 hover:bg-purple-50 font-bold text-xs sm:text-sm h-10 gap-2 cursor-pointer"
+                className="w-full rounded-2xl border-[#ddd3f3] text-[#594791] hover:bg-[#ede8f8] font-bold text-xs sm:text-sm h-10 gap-2 cursor-pointer"
               >
                 <a href={waInquiryUrl} target="_blank" rel="noreferrer">
                   <FaWhatsapp className="w-4 h-4" />

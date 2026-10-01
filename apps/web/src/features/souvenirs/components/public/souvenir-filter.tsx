@@ -46,8 +46,8 @@ export function SouvenirFilter({
               aria-pressed={isActive}
               className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 isActive
-                  ? "bg-purple-700 text-white shadow-xs"
-                  : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/60"
+                  ? "bg-[#7a68b7] text-white shadow-xs"
+                  : "text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8]/60"
               }`}
             >
               {cat}
@@ -64,15 +64,15 @@ export function SouvenirFilter({
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
-          className="w-full bg-white/95 backdrop-blur-md rounded-full py-2.5 px-4 shadow-lg border border-purple-200/80 flex items-center justify-between gap-2 text-xs font-bold text-slate-800 transition active:scale-[0.98] cursor-pointer"
+          className="w-full bg-white/95 backdrop-blur-md rounded-full py-2.5 px-4 shadow-lg border border-[#ddd3f3] flex items-center justify-between gap-2 text-xs font-bold text-slate-800 transition active:scale-[0.98] cursor-pointer"
         >
           <div className="flex items-center gap-1.5 truncate">
             <span className="text-slate-500 font-medium">Kategori:</span>
-            <span className="text-purple-700 font-extrabold truncate">{activeCategory}</span>
+            <span className="text-[#594791] font-extrabold truncate">{activeCategory}</span>
           </div>
 
           <ChevronDown
-            className={`w-4 h-4 text-purple-700 shrink-0 transition-transform duration-200 ${
+            className={`w-4 h-4 text-[#7a68b7] shrink-0 transition-transform duration-200 ${
               isOpen ? "rotate-180" : "rotate-0"
             }`}
           />
@@ -80,7 +80,7 @@ export function SouvenirFilter({
 
         {/* Dropdown Options List */}
         {isOpen && (
-          <div className="absolute left-0 right-0 top-full mt-2 bg-white/98 backdrop-blur-xl rounded-2xl shadow-xl shadow-purple-950/15 border border-slate-200/90 py-1.5 px-1.5 z-40 animate-in fade-in zoom-in-95 duration-150">
+          <div className="absolute left-0 right-0 top-full mt-2 bg-white/98 backdrop-blur-xl rounded-2xl shadow-xl shadow-[#7a68b7]/15 border border-slate-200/90 py-1.5 px-1.5 z-40 animate-in fade-in zoom-in-95 duration-150">
             <div className="space-y-1" role="listbox">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat;
@@ -96,8 +96,8 @@ export function SouvenirFilter({
                     }}
                     className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition cursor-pointer text-left ${
                       isActive
-                        ? "bg-purple-700 text-white shadow-xs"
-                        : "text-slate-700 hover:text-purple-700 hover:bg-purple-50/70"
+                        ? "bg-[#7a68b7] text-white shadow-xs"
+                        : "text-slate-700 hover:text-[#594791] hover:bg-[#ede8f8]/70"
                     }`}
                   >
                     <span className="truncate">{cat}</span>

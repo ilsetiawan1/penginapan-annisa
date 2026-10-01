@@ -138,7 +138,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                 type="button"
                 aria-label="Tambah jumlah pesanan"
                 onClick={() => setQuantity((q) => Math.min(20, q + 1))}
-                className="w-6 h-6 rounded-md bg-purple-700 hover:bg-purple-800 text-white flex items-center justify-center font-bold text-xs transition cursor-pointer shadow-2xs"
+                className="w-6 h-6 rounded-md bg-[#7a68b7] hover:bg-[#6c59aa] text-white flex items-center justify-center font-bold text-xs transition cursor-pointer shadow-2xs"
               >
                 <Plus className="w-3 h-3" />
               </button>
@@ -252,7 +252,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   toast.success(`${quantity}x ${item.name} ditambahkan ke keranjang.`);
                   onClose();
                 }}
-                className="w-full h-9 sm:h-10 rounded-xl border-purple-200 hover:bg-purple-50 text-purple-900 font-bold text-xs gap-1.5 transition cursor-pointer"
+                className="w-full h-9 sm:h-10 rounded-xl border-[#ddd3f3] hover:bg-[#ede8f8] text-[#594791] font-bold text-xs gap-1.5 transition cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>+ Keranjang</span>
@@ -260,7 +260,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
               <Button
                 onClick={handleSendOrder}
-                className="w-full h-9 sm:h-10 rounded-xl sm:rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs gap-1.5 shadow-sm shadow-purple-900/20 hover:shadow-md transition cursor-pointer"
+                className="w-full h-9 sm:h-10 rounded-xl sm:rounded-2xl bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-extrabold text-xs gap-1.5 shadow-sm shadow-[#7a68b7]/25 border border-[#6c59aa]/40 hover:shadow-md transition cursor-pointer"
               >
                 <FaWhatsapp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 <span>Pesan WhatsApp</span>

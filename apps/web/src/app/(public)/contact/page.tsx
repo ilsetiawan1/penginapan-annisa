@@ -25,7 +25,7 @@ export default function ContactPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-14 sm:pt-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-3 sm:mb-4 shadow-sm">
-            <MapPin className="w-3.5 h-3.5 text-purple-300" />
+            <MapPin className="w-3.5 h-3.5 text-[#c4b5e6]" />
             <span>PENGINAPAN ANNISA AMBON</span>
           </div>
 
@@ -42,10 +42,10 @@ export default function ContactPage() {
 
       {/* 2. Main Showcase Section */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-14 relative z-20 pb-16 sm:pb-20">
-        <div className="bg-white/95 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 lg:p-8 border border-purple-100/90 shadow-2xl shadow-purple-950/10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div className="bg-white/95 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 lg:p-8 border border-[#ddd3f3] shadow-2xl shadow-[#7a68b7]/10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Kolom Kiri: Kartu Informasi Kontak Glassmorphism */}
-          <div className="lg:col-span-5 bg-[#f8f5fd] backdrop-blur-md text-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden border border-purple-100 shadow-sm">
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-purple-300/20 rounded-full blur-2xl pointer-events-none" />
+          <div className="lg:col-span-5 bg-[#f8f5fd] backdrop-blur-md text-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden border border-[#ddd3f3] shadow-sm">
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[#7a68b7]/15 rounded-full blur-2xl pointer-events-none" />
 
             <div className="relative z-10 space-y-6">
               <div>
@@ -60,26 +60,26 @@ export default function ContactPage() {
               {/* Rincian Alamat */}
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-xl bg-[#ede8f8] text-[#594791] flex items-center justify-center shrink-0 mt-0.5">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-slate-900">Alamat Lengkap</h3>
                     <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                      Jl. Dr. J. Leimena, Laha, Kec. Teluk Ambon, Kota Ambon, Maluku (750m dari
+                       Jl. Dr. J. Leimena, Laha, Kec. Teluk Ambon, Kota Ambon, Maluku (750m dari
                       Bandara Pattimura)
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-xl bg-[#ede8f8] text-[#594791] flex items-center justify-center shrink-0 mt-0.5">
                     <Clock className="w-4 h-4" />
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-slate-900">Jam Layanan</h3>
                     <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                      Resepsionis 24 Jam (Check-in Fleksibel & Antar-Jemput)
+                      Resepsionis 24 Jam (Check-in Fleksibel &amp; Antar-Jemput)
                     </p>
                   </div>
                 </div>
@@ -88,16 +88,16 @@ export default function ContactPage() {
                   href={`https://wa.me/${ANNISA_WA_NUMBER}?text=Halo%20Penginapan%20Annisa,%20saya%20ingin%20bertanya%20informasi%20kamar.`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-start gap-3 p-3 rounded-2xl bg-white border border-purple-100 hover:border-purple-300 hover:shadow-sm transition group"
+                  className="flex items-start gap-3 p-3 rounded-2xl bg-white border border-[#ddd3f3] hover:border-[#7a68b7]/60 hover:shadow-sm transition group"
                 >
-                  <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-700 group-hover:text-white transition">
+                  <div className="w-8 h-8 rounded-xl bg-[#ede8f8] text-[#594791] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#7a68b7] group-hover:text-white transition">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-purple-700 transition">
+                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#594791] transition">
                       WhatsApp &amp; Telepon
                     </h3>
-                    <p className="text-xs text-purple-700 font-bold mt-0.5">
+                    <p className="text-xs text-[#594791] font-bold mt-0.5">
                       +{ANNISA_WA_NUMBER} ➔
                     </p>
                   </div>
@@ -106,7 +106,7 @@ export default function ContactPage() {
 
               <Button
                 asChild
-                className="w-full bg-purple-700 hover:bg-purple-800 text-white rounded-xl text-xs font-bold shadow-md shadow-purple-950/15 h-11"
+                className="w-full bg-[#7a68b7] hover:bg-[#6c59aa] text-white rounded-xl text-xs font-bold shadow-md shadow-[#7a68b7]/25 border border-[#6c59aa]/40 h-11 transition cursor-pointer active:scale-95"
               >
                 <a
                   href="https://maps.app.goo.gl/PskXAUZuGD7NeMoL7"
@@ -126,7 +126,7 @@ export default function ContactPage() {
             <div className="flex items-center justify-between gap-2 px-1">
               <div>
                 <span className="text-xs sm:text-base font-serif font-black text-slate-900 flex items-center gap-1.5 whitespace-nowrap">
-                  <Navigation className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-700 shrink-0" />
+                  <Navigation className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#7a68b7] shrink-0" />
                   <span>Peta Lokasi Google Maps</span>
                 </span>
                 <p className="text-xs text-slate-500 hidden sm:block mt-0.5">
@@ -138,7 +138,7 @@ export default function ContactPage() {
                 href="https://maps.app.goo.gl/PskXAUZuGD7NeMoL7"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[11px] sm:text-xs font-extrabold text-purple-700 hover:text-purple-900 flex items-center gap-1 hover:underline transition-colors shrink-0 whitespace-nowrap"
+                className="text-[11px] sm:text-xs font-extrabold text-[#7a68b7] hover:text-[#594791] flex items-center gap-1 hover:underline transition-colors shrink-0 whitespace-nowrap"
               >
                 <span>Petunjuk Arah</span>
                 <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5" />

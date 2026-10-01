@@ -62,7 +62,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
           Artikel yang Anda cari mungkin telah dipindahkan atau dihapus.
         </p>
         <Link href="/articles">
-          <Button className="rounded-full cursor-pointer bg-purple-700 hover:bg-purple-800 text-white">
+          <Button className="rounded-full cursor-pointer bg-[#7a68b7] hover:bg-[#6c59aa] text-white">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Kembali ke Semua Artikel
           </Button>
@@ -98,7 +98,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
         <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
           <Link
             href="/articles"
-            className="inline-flex items-center gap-1.5 font-semibold text-purple-700 hover:text-purple-800 transition"
+            className="inline-flex items-center gap-1.5 font-semibold text-[#7a68b7] hover:text-[#594791] transition"
           >
             <ArrowLeft className="w-4 h-4" />
             Kembali ke Panduan &amp; Artikel
@@ -114,8 +114,8 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
 
         {/* Category & Read Time */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold">
-            <Tag className="w-3.5 h-3.5 text-purple-600" />
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ede8f8] text-[#594791] border border-[#ddd3f3] text-xs font-bold">
+            <Tag className="w-3.5 h-3.5 text-[#7a68b7]" />
             {article.category?.name || "Wisata & Budaya"}
           </span>
           <span className="inline-flex items-center gap-1 text-xs text-slate-500">
@@ -160,7 +160,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
         {/* Article Body */}
         <article className="prose prose-slate max-w-none text-slate-700 text-base sm:text-lg leading-relaxed space-y-5">
           {article.summary && (
-            <p className="font-semibold text-slate-900 text-lg sm:text-xl leading-relaxed bg-purple-50/60 p-5 rounded-2xl border-l-4 border-purple-600">
+            <p className="font-semibold text-slate-900 text-lg sm:text-xl leading-relaxed bg-[#ede8f8]/60 p-5 rounded-2xl border-l-4 border-[#7a68b7]">
               {article.summary}
             </p>
           )}
@@ -236,7 +236,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
               </div>
               <Link
                 href="/articles"
-                className="inline-flex items-center gap-1 text-xs font-bold text-purple-700 hover:text-purple-800"
+                className="inline-flex items-center gap-1 text-xs font-bold text-[#7a68b7] hover:text-[#594791]"
               >
                 Lihat Semua <ChevronRight className="w-4 h-4" />
               </Link>

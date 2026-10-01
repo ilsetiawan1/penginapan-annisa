@@ -172,7 +172,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                           type="button"
                           aria-label="Tambah jumlah pesanan"
                           onClick={() => updateQuantity(it.id, it.quantity + 1)}
-                          className="w-5 h-5 rounded-md bg-purple-700 hover:bg-purple-800 text-white flex items-center justify-center font-bold text-xs transition cursor-pointer shadow-2xs"
+                          className="w-5 h-5 rounded-md bg-[#7a68b7] hover:bg-[#6c59aa] text-white flex items-center justify-center font-bold text-xs transition cursor-pointer shadow-2xs"
                         >
                           <Plus className="w-2.5 h-2.5" />
                         </button>
@@ -269,9 +269,9 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
               </div>
 
               {/* Catatan Konsep Layanan Ringkas */}
-              <div className="bg-purple-50/70 px-2.5 py-1.5 rounded-xl border border-purple-200/60 flex items-center gap-2 text-left">
-                <Store className="w-3.5 h-3.5 text-purple-800 shrink-0" />
-                <p className="text-[10px] text-purple-950 font-medium leading-tight">
+              <div className="bg-[#ede8f8]/70 px-2.5 py-1.5 rounded-xl border border-[#ddd3f3] flex items-center gap-2 text-left">
+                <Store className="w-3.5 h-3.5 text-[#594791] shrink-0" />
+                <p className="text-[10px] text-[#594791] font-medium leading-tight">
                   <strong>Titip Ambil (Self Pick-Up):</strong> Disiapkan di meja resepsionis untuk
                   diambil &amp; dibayar langsung saat tiba (tanpa kurir).
                 </p>
@@ -283,14 +283,14 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   <span className="text-[11px] font-bold text-slate-500">
                     Total Tagihan ({totalItemsCount} item):
                   </span>
-                  <strong className="text-sm sm:text-base font-black text-purple-800">
+                  <strong className="text-sm sm:text-base font-black text-[#594791]">
                     Rp {totalPrice.toLocaleString("id-ID")}
                   </strong>
                 </div>
 
                 <Button
                   onClick={handleCheckout}
-                  className="w-full h-9 sm:h-10 rounded-xl sm:rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs sm:text-sm gap-2 shadow-sm shadow-purple-900/20 hover:shadow-md transition cursor-pointer"
+                  className="w-full h-9 sm:h-10 rounded-xl sm:rounded-2xl bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-extrabold text-xs sm:text-sm gap-2 shadow-sm shadow-[#7a68b7]/25 border border-[#6c59aa]/40 hover:shadow-md transition cursor-pointer"
                 >
                   <FaWhatsapp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   <span>Pesan via WhatsApp</span>
