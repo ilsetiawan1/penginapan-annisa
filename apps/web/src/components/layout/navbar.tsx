@@ -54,7 +54,7 @@ export function Navbar() {
           <div
             className={`relative w-8 h-8 rounded-full overflow-hidden border flex items-center justify-center shrink-0 shadow-2xs ${
               isLightPage
-                ? "bg-[#f2eee7] border-[#dfd9ce]"
+                ? "bg-[#f4f1fa] border-[#e2dcf2]"
                 : "bg-white/20 border-white/30"
             }`}
           >
@@ -70,7 +70,7 @@ export function Navbar() {
             <span
               className={`font-extrabold text-xs sm:text-sm tracking-tight block leading-tight transition whitespace-nowrap ${
                 isLightPage
-                  ? "text-stone-900 group-hover:text-stone-700"
+                  ? "text-stone-900 group-hover:text-[#594791]"
                   : "text-white group-hover:text-stone-200"
               }`}
             >
@@ -78,7 +78,7 @@ export function Navbar() {
             </span>
             <span
               className={`text-[10px] font-semibold block leading-none whitespace-nowrap ${
-                isLightPage ? "text-stone-500" : "text-stone-300"
+                isLightPage ? "text-[#7a68b7]" : "text-stone-300"
               }`}
             >
               750m Bandara Pattimura
@@ -105,10 +105,10 @@ export function Navbar() {
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   isActive
                     ? isLightPage || isScrolled
-                      ? "bg-stone-900 text-[#faf9f6] shadow-xs"
+                      ? "bg-[#ede8f8] text-[#594791] shadow-xs border border-[#ddd3f3]"
                       : "bg-white text-stone-950 shadow-xs"
                     : isLightPage
-                      ? "text-stone-600 hover:text-stone-900 hover:bg-white/60"
+                      ? "text-stone-600 hover:text-[#594791] hover:bg-[#f4f1fa]"
                       : "text-white/90 hover:text-white hover:bg-white/20"
                 }`}
               >
@@ -120,11 +120,11 @@ export function Navbar() {
 
         {/* Right Action Buttons */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* Booking CTA Button (Hidden on Mobile) */}
+          {/* Booking CTA Button (Hidden on Mobile) — Soothing Lavender Combination */}
           <Button
             asChild
             size="sm"
-            className="hidden sm:inline-flex rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold items-center justify-center shrink-0 transition bg-stone-900 hover:bg-black text-[#faf9f6] shadow-xs border border-stone-800"
+            className="hidden sm:inline-flex rounded-full w-auto h-8 sm:h-9 px-3.5 sm:px-4 text-xs font-bold items-center justify-center shrink-0 transition-all bg-[#7a68b7] hover:bg-[#6c59aa] text-white shadow-md shadow-[#7a68b7]/20 border border-[#6c59aa]/40 cursor-pointer active:scale-95"
             title="Pilih dan Pesan Kamar Transit"
           >
             <Link href="/rooms">
@@ -181,15 +181,15 @@ export function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold transition-all ${
                       isActive
-                        ? "bg-stone-900 text-[#faf9f6] shadow-xs"
+                        ? "bg-[#7a68b7] text-white shadow-xs"
                         : isLightPage
-                          ? "bg-white text-stone-700 hover:bg-[#f3efe8] hover:text-stone-900 border border-[#e8e4dc]"
+                          ? "bg-white text-stone-700 hover:bg-[#f4f1fa] hover:text-[#594791] border border-[#e8e4dc]"
                           : "bg-white/10 text-white hover:bg-white/20 border border-white/15 backdrop-blur-md"
                     }`}
                   >
                     <Icon
                       className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                        isActive ? "text-white" : isLightPage ? "text-stone-500" : "text-stone-300"
+                        isActive ? "text-white" : isLightPage ? "text-[#7a68b7]" : "text-stone-300"
                       }`}
                     />
                     <span>{link.label}</span>
@@ -206,7 +206,7 @@ export function Navbar() {
               }`}
             >
               <span>Buka 06:00 – 22:00 WIT</span>
-              <span className={isLightPage ? "text-stone-900 font-extrabold" : "text-stone-300 font-extrabold"}>
+              <span className={isLightPage ? "text-[#7a68b7] font-extrabold" : "text-stone-300 font-extrabold"}>
                 750m Bandara
               </span>
             </div>
