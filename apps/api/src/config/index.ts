@@ -5,25 +5,29 @@ import dotenv from "dotenv";
 dotenv.config({ path: path.resolve(process.cwd(), "../../.env") });
 dotenv.config();
 
+const nodeEnv = process.env.NODE_ENV || "development";
+
+// Keamanan: Wajibkan JWT_SECRET di environment production
+if (nodeEnv === "production" && !process.env.JWT_SECRET) {
+  throw new Error("FATAL: JWT_SECRET environment variable wajib diatur pada production!");
+}
+
 export const config = {
   port: process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4000,
-  nodeEnv: process.env.NODE_ENV || "development",
+  nodeEnv,
   jwt: {
-    secret: process.env.JWT_SECRET || "annisa_jwt_default_secret_key_2026",
+    secret:
+      process.env.JWT_SECRET ||
+      (nodeEnv === "development" ? "annisa_dev_only_secret_key_change_in_production" : ""),
     expiresIn: process.env.JWT_EXPIRES_IN || "7d",
   },
   whatsapp: {
-    officialNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281242163116",
+    officialNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281200000000",
   },
   bank: {
-    name: process.env.NEXT_PUBLIC_BANK_NAME || "BCA / BRI / Mandiri",
-    account: process.env.NEXT_PUBLIC_BANK_ACCOUNT || "1234567890",
+    name: process.env.NEXT_PUBLIC_BANK_NAME || "Bank BCA",
+    account: process.env.NEXT_PUBLIC_BANK_ACCOUNT || "0000000000",
     holder: process.env.NEXT_PUBLIC_BANK_HOLDER || "Penginapan Annisa",
-  },
-  imagekit: {
-    publicKey: process.env.IMAGEKIT_PUBLIC_KEY || "public_sample_annisa",
-    privateKey: process.env.IMAGEKIT_PRIVATE_KEY || "private_sample_annisa",
-    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || "https://ik.imagekit.io/penginapanannisa",
   },
   r2: {
     endpoint: process.env.R2_ENDPOINT || "https://auto.r2.cloudflarestorage.com",

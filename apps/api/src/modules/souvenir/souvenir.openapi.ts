@@ -129,7 +129,7 @@ registry.registerPath({
             price: 35000,
             stock: 40,
             description: "Kemasan travel size praktis dibawa ke kabin pesawat.",
-            imageUrl: "https://ik.imagekit.io/penginapanannisa/souvenirs/mkp-50ml.webp",
+            imageUrl: "https://pub-sample.r2.dev/souvenirs/mkp-50ml.webp",
             isAvailable: true,
           },
         },
