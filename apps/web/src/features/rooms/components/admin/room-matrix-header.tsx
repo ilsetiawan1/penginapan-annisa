@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Calendar, RotateCw } from "lucide-react";
+import { CalendarPlus, RotateCw, SlidersHorizontal } from "lucide-react";
+import Link from "next/link";
 
 interface RoomMatrixHeaderProps {
   onOpenAdvanceBooking: () => void;
@@ -15,23 +15,43 @@ export function RoomMatrixHeader({
   isRefreshing,
 }: RoomMatrixHeaderProps) {
   return (
-    <div className="flex items-center gap-2 shrink-0">
-      <Button
-        onClick={onOpenAdvanceBooking}
-        className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs h-8 px-3 gap-1.5 shadow-2xs cursor-pointer shrink-0"
-      >
-        <Calendar className="w-3.5 h-3.5" />
-        <span>+ Catat Booking WA</span>
-      </Button>
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+          Status Kamar
+        </h2>
+        <p className="text-xs md:text-sm text-slate-500 mt-1">
+          Pantau okupansi harian, kesiapan kamar, dan proses reservasi 8 unit secara terpusat.
+        </p>
+      </div>
 
-      <button
-        type="button"
-        onClick={onRefresh}
-        title="Refresh Data Kamar"
-        className="w-8 h-8 rounded-xl border border-slate-200/90 bg-white hover:bg-purple-50 text-slate-600 hover:text-purple-700 flex items-center justify-center transition cursor-pointer shadow-2xs shrink-0"
-      >
-        <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-purple-700" : ""}`} />
-      </button>
+      <div className="flex items-center gap-2.5 shrink-0">
+        <Link
+          href="/admin/master-rooms"
+          className="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl border border-slate-200/90 bg-white/80 hover:bg-white text-slate-700 shadow-2xs hover:shadow-xs transition-all whitespace-nowrap"
+        >
+          <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
+          <span>Atur Tarif</span>
+        </Link>
+
+        <button
+          type="button"
+          onClick={onOpenAdvanceBooking}
+          className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-xs transition-all whitespace-nowrap cursor-pointer"
+        >
+          <CalendarPlus className="w-3.5 h-3.5" />
+          <span>Catat Booking WA</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={onRefresh}
+          title="Muat Ulang Data"
+          className="p-2 border border-slate-200 bg-white rounded-xl hover:bg-slate-50 text-slate-600 transition-colors shadow-2xs cursor-pointer shrink-0"
+        >
+          <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-slate-900" : ""}`} />
+        </button>
+      </div>
     </div>
   );
 }

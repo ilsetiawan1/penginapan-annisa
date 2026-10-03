@@ -1,6 +1,5 @@
 "use client";
 
-import { CheckCircle2, Sparkles, Wrench } from "lucide-react";
 import type { RoomItem } from "./room-card";
 
 interface RoomCardBodyProps {
@@ -16,78 +15,83 @@ export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
   const isBooked = room.status === "booked";
 
   return (
-    <div
-      onClick={() => onOpenDetail && onOpenDetail(room)}
-      className="bg-[#faf9fd] rounded-2xl p-2.5 sm:p-3 border border-purple-50/80 cursor-pointer hover:bg-purple-50/50 transition text-xs select-none"
-      title="Klik untuk melihat rincian lengkap"
-    >
-      {/* JIKA KAMAR TERSEDIA (BERSIH & SIAP DITEMPATI - TANPA FASILITAS PANJANG) */}
+    <div className="mt-3 select-none">
+      {/* 1. JIKA KAMAR TERSEDIA / KOSONG */}
       {isReady && (
-        <div className="py-0.5">
-          <p className="font-bold text-emerald-950 text-xs flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-            <span>Kamar Bersih &amp; Siap Ditempati</span>
-          </p>
+        <div className="min-h-[76px] p-2.5 rounded-xl bg-slate-50/50 border border-dashed border-slate-200 flex items-center justify-center text-xs text-slate-400">
+          <span>Unit siap menerima tamu</span>
         </div>
       )}
 
-      {/* JIKA KAMAR TERISI TAMU */}
+      {/* 2. JIKA KAMAR TERISI TAMU */}
       {isOccupied && (
-        <div className="space-y-1">
-          <div className="flex items-center justify-between font-bold text-slate-900">
-            <span className="truncate max-w-[120px]">{room.guestName || "Tamu Terisi"}</span>
-            <span className="text-[10px] text-purple-700 bg-purple-100/70 px-1.5 py-0.5 rounded">
+        <div className="min-h-[76px] p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/70 flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2">
+            <div className="truncate">
+              <p className="text-xs font-bold text-slate-900 leading-tight truncate">
+                {room.guestName || "Tamu In-House"}
+              </p>
+              <p className="text-[10px] text-slate-400 leading-tight mt-0.5">Tamu Menginap</p>
+            </div>
+            <span className="text-[10px] font-semibold text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded-md shadow-2xs shrink-0">
               {room.totalNights || 1} Malam
             </span>
           </div>
-          <div className="flex items-center justify-between text-[10px] text-slate-500 pt-0.5 border-t border-purple-100/60">
-            <span>Check-out 12.00 WIT</span>
-            <span className="text-emerald-700 font-extrabold">
+          <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1.5 border-t border-slate-200/60 mt-1">
+            <span className="truncate">Checkout: 12.00 WIT</span>
+            <span
+              className={`font-semibold px-1.5 py-0.5 rounded border shrink-0 ${
+                room.remainingAmount === 0
+                  ? "text-emerald-700 bg-emerald-50 border-emerald-200/60"
+                  : "text-amber-700 bg-amber-50 border-amber-200/60"
+              }`}
+            >
               {room.remainingAmount === 0
-                ? "Lunas (Rp 0)"
+                ? "Lunas"
                 : `Sisa Rp ${(room.remainingAmount || 0).toLocaleString("id-ID")}`}
             </span>
           </div>
         </div>
       )}
 
-      {/* JIKA KAMAR TERBOOKING WA */}
+      {/* 3. JIKA KAMAR TERBOOKING WA */}
       {isBooked && (
-        <div className="space-y-1">
-          <div className="flex items-center justify-between font-black text-purple-950">
-            <span className="truncate max-w-[120px]">{room.guestName || "Tamu Booking"}</span>
-            <span className="text-[9px] font-black text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded">
-              DP Masuk
+        <div className="min-h-[76px] p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/70 flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2">
+            <div className="truncate">
+              <p className="text-xs font-bold text-slate-900 leading-tight truncate">
+                {room.guestName || "Tamu Booking WA"}
+              </p>
+              <p className="text-[10px] text-amber-700 leading-tight mt-0.5 font-medium">
+                DP Masuk 50%
+              </p>
+            </div>
+            <span className="text-[10px] font-semibold text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded-md shadow-2xs shrink-0">
+              {room.totalNights || 1} Malam
             </span>
           </div>
-          <div className="flex items-center justify-between text-[10px] text-slate-500 pt-0.5 border-t border-purple-100/60">
-            <span className="truncate max-w-[130px]" title={room.notes || "Landing 14.30 WIT"}>
-              {room.notes || "Landing 14.30 WIT"}
+          <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1.5 border-t border-slate-200/60 mt-1">
+            <span className="truncate max-w-[120px]" title={room.notes || "Booking via WA"}>
+              {room.notes || "Booking via WA"}
             </span>
-            <span className="text-purple-800 font-bold">
+            <span className="font-semibold text-slate-900 shrink-0">
               Sisa Rp {(room.remainingAmount || room.price * 0.5).toLocaleString("id-ID")}
             </span>
           </div>
         </div>
       )}
 
-      {/* JIKA KAMAR PERLU BERSIH */}
+      {/* 4. JIKA KAMAR PERLU BERSIH */}
       {isDirty && (
-        <div className="py-0.5">
-          <p className="font-bold text-amber-900 text-xs flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-            <span>Menunggu Housekeeping</span>
-          </p>
+        <div className="min-h-[76px] p-2.5 rounded-xl bg-amber-50/40 border border-dashed border-amber-200/80 flex items-center justify-center text-xs text-amber-700 font-medium">
+          <span>Menunggu pembersihan linen</span>
         </div>
       )}
 
-      {/* JIKA KAMAR PERBAIKAN */}
+      {/* 5. JIKA KAMAR PERBAIKAN */}
       {isMaintenance && (
-        <div className="py-0.5">
-          <p className="font-bold text-rose-900 text-xs flex items-center gap-1.5">
-            <Wrench className="w-3.5 h-3.5 text-rose-600 shrink-0" />
-            <span>Perbaikan Fasilitas Kamar</span>
-          </p>
+        <div className="min-h-[76px] p-2.5 rounded-xl bg-rose-50/40 border border-dashed border-rose-200/80 flex items-center justify-center text-xs text-rose-700 font-medium">
+          <span>Sedang dalam perbaikan teknisi</span>
         </div>
       )}
     </div>

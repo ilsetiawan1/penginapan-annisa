@@ -58,14 +58,7 @@ async function main() {
     update: {
       basePrice: 275000,
       capacity: 3,
-      facilities: JSON.stringify([
-        "AC Dingin 1 PK",
-        "Kamar Mandi Dalam Pribadi",
-        "WiFi Gratis 50 Mbps",
-        "TV LED 32 Inch",
-        "Handuk Bersih & Sabun",
-        "Air Mineral Gratis",
-      ]),
+      facilities: JSON.stringify(["AC", "Kasur", "KM Dalam", "TV", "Wifi", "Handuk bersih"]),
     },
     create: {
       name: "Kamar Tipe AC",
@@ -75,14 +68,7 @@ async function main() {
       basePrice: 275000,
       capacity: 3,
       bedType: "1 Queen Bed (Bisa + Extra Bed)",
-      facilities: JSON.stringify([
-        "AC Dingin 1 PK",
-        "Kamar Mandi Dalam Pribadi",
-        "WiFi Gratis 50 Mbps",
-        "TV LED 32 Inch",
-        "Handuk Bersih & Sabun",
-        "Air Mineral Gratis",
-      ]),
+      facilities: JSON.stringify(["AC", "Kasur", "KM Dalam", "TV", "Wifi", "Handuk bersih"]),
     },
   });
 
@@ -91,14 +77,7 @@ async function main() {
     update: {
       basePrice: 200000,
       capacity: 3,
-      facilities: JSON.stringify([
-        "Kipas Angin Dinding Tornado",
-        "Kamar Mandi Dalam Pribadi",
-        "WiFi Gratis 50 Mbps",
-        "TV",
-        "Handuk Bersih & Sabun",
-        "Air Mineral Gratis",
-      ]),
+      facilities: JSON.stringify(["Kipas", "Kasur", "KM Dalam", "TV", "Wifi", "Handuk bersih"]),
     },
     create: {
       name: "Kamar Tipe Kipas",
@@ -108,14 +87,7 @@ async function main() {
       basePrice: 200000,
       capacity: 3,
       bedType: "1 Double Bed / 2 Single Bed",
-      facilities: JSON.stringify([
-        "Kipas Angin Dinding Tornado",
-        "Kamar Mandi Dalam Pribadi",
-        "WiFi Gratis 50 Mbps",
-        "TV",
-        "Handuk Bersih & Sabun",
-        "Air Mineral Gratis",
-      ]),
+      facilities: JSON.stringify(["Kipas", "Kasur", "KM Dalam", "TV", "Wifi", "Handuk bersih"]),
     },
   });
 
@@ -165,9 +137,7 @@ async function main() {
   // 3b. SEED FOTO RESMI CLOUDFLARE R2 UNTUK KAMAR (A1–A4)
   // ----------------------------------------------------
   const apiBase =
-    process.env.API_BASE_URL ||
-    process.env.NEXT_PUBLIC_API_URL ||
-    "http://localhost:4000/api/v1";
+    process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
 
   const officialRoomImages = [
     {

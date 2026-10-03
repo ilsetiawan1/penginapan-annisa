@@ -1,18 +1,15 @@
 "use client";
 
 import { useDashboardStats } from "@/features/dashboard/hooks/use-dashboard-stats";
-import {
-  useCheckIn,
-  useCheckOut,
-} from "@/features/reservations/hooks/use-reservations";
+import { useCheckIn, useCheckOut } from "@/features/reservations/hooks/use-reservations";
 import { useRooms } from "@/features/rooms/hooks/use-rooms";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { toast } from "sonner";
-import { DashboardGreetingHeader } from "./dashboard-greeting-header";
-import { DashboardKpiCards } from "./dashboard-kpi-cards";
+import { DashboardHeader } from "./dashboard-header";
+import { DashboardStatsGrid } from "./dashboard-stats-grid";
 import { LatestActivitiesFeed } from "./latest-activities-feed";
 import { OccupancyVolumeChart } from "./occupancy-volume-chart";
+import { RoomAvailabilityTable } from "./room-availability-table";
 
 interface OperationalDashboardProps {
   onNavigateTab: (tab: string) => void;
@@ -20,13 +17,10 @@ interface OperationalDashboardProps {
 
 export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProps) {
   const queryClient = useQueryClient();
-  const [selectedPeriod, setSelectedPeriod] = useState<string>("this_week");
 
-  // Live queries
   const { data: stats, isFetching: isStatsFetching } = useDashboardStats();
   const { data: dbRooms, isFetching: isRoomsFetching } = useRooms();
 
-  // Mutations
   const checkInMutation = useCheckIn();
   const checkOutMutation = useCheckOut();
 
@@ -37,7 +31,6 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
     toast.success("Data dashboard operasional berhasil diperbarui!");
   };
 
-  // Summary Metrics
   const totalRooms = stats?.occupancy?.totalRooms ?? 8;
   const occupiedRooms =
     stats?.occupancy?.occupiedRooms ??
@@ -49,7 +42,6 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
   const posSalesAmount = 0;
   const posItemsSold = 0;
 
-  // Actions
   const handleCheckIn = (id: string, name: string, room: string) => {
     checkInMutation.mutate(
       { id, input: { notes: "Check-in cepat dashboard" } },
@@ -73,32 +65,25 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
   };
 
   return (
-    <div className="w-full h-full flex flex-col min-h-0 justify-between gap-3 sm:gap-3.5">
-      {/* 1. TOP SECTION: Clean Actions & Live Status Indicator */}
-      <DashboardGreetingHeader
+    <div className="w-full flex flex-col gap-4 sm:gap-5 pb-6">
+      <DashboardHeader
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
-        selectedPeriod={selectedPeriod}
-        onPeriodChange={setSelectedPeriod}
+        onCheckInClick={() => onNavigateTab("matrix")}
       />
 
-      {/* 2. TOP METRICS ROW: 3 Modern Metric Cards with Inline Sparklines */}
-      <div className="shrink-0">
-        <DashboardKpiCards
-          todayRevenue={todayRevenue}
-          totalRooms={totalRooms}
-          occupiedRooms={occupiedRooms}
-          occupancyRate={occupancyRate}
-          posSalesAmount={posSalesAmount}
-          posItemsSold={posItemsSold}
-          onNavigateTab={onNavigateTab}
-        />
-      </div>
+      <DashboardStatsGrid
+        todayRevenue={todayRevenue}
+        totalRooms={totalRooms}
+        occupiedRooms={occupiedRooms}
+        occupancyRate={occupancyRate}
+        posSalesAmount={posSalesAmount}
+        posItemsSold={posItemsSold}
+        onNavigateTab={onNavigateTab}
+      />
 
-      {/* 3. MIDDLE SECTION: 12-Column Grid (Volume Trend Bar Chart + Latest Updates) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch flex-1 min-h-0">
-        {/* Left Column (8 cols): Bar Chart */}
-        <div className="lg:col-span-8 min-h-0 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 items-stretch">
+        <div className="lg:col-span-8 flex flex-col">
           <OccupancyVolumeChart
             occupiedRooms={occupiedRooms}
             totalRooms={totalRooms}
@@ -106,8 +91,7 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
           />
         </div>
 
-        {/* Right Column (4 cols): Latest Updates Activity Feed */}
-        <div className="lg:col-span-4 min-h-0 h-full">
+        <div className="lg:col-span-4 flex flex-col">
           <LatestActivitiesFeed
             onNavigateTab={onNavigateTab}
             onCheckIn={handleCheckIn}
@@ -115,6 +99,11 @@ export function OperationalDashboard({ onNavigateTab }: OperationalDashboardProp
           />
         </div>
       </div>
+
+      <RoomAvailabilityTable
+        rooms={dbRooms || []}
+        onNavigateTab={onNavigateTab}
+      />
     </div>
   );
 }

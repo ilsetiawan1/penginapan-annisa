@@ -1,6 +1,5 @@
 "use client";
 
-import { BarChart3, ChevronDown, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 interface DailyData {
@@ -18,24 +17,28 @@ interface OccupancyVolumeChartProps {
   todayRevenue?: number;
 }
 
+const DAYS_MAP = [
+  { day: "Min", fullDay: "Minggu" },
+  { day: "Sen", fullDay: "Senin" },
+  { day: "Sel", fullDay: "Selasa" },
+  { day: "Rab", fullDay: "Rabu" },
+  { day: "Kam", fullDay: "Kamis" },
+  { day: "Jum", fullDay: "Jumat" },
+  { day: "Sab", fullDay: "Sabtu" },
+];
+
 export function OccupancyVolumeChart({
   occupiedRooms = 0,
   totalRooms = 8,
   todayRevenue = 0,
 }: OccupancyVolumeChartProps) {
-  const daysMap = [
-    { day: "Min", fullDay: "Minggu" },
-    { day: "Sen", fullDay: "Senin" },
-    { day: "Sel", fullDay: "Selasa" },
-    { day: "Rab", fullDay: "Rabu" },
-    { day: "Kam", fullDay: "Kamis" },
-    { day: "Jum", fullDay: "Jumat" },
-    { day: "Sab", fullDay: "Sabtu" },
-  ];
+  const currentDayIndex = new Date().getDay();
+  const [selectedIdx, setSelectedIdx] = useState<number>(currentDayIndex);
+  const [period, setPeriod] = useState<"weekly" | "monthly">("weekly");
 
-  const currentDayIndex = new Date().getDay(); // 0 to 6
+  const maxRooms = totalRooms > 0 ? totalRooms : 8;
 
-  const weeklyData: DailyData[] = daysMap.map((d, index) => {
+  const weeklyData: DailyData[] = DAYS_MAP.map((d, index) => {
     const isToday = index === currentDayIndex;
     const rooms = isToday ? occupiedRooms : 0;
     const occupancyPercent = totalRooms > 0 ? Math.round((rooms / totalRooms) * 100) : 0;
@@ -51,39 +54,33 @@ export function OccupancyVolumeChart({
     };
   });
 
-  const [selectedIdx, setSelectedIdx] = useState<number>(currentDayIndex);
-  const [period, setPeriod] = useState<"weekly" | "monthly">("weekly");
-
   const activeItem = weeklyData[selectedIdx] || weeklyData[currentDayIndex];
-  const maxRooms = totalRooms > 0 ? totalRooms : 8;
 
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col justify-between h-full">
-      {/* Chart Header */}
+    <div className="bg-white rounded-2xl p-5 sm:p-6 border border-gray-200/80 shadow-xs flex flex-col justify-between h-full">
       <div>
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center">
-              <BarChart3 className="w-3.5 h-3.5" />
-            </div>
-            <h3 className="text-xs sm:text-sm font-bold text-slate-700">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-gray-100 gap-3">
+          <div>
+            <h3 className="text-sm font-bold text-slate-900">
               Tren Okupansi &amp; Volume Hunian
             </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Pemantauan ketersediaan kamar harian selama seminggu
+            </p>
           </div>
 
-          {/* Target Indicator & Period Toggle */}
           <div className="flex items-center gap-2">
-            <span className="hidden sm:inline-flex items-center text-[10px] font-bold text-slate-500 bg-purple-50/70 border border-purple-100 px-2 py-1 rounded-lg">
+            <span className="hidden sm:inline-flex items-center text-[10px] font-bold text-[#594791] bg-[#ede8f8] border border-[#ddd3f3] px-2 py-1 rounded-lg">
               Target: 6 Kamar (75%)
             </span>
 
-            <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200/70 text-[11px] font-bold">
+            <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200 text-[11px] font-semibold">
               <button
                 type="button"
                 onClick={() => setPeriod("weekly")}
-                className={`px-3 py-1 rounded-lg transition cursor-pointer ${
+                className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
                   period === "weekly"
-                    ? "bg-white text-slate-900 shadow-2xs font-extrabold"
+                    ? "bg-white text-slate-900 shadow-2xs font-bold"
                     : "text-slate-500 hover:text-slate-800"
                 }`}
               >
@@ -92,9 +89,9 @@ export function OccupancyVolumeChart({
               <button
                 type="button"
                 onClick={() => setPeriod("monthly")}
-                className={`px-3 py-1 rounded-lg transition cursor-pointer ${
+                className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
                   period === "monthly"
-                    ? "bg-white text-slate-900 shadow-2xs font-extrabold"
+                    ? "bg-white text-slate-900 shadow-2xs font-bold"
                     : "text-slate-500 hover:text-slate-800"
                 }`}
               >
@@ -104,13 +101,11 @@ export function OccupancyVolumeChart({
           </div>
         </div>
 
-        {/* Big Highlighted Metric */}
-        <div className="mt-2.5 sm:mt-3 flex flex-wrap items-baseline gap-2">
-          <span className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight leading-none">
-            {activeItem.rooms} / {maxRooms} Kamar Terisi
+        <div className="mt-4 flex flex-wrap items-baseline gap-3">
+          <span className="text-xl sm:text-2xl font-medium text-gray-800 tracking-tight leading-none">
+            <span className="font-bold text-slate-900">{activeItem.rooms} / {maxRooms}</span> Kamar Terisi
           </span>
-          <span className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-            <TrendingUp className="w-3 h-3" />
+          <span className="inline-flex items-center text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-lg">
             +{activeItem.occupancyPercent}% Okupansi
           </span>
           <span className="text-xs text-slate-400 font-medium">
@@ -119,11 +114,8 @@ export function OccupancyVolumeChart({
         </div>
       </div>
 
-      {/* Main Bar Chart Container */}
       <div className="mt-3 relative pt-4 flex-1 min-h-0 flex flex-col justify-end">
-        {/* Chart Bars and Right Y-Axis */}
         <div className="flex items-end justify-between gap-2 sm:gap-4 h-36 sm:h-44 lg:h-48 relative z-10">
-          {/* 7 Daily Bars */}
           <div className="flex-1 flex items-end justify-between gap-1.5 sm:gap-3 h-full pb-6">
             {weeklyData.map((item, idx) => {
               const isSelected = selectedIdx === idx;
@@ -135,34 +127,31 @@ export function OccupancyVolumeChart({
                   onClick={() => setSelectedIdx(idx)}
                   className="flex-1 flex flex-col items-center justify-end h-full group cursor-pointer relative"
                 >
-                  {/* Floating Dark Tooltip Badge on Active/Hovered */}
                   {isSelected && (
-                    <div className="absolute -top-7 px-2.5 py-1 rounded-lg bg-slate-900 text-white text-[10px] font-black tracking-wide shadow-md whitespace-nowrap z-20 flex items-center gap-1 animate-fadeIn">
-                      <span>{item.day} : {item.rooms} Kamar</span>
+                    <div className="absolute -top-7 px-2.5 py-1 rounded-lg bg-slate-900 text-white text-[10px] font-bold tracking-wide shadow-md whitespace-nowrap z-20 flex items-center">
+                      <span>{item.day}: {item.rooms} Kamar</span>
                     </div>
                   )}
 
-                  {/* Vertical Bar Cylinder */}
                   <div className="w-full max-w-[36px] bg-slate-100 rounded-t-xl overflow-hidden flex flex-col justify-end h-full relative p-0.5 group-hover:bg-slate-200/70 transition-colors">
                     <div
                       style={{ height: `${barHeightPercent}%` }}
-                      className={`w-full rounded-t-lg transition-all duration-500 ${
+                      className={`w-full rounded-t-lg transition-all duration-300 ${
                         isSelected
                           ? "bg-slate-900 shadow-md shadow-slate-950/20"
                           : item.isToday
-                          ? "bg-purple-600 group-hover:bg-purple-700"
-                          : "bg-slate-200 group-hover:bg-purple-300"
+                          ? "bg-[#7a68b7] group-hover:bg-[#594791]"
+                          : "bg-slate-200 group-hover:bg-[#ede8f8]"
                       }`}
                     />
                   </div>
 
-                  {/* Day Label */}
                   <span
-                    className={`text-[11px] font-bold mt-2 leading-none transition-colors ${
+                    className={`text-[11px] font-semibold mt-2 leading-none transition-colors ${
                       isSelected
-                        ? "text-slate-900 font-black"
+                        ? "text-slate-900 font-bold"
                         : item.isToday
-                        ? "text-purple-700 font-extrabold"
+                        ? "text-[#594791] font-bold"
                         : "text-slate-400 group-hover:text-slate-600"
                     }`}
                   >
@@ -173,8 +162,7 @@ export function OccupancyVolumeChart({
             })}
           </div>
 
-          {/* Right Y-Axis Scale */}
-          <div className="w-8 flex flex-col justify-between items-end h-full pb-6 text-[10px] font-bold text-slate-400 select-none shrink-0">
+          <div className="w-8 flex flex-col justify-between items-end h-full pb-6 text-[10px] font-semibold text-slate-400 select-none shrink-0">
             <span>8</span>
             <span>6</span>
             <span>4</span>

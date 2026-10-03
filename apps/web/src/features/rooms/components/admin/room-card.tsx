@@ -14,6 +14,10 @@ export interface RoomItem {
   typeName: string; // "Kamar Tipe AC" | "Kamar Tipe Kipas"
   price: number;
   status: RoomStatus;
+  facilities?: string[];
+  capacity?: number;
+  bedType?: string;
+  description?: string;
   guestName?: string;
   guestPhone?: string;
   checkInDate?: string;
@@ -50,12 +54,14 @@ export function RoomCard({
   onFinishMaintenance,
 }: RoomCardProps) {
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 border border-purple-100/90 shadow-2xs hover:shadow-lg hover:border-purple-300 transition-all duration-300 flex flex-col justify-between gap-2 sm:gap-2.5 group select-none">
-      {/* 1. Header: Nomor Kamar, Status Badge, Nama Tipe & Tarif */}
-      <RoomCardStatusHeader room={room} onOpenDetail={onOpenDetail} />
+    <div className="bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 hover:border-slate-300 shadow-xs hover:shadow-sm transition-all flex flex-col justify-between h-full group">
+      <div>
+        {/* 1. Header: Nomor Kamar, Status Badge, Nama Tipe & Tarif */}
+        <RoomCardStatusHeader room={room} onOpenDetail={onOpenDetail} />
 
-      {/* 2. Body: Kondisi Kamar / Rincian Tamu (Kompak Tanpa Fasilitas) */}
-      <RoomCardBody room={room} onOpenDetail={onOpenDetail} />
+        {/* 2. Body: Kondisi Kamar / Rincian Tamu */}
+        <RoomCardBody room={room} onOpenDetail={onOpenDetail} />
+      </div>
 
       {/* 3. Action Buttons: Check-In, Check-Out, Pelunasan, Bersihkan */}
       <RoomCardActions

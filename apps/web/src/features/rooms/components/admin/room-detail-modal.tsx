@@ -1,13 +1,13 @@
 "use client";
 
 import {
+  Bath,
   Bed,
   Calendar,
   CheckCircle2,
-  Clock,
-  LogOut,
-  Plus,
+  Coffee,
   Sparkles,
+  Tv,
   Wifi,
   Wind,
   Wrench,
@@ -15,9 +15,46 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { FaWhatsapp } from "react-icons/fa6";
-import { Button } from "../../../../components/ui/button";
 import type { RoomItem } from "./room-card";
+import { RoomDetailActions } from "./room-detail-actions";
+import { RoomDetailGuestSection } from "./room-detail-guest-section";
+import { RoomDetailPaymentSection } from "./room-detail-payment-section";
+
+function getFacilityIcon(name: string) {
+  const lower = name.toLowerCase();
+  if (
+    lower.includes("ac") ||
+    lower.includes("angin") ||
+    lower.includes("kipas") ||
+    lower.includes("sejuk")
+  ) {
+    return Wind;
+  }
+  if (lower.includes("mandi") || lower.includes("shower") || lower.includes("km")) {
+    return Bath;
+  }
+  if (lower.includes("wifi") || lower.includes("internet")) {
+    return Wifi;
+  }
+  if (lower.includes("tv")) {
+    return Tv;
+  }
+  if (lower.includes("kasur") || lower.includes("bed") || lower.includes("ranjang")) {
+    return Bed;
+  }
+  if (lower.includes("handuk") || lower.includes("sabun") || lower.includes("toiletries")) {
+    return Sparkles;
+  }
+  if (
+    lower.includes("air") ||
+    lower.includes("mineral") ||
+    lower.includes("teh") ||
+    lower.includes("kopi")
+  ) {
+    return Coffee;
+  }
+  return CheckCircle2;
+}
 
 interface RoomDetailModalProps {
   isOpen: boolean;
@@ -48,48 +85,58 @@ export function RoomDetailModal({
     setMounted(true);
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") onClose();
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = "unset";
+        window.removeEventListener("keydown", handleKeyDown);
+      };
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen || !room || !mounted) return null;
 
-  const isReady = room.status === "ready";
   const isOccupied = room.status === "occupied";
-  const isDirty = room.status === "dirty";
-  const isMaintenance = room.status === "maintenance";
   const isBooked = room.status === "booked";
 
-  const total = room.totalAmount || room.price;
-  const dp = room.dpPaid || (isBooked ? Math.round(total * 0.5) : isOccupied ? total : 0);
-  const remaining =
-    room.remainingAmount !== undefined ? room.remainingAmount : isBooked ? total - dp : 0;
+  const facilities = room.facilities ?? [];
 
   const modalContent = (
-    <div
-      role="dialog"
-      aria-modal="true"
-      className="fixed inset-0 z-[9999] bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
-    >
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg overflow-hidden flex flex-col justify-between max-h-[90vh]">
-        {/* Header Modal */}
-        <div className="bg-gradient-to-r from-purple-800 to-indigo-900 text-white p-4 sm:p-5 flex items-center justify-between shrink-0">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <button
+        type="button"
+        aria-label="Tutup modal"
+        onClick={onClose}
+        className="fixed inset-0 bg-slate-950/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-150 cursor-default"
+      />
+
+      {/* Modal Dialog */}
+      {/* biome-ignore lint/a11y/useSemanticElements: custom portal modal container */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-room-title"
+        className="relative z-10 bg-white rounded-2xl border border-slate-200 shadow-xl w-full max-w-lg overflow-hidden flex flex-col justify-between max-h-[90vh]"
+      >
+        {/* Header Modal - Clean White Background */}
+        <div className="bg-white border-b border-slate-100 p-5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center font-black text-base border border-white/30">
+            <div className="w-11 h-11 rounded-xl bg-slate-100 text-slate-900 border border-slate-200/80 flex items-center justify-center font-bold text-sm shrink-0">
               #{room.code}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-purple-200 bg-white/20 px-2 py-0.5 rounded-md">
+                <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
                   Bangunan {room.building}
                 </span>
-                <span className="text-xs font-bold text-slate-200">
-                  Rp {(room.price / 1000).toFixed(0)}rb / malam
+                <span className="text-xs text-slate-500">
+                  Rp {room.price.toLocaleString("id-ID")} / malam
                 </span>
               </div>
-              <h3 className="text-base sm:text-lg font-black leading-tight mt-0.5">
+              <h3 className="text-base font-bold text-slate-900 leading-tight mt-0.5">
                 {room.typeName}
               </h3>
             </div>
@@ -99,270 +146,94 @@ export function RoomDetailModal({
             type="button"
             onClick={onClose}
             aria-label="Tutup modal"
-            className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition cursor-pointer"
+            className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Body Modal */}
-        <div className="p-4 sm:p-5 space-y-3.5 text-left overflow-y-auto">
+        <div className="p-5 space-y-4 text-left overflow-y-auto">
           {/* Status Badge Strip */}
-          <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200/80">
-            <span className="text-xs font-bold text-slate-500">Status Operasional:</span>
-            {isReady && (
-              <span className="bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-black px-3 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>TERSEDIA (KOSONG &amp; BERSIH)</span>
+          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs">
+            <span className="font-medium text-slate-500">Status Operasional:</span>
+            {room.status === "ready" && (
+              <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/80 font-medium px-3 py-1 rounded-full flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>Tersedia (Siap Huni)</span>
               </span>
             )}
             {isOccupied && (
-              <span className="bg-blue-100 text-blue-900 border border-blue-300 text-xs font-black px-3 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-blue-600" />
-                <span>TERISI ({room.totalNights || 1} MALAM)</span>
+              <span className="bg-slate-100 text-slate-800 border border-slate-200 font-medium px-3 py-1 rounded-full flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                <span>Terisi ({room.totalNights || 1} Malam)</span>
               </span>
             )}
             {isBooked && (
-              <span className="bg-purple-100 text-purple-950 border border-purple-300 text-xs font-black px-3 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs">
-                <Calendar className="w-3.5 h-3.5 text-purple-700" />
-                <span>TERBOOKING WHATSAPP (DP 50%)</span>
+              <span className="bg-amber-50 text-amber-800 border border-amber-200/80 font-medium px-3 py-1 rounded-full flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-amber-600" />
+                <span>Booking WA (DP Masuk)</span>
               </span>
             )}
-            {isDirty && (
-              <span className="bg-amber-100 text-amber-950 border border-amber-300 text-xs font-black px-3 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs">
+            {room.status === "dirty" && (
+              <span className="bg-amber-50 text-amber-800 border border-amber-200/80 font-medium px-3 py-1 rounded-full flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                <span>PERLU BERSIH (HOUSEKEEPING)</span>
+                <span>Perlu Pembersihan</span>
               </span>
             )}
-            {isMaintenance && (
-              <span className="bg-rose-100 text-rose-950 border border-rose-300 text-xs font-black px-3 py-1 rounded-xl flex items-center gap-1.5 shadow-2xs">
+            {room.status === "maintenance" && (
+              <span className="bg-rose-50 text-rose-800 border border-rose-200/80 font-medium px-3 py-1 rounded-full flex items-center gap-1.5">
                 <Wrench className="w-3.5 h-3.5 text-rose-600" />
-                <span>SEDANG PERBAIKAN / SERVIS</span>
+                <span>Dalam Perbaikan</span>
               </span>
             )}
           </div>
 
-          {/* Rincian Tamu (Jika Terisi atau Booking WA) */}
-          {(isOccupied || isBooked) && (
-            <div className="bg-purple-50/70 border border-purple-200/80 rounded-2xl p-3.5 space-y-2">
-              <span className="text-[10px] font-black text-purple-900 uppercase tracking-wider block">
-                👤 Data Tamu / Pemesan
-              </span>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div>
-                  <span className="text-slate-500 block text-[10px]">Nama Lengkap:</span>
-                  <strong className="text-slate-900 font-extrabold text-sm">
-                    {room.guestName || "Hendra Pratama"}
-                  </strong>
-                </div>
-                <div>
-                  <span className="text-slate-500 block text-[10px]">No. WhatsApp:</span>
-                  <div className="flex items-center gap-1.5 mt-0.5">
-                    <strong className="text-slate-900 font-bold">
-                      {room.guestPhone || "081399881122"}
-                    </strong>
-                    {room.guestPhone && (
-                      <a
-                        href={`https://wa.me/${room.guestPhone.replace(/[^0-9]/g, "")}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-1 bg-emerald-100 text-emerald-800 rounded-lg hover:bg-emerald-200 transition"
-                        title="Chat WhatsApp"
-                      >
-                        <FaWhatsapp className="w-3 h-3" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
+          {/* Rincian Tamu (Modular) */}
+          {(isOccupied || isBooked) && <RoomDetailGuestSection room={room} />}
 
-              <div className="pt-2 border-t border-purple-200/80 flex items-center justify-between text-xs">
-                <div>
-                  <span className="text-slate-500 text-[10px]">Durasi Menginap:</span>
-                  <strong className="text-purple-950 font-bold block">
-                    {room.totalNights || 1} Malam ({room.checkInDate || "22 Agu"} –{" "}
-                    {room.checkOutDate || "23 Agu"})
-                  </strong>
-                </div>
-                <span className="bg-white border border-purple-200 text-purple-900 text-[10px] font-bold px-2 py-0.5 rounded-md">
-                  {isBooked ? "Tamu Booking WA" : "Tamu Menginap"}
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Rincian Finansial & Pembayaran */}
-          <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-1.5 text-xs">
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">
-              💳 Rincian Pembayaran
-            </span>
-            <div className="flex items-center justify-between text-slate-600">
-              <span>Total Tarif Sewa ({room.totalNights || 1} Malam):</span>
-              <strong className="text-slate-900">Rp {total.toLocaleString("id-ID")}</strong>
-            </div>
-
-            {isBooked && (
-              <>
-                <div className="flex items-center justify-between text-emerald-800">
-                  <span>DP 50% yang Sudah Masuk:</span>
-                  <strong className="text-emerald-700 font-bold">
-                    - Rp {dp.toLocaleString("id-ID")}
-                  </strong>
-                </div>
-                <div className="pt-2 border-t border-slate-200 flex items-center justify-between font-black text-sm text-purple-950">
-                  <span>SISA WAJIB SAAT TIBA:</span>
-                  <span className="text-purple-900 font-black">
-                    Rp {remaining.toLocaleString("id-ID")}
-                  </span>
-                </div>
-              </>
-            )}
-
-            {isOccupied && (
-              <div className="pt-2 border-t border-slate-200 flex items-center justify-between font-black text-sm">
-                <span className="text-slate-700">Status Tagihan:</span>
-                <span className={remaining > 0 ? "text-rose-700" : "text-emerald-700"}>
-                  {remaining > 0
-                    ? `Sisa Rp ${remaining.toLocaleString("id-ID")}`
-                    : "Lunas 100% (Rp 0)"}
-                </span>
-              </div>
-            )}
-
-            {isReady && (
-              <div className="pt-1 text-slate-500 text-[11px]">
-                <span>
-                  Tarif Standar: <strong>Rp {room.price.toLocaleString("id-ID")} / malam</strong>{" "}
-                  (DP 50% = Rp {(room.price * 0.5).toLocaleString("id-ID")})
-                </span>
-              </div>
-            )}
-          </div>
+          {/* Rincian Finansial & Pembayaran (Modular) */}
+          <RoomDetailPaymentSection room={room} />
 
           {/* Fasilitas Kamar */}
-          <div className="space-y-1.5">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">
-              Fasilitas Kamar:
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
-                <Bed className="w-3 h-3 text-purple-700" />
-                <span>1 Kasur Besar (Muat 2–3 Tamu)</span>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider block">
+                Fasilitas Kamar
               </span>
-              <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
-                {room.type === "ac" ? (
-                  <Wind className="w-3 h-3 text-purple-700" />
-                ) : (
-                  <Clock className="w-3 h-3 text-purple-700" />
-                )}
-                <span>{room.type === "ac" ? "AC Dingin" : "Kipas Angin Dinding"}</span>
+              <span className="text-[11px] text-slate-500 font-medium">
+                {room.bedType || (room.type === "ac" ? "1 Queen Bed" : "1 Double Bed")} • Kapasitas{" "}
+                {room.capacity || 3} Orang
               </span>
-              <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
-                <Wifi className="w-3 h-3 text-purple-700" />
-                <span>WiFi Gratis Kencang</span>
-              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {facilities.map((fac) => {
+                const Icon = getFacilityIcon(fac);
+                return (
+                  <span
+                    key={fac}
+                    className="bg-slate-100 text-slate-700 text-xs font-normal px-2.5 py-1 rounded-lg border border-slate-200/60 flex items-center gap-1.5"
+                  >
+                    <Icon className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                    <span>{fac}</span>
+                  </span>
+                );
+              })}
             </div>
           </div>
         </div>
 
-        {/* Footer Tombol Aksi */}
-        <div className="p-4 sm:p-5 pt-0 border-t border-slate-100 flex items-center justify-between gap-2 mt-2 shrink-0">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onClose}
-            className="rounded-xl text-xs font-bold h-10 px-4 cursor-pointer"
-          >
-            Tutup
-          </Button>
-
-          <div className="flex items-center gap-2">
-            {isReady && (
-              <Button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  onOpenCheckIn(room);
-                }}
-                className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black h-10 px-5 gap-1.5 cursor-pointer shadow-md"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Check-In Tamu Sekarang</span>
-              </Button>
-            )}
-
-            {isBooked && (
-              <Button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  if (onOpenSettlement) onOpenSettlement(room);
-                }}
-                className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-black h-10 px-5 gap-1.5 cursor-pointer shadow-md"
-              >
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Pelunasan &amp; Serahkan Kunci</span>
-              </Button>
-            )}
-
-            {isOccupied && (
-              <>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    onClose();
-                    onOpenReceipt(room);
-                  }}
-                  className="rounded-xl border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold h-10 px-3.5 gap-1 cursor-pointer"
-                >
-                  <FaWhatsapp className="w-3.5 h-3.5" />
-                  <span>Kirim Nota WA</span>
-                </Button>
-
-                <Button
-                  type="button"
-                  onClick={() => {
-                    onClose();
-                    onOpenCheckOut(room);
-                  }}
-                  className="rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-black h-10 px-5 gap-1.5 cursor-pointer shadow-md"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>Check-Out</span>
-                </Button>
-              </>
-            )}
-
-            {isDirty && (
-              <Button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  onMarkClean(room.code);
-                }}
-                className="rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-black h-10 px-5 gap-1.5 cursor-pointer shadow-md"
-              >
-                <Sparkles className="w-4 h-4" />
-                <span>Tandai Selesai Bersih</span>
-              </Button>
-            )}
-
-            {isMaintenance && (
-              <Button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  onFinishMaintenance(room.code);
-                }}
-                className="rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black h-10 px-5 gap-1.5 cursor-pointer shadow-md"
-              >
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Selesai Perbaikan</span>
-              </Button>
-            )}
-          </div>
-        </div>
+        {/* Footer Tombol Aksi (Modular) */}
+        <RoomDetailActions
+          room={room}
+          onClose={onClose}
+          onOpenCheckIn={onOpenCheckIn}
+          onOpenCheckOut={onOpenCheckOut}
+          onOpenSettlement={onOpenSettlement}
+          onOpenReceipt={onOpenReceipt}
+          onMarkClean={onMarkClean}
+          onFinishMaintenance={onFinishMaintenance}
+        />
       </div>
     </div>
   );
