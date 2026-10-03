@@ -31,3 +31,8 @@ Thumbs.db
 # Documentation (Root only)
 /docs/
 
+# AI Agent Skills & Lockfiles
+.agents/
+skills-lock.json
+
+
