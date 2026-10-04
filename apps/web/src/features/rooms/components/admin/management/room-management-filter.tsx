@@ -49,9 +49,7 @@ export function RoomManagementFilter({
             <span>{opt.label}</span>
             <span
               className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
-                isActive
-                  ? "bg-white/25 text-white"
-                  : "bg-slate-100 text-slate-600"
+                isActive ? "bg-white/25 text-white" : "bg-slate-100 text-slate-600"
               }`}
             >
               {opt.badge}

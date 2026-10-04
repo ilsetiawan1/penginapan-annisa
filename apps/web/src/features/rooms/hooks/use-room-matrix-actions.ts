@@ -7,7 +7,7 @@ import {
   useCheckOut,
   useCreateWalkInBooking,
 } from "@/features/reservations/hooks/use-reservations";
-import type { RoomItem, RoomStatus } from "@/features/rooms/components/admin/room-card";
+import type { RoomItem, RoomStatus } from "@/features/rooms/components/admin/matrix/room-card";
 import { useRooms, useUpdateRoomStatus } from "@/features/rooms/hooks/use-rooms";
 import type { Room } from "@annisa/types";
 import { useQueryClient } from "@tanstack/react-query";

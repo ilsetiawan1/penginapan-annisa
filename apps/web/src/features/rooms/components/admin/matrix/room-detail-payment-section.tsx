@@ -50,9 +50,7 @@ export function RoomDetailPaymentSection({ room }: RoomDetailPaymentSectionProps
         <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between font-semibold">
           <span className="text-slate-600">Status Pembayaran</span>
           <span className={remaining > 0 ? "text-amber-700" : "text-emerald-700 font-bold"}>
-            {remaining > 0
-              ? `Sisa Rp ${remaining.toLocaleString("id-ID")}`
-              : "Lunas (Rp 0)"}
+            {remaining > 0 ? `Sisa Rp ${remaining.toLocaleString("id-ID")}` : "Lunas (Rp 0)"}
           </span>
         </div>
       )}
@@ -60,7 +58,10 @@ export function RoomDetailPaymentSection({ room }: RoomDetailPaymentSectionProps
       {isReady && (
         <div className="pt-1 text-slate-500 text-[11px]">
           <span>
-            Tarif Resmi: <strong className="text-slate-700 font-semibold">Rp {room.price.toLocaleString("id-ID")} / malam</strong>{" "}
+            Tarif Resmi:{" "}
+            <strong className="text-slate-700 font-semibold">
+              Rp {room.price.toLocaleString("id-ID")} / malam
+            </strong>{" "}
             (DP 50% = Rp {(room.price * 0.5).toLocaleString("id-ID")})
           </span>
         </div>

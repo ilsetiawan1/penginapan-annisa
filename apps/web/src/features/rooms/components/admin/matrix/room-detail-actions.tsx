@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { CheckCircle2, LogOut, Plus, Sparkles } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
-import { Button } from "../../../../components/ui/button";
 import type { RoomItem } from "./room-card";
 
 interface RoomDetailActionsProps {

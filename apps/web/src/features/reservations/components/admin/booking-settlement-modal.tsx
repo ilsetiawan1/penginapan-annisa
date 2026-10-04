@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import type { RoomItem } from "@/features/rooms/components/admin/room-card";
+import type { RoomItem } from "@/features/rooms/components/admin/matrix/room-card";
 import { Banknote, CheckCircle2, Landmark, QrCode, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -119,9 +119,9 @@ export function BookingSettlementModal({
 
           {/* Pilihan Metode Pelunasan */}
           <div className="space-y-1.5">
-            <label className="text-[11px] font-black text-slate-700 uppercase tracking-wider block">
+            <p className="text-[11px] font-black text-slate-700 uppercase tracking-wider block">
               Metode Pembayaran Sisa Pelunasan:
-            </label>
+            </p>
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"

@@ -11,7 +11,7 @@ interface RoomDetailGuestSectionProps {
 export function formatIndoDate(dateStr?: string | Date, timeFallback?: string): string {
   if (!dateStr) return "-";
   const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return String(dateStr);
+  if (Number.isNaN(d.getTime())) return String(dateStr);
   const formatted = d.toLocaleDateString("id-ID", {
     day: "numeric",
     month: "short",
