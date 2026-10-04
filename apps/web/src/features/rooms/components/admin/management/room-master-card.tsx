@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Bed, Edit3, Wind } from "lucide-react";
+import { Bed, Edit3 } from "lucide-react";
+import { useState } from "react";
 
 export function cleanImageUrl(url?: string | null): string {
   if (!url) return "";
@@ -33,96 +33,74 @@ interface RoomMasterCardProps {
 }
 
 export function RoomMasterCard({ room, onEdit }: RoomMasterCardProps) {
-  const isAc = room.type === "ac";
+  const [imageFailed, setImageFailed] = useState(false);
+  const showImage = Boolean(room.imageUrl) && !imageFailed;
 
   return (
-    <div className="bg-white rounded-3xl border-2 border-purple-100 hover:border-purple-300 transition-all p-4 shadow-2xs flex flex-col justify-between group space-y-3">
-      {/* Top Code Badge & Building */}
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-900 font-black text-xs flex items-center justify-center shadow-2xs">
+    <article className="bg-white rounded-2xl border border-slate-200/80 hover:border-slate-300 transition-colors p-3.5 sm:p-4 flex flex-col justify-between h-full group space-y-2.5">
+      <div className="space-y-2.5">
+        {/* Top: Room Code Badge & Type Name */}
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-xl bg-slate-100 text-slate-800 border border-slate-200/80 font-bold text-xs flex items-center justify-center tabular-nums">
             #{room.code}
-          </div>
-          <div>
-            <h4 className="text-xs font-black text-slate-900 leading-tight">{room.name}</h4>
-            <span className="text-[10px] text-slate-400 font-bold block">{room.buildingName}</span>
-          </div>
+          </span>
+          <h4 className="text-sm font-semibold text-slate-900 leading-snug">{room.typeName}</h4>
         </div>
 
-        <span
-          className={`p-1.5 rounded-xl border flex items-center justify-center ${
-            isAc
-              ? "bg-purple-50 text-purple-700 border-purple-200"
-              : "bg-indigo-50 text-indigo-700 border-indigo-200"
-          }`}
-          title={room.typeName}
-        >
-          {isAc ? <Wind className="w-3.5 h-3.5" /> : <Bed className="w-3.5 h-3.5" />}
-        </span>
-      </div>
-
-      {/* Room Photo Preview */}
-      <div className="relative w-full h-32 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-2xs">
-        {room.imageUrl ? (
-          <img
-            src={cleanImageUrl(room.imageUrl)}
-            alt={room.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
+        {/* Room Photo Preview or Placeholder */}
+        {showImage ? (
+          <div className="relative w-full h-32 rounded-lg overflow-hidden shrink-0 my-2 border border-slate-200/80 bg-slate-100">
+            <img
+              src={cleanImageUrl(room.imageUrl)}
+              alt={`Kamar #${room.code}`}
+              onError={() => setImageFailed(true)}
+              className="w-full h-full object-cover"
+            />
+          </div>
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-purple-50 via-purple-100/40 to-slate-100 flex flex-col items-center justify-center gap-1.5 text-purple-700/60 p-3">
-            {isAc ? (
-              <Wind className="w-6 h-6 stroke-[1.5]" />
-            ) : (
-              <Bed className="w-6 h-6 stroke-[1.5]" />
-            )}
-            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
-              Kosong (Belum Ada Foto)
-            </span>
+          <div className="w-full h-32 rounded-lg border border-slate-200/80 bg-slate-50/50 flex flex-col items-center justify-center gap-1.5 select-none shrink-0 my-2 [background-image:repeating-linear-gradient(45deg,transparent,transparent_8px,rgba(226,232,240,0.5)_8px,rgba(226,232,240,0.5)_16px)]">
+            <Bed className="w-6 h-6 text-slate-300 stroke-[1.5]" />
+            <span className="text-[11px] font-medium text-slate-400">Belum ada foto</span>
           </div>
         )}
-        <div className="absolute bottom-1.5 left-1.5 bg-slate-950/75 backdrop-blur-xs px-2 py-0.5 rounded-md text-[9px] text-white font-bold">
-          {room.typeName}
-        </div>
-      </div>
 
-      {/* Price & Facilities Preview */}
-      <div className="space-y-1.5">
-        <div className="flex items-baseline justify-between">
-          <span className="text-[10px] text-slate-400 font-bold uppercase">Tarif Sewa:</span>
-          <span className="text-xs font-black text-purple-700">
-            Rp {room.price.toLocaleString("id-ID")}{" "}
-            <span className="text-[10px] text-slate-400 font-normal">/mlm</span>
-          </span>
-        </div>
+        {/* Price & Facilities Preview */}
+        <div className="space-y-1">
+          <div>
+            <span className="text-sm font-semibold text-slate-900 tabular-nums">
+              Rp {room.price.toLocaleString("id-ID")}
+            </span>{" "}
+            <span className="text-xs font-normal text-slate-400">/ malam</span>
+          </div>
 
-        {/* Short facilities tags (first 3) */}
-        <div className="flex flex-wrap gap-1">
-          {room.facilities.slice(0, 3).map((f) => (
-            <span
-              key={f}
-              className="text-[9px] font-bold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-md truncate max-w-[120px]"
-            >
-              {f}
-            </span>
-          ))}
-          {room.facilities.length > 3 && (
-            <span className="text-[9px] font-bold bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded-md">
-              +{room.facilities.length - 3}
-            </span>
-          )}
+          {/* Short facilities tags (first 3) */}
+          <div className="flex flex-wrap gap-1 min-h-[20px]">
+            {room.facilities.slice(0, 3).map((f) => (
+              <span
+                key={f}
+                className="text-[9px] font-medium bg-slate-100 text-slate-600 border border-slate-200/60 px-1.5 py-0.5 rounded-md truncate max-w-[120px]"
+              >
+                {f}
+              </span>
+            ))}
+            {room.facilities.length > 3 && (
+              <span className="text-[9px] font-medium bg-slate-100 text-slate-600 border border-slate-200/60 px-1.5 py-0.5 rounded-md">
+                +{room.facilities.length - 3}
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Edit Action Button */}
-      <Button
+      <button
         type="button"
         onClick={onEdit}
-        className="w-full rounded-2xl bg-purple-50 hover:bg-purple-700 text-purple-900 hover:text-white border border-purple-200 text-xs font-bold h-9 gap-1.5 transition-colors cursor-pointer mt-1"
+        className="w-full h-8 py-1 rounded-lg bg-slate-100 text-slate-800 border border-slate-200/90 hover:bg-slate-900 hover:text-white transition-colors text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 cursor-pointer mt-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
       >
         <Edit3 className="w-3.5 h-3.5" />
         <span>Edit Kamar &amp; Tarif</span>
-      </Button>
-    </div>
+      </button>
+    </article>
   );
 }

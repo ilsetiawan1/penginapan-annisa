@@ -21,7 +21,7 @@ const LOCAL_STORAGE_KEY = "annisa_master_rooms_v3";
 function mapRoomToMasterItem(sr: Room, serverTypes?: RoomType[]): MasterRoomItem {
   const code = sr.roomNumber.toUpperCase();
   const building = (sr.building || (code.startsWith("A") ? "A" : "B")) as "A" | "B";
-  const buildingName = building === "A" ? "Bangunan A (Sisi Kiri)" : "Bangunan B (Sisi Kanan)";
+  const buildingName = building === "A" ? "Bangunan A" : "Bangunan B";
 
   const matchedType =
     sr.roomType ||
@@ -71,10 +71,31 @@ function mapRoomToMasterItem(sr: Room, serverTypes?: RoomType[]): MasterRoomItem
 }
 
 export function useRoomManagementActions() {
-  const { data: serverTypes, isLoading: isLoadingTypes, refetch: refetchTypes } = useRoomTypes();
-  const { data: serverRooms, isLoading: isLoadingRooms, refetch: refetchRooms } = useRooms();
+  const {
+    data: serverTypes,
+    isLoading: isLoadingTypes,
+    isFetching: isFetchingTypes,
+    refetch: refetchTypes,
+  } = useRoomTypes();
+  const {
+    data: serverRooms,
+    isLoading: isLoadingRooms,
+    isFetching: isFetchingRooms,
+    refetch: refetchRooms,
+  } = useRooms();
   const updateRoomRateMutation = useUpdateRoomRate();
   const updateRoomImageMutation = useUpdateRoomImage();
+
+  const isRefreshing = isFetchingRooms || isFetchingTypes;
+
+  const handleRefresh = async () => {
+    try {
+      await Promise.all([refetchRooms(), refetchTypes()]);
+      toast.success("Data 8 kamar berhasil diperbarui!");
+    } catch {
+      toast.error("Gagal memuat ulang data kamar.");
+    }
+  };
 
   const [rooms, setRooms] = useState<MasterRoomItem[]>([]);
   const [editingRoom, setEditingRoom] = useState<MasterRoomItem | null>(null);
@@ -248,23 +269,6 @@ export function useRoomManagementActions() {
     });
   };
 
-  const handleClearAllDummyImages = () => {
-    const cleared = rooms.map((r) => ({
-      ...r,
-      imageUrl: cleanImageUrl(r.imageUrl),
-    }));
-    saveRoomsLocally(cleared);
-    toast.success(
-      "Semua foto dummy telah dibersihkan. Kamar tanpa foto kustom kini berstatus kosong.",
-    );
-  };
-
-  const handleResetDefault = () => {
-    refetchRooms();
-    refetchTypes();
-    toast.success("Data 8 kamar berhasil di-sinkronkan ulang dari database!");
-  };
-
   const filteredRooms =
     filterBuilding === "all" ? rooms : rooms.filter((r) => r.building === filterBuilding);
 
@@ -277,6 +281,7 @@ export function useRoomManagementActions() {
     roomsA,
     roomsB,
     isLoading: (isLoadingRooms || isLoadingTypes) && rooms.length === 0,
+    isRefreshing,
     filterBuilding,
     setFilterBuilding,
     editingRoom,
@@ -291,8 +296,7 @@ export function useRoomManagementActions() {
       handleSaveEdit,
       handleAddFacility,
       handleRemoveFacility,
-      handleClearAllDummyImages,
-      handleResetDefault,
+      handleRefresh,
     },
   };
 }
