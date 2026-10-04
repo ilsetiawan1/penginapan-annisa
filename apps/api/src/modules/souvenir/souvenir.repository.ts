@@ -123,7 +123,11 @@ export class SouvenirRepository {
     return this.softDelete(id);
   }
 
-  async processCheckout(items: { souvenirId: string; quantity: number }[]) {
+  async processCheckout(
+    items: { souvenirId: string; quantity: number }[],
+    paymentMethod = "cash",
+    cashReceived?: number,
+  ) {
     return prisma.$transaction(async (tx) => {
       const detailedItems = [];
       let grandTotal = 0;
@@ -159,14 +163,54 @@ export class SouvenirRepository {
         detailedItems.push({
           souvenirId: product.id,
           name: product.name,
-          categoryName: product.category.name,
+          categoryName: product.category?.name ?? "Oleh-Oleh",
           price: product.price,
           quantity: item.quantity,
           subtotal,
         });
       }
 
-      return { detailedItems, grandTotal };
+      let change = 0;
+      if (cashReceived !== undefined) {
+        if (cashReceived < grandTotal) {
+          throw new AppError(
+            `Uang tunai tidak cukup (Total: Rp ${grandTotal.toLocaleString("id-ID")}, Diterima: Rp ${cashReceived.toLocaleString("id-ID")}).`,
+            HTTP_STATUS.BAD_REQUEST,
+          );
+        }
+        change = cashReceived - grandTotal;
+      }
+
+      const receiptNumber = `POS-${Date.now().toString().slice(-6)}`;
+      const paidAmount = cashReceived ?? grandTotal;
+
+      const transaction = await tx.posTransaction.create({
+        data: {
+          receiptNumber,
+          totalAmount: grandTotal,
+          paidAmount,
+          changeAmount: change,
+          paymentMethod,
+          items: {
+            create: detailedItems.map((di) => ({
+              souvenirId: di.souvenirId,
+              quantity: di.quantity,
+              price: di.price,
+              subtotal: di.subtotal,
+            })),
+          },
+        },
+      });
+
+      return {
+        receiptNumber: transaction.receiptNumber,
+        transactionDate: transaction.createdAt.toISOString(),
+        items: detailedItems,
+        grandTotal,
+        paymentMethod,
+        cashReceived: paidAmount,
+        change,
+      };
     });
   }
 }

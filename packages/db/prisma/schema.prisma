@@ -146,9 +146,36 @@ model Souvenir {
   createdAt   DateTime         @default(now()) @map("created_at")
   updatedAt   DateTime         @updatedAt @map("updated_at")
 
-  category    SouvenirCategory @relation(fields: [categoryId], references: [id])
+  category         SouvenirCategory     @relation(fields: [categoryId], references: [id])
+  transactionItems PosTransactionItem[]
 
   @@map("souvenirs")
+}
+
+model PosTransaction {
+  id            String               @id @default(uuid())
+  receiptNumber String               @unique @map("receipt_number")
+  totalAmount   Int                  @map("total_amount")
+  paidAmount    Int                  @map("paid_amount")
+  changeAmount  Int                  @map("change_amount")
+  paymentMethod String               @map("payment_method") // 'cash' | 'transfer' | 'qris'
+  createdAt     DateTime             @default(now()) @map("created_at")
+  items         PosTransactionItem[]
+
+  @@map("pos_transactions")
+}
+
+model PosTransactionItem {
+  id            String         @id @default(uuid())
+  transactionId String         @map("transaction_id")
+  souvenirId    String         @map("souvenir_id")
+  quantity      Int
+  price         Int
+  subtotal      Int
+  transaction   PosTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  souvenir      Souvenir       @relation(fields: [souvenirId], references: [id])
+
+  @@map("pos_transaction_items")
 }
 
 // ----------------------------------------------------

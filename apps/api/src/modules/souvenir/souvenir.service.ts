@@ -99,30 +99,7 @@ export class SouvenirService {
       throw new AppError("Keranjang belanja kosong.", HTTP_STATUS.BAD_REQUEST);
     }
 
-    const { detailedItems, grandTotal } = await this.repo.processCheckout(input.items);
-
-    let change = 0;
-    if (input.cashReceived !== undefined) {
-      if (input.cashReceived < grandTotal) {
-        throw new AppError(
-          `Uang tunai tidak cukup (Total: Rp ${grandTotal.toLocaleString("id-ID")}, Diterima: Rp ${input.cashReceived.toLocaleString("id-ID")}).`,
-          HTTP_STATUS.BAD_REQUEST,
-        );
-      }
-      change = input.cashReceived - grandTotal;
-    }
-
-    const receiptNumber = `POS-${Date.now().toString().slice(-6)}`;
-
-    return {
-      receiptNumber,
-      transactionDate: new Date().toISOString(),
-      items: detailedItems,
-      grandTotal,
-      paymentMethod: input.paymentMethod,
-      cashReceived: input.cashReceived || grandTotal,
-      change,
-    };
+    return this.repo.processCheckout(input.items, input.paymentMethod, input.cashReceived);
   }
 }
 

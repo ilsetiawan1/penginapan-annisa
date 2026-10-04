@@ -90,19 +90,30 @@ export class ReportRepository {
     const startOfMonth = new Date(year, month, 1);
     const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59, 999);
 
-    const reservations = await prisma.reservation.findMany({
-      where: {
-        createdAt: { gte: startOfMonth, lte: endOfMonth },
-        status: { in: ["confirmed", "checked_in", "checked_out"] },
-      },
-      include: {
-        guest: true,
-        room: {
-          include: { roomType: true },
+    const [reservations, posTransactions] = await Promise.all([
+      prisma.reservation.findMany({
+        where: {
+          createdAt: { gte: startOfMonth, lte: endOfMonth },
+          status: { in: ["confirmed", "checked_in", "checked_out"] },
         },
-      },
-      orderBy: { createdAt: "desc" },
-    });
+        include: {
+          guest: true,
+          room: {
+            include: { roomType: true },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.posTransaction.findMany({
+        where: {
+          createdAt: { gte: startOfMonth, lte: endOfMonth },
+        },
+        include: {
+          items: true,
+        },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
 
     let roomRevenue = 0;
     let totalNightsBooked = 0;
@@ -114,6 +125,17 @@ export class ReportRepository {
       totalNightsBooked += r.totalNights;
     }
 
+    let posSouvenirRevenue = 0;
+    let souvenirItems = 0;
+    for (const pt of posTransactions) {
+      posSouvenirRevenue += pt.totalAmount;
+      for (const item of pt.items) {
+        souvenirItems += item.quantity;
+      }
+    }
+
+    const grandTotalRevenue = roomRevenue + posSouvenirRevenue;
+
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const totalCapacity = 8 * daysInMonth;
     const occupancyRate =
@@ -123,8 +145,18 @@ export class ReportRepository {
 
     const monthFormatted = `${year}-${String(month + 1).padStart(2, "0")}`;
     const monthNames = [
-      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-      "Juli", "Agustus", "September", "Oktober", "November", "Desember",
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
     ];
     const monthLabel = `${monthNames[month]} ${year}`;
 
@@ -152,12 +184,12 @@ export class ReportRepository {
       id: monthFormatted,
       month: monthFormatted,
       label: monthLabel,
-      totalOmzet: roomRevenue,
+      totalOmzet: grandTotalRevenue,
       roomRevenue,
-      posSouvenirRevenue: 0,
-      souvenirOmzet: 0,
-      souvenirItems: 0,
-      grandTotalRevenue: roomRevenue,
+      posSouvenirRevenue,
+      souvenirOmzet: posSouvenirRevenue,
+      souvenirItems,
+      grandTotalRevenue,
       totalGuests: reservations.length,
       totalReservations: reservations.length,
       occupancyRate,
