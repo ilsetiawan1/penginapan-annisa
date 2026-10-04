@@ -1,71 +1,77 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
-
 interface RevenueStatsCardsProps {
   totalOmzet?: number;
-  occupancyRate?: number;
-  totalGuests?: number;
+  roomRevenue?: number;
   souvenirOmzet?: number;
   souvenirItems?: number;
+  occupancyRate?: number;
+  totalGuests?: number;
   monthLabel?: string;
 }
 
 export function RevenueStatsCards({
-  totalOmzet = 18425000,
-  occupancyRate = 78.5,
-  totalGuests = 68,
-  souvenirOmzet = 2850000,
-  souvenirItems = 54,
+  totalOmzet = 0,
+  roomRevenue = 0,
+  souvenirOmzet = 0,
+  souvenirItems = 0,
+  occupancyRate = 0,
+  totalGuests = 0,
   monthLabel = "Bulan Ini",
 }: RevenueStatsCardsProps) {
+  const avgRoomsPerDay = Math.round((occupancyRate / 100) * 8 * 10) / 10;
+
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
-      {/* 1. Total Omzet */}
-      <div className="bg-white border border-slate-200/90 p-4 sm:p-5 rounded-3xl shadow-2xs">
-        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-          Total Omzet {monthLabel}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+      {/* 1. Total Pendapatan (Kamar + Souvenir) */}
+      <div className="bg-white border border-slate-200/80 p-4 sm:p-5 rounded-2xl flex flex-col justify-between">
+        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+          Total Pendapatan
         </span>
-        <p className="text-xl sm:text-2xl font-black text-purple-700 mt-1">
+        <p className="text-2xl sm:text-3xl font-bold text-slate-900 tabular-nums mt-1 tracking-tight">
           Rp {totalOmzet.toLocaleString("id-ID")}
         </p>
-        <span className="text-[10px] text-emerald-600 font-extrabold flex items-center gap-0.5 mt-1">
-          <ArrowUpRight className="w-3 h-3" /> Rekap terverifikasi
+        <span className="text-xs text-slate-500 font-medium mt-2">
+          Kamar &amp; Kasir Oleh-Oleh · {monthLabel}
         </span>
       </div>
 
-      {/* 2. Tingkat Keterisian (Okupansi) */}
-      <div className="bg-white border border-slate-200/90 p-4 sm:p-5 rounded-3xl shadow-2xs">
-        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-          Tingkat Okupansi Kamar
+      {/* 2. Pendapatan Kamar */}
+      <div className="bg-white border border-slate-200/80 p-4 sm:p-5 rounded-2xl flex flex-col justify-between">
+        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+          Pendapatan Kamar
         </span>
-        <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{occupancyRate}%</p>
-        <span className="text-[10px] text-slate-500 font-medium block mt-1">
-          Rata-rata {Math.round((occupancyRate / 100) * 8 * 10) / 10} dari 8 kamar/hari
-        </span>
-      </div>
-
-      {/* 3. Total Tamu */}
-      <div className="bg-white border border-slate-200/90 p-4 sm:p-5 rounded-3xl shadow-2xs">
-        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-          Total Tamu Menginap
-        </span>
-        <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{totalGuests} Tamu</p>
-        <span className="text-[10px] text-slate-500 font-medium block mt-1">
-          Periode {monthLabel}
+        <p className="text-2xl sm:text-3xl font-bold text-slate-900 tabular-nums mt-1 tracking-tight">
+          Rp {roomRevenue.toLocaleString("id-ID")}
+        </p>
+        <span className="text-xs text-slate-500 font-medium mt-2 tabular-nums">
+          {totalGuests} Tamu Menginap
         </span>
       </div>
 
-      {/* 4. Omzet Oleh-Oleh */}
-      <div className="bg-white border border-slate-200/90 p-4 sm:p-5 rounded-3xl shadow-2xs">
-        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
+      {/* 3. Penjualan Oleh-Oleh */}
+      <div className="bg-white border border-slate-200/80 p-4 sm:p-5 rounded-2xl flex flex-col justify-between">
+        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
           Penjualan Oleh-Oleh
         </span>
-        <p className="text-xl sm:text-2xl font-black text-amber-700 mt-1">
+        <p className="text-2xl sm:text-3xl font-bold text-slate-900 tabular-nums mt-1 tracking-tight">
           Rp {souvenirOmzet.toLocaleString("id-ID")}
         </p>
-        <span className="text-[10px] text-slate-500 font-medium block mt-1">
+        <span className="text-xs text-slate-500 font-medium mt-2 tabular-nums">
           {souvenirItems} Produk Terjual
+        </span>
+      </div>
+
+      {/* 4. Tingkat Okupansi Kamar */}
+      <div className="bg-white border border-slate-200/80 p-4 sm:p-5 rounded-2xl flex flex-col justify-between">
+        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+          Tingkat Okupansi
+        </span>
+        <p className="text-2xl sm:text-3xl font-bold text-slate-900 tabular-nums mt-1 tracking-tight">
+          {occupancyRate}%
+        </p>
+        <span className="text-xs text-slate-500 font-medium mt-2 tabular-nums">
+          Rata-rata {avgRoomsPerDay} dari 8 kamar/hari
         </span>
       </div>
     </div>

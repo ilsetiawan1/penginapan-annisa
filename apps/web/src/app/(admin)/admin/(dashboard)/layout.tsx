@@ -69,14 +69,12 @@ export default function AdminDashboardLayout({
       return { category: "Pengaturan", sub: "Kelola Oleh-Oleh" };
     if (pathname.includes("/admin/master-articles"))
       return { category: "Pengaturan", sub: "Kelola Artikel & SEO" };
-    if (pathname.includes("/admin/rooms"))
-      return { category: "Operasional", sub: "Status Kamar" };
+    if (pathname.includes("/admin/rooms")) return { category: "Operasional", sub: "Status Kamar" };
     if (pathname.includes("/admin/reservations"))
       return { category: "Operasional", sub: "Kalender Reservasi" };
-    if (pathname.includes("/admin/pos"))
-      return { category: "Operasional", sub: "Kasir Oleh-Oleh" };
+    if (pathname.includes("/admin/pos")) return { category: "Operasional", sub: "Kasir Oleh-Oleh" };
     if (pathname.includes("/admin/reports"))
-      return { category: "Operasional", sub: "Laporan Omzet" };
+      return { category: "Operasional", sub: "Laporan Pendapatan" };
     if (pathname.includes("/admin/staff"))
       return { category: "Pengaturan", sub: "Kelola Akun Staf" };
     if (pathname.includes("/admin/settings"))
@@ -132,9 +130,7 @@ export default function AdminDashboardLayout({
         </header>
 
         {/* Content Body: Fluid, Responsive, Scrollable */}
-        <main className="flex-1 p-6 lg:p-8 w-full">
-          {children}
-        </main>
+        <main className="flex-1 p-6 lg:p-8 w-full">{children}</main>
       </div>
     </div>
   );

@@ -18,7 +18,10 @@ export const reportsApi = {
     );
   },
 
-  exportReservationsCsv: async (query?: { startDate?: string; endDate?: string }): Promise<Blob> => {
+  exportReservationsCsv: async (query?: {
+    startDate?: string;
+    endDate?: string;
+  }): Promise<Blob> => {
     return apiClient.getBlob(
       "/reports/export",
       query as Record<string, string | number | boolean | undefined>,
