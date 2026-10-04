@@ -27,7 +27,7 @@ const NAV_SECTIONS: SidebarNavSection[] = [
     items: [
       { href: "/admin/dashboard", label: "Dashboard", icon: Home, roles: ["owner", "staff"] },
       { href: "/admin/rooms", label: "Status Kamar", icon: Bed, roles: ["owner", "staff"], badge: "8 Unit" },
-      { href: "/admin/reservations", label: "Jadwal Booking WA", icon: Calendar, roles: ["owner", "staff"] },
+      { href: "/admin/reservations", label: "Kalender Reservasi", icon: Calendar, roles: ["owner", "staff"] },
       { href: "/admin/pos", label: "Kasir Oleh-Oleh", icon: Gift, roles: ["owner", "staff"] },
       { href: "/admin/reports", label: "Laporan Omzet", icon: TrendingUp, roles: ["owner"] },
     ],

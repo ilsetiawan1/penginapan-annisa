@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle } from "lucide-react";
-import { ROOM_OPTIONS, RoomOption } from "./advance-booking-types";
+import { ROOM_OPTIONS, type RoomOption } from "./advance-booking-types";
 
 interface AdvanceBookingRoomPickerProps {
   selectedRoomCode: string;
@@ -104,8 +104,8 @@ export function AdvanceBookingRoomPicker({
           <div>
             <strong className="font-black block">Kamar Terpilih Sudah Di-booking</strong>
             <p className="text-[11px] leading-tight text-rose-700 mt-0.5">
-              Kamar #{selectedRoomCode} sudah memiliki reservasi aktif di tanggal ini.
-              Silakan klik unit kamar bebas (berwarna hijau) di atas.
+              Kamar #{selectedRoomCode} sudah memiliki reservasi aktif di tanggal ini. Silakan klik
+              unit kamar bebas (berwarna hijau) di atas.
             </p>
           </div>
         </div>

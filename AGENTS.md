@@ -40,8 +40,9 @@ For any coding task, read `.agents/skills/ponytail/SKILL.md`. Stop at the first 
 Rules:
 - No unrequested abstractions, no speculative scaffolding "for later".
 - Deletion over addition. Boring over clever.
+- **Readable Logic Over Cryptic RegEx:** Hindari penggunaan Regular Expressions (RegEx) yang rumit dan sulit dipahami (*unreadable regex*). Gunakan native string/array methods bawaan JavaScript/TypeScript (`startsWith`, `endsWith`, `includes`, `split`, `slice`, `replace`) atau schema validator (Zod) untuk validasi data. Jika format string sangat membutuhkan RegEx (misal: validasi email dasar), gunakan pola standar yang sederhana tanpa lookaround/backtracking kompleks.
 - **Avoid God Components / Fat Files:** Batasi ukuran komponen React maksimal ~200-250 baris. Jika sebuah file mulai menampung terlalu banyak modal state, data constants, atau multi-action handlers, pisahkan ke dalam custom hook (contoh: `use-*-actions.ts`) atau sub-komponen terpisah.
-- **Real Backend Data Over Mocks:** Dilarang membuat hardcoded mock data constants di file komponen jika query hook/service backend sudah tersedia di codebase atau didefinisikan di `docs/TSD.md`.
+- **Real Backend Data Over Mocks:** Dilarang keras membuat hardcoded mock data constants di file komponen jika query hook/service backend sudah tersedia di codebase atau didefinisikan di `docs/TSD.md`.
 - Shortest working diff wins — but only once you truly understand the problem.
 - Never simplify away: input validation, error handling, security, or accessibility.
 - When reviewing diffs for bloat or over-engineering, read `.agents/skills/ponytail-review/SKILL.md`.
@@ -61,7 +62,7 @@ Struktur workspace ini adalah Monorepo. Setiap modul memiliki batasan tanggung j
 
 - `packages/types/`: 
   - **Single Source of Truth untuk Kontrak & Tipe Data** (`room.ts`, `reservation.ts`, `dto.ts`, dll).
-  - Dilarang mendefinisikan ulang (re-declare) TypeScript interface/type entitas bisnis di dalam `apps/web/`. Selalu import tipe resmi dari workspace package `types`.
+  - Dilarang mendefinisikan ulang (re-declare) TypeScript interface/type entitas bisnis di dalam `apps/web/`. Selalu import tipe resmi dari workspace package `@annisa/types`.
 
 - `packages/db/`: 
   - **Single Source of Truth untuk Database & Prisma Schema**.
@@ -75,9 +76,9 @@ Struktur workspace ini adalah Monorepo. Setiap modul memiliki batasan tanggung j
   - Hanya bertindak sebagai *consumer* data dari API/hook. 
   - **Strict No-Hardcode Rule:** Dilarang keras menaruh hardcoded data arrays/constants (seperti daftar fasilitas, harga, atau status kamar dummy) di file komponen. Data wajib ditarik dari hook/service backend (`useRooms`, dsb) yang bertipe resmi dari `packages/types`.
 
-  ### Frontend Architecture Standards (`apps/web/src/features/`)
+### Frontend Architecture Standards (`apps/web/src/features/`)
 Setiap fitur wajib mematuhi pemisahan 3 layer:
 1. `api/`: Pure API fetchers (tanpa React state/hooks). Tipe data wajib import dari `packages/types`.
-2. `hooks/`: Business logic, query/mutation (TanStack Query), state modal, dan action handlers.
+2. `hooks/`: Business logic, query/mutation (TanStack Query), state modal, filter, dan action handlers.
 3. `components/`: Presentation layer (Tailwind styling & JSX). Dilarang menampung logic kalkulasi berat atau fetch langsung; konsumsi data lewat custom hook.
 4. `src/app/`: Page entry point Next.js tipis (hanya mengimpor container component dari features).

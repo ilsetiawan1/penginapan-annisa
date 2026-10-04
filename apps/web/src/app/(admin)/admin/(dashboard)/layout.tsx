@@ -72,7 +72,7 @@ export default function AdminDashboardLayout({
     if (pathname.includes("/admin/rooms"))
       return { category: "Operasional", sub: "Status Kamar" };
     if (pathname.includes("/admin/reservations"))
-      return { category: "Operasional", sub: "Jadwal Booking WA" };
+      return { category: "Operasional", sub: "Kalender Reservasi" };
     if (pathname.includes("/admin/pos"))
       return { category: "Operasional", sub: "Kasir Oleh-Oleh" };
     if (pathname.includes("/admin/reports"))

@@ -1,6 +1,6 @@
 "use client";
 
-import { AdvanceBookingList } from "@/features/reservations/components/admin/advance-booking-list";
+import { AdvanceBookingList } from "@/features/reservations/components/admin/calendar";
 
 export default function AdminReservationsPage() {
   return (

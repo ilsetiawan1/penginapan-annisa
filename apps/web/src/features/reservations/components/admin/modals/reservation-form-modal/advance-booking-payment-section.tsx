@@ -82,20 +82,20 @@ export function AdvanceBookingPaymentSection({
         </div>
       </div>
 
-      {/* Tombol Aksi (Batal & Simpan Jadwal) Naik Rapi Sejajar */}
+      {/* Tombol Aksi (Batal & Simpan Jadwal) */}
       <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
         <Button
           type="button"
           variant="outline"
           onClick={onClose}
-          className="rounded-xl h-9 px-4 text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer"
+          className="rounded-xl h-9 px-4 text-xs font-semibold text-slate-600 hover:bg-slate-100 cursor-pointer"
         >
           Batal
         </Button>
         <Button
           type="submit"
           disabled={isSubmitDisabled}
-          className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-9 px-5 gap-1.5 shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm h-9 px-5 gap-1.5 shadow-xs cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isPending ? (
             <>
@@ -105,7 +105,7 @@ export function AdvanceBookingPaymentSection({
           ) : (
             <>
               <Check className="w-4 h-4" />
-              <span>Simpan Jadwal Booking WA</span>
+              <span>Simpan Reservasi</span>
             </>
           )}
         </Button>

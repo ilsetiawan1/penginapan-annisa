@@ -2,6 +2,8 @@
 // INTERFACES & CONSTANTS FOR ADVANCE BOOKING
 // ==========================================
 
+export type BookingChannel = "whatsapp" | "walk_in" | "phone";
+
 export interface AdvanceBookingData {
   id: string;
   roomCode: string; // "A1" - "B4"
@@ -17,6 +19,7 @@ export interface AdvanceBookingData {
   dpPaid: number;
   remainingAmount: number;
   paymentMethod: "transfer" | "qris" | "cash";
+  channel?: BookingChannel;
   notes?: string;
   status: "confirmed" | "checked_in" | "cancelled";
 }
@@ -117,7 +120,7 @@ export function formatIdDate(isoOrDate: string | Date): string {
         ? new Date(isoOrDate)
         : parseIsoDate(isoOrDate)
       : isoOrDate;
-  if (isNaN(d.getTime())) return String(isoOrDate);
+  if (Number.isNaN(d.getTime())) return String(isoOrDate);
   return d.toLocaleDateString("id-ID", {
     day: "numeric",
     month: "short",
@@ -130,6 +133,6 @@ export function extractIsoString(val: string | Date | undefined): string {
   if (val instanceof Date) return toIsoDate(val);
   if (/^\d{4}-\d{2}-\d{2}/.test(val)) return val.slice(0, 10);
   const d = new Date(val);
-  if (!isNaN(d.getTime())) return toIsoDate(d);
+  if (!Number.isNaN(d.getTime())) return toIsoDate(d);
   return "";
 }

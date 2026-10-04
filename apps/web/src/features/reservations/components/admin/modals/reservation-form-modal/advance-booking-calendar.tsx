@@ -1,11 +1,7 @@
 "use client";
 
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
-import {
-  CALENDAR_DAYS_HEADER,
-  addDays,
-  formatIdDate,
-} from "./advance-booking-types";
+import { CALENDAR_DAYS_HEADER, addDays, formatIdDate } from "./advance-booking-types";
 
 interface AdvanceBookingCalendarProps {
   calendarMonth: Date;
@@ -120,11 +116,9 @@ export function AdvanceBookingCalendar({
           if (isPast) {
             dayClass += "text-slate-300 cursor-not-allowed ";
           } else if (isCheckIn) {
-            dayClass +=
-              "bg-purple-700 text-white font-black rounded-l-xl z-10 shadow-xs ";
+            dayClass += "bg-purple-700 text-white font-black rounded-l-xl z-10 shadow-xs ";
           } else if (isCheckOut) {
-            dayClass +=
-              "bg-purple-900 text-white font-black rounded-r-xl z-10 shadow-xs ";
+            dayClass += "bg-purple-900 text-white font-black rounded-r-xl z-10 shadow-xs ";
           } else if (isInStayRange) {
             dayClass += "bg-purple-200/80 text-purple-950 font-black rounded-none ";
           } else {
@@ -205,11 +199,21 @@ export function AdvanceBookingCalendar({
             onChange={(e) => onNightsChange(Number(e.target.value))}
             className="w-full bg-white border border-purple-200 focus:border-purple-600 rounded-lg px-2 py-1 text-xs font-bold text-slate-900 outline-none cursor-pointer"
           >
-            <option value={1}>1 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 1))})</option>
-            <option value={2}>2 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 2))})</option>
-            <option value={3}>3 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 3))})</option>
-            <option value={4}>4 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 4))})</option>
-            <option value={5}>5 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 5))})</option>
+            <option value={1}>
+              1 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 1))})
+            </option>
+            <option value={2}>
+              2 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 2))})
+            </option>
+            <option value={3}>
+              3 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 3))})
+            </option>
+            <option value={4}>
+              4 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 4))})
+            </option>
+            <option value={5}>
+              5 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 5))})
+            </option>
             <option value={7}>7 Malam (1 Minggu)</option>
             <option value={14}>14 Malam (2 Minggu)</option>
           </select>
