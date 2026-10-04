@@ -3,3 +3,4 @@ export * from "./room-master-card";
 export * from "./room-edit-modal";
 export * from "./room-management-filter";
 export * from "./room-management-header";
+export * from "./room-management-skeleton";

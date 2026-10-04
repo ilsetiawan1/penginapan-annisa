@@ -64,10 +64,14 @@ export function RoomEditModal({
         <div className="space-y-4">
           {/* Nama / Judul Kamar */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+            <label
+              htmlFor="room-name-input"
+              className="text-xs font-bold text-slate-700 uppercase tracking-wider block"
+            >
               Nama / Label Kamar
             </label>
             <input
+              id="room-name-input"
               type="text"
               value={editingRoom.name}
               onChange={(e) => setEditingRoom({ ...editingRoom, name: e.target.value })}
@@ -174,12 +178,16 @@ export function RoomEditModal({
 
           {/* Tarif Sewa per Malam */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+            <label
+              htmlFor="room-price-input"
+              className="text-xs font-bold text-slate-700 uppercase tracking-wider block"
+            >
               Tarif Sewa per Malam (Rp)
             </label>
             <div className="flex items-center gap-2 bg-slate-50 border-2 border-slate-200 focus-within:border-purple-600 rounded-2xl px-4 py-2.5">
               <span className="text-sm font-black text-slate-500">Rp</span>
               <input
+                id="room-price-input"
                 type="number"
                 value={editingRoom.price}
                 onChange={(e) =>
@@ -204,10 +212,14 @@ export function RoomEditModal({
 
           {/* Deskripsi Kamar */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+            <label
+              htmlFor="room-desc-input"
+              className="text-xs font-bold text-slate-700 uppercase tracking-wider block"
+            >
               Deskripsi Kamar
             </label>
             <textarea
+              id="room-desc-input"
               rows={3}
               value={editingRoom.description}
               onChange={(e) =>
@@ -223,9 +235,9 @@ export function RoomEditModal({
 
           {/* Fasilitas Kamar */}
           <div className="space-y-2 pt-1 border-t border-slate-100">
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+            <p className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
               Fasilitas Kamar Termasuk:
-            </label>
+            </p>
             <div className="flex flex-wrap gap-1.5">
               {editingRoom.facilities.map((fac) => (
                 <span
