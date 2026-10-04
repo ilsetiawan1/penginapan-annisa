@@ -101,7 +101,7 @@ export function OccupancyVolumeChart({
 
         <div className="mt-4 flex flex-wrap items-baseline gap-3">
           <span className="text-xl sm:text-2xl font-medium text-gray-800 tracking-tight leading-none">
-            <span className="font-bold text-slate-900">
+            <span className="font-light text-slate-900">
               {activeItem.rooms} / {maxRooms}
             </span>{" "}
             Kamar Terisi
@@ -115,7 +115,7 @@ export function OccupancyVolumeChart({
         </div>
       </div>
 
-      <div className="mt-3 relative pt-4 flex-1 min-h-0 flex flex-col justify-end">
+      <div className="mt-6 relative pt-5 flex-1 min-h-0 flex flex-col justify-end">
         <div className="flex items-end justify-between gap-2 sm:gap-4 h-36 sm:h-44 lg:h-48 relative z-10">
           <div className="flex-1 flex items-end justify-between gap-1.5 sm:gap-3 h-full pb-6">
             {weeklyData.map((item, idx) => {
@@ -130,7 +130,7 @@ export function OccupancyVolumeChart({
                   className="flex-1 flex flex-col items-center justify-end h-full group cursor-pointer relative bg-transparent border-0 p-0 text-left"
                 >
                   {isSelected && (
-                    <div className="absolute -top-7 px-2.5 py-1 rounded-lg bg-slate-900 text-white text-[10px] font-bold tracking-wide shadow-md whitespace-nowrap z-20 flex items-center">
+                    <div className="absolute -top-7 px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200/60 text-xs font-semibold shadow-2xs whitespace-nowrap z-20 flex items-center">
                       <span>
                         {item.day}: {item.rooms} Kamar
                       </span>

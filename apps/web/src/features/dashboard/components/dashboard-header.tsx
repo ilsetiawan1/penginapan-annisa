@@ -1,7 +1,7 @@
 "use client";
 
-import { RotateCw } from "lucide-react";
 import { CreateButton } from "@/components/ui/create-button";
+import { RotateCw } from "lucide-react";
 
 interface DashboardHeaderProps {
   onRefresh: () => void;
@@ -27,11 +27,7 @@ export function DashboardHeader({ onRefresh, isRefreshing, onCheckInClick }: Das
           <span className="text-xs font-medium text-slate-600">Sistem Aktif (Online)</span>
         </div>
 
-        {onCheckInClick && (
-          <CreateButton onClick={onCheckInClick}>
-            Check-in Baru
-          </CreateButton>
-        )}
+        {onCheckInClick && <CreateButton onClick={onCheckInClick}>Check-in Baru</CreateButton>}
 
         <button
           type="button"

@@ -1,7 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import type { Room } from "@annisa/types";
-import { ChevronDown, Filter } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Filter } from "lucide-react";
 import { useState } from "react";
 
 interface RoomAvailabilityTableProps {
@@ -94,13 +95,15 @@ export function RoomAvailabilityTable({ rooms = [], onNavigateTab }: RoomAvailab
             )}
           </div>
 
-          <button
-            type="button"
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => onNavigateTab("matrix")}
-            className="text-xs font-bold px-3.5 py-1.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-colors cursor-pointer shadow-2xs"
+            className="text-xs font-semibold text-slate-700 border-slate-200/90 hover:bg-slate-50 hover:text-slate-900 shadow-2xs gap-1.5"
           >
-            Kelola Semua Kamar
-          </button>
+            <span>Kelola Status Kamar</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-slate-500" />
+          </Button>
         </div>
       </div>
 
