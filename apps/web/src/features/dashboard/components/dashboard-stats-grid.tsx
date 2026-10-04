@@ -22,21 +22,19 @@ export function DashboardStatsGrid({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
       {/* 1. PEMASUKAN HARI INI */}
-      <div
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         onClick={() => onNavigateTab("reports")}
-        onKeyDown={(e) => e.key === "Enter" && onNavigateTab("reports")}
-        className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-gray-300 transition-all cursor-pointer flex flex-col justify-between"
+        className="w-full text-left bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-gray-300 transition-all cursor-pointer flex flex-col justify-between"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <span className="text-xs font-medium text-slate-500">Pemasukan Hari Ini</span>
           <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200/60">
             PMS + POS
           </span>
         </div>
 
-        <div className="mt-4 flex items-end justify-between gap-2">
+        <div className="mt-4 flex items-end justify-between gap-2 w-full">
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none flex items-baseline gap-1.5">
               <span className="font-normal text-gray-500 text-lg sm:text-xl">Rp</span>
@@ -70,24 +68,22 @@ export function DashboardStatsGrid({
             </svg>
           </div>
         </div>
-      </div>
+      </button>
 
       {/* 2. TINGKAT OKUPANSI KAMAR */}
-      <div
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         onClick={() => onNavigateTab("matrix")}
-        onKeyDown={(e) => e.key === "Enter" && onNavigateTab("matrix")}
-        className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-gray-300 transition-all cursor-pointer flex flex-col justify-between"
+        className="w-full text-left bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-gray-300 transition-all cursor-pointer flex flex-col justify-between"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <span className="text-xs font-medium text-slate-500">Tingkat Okupansi</span>
           <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200/60">
             {occupiedRooms}/{totalRooms} Terisi
           </span>
         </div>
 
-        <div className="mt-4 flex items-end justify-between gap-2">
+        <div className="mt-4 flex items-end justify-between gap-2 w-full">
           <div>
             <div className="flex items-baseline gap-1">
               <span className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none">
@@ -118,24 +114,22 @@ export function DashboardStatsGrid({
             </svg>
           </div>
         </div>
-      </div>
+      </button>
 
       {/* 3. PENJUALAN KASIR POS */}
-      <div
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         onClick={() => onNavigateTab("pos")}
-        onKeyDown={(e) => e.key === "Enter" && onNavigateTab("pos")}
-        className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-gray-300 transition-all cursor-pointer flex flex-col justify-between"
+        className="w-full text-left bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-gray-300 transition-all cursor-pointer flex flex-col justify-between"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <span className="text-xs font-medium text-slate-500">Penjualan Kasir POS</span>
           <span className="text-[10px] font-medium text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-200/60">
             Oleh-Oleh
           </span>
         </div>
 
-        <div className="mt-4 flex items-end justify-between gap-2">
+        <div className="mt-4 flex items-end justify-between gap-2 w-full">
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-none flex items-baseline gap-1.5">
               <span className="font-normal text-gray-500 text-lg sm:text-xl">Rp</span>
@@ -160,7 +154,7 @@ export function DashboardStatsGrid({
             </svg>
           </div>
         </div>
-      </div>
+      </button>
     </div>
   );
 }

@@ -61,9 +61,7 @@ export function OccupancyVolumeChart({
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-gray-100 gap-3">
           <div>
-            <h3 className="text-sm font-bold text-slate-900">
-              Tren Okupansi &amp; Volume Hunian
-            </h3>
+            <h3 className="text-sm font-bold text-slate-900">Tren Okupansi &amp; Volume Hunian</h3>
             <p className="text-xs text-slate-400 mt-0.5">
               Pemantauan ketersediaan kamar harian selama seminggu
             </p>
@@ -103,7 +101,10 @@ export function OccupancyVolumeChart({
 
         <div className="mt-4 flex flex-wrap items-baseline gap-3">
           <span className="text-xl sm:text-2xl font-medium text-gray-800 tracking-tight leading-none">
-            <span className="font-bold text-slate-900">{activeItem.rooms} / {maxRooms}</span> Kamar Terisi
+            <span className="font-bold text-slate-900">
+              {activeItem.rooms} / {maxRooms}
+            </span>{" "}
+            Kamar Terisi
           </span>
           <span className="inline-flex items-center text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-lg">
             +{activeItem.occupancyPercent}% Okupansi
@@ -122,14 +123,17 @@ export function OccupancyVolumeChart({
               const barHeightPercent = (item.rooms / maxRooms) * 100;
 
               return (
-                <div
+                <button
+                  type="button"
                   key={item.day}
                   onClick={() => setSelectedIdx(idx)}
-                  className="flex-1 flex flex-col items-center justify-end h-full group cursor-pointer relative"
+                  className="flex-1 flex flex-col items-center justify-end h-full group cursor-pointer relative bg-transparent border-0 p-0 text-left"
                 >
                   {isSelected && (
                     <div className="absolute -top-7 px-2.5 py-1 rounded-lg bg-slate-900 text-white text-[10px] font-bold tracking-wide shadow-md whitespace-nowrap z-20 flex items-center">
-                      <span>{item.day}: {item.rooms} Kamar</span>
+                      <span>
+                        {item.day}: {item.rooms} Kamar
+                      </span>
                     </div>
                   )}
 
@@ -140,8 +144,8 @@ export function OccupancyVolumeChart({
                         isSelected
                           ? "bg-slate-900 shadow-md shadow-slate-950/20"
                           : item.isToday
-                          ? "bg-[#7a68b7] group-hover:bg-[#594791]"
-                          : "bg-slate-200 group-hover:bg-[#ede8f8]"
+                            ? "bg-[#7a68b7] group-hover:bg-[#594791]"
+                            : "bg-slate-200 group-hover:bg-[#ede8f8]"
                       }`}
                     />
                   </div>
@@ -151,13 +155,13 @@ export function OccupancyVolumeChart({
                       isSelected
                         ? "text-slate-900 font-bold"
                         : item.isToday
-                        ? "text-[#594791] font-bold"
-                        : "text-slate-400 group-hover:text-slate-600"
+                          ? "text-[#594791] font-bold"
+                          : "text-slate-400 group-hover:text-slate-600"
                     }`}
                   >
                     {item.day}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>

@@ -8,11 +8,7 @@ interface DashboardHeaderProps {
   onCheckInClick?: () => void;
 }
 
-export function DashboardHeader({
-  onRefresh,
-  isRefreshing,
-  onCheckInClick,
-}: DashboardHeaderProps) {
+export function DashboardHeader({ onRefresh, isRefreshing, onCheckInClick }: DashboardHeaderProps) {
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
       <div>
@@ -48,7 +44,9 @@ export function DashboardHeader({
           aria-label="Refresh Data"
           className="p-2 border border-gray-200/90 rounded-xl bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors cursor-pointer shadow-2xs shrink-0"
         >
-          <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-slate-800" : ""}`} />
+          <RotateCw
+            className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-slate-800" : ""}`}
+          />
         </button>
       </div>
     </div>

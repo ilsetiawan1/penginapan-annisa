@@ -10,10 +10,26 @@ interface RoomAvailabilityTableProps {
 }
 
 const STATUS_CONFIG: Record<string, { label: string; badgeClass: string; dotClass: string }> = {
-  occupied: { label: "Terisi (Occupied)", badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200", dotClass: "bg-emerald-500 animate-pulse" },
-  ready: { label: "Siap Huni (Ready)", badgeClass: "bg-[#faf9fc] text-slate-600 border-[#e2dcf2]", dotClass: "bg-blue-500" },
-  dirty: { label: "Perlu Bersih (Dirty)", badgeClass: "bg-amber-50 text-amber-700 border-amber-200", dotClass: "bg-amber-500" },
-  booked: { label: "Booking WA", badgeClass: "bg-teal-50 text-teal-700 border-teal-200", dotClass: "bg-teal-500" },
+  occupied: {
+    label: "Terisi (Occupied)",
+    badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    dotClass: "bg-emerald-500 animate-pulse",
+  },
+  ready: {
+    label: "Siap Huni (Ready)",
+    badgeClass: "bg-[#faf9fc] text-slate-600 border-[#e2dcf2]",
+    dotClass: "bg-blue-500",
+  },
+  dirty: {
+    label: "Perlu Bersih (Dirty)",
+    badgeClass: "bg-amber-50 text-amber-700 border-amber-200",
+    dotClass: "bg-amber-500",
+  },
+  booked: {
+    label: "Booking WA",
+    badgeClass: "bg-teal-50 text-teal-700 border-teal-200",
+    dotClass: "bg-teal-500",
+  },
 };
 
 const FILTER_OPTIONS = [
@@ -23,10 +39,7 @@ const FILTER_OPTIONS = [
   { id: "dirty", label: "Perlu Bersih (Dirty)" },
 ];
 
-export function RoomAvailabilityTable({
-  rooms = [],
-  onNavigateTab,
-}: RoomAvailabilityTableProps) {
+export function RoomAvailabilityTable({ rooms = [], onNavigateTab }: RoomAvailabilityTableProps) {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -52,7 +65,9 @@ export function RoomAvailabilityTable({
               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl border border-[#e2dcf2] text-slate-600 hover:bg-[#faf9fc] transition-colors cursor-pointer"
             >
               <Filter className="w-3.5 h-3.5 text-slate-400" />
-              <span>{FILTER_OPTIONS.find((f) => f.id === statusFilter)?.label || "Filter Status"}</span>
+              <span>
+                {FILTER_OPTIONS.find((f) => f.id === statusFilter)?.label || "Filter Status"}
+              </span>
               <ChevronDown className="w-3 h-3 text-slate-400 ml-0.5" />
             </button>
 
@@ -117,7 +132,10 @@ export function RoomAvailabilityTable({
                       Kamar #{room.roomNumber}
                     </td>
                     <td className="py-3.5 px-4 sm:px-5 text-slate-500">
-                      {room.roomType?.name || (room.building === "A" ? "Standard Transit (AC + Fan)" : "Standard Transit Double")}
+                      {room.roomType?.name ||
+                        (room.building === "A"
+                          ? "Standard Transit (AC + Fan)"
+                          : "Standard Transit Double")}
                     </td>
                     <td className="py-3.5 px-4 sm:px-5">
                       {room.status === "occupied" && room.guestName ? (
@@ -128,7 +146,9 @@ export function RoomAvailabilityTable({
                           <span className="text-slate-900 font-semibold">{room.guestName}</span>
                         </div>
                       ) : room.status === "booked" ? (
-                        <span className="text-slate-600 font-semibold">{room.guestName || "Booking Reservasi WA"}</span>
+                        <span className="text-slate-600 font-semibold">
+                          {room.guestName || "Booking Reservasi WA"}
+                        </span>
                       ) : (
                         <span className="text-slate-400">Kosong (Siap Huni)</span>
                       )}
@@ -137,11 +157,13 @@ export function RoomAvailabilityTable({
                       {room.status === "occupied"
                         ? "12:00 WIT (Hari ini/Besok)"
                         : room.status === "dirty"
-                        ? "Checkout selesai"
-                        : "Tersedia sekarang"}
+                          ? "Checkout selesai"
+                          : "Tersedia sekarang"}
                     </td>
                     <td className="py-3.5 px-4 sm:px-5">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${conf.badgeClass}`}>
+                      <span
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${conf.badgeClass}`}
+                      >
                         <span className={`w-1.5 h-1.5 rounded-full ${conf.dotClass}`} />
                         {conf.label}
                       </span>
@@ -152,7 +174,11 @@ export function RoomAvailabilityTable({
                         onClick={() => onNavigateTab("matrix")}
                         className="px-2.5 py-1 rounded-lg text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8] text-xs font-semibold transition-colors cursor-pointer"
                       >
-                        {room.status === "ready" ? "Check-in" : room.status === "dirty" ? "Bersihkan" : "Detail"}
+                        {room.status === "ready"
+                          ? "Check-in"
+                          : room.status === "dirty"
+                            ? "Bersihkan"
+                            : "Detail"}
                       </button>
                     </td>
                   </tr>
