@@ -1,11 +1,7 @@
 "use client";
 
-import { SouvenirPos } from "@/features/souvenirs/components/admin/souvenir-pos";
+import { PosRegister } from "@/features/pos";
 
 export default function AdminPosPage() {
-  return (
-    <div className="w-full">
-      <SouvenirPos />
-    </div>
-  );
+  return <PosRegister />;
 }
