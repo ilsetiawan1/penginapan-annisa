@@ -72,9 +72,6 @@ export function AdvanceBookingModal(props: AdvanceBookingModalProps) {
     isSelectedRoomOccupied,
     isRoomOccupied,
     isPending,
-    handleCheckInChange,
-    handleCheckOutChange,
-    handleNightsChange,
     handleCalendarDayClick,
     handleSelectRoomCode,
     handleSubmit,
@@ -82,15 +79,12 @@ export function AdvanceBookingModal(props: AdvanceBookingModalProps) {
 
   return (
     <Dialog open={props.isOpen} onOpenChange={props.onClose}>
-      <DialogContent className="max-w-4xl w-[96vw] max-h-[94vh] overflow-y-auto bg-white rounded-3xl p-4 sm:p-5 shadow-2xl border border-slate-200 text-slate-900">
+      <DialogContent className="max-w-4xl w-[96vw] max-h-[90vh] overflow-y-auto bg-white rounded-3xl p-4 sm:p-5 shadow-2xl border border-slate-200 text-slate-900">
         <DialogHeader className="text-left pb-2 border-b border-slate-100 flex flex-row items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
               <span className="bg-slate-100 text-slate-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-slate-200/80">
                 Reservasi Tamu • Multi-Kanal
-              </span>
-              <span className="text-[11px] font-semibold text-slate-500 hidden sm:inline">
-                • 750m dari Bandara Pattimura
               </span>
             </div>
             <DialogTitle className="text-base sm:text-lg font-bold text-slate-900 leading-tight mt-1">
@@ -116,9 +110,6 @@ export function AdvanceBookingModal(props: AdvanceBookingModalProps) {
               totalAmount={totalAmount}
               remainingAmount={remainingAmount}
               onCalendarDayClick={handleCalendarDayClick}
-              onCheckInChange={handleCheckInChange}
-              onCheckOutChange={handleCheckOutChange}
-              onNightsChange={handleNightsChange}
             />
 
             {/* Kolom Kanan: Pemilihan Kamar, Sumber & Data Tamu, Estimasi Jam Tiba, Pembayaran */}

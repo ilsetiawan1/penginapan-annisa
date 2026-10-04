@@ -2,6 +2,7 @@
 
 import { CalendarPlus, RotateCw, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
+import { CreateButton } from "@/components/ui/create-button";
 
 interface RoomMatrixHeaderProps {
   onOpenAdvanceBooking: () => void;
@@ -34,14 +35,12 @@ export function RoomMatrixHeader({
           <span>Atur Tarif</span>
         </Link>
 
-        <button
-          type="button"
+        <CreateButton
           onClick={onOpenAdvanceBooking}
-          className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-xs transition-all whitespace-nowrap cursor-pointer"
+          icon={<CalendarPlus className="w-3.5 h-3.5 text-slate-300 shrink-0" />}
         >
-          <CalendarPlus className="w-3.5 h-3.5" />
-          <span>Tambah Reservasi</span>
-        </button>
+          Tambah Reservasi
+        </CreateButton>
 
         <button
           type="button"

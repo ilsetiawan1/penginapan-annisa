@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Plus, RotateCw } from "lucide-react";
+import { ChevronLeft, ChevronRight, RotateCw } from "lucide-react";
+import { CreateButton } from "@/components/ui/create-button";
 import type { AdvanceBookingData, BookingChannel } from "../modals";
 
 interface BookingCalendarGridProps {
@@ -110,14 +111,9 @@ export function BookingCalendarGrid({
             </button>
           )}
 
-          <button
-            type="button"
-            onClick={onOpenAddModal}
-            className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-xs flex items-center gap-1.5 cursor-pointer transition-colors"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>+ Reservasi Baru</span>
-          </button>
+          <CreateButton onClick={onOpenAddModal}>
+            Reservasi Baru
+          </CreateButton>
         </div>
       </div>
 

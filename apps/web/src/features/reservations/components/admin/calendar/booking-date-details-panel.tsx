@@ -63,17 +63,17 @@ export function BookingDateDetailsPanel({
   return (
     <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs space-y-3.5 flex flex-col justify-between h-full">
       <div className="space-y-3">
-        {/* Banner Header Tanggal Terpilih: Card Slate-900 Modern */}
-        <div className="bg-slate-900 text-white rounded-2xl p-4 shadow-xs flex items-center justify-between">
+        {/* Banner Header Tanggal Terpilih: Card Slate-50 Lembut */}
+        <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-4 mb-4 flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider">
+            <span className="text-[10px] font-semibold text-slate-500 block uppercase tracking-wider">
               Detail Reservasi Tanggal
             </span>
-            <h4 className="text-sm sm:text-base font-bold leading-tight mt-0.5 text-white">
+            <h4 className="text-sm sm:text-base font-bold leading-tight mt-0.5 text-slate-900">
               {formattedDateHeader}
             </h4>
           </div>
-          <span className="bg-white/10 text-white text-xs font-semibold px-2.5 py-1 rounded-xl border border-white/15 shadow-2xs">
+          <span className="bg-white text-slate-800 text-xs font-semibold px-2.5 py-1 rounded-xl border border-slate-200/80 shadow-2xs">
             {bookings.length} Tamu
           </span>
         </div>

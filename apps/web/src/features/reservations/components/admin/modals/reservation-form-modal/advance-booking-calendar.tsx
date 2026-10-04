@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
-import { CALENDAR_DAYS_HEADER, addDays, formatIdDate } from "./advance-booking-types";
+import { CALENDAR_DAYS_HEADER, formatIdDate } from "./advance-booking-types";
 
 interface AdvanceBookingCalendarProps {
   calendarMonth: Date;
@@ -13,9 +13,6 @@ interface AdvanceBookingCalendarProps {
   totalAmount: number;
   remainingAmount: number;
   onCalendarDayClick: (isoDate: string) => void;
-  onCheckInChange: (isoDate: string) => void;
-  onCheckOutChange: (isoDate: string) => void;
-  onNightsChange: (nights: number) => void;
 }
 
 export function AdvanceBookingCalendar({
@@ -28,9 +25,6 @@ export function AdvanceBookingCalendar({
   totalAmount,
   remainingAmount,
   onCalendarDayClick,
-  onCheckInChange,
-  onCheckOutChange,
-  onNightsChange,
 }: AdvanceBookingCalendarProps) {
   const calYear = calendarMonth.getFullYear();
   const calMonth = calendarMonth.getMonth();
@@ -43,11 +37,11 @@ export function AdvanceBookingCalendar({
   const prevMonthDays = new Date(calYear, calMonth, 0).getDate();
 
   return (
-    <div className="lg:col-span-5 bg-[#faf8fe] rounded-2xl p-3 sm:p-3.5 border border-purple-100/90 shadow-2xs space-y-2.5">
+    <div className="lg:col-span-5 bg-slate-50/70 rounded-2xl p-3 sm:p-3.5 border border-slate-200/80 shadow-2xs space-y-2.5">
       {/* Header Mini Calendar */}
       <div className="flex items-center justify-between">
-        <h4 className="text-xs sm:text-sm font-black text-slate-900 capitalize tracking-tight flex items-center gap-1.5">
-          <Calendar className="w-3.5 h-3.5 text-purple-700" />
+        <h4 className="text-xs sm:text-sm font-bold text-slate-900 capitalize tracking-tight flex items-center gap-1.5">
+          <Calendar className="w-3.5 h-3.5 text-slate-700" />
           <span>{calMonthName}</span>
         </h4>
         <div className="flex items-center gap-1 bg-white p-0.5 rounded-xl border border-slate-200 shadow-2xs">
@@ -56,7 +50,7 @@ export function AdvanceBookingCalendar({
             onClick={() =>
               setCalendarMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))
             }
-            className="p-1 rounded-lg hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer"
+            className="p-1 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition cursor-pointer"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
@@ -65,7 +59,7 @@ export function AdvanceBookingCalendar({
             onClick={() =>
               setCalendarMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))
             }
-            className="p-1 rounded-lg hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition cursor-pointer"
+            className="p-1 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition cursor-pointer"
           >
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
@@ -77,7 +71,7 @@ export function AdvanceBookingCalendar({
         {CALENDAR_DAYS_HEADER.map((d, idx) => (
           <span
             key={d}
-            className={`text-[10px] font-black uppercase ${
+            className={`text-[10px] font-bold uppercase ${
               idx === 0 ? "text-rose-500" : "text-slate-400"
             }`}
           >
@@ -111,18 +105,18 @@ export function AdvanceBookingCalendar({
           const isInStayRange = thisIso >= checkInDate && thisIso < checkOutDate;
 
           let dayClass =
-            "h-7 sm:h-7.5 text-xs font-bold transition-all relative flex items-center justify-center cursor-pointer ";
+            "h-7 sm:h-7.5 text-xs font-semibold transition-all relative flex items-center justify-center cursor-pointer ";
 
           if (isPast) {
             dayClass += "text-slate-300 cursor-not-allowed ";
           } else if (isCheckIn) {
-            dayClass += "bg-purple-700 text-white font-black rounded-l-xl z-10 shadow-xs ";
+            dayClass += "bg-slate-900 text-white font-bold rounded-l-xl z-10 shadow-xs ";
           } else if (isCheckOut) {
-            dayClass += "bg-purple-900 text-white font-black rounded-r-xl z-10 shadow-xs ";
+            dayClass += "bg-slate-800 text-white font-bold rounded-r-xl z-10 shadow-xs ";
           } else if (isInStayRange) {
-            dayClass += "bg-purple-200/80 text-purple-950 font-black rounded-none ";
+            dayClass += "bg-slate-200 text-slate-900 font-semibold rounded-none ";
           } else {
-            dayClass += "text-slate-700 hover:bg-purple-100 hover:text-purple-900 rounded-lg ";
+            dayClass += "text-slate-700 hover:bg-slate-100 hover:text-slate-900 rounded-lg ";
           }
 
           return (
@@ -140,94 +134,31 @@ export function AdvanceBookingCalendar({
         })}
       </div>
 
-      {/* Input Tanggal Langsung & Durasi Menginap */}
-      <div className="pt-2 border-t border-purple-100/90 space-y-2">
-        <div className="grid grid-cols-2 gap-2">
-          <div className="space-y-0.5">
-            <label
-              htmlFor="adv-in"
-              className="text-[9px] font-black text-slate-700 uppercase tracking-wider block"
-            >
-              Tgl Check-In
-            </label>
-            <input
-              id="adv-in"
-              type="date"
-              required
-              min={todayIso}
-              value={checkInDate}
-              onChange={(e) => onCheckInChange(e.target.value)}
-              className="w-full bg-white border border-purple-200 focus:border-purple-600 rounded-lg px-2 py-1 text-xs font-black text-slate-900 outline-none"
-            />
-          </div>
-
-          <div className="space-y-0.5">
-            <label
-              htmlFor="adv-out"
-              className="text-[9px] font-black text-slate-700 uppercase tracking-wider block"
-            >
-              Tgl Check-Out
-            </label>
-            <input
-              id="adv-out"
-              type="date"
-              required
-              min={addDays(checkInDate, 1)}
-              value={checkOutDate}
-              onChange={(e) => onCheckOutChange(e.target.value)}
-              className="w-full bg-white border border-purple-200 focus:border-purple-600 rounded-lg px-2 py-1 text-xs font-black text-slate-900 outline-none"
-            />
-          </div>
-        </div>
-
-        {/* Selector Durasi Malam */}
-        <div className="space-y-0.5">
-          <div className="flex items-center justify-between">
-            <label
-              htmlFor="adv-dur"
-              className="text-[9px] font-black text-slate-700 uppercase tracking-wider block"
-            >
-              Durasi Menginap
-            </label>
-            <span className="text-[10px] font-extrabold text-purple-700 bg-purple-100 px-1.5 py-0.5 rounded">
-              {nights} Malam
+      {/* Box Ringkasan Statis Rentang Tanggal */}
+      <div className="pt-2 border-t border-slate-200/80">
+        <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-center justify-between text-xs shadow-2xs">
+          <div>
+            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">
+              Rentang Menginap
+            </span>
+            <span className="font-semibold text-slate-800 text-xs">
+              {formatIdDate(checkInDate)} → {formatIdDate(checkOutDate)}
             </span>
           </div>
-          <select
-            id="adv-dur"
-            value={nights}
-            onChange={(e) => onNightsChange(Number(e.target.value))}
-            className="w-full bg-white border border-purple-200 focus:border-purple-600 rounded-lg px-2 py-1 text-xs font-bold text-slate-900 outline-none cursor-pointer"
-          >
-            <option value={1}>
-              1 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 1))})
-            </option>
-            <option value={2}>
-              2 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 2))})
-            </option>
-            <option value={3}>
-              3 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 3))})
-            </option>
-            <option value={4}>
-              4 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 4))})
-            </option>
-            <option value={5}>
-              5 Malam ({formatIdDate(checkInDate)} – {formatIdDate(addDays(checkInDate, 5))})
-            </option>
-            <option value={7}>7 Malam (1 Minggu)</option>
-            <option value={14}>14 Malam (2 Minggu)</option>
-          </select>
+          <span className="text-xs font-bold text-slate-900 bg-slate-100 border border-slate-200/80 px-2.5 py-1 rounded-lg">
+            {nights} Malam
+          </span>
         </div>
       </div>
 
       {/* Rangkuman Biaya & Waktu Check-In/Out */}
-      <div className="bg-white p-2.5 rounded-xl border border-purple-200/90 text-xs shadow-2xs space-y-1.5">
+      <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 text-xs shadow-2xs space-y-1.5">
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">
-              Total Tagihan • {nights} Malam
+              Total Tagihan
             </span>
-            <strong className="text-xs sm:text-sm font-black text-purple-950">
+            <strong className="text-xs sm:text-sm font-bold text-slate-900">
               Rp {totalAmount.toLocaleString("id-ID")}
             </strong>
           </div>
@@ -235,7 +166,7 @@ export function AdvanceBookingCalendar({
             <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">
               Sisa di Lokasi
             </span>
-            <strong className="text-xs sm:text-sm font-black text-amber-700">
+            <strong className="text-xs sm:text-sm font-bold text-amber-700">
               Rp {remainingAmount.toLocaleString("id-ID")}
             </strong>
           </div>

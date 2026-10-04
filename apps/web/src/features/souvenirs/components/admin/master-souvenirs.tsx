@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { CreateButton } from "@/components/ui/create-button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ImageUpload, uploadBase64ToR2 } from "@/components/ui/image-upload";
 import {
@@ -246,13 +247,9 @@ export function MasterSouvenirs() {
             <span className="text-xs font-bold hidden sm:inline">Refresh</span>
           </Button>
 
-          <Button
-            onClick={handleOpenAdd}
-            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs h-9 px-4 gap-1.5 shadow-sm"
-          >
-            <Plus className="w-4 h-4" />
-            <span>+ Tambah Produk</span>
-          </Button>
+          <CreateButton onClick={handleOpenAdd}>
+            Tambah Produk
+          </CreateButton>
         </div>
       </div>
 

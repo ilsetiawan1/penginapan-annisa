@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { CreateButton } from "@/components/ui/create-button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ImageUpload, uploadBase64ToR2 } from "@/components/ui/image-upload";
 import {
@@ -251,13 +252,9 @@ export function MasterArticles() {
             <RotateCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
             <span className="text-xs font-bold hidden sm:inline">Refresh</span>
           </Button>
-          <Button
-            className="rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs h-9 px-4 gap-1.5 shadow-sm"
-            onClick={handleOpenAdd}
-          >
-            <Plus className="w-4 h-4" />
-            <span>Tambah Artikel</span>
-          </Button>
+          <CreateButton onClick={handleOpenAdd}>
+            Tambah Artikel
+          </CreateButton>
         </div>
       </div>
 

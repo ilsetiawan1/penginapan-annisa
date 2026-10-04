@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Plus, RotateCw } from "lucide-react";
+import { CreateButton } from "@/components/ui/create-button";
+import { RotateCw } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { StaffCard, type StaffMember } from "./staff-card";
@@ -75,14 +75,11 @@ export function StaffManagement() {
             <span className="text-xs font-black hidden sm:inline">Refresh</span>
           </button>
 
-          <Button
-            type="button"
+          <CreateButton
             onClick={() => setShowAddForm(!showAddForm)}
-            className="rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs sm:text-sm h-11 px-5 gap-2 shadow-md cursor-pointer"
           >
-            <Plus className="w-4 h-4" />
-            <span>Tambah Akun Staf Baru</span>
-          </Button>
+            Tambah Akun Staf Baru
+          </CreateButton>
         </div>
       </div>
 
