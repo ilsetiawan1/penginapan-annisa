@@ -36,7 +36,7 @@ export function RoomMatrixFilter({ filterStatus, setFilterStatus, counts }: Room
     },
     {
       id: "booked",
-      label: "Booking WA",
+      label: "Dipesan",
       count: counts.booked,
       dotColor: "bg-amber-500",
     },
@@ -68,7 +68,7 @@ export function RoomMatrixFilter({ filterStatus, setFilterStatus, counts }: Room
             <option value="all">Semua Kamar ({counts.total} Unit)</option>
             <option value="ready">🟢 Tersedia ({counts.ready} Unit)</option>
             <option value="occupied">🔵 Terisi ({counts.occupied} Unit)</option>
-            <option value="booked">🟡 Booking WA ({counts.booked} Unit)</option>
+            <option value="booked">🟡 Dipesan ({counts.booked} Unit)</option>
             <option value="dirty">🔴 Perlu Bersih ({counts.dirty} Unit)</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400">

@@ -40,7 +40,7 @@ export function RoomMatrixHeader({
           className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-xs transition-all whitespace-nowrap cursor-pointer"
         >
           <CalendarPlus className="w-3.5 h-3.5" />
-          <span>Catat Booking WA</span>
+          <span>Tambah Reservasi</span>
         </button>
 
         <button

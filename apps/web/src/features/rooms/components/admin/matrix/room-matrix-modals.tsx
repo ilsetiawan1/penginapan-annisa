@@ -3,14 +3,12 @@
 import {
   type AdvanceBookingData,
   AdvanceBookingModal,
-} from "@/features/reservations/components/admin/advance-booking-modal";
-import { BookingSettlementModal } from "@/features/reservations/components/admin/booking-settlement-modal";
-import {
+  BookingSettlementModal,
   type CheckInFormData,
   CheckInModal,
-} from "@/features/reservations/components/admin/checkin-modal";
-import { CheckOutModal } from "@/features/reservations/components/admin/checkout-modal";
-import { ReceiptModal } from "@/features/reservations/components/admin/receipt-modal";
+  CheckOutModal,
+  ReceiptModal,
+} from "@/features/reservations/components/admin/modals";
 import type { RoomItem } from "./room-card";
 import { RoomDetailModal } from "./room-detail-modal";
 

@@ -1,7 +1,9 @@
 "use client";
 
-import type { AdvanceBookingData } from "@/features/reservations/components/admin/advance-booking-modal";
-import type { CheckInFormData } from "@/features/reservations/components/admin/checkin-modal";
+import type {
+  AdvanceBookingData,
+  CheckInFormData,
+} from "@/features/reservations/components/admin/modals";
 import {
   useCheckIn,
   useCheckOut,
