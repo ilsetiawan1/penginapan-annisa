@@ -13,9 +13,10 @@ import "./souvenir.openapi"; // Register docs
 
 const router = Router();
 
-// Public: Catalog and Categories
-router.get("/", souvenirController.getAllSouvenirs);
+// Public: Catalog, Categories, and Counts
+router.get("/counts", souvenirController.getCounts);
 router.get("/categories", souvenirController.getAllCategories);
+router.get("/", souvenirController.getAllSouvenirs);
 router.get(
   "/:id",
   validateRequest({ params: z.object({ id: z.string().uuid() }) }),

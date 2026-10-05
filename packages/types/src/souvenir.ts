@@ -79,5 +79,13 @@ export type PosCheckoutInput = z.infer<typeof posCheckoutInputSchema>;
 export const souvenirQuerySchema = z.object({
   categorySlug: z.string().optional(),
   isAvailable: z.boolean().optional(),
+  status: z.enum(["active", "trash", "all"]).optional(),
+  trash: z.boolean().optional(),
 });
 export type SouvenirQuery = z.infer<typeof souvenirQuerySchema>;
+
+export interface SouvenirCounts {
+  active: number;
+  trash: number;
+  total: number;
+}

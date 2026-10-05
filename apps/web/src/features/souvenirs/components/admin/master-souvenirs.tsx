@@ -30,7 +30,6 @@ export {
 const ITEMS_PER_PAGE = 8;
 
 export function MasterSouvenirs() {
-  const { data: allProducts, isLoading, isFetching, refetch } = useSouvenirs();
   const { data: categories } = useSouvenirCategories();
   const createMutation = useCreateSouvenir();
   const updateMutation = useUpdateSouvenir();
@@ -60,14 +59,27 @@ export function MasterSouvenirs() {
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Pisahkan produk aktif vs sampah (soft-deleted)
-  const activeProducts = useMemo(() => {
-    return (allProducts || []).filter((item) => !item.deletedAt);
-  }, [allProducts]);
+  // Query produk aktif dan produk sampah secara terpisah sesuai parameter API backend
+  const {
+    data: activeProducts = [],
+    isLoading: isActiveLoading,
+    isFetching: isActiveFetching,
+    refetch: refetchActive,
+  } = useSouvenirs({ status: "active" });
 
-  const trashProducts = useMemo(() => {
-    return (allProducts || []).filter((item) => Boolean(item.deletedAt));
-  }, [allProducts]);
+  const {
+    data: trashProducts = [],
+    isLoading: isTrashLoading,
+    isFetching: isTrashFetching,
+    refetch: refetchTrash,
+  } = useSouvenirs({ status: "trash" });
+
+  const isLoading = activeTab === "active" ? isActiveLoading : isTrashLoading;
+  const isFetching = activeTab === "active" ? isActiveFetching : isTrashFetching;
+  const refetch = () => {
+    refetchActive();
+    refetchTrash();
+  };
 
   const handleOpenAdd = () => {
     setEditingItem(null);

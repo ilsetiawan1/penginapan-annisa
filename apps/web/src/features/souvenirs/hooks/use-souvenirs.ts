@@ -13,12 +13,21 @@ import { souvenirsApi } from "../api/souvenirs.api";
 
 export const SOUVENIRS_QUERY_KEY = ["souvenirs"] as const;
 export const SOUVENIR_CATEGORIES_QUERY_KEY = ["souvenir-categories"] as const;
+export const SOUVENIR_COUNTS_QUERY_KEY = ["souvenir-counts"] as const;
 
 export function useSouvenirs(query?: SouvenirQuery) {
   return useQuery({
     queryKey: [...SOUVENIRS_QUERY_KEY, query],
     queryFn: () => souvenirsApi.getAllSouvenirs(query),
     staleTime: 1000 * 60, // 1 minute
+  });
+}
+
+export function useSouvenirCounts() {
+  return useQuery({
+    queryKey: SOUVENIR_COUNTS_QUERY_KEY,
+    queryFn: () => souvenirsApi.getCounts(),
+    staleTime: 1000 * 30, // 30 seconds
   });
 }
 
@@ -65,6 +74,7 @@ export function useCreateSouvenir() {
     onSuccess: () => {
       toast.success("Produk oleh-oleh baru berhasil ditambahkan!");
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: SOUVENIR_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal menambahkan produk.";
@@ -82,6 +92,7 @@ export function useUpdateSouvenir() {
     onSuccess: () => {
       toast.success("Data produk berhasil diperbarui!");
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: SOUVENIR_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal memperbarui produk.";
@@ -103,6 +114,7 @@ export function useDeleteSouvenir() {
           : "Produk dipindahkan ke sampah (dapat dipulihkan dalam 30 hari).",
       );
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: SOUVENIR_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal menghapus produk.";
@@ -119,6 +131,7 @@ export function useRestoreSouvenir() {
     onSuccess: () => {
       toast.success("Produk berhasil dipulihkan!");
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: SOUVENIR_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal memulihkan produk.";
@@ -135,6 +148,7 @@ export function useForceDeleteSouvenir() {
     onSuccess: () => {
       toast.success("Produk berhasil dihapus permanen!");
       queryClient.invalidateQueries({ queryKey: SOUVENIRS_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: SOUVENIR_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal menghapus permanen produk.";

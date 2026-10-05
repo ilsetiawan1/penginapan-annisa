@@ -13,9 +13,14 @@ export class SouvenirService {
   async getAllSouvenirs(filter?: {
     categorySlug?: string;
     isAvailable?: boolean;
-    status?: "active" | "trash";
+    status?: "active" | "trash" | "all";
+    trash?: boolean;
   }) {
     return this.repo.findAll(filter);
+  }
+
+  async getCounts() {
+    return this.repo.getCounts();
   }
 
   async getSouvenirById(id: string) {

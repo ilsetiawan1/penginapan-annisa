@@ -12,19 +12,33 @@ export class SouvenirController {
 
   getAllSouvenirs = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { category, isAvailable, status } = req.query as {
+      const { category, isAvailable, status, trash } = req.query as {
         category?: string;
         isAvailable?: string;
-        status?: "active" | "trash";
+        status?: "active" | "trash" | "all";
+        trash?: string;
       };
+
+      const isTrash = status === "trash" || trash === "true";
+      const resolvedStatus = isTrash ? "trash" : status;
 
       const items = await this.service.getAllSouvenirs({
         categorySlug: category,
         isAvailable: isAvailable !== undefined ? isAvailable === "true" : undefined,
-        status,
+        status: resolvedStatus,
+        trash: isTrash,
       });
 
       return sendSuccess(res, items, "Katalog oleh-oleh berhasil diambil.");
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  getCounts = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      const counts = await this.service.getCounts();
+      return sendSuccess(res, counts, "Jumlah produk berhasil diambil.");
     } catch (error) {
       return next(error);
     }

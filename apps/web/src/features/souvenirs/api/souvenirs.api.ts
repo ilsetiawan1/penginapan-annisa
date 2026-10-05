@@ -4,6 +4,7 @@ import type {
   PosCheckoutInput,
   Souvenir,
   SouvenirCategory,
+  SouvenirCounts,
   SouvenirQuery,
   UpdateSouvenirInput,
 } from "@annisa/types";
@@ -30,6 +31,10 @@ export const souvenirsApi = {
       "/souvenirs",
       query as Record<string, string | number | boolean | undefined>,
     );
+  },
+
+  getCounts: async (): Promise<SouvenirCounts> => {
+    return apiClient.get<SouvenirCounts>("/souvenirs/counts");
   },
 
   getSouvenirById: async (id: string): Promise<Souvenir> => {

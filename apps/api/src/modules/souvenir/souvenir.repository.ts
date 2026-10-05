@@ -6,7 +6,8 @@ export class SouvenirRepository {
   async findAll(filter?: {
     categorySlug?: string;
     isAvailable?: boolean;
-    status?: "active" | "trash";
+    status?: "active" | "trash" | "all";
+    trash?: boolean;
   }) {
     // 1. Auto-Pruning: Hapus permanen produk yang sudah berada di sampah lebih dari 30 hari
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
@@ -30,19 +31,31 @@ export class SouvenirRepository {
       where.isAvailable = filter.isAvailable;
     }
 
-    if (filter?.status === "trash") {
-      where.deletedAt = { not: null, gte: thirtyDaysAgo };
+    const isTrash = filter?.status === "trash" || (filter as any)?.trash === true;
+
+    if (isTrash) {
+      where.deletedAt = { not: null };
+    } else if (filter?.status === "all") {
+      // Tampilkan semua (baik aktif maupun sampah)
     } else {
       where.deletedAt = null;
     }
 
     return prisma.souvenir.findMany({
       where,
-      orderBy: filter?.status === "trash" ? { deletedAt: "desc" } : { createdAt: "desc" },
+      orderBy: isTrash ? { deletedAt: "desc" } : { createdAt: "desc" },
       include: {
         category: true,
       },
     });
+  }
+
+  async getCounts() {
+    const [active, trash] = await Promise.all([
+      prisma.souvenir.count({ where: { deletedAt: null } }),
+      prisma.souvenir.count({ where: { deletedAt: { not: null } } }),
+    ]);
+    return { active, trash, total: active + trash };
   }
 
   async findById(id: string) {
