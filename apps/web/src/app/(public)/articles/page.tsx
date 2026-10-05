@@ -42,8 +42,8 @@ export default function ArtikelPage() {
         month: "long",
         year: "numeric",
       }),
-      desc: art.summary || (art.content || "").slice(0, 120) + "...",
-      image: art.coverImage || "/images/artikel/bermain-perahu-di-pantai-liang.jpg",
+      desc: art.summary || `${(art.content || "").slice(0, 120)}...`,
+      image: art.coverImage || "/images/articles/default-cover.jpg",
       author: (art as any).author?.name || "Penginapan Annisa",
     };
   });

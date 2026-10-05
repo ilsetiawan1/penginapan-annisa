@@ -17,7 +17,7 @@ export default function NotFound() {
         <Link href="/" className="flex items-center gap-3 group">
           <div className="w-9 h-9 bg-purple-50 rounded-xl flex items-center justify-center border border-purple-100 shadow-sm">
             <Image
-              src="/logo-penginapan-annisa.png"
+              src="/images/branding/logo.png"
               alt="Logo"
               width={22}
               height={22}

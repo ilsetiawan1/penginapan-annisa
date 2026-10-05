@@ -12,7 +12,7 @@ export default function ContactPage() {
       {/* 1. Hero Section Standar Konsisten dengan /artikel, /oleh-oleh, dan /kamar */}
       <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
         <Image
-          src="/contact/bg-gong-perdamaian-kota-ambon.webp"
+          src="/images/heroes/contact-hero.webp"
           alt="Gong Perdamaian Nusantara Kota Ambon - Penginapan Annisa"
           fill
           className="object-cover"
@@ -66,7 +66,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-xs font-bold text-slate-900">Alamat Lengkap</h3>
                     <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                       Jl. Dr. J. Leimena, Laha, Kec. Teluk Ambon, Kota Ambon, Maluku (750m dari
+                      Jl. Dr. J. Leimena, Laha, Kec. Teluk Ambon, Kota Ambon, Maluku (750m dari
                       Bandara Pattimura)
                     </p>
                   </div>
@@ -97,9 +97,7 @@ export default function ContactPage() {
                     <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#594791] transition">
                       WhatsApp &amp; Telepon
                     </h3>
-                    <p className="text-xs text-[#594791] font-bold mt-0.5">
-                      +{ANNISA_WA_NUMBER} ➔
-                    </p>
+                    <p className="text-xs text-[#594791] font-bold mt-0.5">+{ANNISA_WA_NUMBER} ➔</p>
                   </div>
                 </a>
               </div>

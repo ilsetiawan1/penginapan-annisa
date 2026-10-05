@@ -11,7 +11,7 @@ export function ArticleHero({ searchQuery, onSearchChange }: ArticleHeroProps) {
   return (
     <section className="relative w-full h-[400px] sm:h-[480px] lg:h-[520px] flex items-center justify-center overflow-hidden">
       <Image
-        src="/images/artikel/bermain-perahu-di-pantai-liang.jpg"
+        src="/images/articles/default-cover.jpg"
         alt="Pantai Liang Ambon"
         fill
         className="object-cover"

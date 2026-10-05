@@ -12,12 +12,12 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#7a68b7",
     icons: [
       {
-        src: "/logo-penginapan-annisa.png",
+        src: "/images/branding/logo.png",
         sizes: "192x192",
         type: "image/png",
       },
       {
-        src: "/logo-penginapan-annisa.png",
+        src: "/images/branding/logo.png",
         sizes: "512x512",
         type: "image/png",
       },

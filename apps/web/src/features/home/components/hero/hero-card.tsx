@@ -27,9 +27,7 @@ export function HeroCard({ type, className = "" }: HeroCardProps) {
           <h2 className="font-extrabold text-slate-900 text-lg sm:text-xl leading-tight">
             750 Meter
           </h2>
-          <p className="text-[11px] font-semibold text-slate-600 mt-0.5">
-            Bandara ke Penginapan
-          </p>
+          <p className="text-[11px] font-semibold text-slate-600 mt-0.5">Bandara ke Penginapan</p>
           <p className="text-[10px] text-slate-500 mt-1 leading-snug">
             Sangat dekat, langsung istirahat tanpa perjalanan panjang.
           </p>
@@ -52,7 +50,7 @@ export function HeroCard({ type, className = "" }: HeroCardProps) {
         <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-card border border-[#ede8f8]">
           <div className="relative w-full h-20 sm:h-22 rounded-xl overflow-hidden mb-2 bg-slate-100">
             <Image
-              src="/home/bg-pattimura-airport.jpg"
+              src="/images/heroes/airport-card.jpg"
               alt="Bandara Internasional Pattimura Ambon"
               fill
               className="object-cover transition-transform duration-500 hover:scale-105"
@@ -65,9 +63,7 @@ export function HeroCard({ type, className = "" }: HeroCardProps) {
 
           <div className="px-0.5">
             <div className="flex items-center justify-between">
-              <h2 className="font-bold text-xs text-slate-900 truncate">
-                Bandara Pattimura
-              </h2>
+              <h2 className="font-bold text-xs text-slate-900 truncate">Bandara Pattimura</h2>
               <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-[#ede8f8] text-[#594791] text-[8.5px] font-bold border border-[#ddd3f3]">
                 AMQ
               </span>
@@ -100,9 +96,7 @@ export function HeroCard({ type, className = "" }: HeroCardProps) {
             <Navigation className="w-3.5 h-3.5" />
           </div>
           <div>
-            <h2 className="font-bold text-slate-900 text-xs">
-              Petunjuk Arah Rute
-            </h2>
+            <h2 className="font-bold text-slate-900 text-xs">Petunjuk Arah Rute</h2>
             <span className="text-[9.5px] text-slate-500 block leading-tight">
               Navigasi Langsung
             </span>

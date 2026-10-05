@@ -61,7 +61,7 @@ export function Navbar() {
             }`}
           >
             <Image
-              src="/logo-penginapan-annisa.png"
+              src="/images/branding/logo.png"
               alt={`Logo ${lodgingName}`}
               fill
               className="object-contain p-0.5"

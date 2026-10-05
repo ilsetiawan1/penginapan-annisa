@@ -1,4 +1,3 @@
-import { InternalBackground } from "@/features/auth/components/internal-background";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
@@ -16,41 +15,74 @@ export const metadata: Metadata = {
 
 export default function InternalLoginPage() {
   return (
-    <main className="min-h-screen w-full relative flex flex-col items-center justify-center p-4 overflow-hidden">
-      {/* Custom Ambient Background: Purple - Lavender - White Gradient */}
-      <InternalBackground />
-
-      {/* Top Branding Header */}
-      <header className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10 flex items-center gap-3">
+    <main className="min-h-screen w-full bg-slate-50/80 flex flex-col justify-between items-center p-4 sm:p-6 lg:p-8">
+      {/* Top Header Bar */}
+      <header className="self-start max-w-5xl w-full mx-auto mb-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 hover:bg-white/95 backdrop-blur-md border border-white/90 text-xs font-bold text-slate-800 shadow-sm shadow-purple-950/5 transition-all cursor-pointer"
-          title="Kembali ke Website Tamu"
+          className="text-xs text-slate-500 hover:text-slate-900 font-medium inline-flex items-center gap-1.5 transition-colors"
         >
-          <ArrowLeft className="w-3.5 h-3.5 text-slate-600" />
-          <span>Kembali</span>
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Kembali ke Website Tamu</span>
         </Link>
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 backdrop-blur-md border border-white/80 text-[11px] font-semibold text-slate-700 shadow-2xs">
-          <Image
-            src="/logo-penginapan-annisa.png"
-            alt="Logo"
-            width={16}
-            height={16}
-            className="rounded-full object-cover"
-          />
-          <span>Penginapan Annisa • Internal</span>
-        </div>
       </header>
 
-      {/* Centered Glassmorphism Card */}
-      <div className="relative z-10 my-auto">
-        <LoginForm />
+      {/* Main Bento Card (Floating Card Terpusat) */}
+      <div className="w-full max-w-5xl bg-white border border-slate-200/80 rounded-3xl p-3 sm:p-4 shadow-xl shadow-slate-200/50 grid grid-cols-1 md:grid-cols-12 gap-4 my-auto items-stretch">
+        {/* Sisi Kiri: Visual Showcase Banner (Broken White Theme) */}
+        <div className="md:col-span-5 hidden md:flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-slate-50/80 border border-slate-200/70 relative overflow-hidden">
+          {/* Atas */}
+          <div className="relative z-10">
+            <span className="inline-block text-[11px] font-semibold tracking-wider uppercase px-2.5 py-1 bg-white rounded-full border border-slate-200 text-slate-700 shadow-2xs">
+              PMS OPERASIONAL
+            </span>
+          </div>
+
+          {/* Tengah: Preview Dashboard Image */}
+          <div className="relative z-10 my-auto py-6">
+            <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200/80 bg-white transition-transform duration-300 hover:scale-[1.01]">
+              <Image
+                src="/images/auth/preview-dashboard.png"
+                alt="PMS Dashboard Preview"
+                width={800}
+                height={550}
+                className="w-full h-auto object-cover"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Bawah (Status Operasional Bersih) */}
+          <div className="relative z-10 flex items-center gap-2 text-[11px] text-slate-500 font-mono">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Sistem Aktif • Wilayah Maluku (WIT)</span>
+          </div>
+        </div>
+
+        {/* Sisi Kanan: Form Login */}
+        <div className="md:col-span-7 flex flex-col justify-center px-6 sm:px-10 py-8">
+          {/* Header Form */}
+          <Image
+            src="/images/branding/logo.png"
+            alt="Logo Penginapan Annisa"
+            width={44}
+            height={44}
+            priority
+            className="rounded-xl mb-4 shadow-2xs"
+          />
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Masuk Portal</h1>
+          <p className="text-xs text-slate-500 mt-1 mb-6">
+            Gunakan kredensial resmi staf atau pemilik Penginapan Annisa.
+          </p>
+
+          <LoginForm />
+        </div>
       </div>
 
-      {/* Subtle Security Notice Footer */}
-      <footer className="relative z-10 mt-auto pt-6 pb-4 text-center">
-        <p className="text-[11px] text-slate-500 font-medium">
-          Akses khusus staf resepsionis dan pemilik Penginapan Annisa Ambon.
+      {/* Bottom Footer Bar */}
+      <footer className="text-center">
+        <p className="text-[11px] text-slate-400 mt-4">
+          © Penginapan Annisa Ambon • Hak Cipta Dilindungi
         </p>
       </footer>
     </main>

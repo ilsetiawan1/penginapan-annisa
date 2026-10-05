@@ -30,7 +30,7 @@ export function SidebarBrand({
           title={lodgingName}
         >
           <Image
-            src="/logo-penginapan-annisa.png"
+            src="/images/branding/logo.png"
             alt={`Logo ${lodgingName}`}
             width={28}
             height={28}
@@ -56,7 +56,7 @@ export function SidebarBrand({
       <Link href="/admin/dashboard" className="flex items-center gap-2.5 min-w-0">
         <div className="relative w-9 h-9 rounded-xl bg-slate-50 p-1 border border-gray-200/80 flex items-center justify-center shrink-0">
           <Image
-            src="/logo-penginapan-annisa.png"
+            src="/images/branding/logo.png"
             alt={`Logo ${lodgingName}`}
             width={28}
             height={28}

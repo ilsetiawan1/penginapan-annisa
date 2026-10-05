@@ -2,7 +2,7 @@
 
 import type { LoginInput, User } from "@annisa/types";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { authApi } from "../api/auth.api";
 
@@ -23,7 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     try {
       setIsLoading(true);
       const profile = await authApi.getMe();
@@ -33,11 +33,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchUserProfile();
-  }, []);
+  }, [fetchUserProfile]);
 
   const login = async (input: LoginInput) => {
     try {

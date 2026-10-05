@@ -70,7 +70,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2.5 group w-fit">
               <div className="relative w-8 h-8 rounded-full overflow-hidden bg-purple-100 p-0.5 border border-purple-200 shrink-0 shadow-2xs">
                 <Image
-                  src="/logo-penginapan-annisa.png"
+                  src="/images/branding/logo.png"
                   alt={`Logo ${lodgingName}`}
                   fill
                   className="object-contain"

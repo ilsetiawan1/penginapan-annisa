@@ -25,7 +25,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
         {/* Article Thumbnail (100% Bersih Tanpa Badge Penutup) */}
         <div className="relative h-44 sm:h-48 w-full bg-slate-100 overflow-hidden">
           <Image
-            src={article.image || "/images/artikel/bermain-perahu-di-pantai-liang.jpg"}
+            src={article.image || "/images/articles/default-cover.jpg"}
             alt={article.title}
             fill
             className="object-cover group-hover:scale-105 transition duration-500"

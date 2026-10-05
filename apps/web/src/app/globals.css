@@ -44,23 +44,25 @@ nextjs-portal,
 
 /* Hero Section Map Canvas, Floating Animations & Custom Shadows (DESIGN.md) */
 .map-canvas-bg {
-  background-image: 
-    radial-gradient(ellipse at center, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.92) 80%),
-    url('/home/hero-section.png');
+  background-image: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.92) 80%
+    ), url("/images/heroes/home-grid.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
 }
 
 .map-grid-overlay {
-  background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
   background-size: 36px 36px;
 }
 
 @keyframes floatGentle1 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -69,7 +71,8 @@ nextjs-portal,
 }
 
 @keyframes floatGentle2 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -78,7 +81,8 @@ nextjs-portal,
 }
 
 @keyframes floatGentle3 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -112,7 +116,8 @@ nextjs-portal,
 
 /* Slow Smooth Bounce for Scroll Down Indicator */
 @keyframes bounceSlow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {

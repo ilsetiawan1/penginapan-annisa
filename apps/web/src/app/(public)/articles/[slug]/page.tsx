@@ -86,8 +86,8 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
           month: "long",
           year: "numeric",
         }),
-        desc: a.summary || a.content.slice(0, 120) + "...",
-        image: a.coverImage || "/images/artikel/bermain-perahu-di-pantai-liang.jpg",
+        desc: a.summary || `${a.content.slice(0, 120)}...`,
+        image: a.coverImage || "/images/articles/default-cover.jpg",
         author: a.author?.name || "Tim Redaksi Annisa",
       })) || [];
 
@@ -104,6 +104,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
             Kembali ke Panduan &amp; Artikel
           </Link>
           <button
+            type="button"
             onClick={handleShare}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold transition cursor-pointer shadow-2xs"
           >
@@ -149,7 +150,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
         {/* Cover Image */}
         <div className="relative h-64 sm:h-[420px] w-full rounded-3xl overflow-hidden shadow-lg border border-slate-200 mb-8 bg-slate-100">
           <Image
-            src={article.coverImage || "/images/artikel/bermain-perahu-di-pantai-liang.jpg"}
+            src={article.coverImage || "/images/articles/default-cover.jpg"}
             alt={article.title}
             fill
             priority
@@ -167,9 +168,13 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
 
           {/* Render formatted content blocks */}
           {article.content.split("\n\n").map((paragraph, index) => {
+            const blockKey = `para-${index}-${paragraph.slice(0, 15)}`;
             if (paragraph.startsWith("## ")) {
               return (
-                <h2 key={index} className="text-xl sm:text-2xl font-bold text-slate-950 mt-8 mb-3">
+                <h2
+                  key={blockKey}
+                  className="text-xl sm:text-2xl font-bold text-slate-950 mt-8 mb-3"
+                >
                   {paragraph.replace("## ", "")}
                 </h2>
               );
@@ -177,9 +182,12 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
             if (paragraph.startsWith("- ")) {
               const listItems = paragraph.split("\n").filter((l) => l.startsWith("- "));
               return (
-                <ul key={index} className="space-y-2 my-4 list-none pl-0">
+                <ul key={blockKey} className="space-y-2 my-4 list-none pl-0">
                   {listItems.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-slate-700">
+                    <li
+                      key={`item-${i}-${item.slice(0, 15)}`}
+                      className="flex items-start gap-2.5 text-slate-700"
+                    >
                       <CheckCircle2 className="w-5 h-5 text-purple-600 shrink-0 mt-0.5" />
                       <span>{item.replace("- ", "")}</span>
                     </li>
@@ -188,7 +196,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
               );
             }
             return (
-              <p key={index} className="text-slate-700 leading-relaxed">
+              <p key={blockKey} className="text-slate-700 leading-relaxed">
                 {paragraph}
               </p>
             );

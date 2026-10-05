@@ -37,7 +37,7 @@ export default function ErrorBoundary({
         <Link href="/" className="flex items-center gap-3 group">
           <div className="w-9 h-9 bg-purple-50 rounded-xl flex items-center justify-center border border-purple-100 shadow-sm">
             <Image
-              src="/logo-penginapan-annisa.png"
+              src="/images/branding/logo.png"
               alt="Logo"
               width={22}
               height={22}
@@ -81,6 +81,7 @@ export default function ErrorBoundary({
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start w-full sm:w-auto mt-4">
             <button
+              type="button"
               onClick={() => reset()}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-3.5 rounded-full transition-all duration-200 shadow-md shadow-purple-600/20 active:scale-95 whitespace-nowrap"
             >
