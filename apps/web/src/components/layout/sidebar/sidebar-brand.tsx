@@ -1,5 +1,6 @@
 "use client";
 
+import { useSettings } from "@/features/settings/hooks/use-settings";
 import { PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,17 +18,20 @@ export function SidebarBrand({
   onToggleCollapse,
   onCloseMobile,
 }: SidebarBrandProps) {
+  const { data: settings } = useSettings();
+  const lodgingName = settings?.lodging_name || "Penginapan Annisa";
+
   if (isCollapsed) {
     return (
       <div className="flex flex-col items-center gap-2.5 pb-4 border-b border-gray-100">
         <Link
           href="/admin/dashboard"
           className="relative w-9 h-9 rounded-xl bg-slate-50 p-1 border border-gray-200/80 flex items-center justify-center shrink-0 hover:bg-slate-100 transition-colors"
-          title="Penginapan Annisa"
+          title={lodgingName}
         >
           <Image
             src="/logo-penginapan-annisa.png"
-            alt="Logo Penginapan Annisa"
+            alt={`Logo ${lodgingName}`}
             width={28}
             height={28}
             className="object-contain"
@@ -53,7 +57,7 @@ export function SidebarBrand({
         <div className="relative w-9 h-9 rounded-xl bg-slate-50 p-1 border border-gray-200/80 flex items-center justify-center shrink-0">
           <Image
             src="/logo-penginapan-annisa.png"
-            alt="Logo Penginapan Annisa"
+            alt={`Logo ${lodgingName}`}
             width={28}
             height={28}
             className="object-contain"
@@ -62,7 +66,7 @@ export function SidebarBrand({
         </div>
         <div className="min-w-0">
           <span className="font-bold text-slate-900 text-sm leading-tight block truncate">
-            Penginapan Annisa
+            {lodgingName}
           </span>
           <span className="text-[11px] text-slate-400 font-medium tracking-wide block leading-none truncate mt-0.5">
             PMS RESEPSIONIS

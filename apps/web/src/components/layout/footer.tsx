@@ -1,3 +1,6 @@
+"use client";
+
+import { useSettings } from "@/features/settings/hooks/use-settings";
 import { ArrowRight, Clock, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +9,11 @@ import { ANNISA_WA_NUMBER } from "../../lib/whatsapp";
 import { Button } from "../ui/button";
 
 export function Footer() {
+  const { data: settings } = useSettings();
+  const lodgingName = settings?.lodging_name || "Penginapan Annisa";
+  const waNumber = settings?.whatsapp_number || ANNISA_WA_NUMBER;
+  const airportDistance = settings?.airport_distance || "Transit Dekat Bandara Pattimura";
+
   return (
     <footer className="relative w-full pt-10 sm:pt-16">
       {/* ====================================================
@@ -63,17 +71,17 @@ export function Footer() {
               <div className="relative w-8 h-8 rounded-full overflow-hidden bg-purple-100 p-0.5 border border-purple-200 shrink-0 shadow-2xs">
                 <Image
                   src="/logo-penginapan-annisa.png"
-                  alt="Logo Penginapan Annisa"
+                  alt={`Logo ${lodgingName}`}
                   fill
                   className="object-contain"
                 />
               </div>
               <div>
                 <span className="font-extrabold text-sm text-slate-900 leading-tight block group-hover:text-purple-700 transition">
-                  Penginapan Annisa
+                  {lodgingName}
                 </span>
                 <span className="text-[10px] text-purple-700 font-bold block leading-none">
-                  Transit Dekat Bandara Pattimura
+                  {airportDistance}
                 </span>
               </div>
             </Link>
@@ -136,12 +144,12 @@ export function Footer() {
                 <div className="flex items-start gap-1.5">
                   <Phone className="w-3.5 h-3.5 text-purple-700 shrink-0 mt-0.5" />
                   <a
-                    href={`https://wa.me/${ANNISA_WA_NUMBER}`}
+                    href={`https://wa.me/${waNumber}`}
                     target="_blank"
                     rel="noreferrer"
                     className="text-[11px] sm:text-xs font-bold text-slate-900 hover:text-purple-700 transition leading-tight"
                   >
-                    0812-4216-3116
+                    {waNumber.startsWith("62") ? `0${waNumber.slice(2)}` : waNumber}
                   </a>
                 </div>
 
@@ -158,7 +166,7 @@ export function Footer() {
 
         {/* Bottom Copyright Strip */}
         <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-1.5 text-[10px] sm:text-[11px] text-slate-600 font-medium text-center sm:text-left">
-          <p>© 2026 Penginapan Annisa. Hak Cipta Dilindungi.</p>
+          <p>© 2026 {lodgingName}. Hak Cipta Dilindungi.</p>
           <p className="text-slate-600 font-medium">Tawiri, Ambon, Maluku</p>
         </div>
       </div>

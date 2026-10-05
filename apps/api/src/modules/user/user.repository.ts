@@ -31,6 +31,12 @@ export class UserRepository {
     });
   }
 
+  async findByIdWithPassword(id: string) {
+    return prisma.user.findUnique({
+      where: { id },
+    });
+  }
+
   async findByEmail(email: string) {
     return prisma.user.findUnique({
       where: { email },

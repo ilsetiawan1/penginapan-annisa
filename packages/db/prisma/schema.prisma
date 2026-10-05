@@ -232,3 +232,15 @@ model Article {
   @@index([isPublished])
   @@map("articles")
 }
+
+// ----------------------------------------------------
+// 6. PENGATURAN SISTEM & OPERASIONAL (KEY-VALUE)
+// ----------------------------------------------------
+model SystemSetting {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("system_settings")
+}
+

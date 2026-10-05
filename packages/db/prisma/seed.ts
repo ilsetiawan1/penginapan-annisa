@@ -449,6 +449,23 @@ async function main() {
   }
 
   console.log("✅ 7 Artikel Wisata & Tips Transit Resmi Cloudflare R2 seeded successfully!");
+
+  // 6. Seed System Settings (Key-Value)
+  const defaultSettings = [
+    { key: "whatsapp_number", value: "6281242163116" },
+    { key: "lodging_name", value: "Penginapan Annisa" },
+    { key: "airport_distance", value: "750 meter atau 2–3 menit dari Bandara Pattimura" },
+  ];
+
+  for (const s of defaultSettings) {
+    await prisma.systemSetting.upsert({
+      where: { key: s.key },
+      update: {},
+      create: s,
+    });
+  }
+  console.log("✅ Default System Settings seeded successfully!");
+
   console.log("🎉 Seeding Penginapan Annisa Selesai 100%!");
 }
 

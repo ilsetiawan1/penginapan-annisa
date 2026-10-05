@@ -47,6 +47,7 @@ export type CreateUserInput = z.infer<typeof createUserInputSchema>;
 export const updateUserInputSchema = z.object({
   name: z.string().min(2).optional(),
   email: z.string().email().optional(),
+  oldPassword: z.string().optional(),
   password: z.string().min(6).optional(),
   role: userRoleSchema.optional(),
   isActive: z.boolean().optional(),

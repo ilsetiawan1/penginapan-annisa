@@ -41,7 +41,7 @@ export class UserService {
   }
 
   async updateUser(targetId: string, currentUserId: string, input: UpdateUserInput) {
-    const target = await this.repo.findById(targetId);
+    const target = await this.repo.findByIdWithPassword(targetId);
     if (!target) {
       throw new AppError("Pengguna tidak ditemukan.", HTTP_STATUS.NOT_FOUND);
     }
@@ -92,6 +92,16 @@ export class UserService {
     }
 
     if (input.password) {
+      // Verifikasi kata sandi lama saat mengganti kata sandi akun sendiri atau jika oldPassword disertakan
+      if (input.oldPassword || currentUserId === targetId) {
+        if (!input.oldPassword) {
+          throw new AppError("Kata sandi saat ini / lama wajib diisi.", HTTP_STATUS.BAD_REQUEST);
+        }
+        const isMatch = await Bun.password.verify(input.oldPassword, target.passwordHash);
+        if (!isMatch) {
+          throw new AppError("Kata sandi lama tidak sesuai.", HTTP_STATUS.BAD_REQUEST);
+        }
+      }
       updatePayload.passwordHash = await Bun.password.hash(input.password);
     }
 

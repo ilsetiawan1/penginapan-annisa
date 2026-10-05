@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SidebarBrand, SidebarNav, SidebarProfile, type AdminRole } from "./sidebar";
+import { type AdminRole, SidebarBrand, SidebarNav, SidebarProfile } from "./sidebar";
 
 export type { AdminRole };
 
@@ -11,11 +11,7 @@ interface AdminSidebarProps {
   onCloseMobile: () => void;
 }
 
-export function AdminSidebar({
-  currentRole,
-  isMobileOpen,
-  onCloseMobile,
-}: AdminSidebarProps) {
+export function AdminSidebar({ currentRole, isMobileOpen, onCloseMobile }: AdminSidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   useEffect(() => {
@@ -60,20 +56,11 @@ export function AdminSidebar({
         }`}
       >
         <div className="space-y-4 min-h-0">
-          <SidebarBrand
-            isCollapsed={isCollapsed}
-            onToggleCollapse={toggleCollapse}
-          />
-          <SidebarNav
-            currentRole={currentRole}
-            isCollapsed={isCollapsed}
-          />
+          <SidebarBrand isCollapsed={isCollapsed} onToggleCollapse={toggleCollapse} />
+          <SidebarNav currentRole={currentRole} isCollapsed={isCollapsed} />
         </div>
 
-        <SidebarProfile
-          currentRole={currentRole}
-          isCollapsed={isCollapsed}
-        />
+        <SidebarProfile currentRole={currentRole} isCollapsed={isCollapsed} />
       </aside>
 
       {/* Mobile Slide-over Drawer */}
@@ -83,19 +70,11 @@ export function AdminSidebar({
         }`}
       >
         <div className="space-y-5 min-h-0">
-          <SidebarBrand
-            isMobile
-            onCloseMobile={onCloseMobile}
-          />
-          <SidebarNav
-            currentRole={currentRole}
-            onItemClick={onCloseMobile}
-          />
+          <SidebarBrand isMobile onCloseMobile={onCloseMobile} />
+          <SidebarNav currentRole={currentRole} onItemClick={onCloseMobile} />
         </div>
 
-        <SidebarProfile
-          currentRole={currentRole}
-        />
+        <SidebarProfile currentRole={currentRole} />
       </aside>
     </>
   );

@@ -14,7 +14,11 @@ export function SidebarProfile({ currentRole, isCollapsed = false }: SidebarProf
   const { user, logout } = useAuth();
 
   const roleLabel = currentRole === "owner" ? "Owner & General Mgr" : "Staf Resepsionis";
-  const userInitial = user?.name ? user.name.slice(0, 2).toUpperCase() : currentRole === "owner" ? "IA" : "ST";
+  const userInitial = user?.name
+    ? user.name.slice(0, 2).toUpperCase()
+    : currentRole === "owner"
+      ? "IA"
+      : "ST";
 
   return (
     <div className="pt-4 border-t border-gray-100 space-y-3">
@@ -23,7 +27,9 @@ export function SidebarProfile({ currentRole, isCollapsed = false }: SidebarProf
           href="/"
           target="_blank"
           className={`flex items-center gap-2 rounded-xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/60 text-slate-600 transition-all text-xs font-medium ${
-            isCollapsed ? "w-10 h-10 mx-auto justify-center p-0" : "px-3 py-2 w-full justify-between"
+            isCollapsed
+              ? "w-10 h-10 mx-auto justify-center p-0"
+              : "px-3 py-2 w-full justify-between"
           }`}
         >
           <div className="flex items-center gap-2 min-w-0">

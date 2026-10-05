@@ -1,5 +1,6 @@
 "use client";
 
+import { useSettings } from "@/features/settings/hooks/use-settings";
 import { Bed, BookOpen, Gift, Home, MapPin, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +11,10 @@ import { Button } from "../ui/button";
 
 export function Navbar() {
   const pathname = usePathname();
+  const { data: settings } = useSettings();
+  const lodgingName = settings?.lodging_name || "Penginapan Annisa";
+  const airportDistance = settings?.airport_distance || "750m Bandara Pattimura";
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -52,14 +57,12 @@ export function Navbar() {
         >
           <div
             className={`relative w-8 h-8 rounded-full overflow-hidden border flex items-center justify-center shrink-0 shadow-2xs ${
-              isLightMode
-                ? "bg-[#f4f1fa] border-[#e2dcf2]"
-                : "bg-white/20 border-white/30"
+              isLightMode ? "bg-[#f4f1fa] border-[#e2dcf2]" : "bg-white/20 border-white/30"
             }`}
           >
             <Image
               src="/logo-penginapan-annisa.png"
-              alt="Logo Penginapan Annisa"
+              alt={`Logo ${lodgingName}`}
               fill
               className="object-contain p-0.5"
               priority
@@ -73,14 +76,14 @@ export function Navbar() {
                   : "text-white group-hover:text-stone-200"
               }`}
             >
-              Penginapan Annisa
+              {lodgingName}
             </span>
             <span
               className={`text-[10px] font-semibold block leading-none whitespace-nowrap ${
                 isLightMode ? "text-[#7a68b7]" : "text-stone-300"
               }`}
             >
-              750m Bandara Pattimura
+              {airportDistance}
             </span>
           </div>
         </Link>
@@ -88,9 +91,7 @@ export function Navbar() {
         {/* Desktop Center Navigation (Tampil pada Desktop lg: 1024px+ agar tidak sesak di Tablet Portrait) */}
         <nav
           className={`hidden lg:flex items-center gap-1 p-1 rounded-full border backdrop-blur-md transition-colors ${
-            isLightMode
-              ? "bg-[#ede8f8]/60 border-[#ddd3f3]/80"
-              : "bg-white/15 border-white/20"
+            isLightMode ? "bg-[#ede8f8]/60 border-[#ddd3f3]/80" : "bg-white/15 border-white/20"
           }`}
         >
           {navLinks.map((link) => {
@@ -155,7 +156,11 @@ export function Navbar() {
         <>
           {/* Backdrop Overlay */}
           <div
+            role="presentation"
             onClick={() => setIsMobileMenuOpen(false)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setIsMobileMenuOpen(false);
+            }}
             className="fixed inset-0 bg-black/45 backdrop-blur-xs z-[-1] pointer-events-auto animate-in fade-in duration-200"
           />
 
@@ -197,13 +202,15 @@ export function Navbar() {
 
             <div
               className={`mt-3 pt-2.5 border-t px-2 flex items-center justify-between text-[11px] sm:text-xs font-semibold ${
-                isLightMode
-                  ? "border-[#e2dcf2] text-slate-600"
-                  : "border-white/15 text-slate-200"
+                isLightMode ? "border-[#e2dcf2] text-slate-600" : "border-white/15 text-slate-200"
               }`}
             >
               <span>Buka 06:00 – 22:00 WIT</span>
-              <span className={isLightMode ? "text-[#7a68b7] font-extrabold" : "text-stone-300 font-extrabold"}>
+              <span
+                className={
+                  isLightMode ? "text-[#7a68b7] font-extrabold" : "text-stone-300 font-extrabold"
+                }
+              >
                 750m Bandara
               </span>
             </div>

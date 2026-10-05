@@ -18,8 +18,7 @@ export function SidebarNavItemLink({
   const pathname = usePathname();
   const Icon = item.icon;
   const isActive =
-    pathname === item.href ||
-    (item.href !== "/admin/dashboard" && pathname.startsWith(item.href));
+    pathname === item.href || (item.href !== "/admin/dashboard" && pathname.startsWith(item.href));
 
   return (
     <div className="relative group">

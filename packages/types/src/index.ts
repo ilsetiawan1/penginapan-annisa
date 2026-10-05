@@ -9,3 +9,5 @@ export * from "./reservation";
 export * from "./souvenir";
 export * from "./article";
 export * from "./report";
+export * from "./setting";
+

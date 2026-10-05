@@ -1,5 +1,6 @@
 "use client";
 
+import { useSettings } from "@/features/settings/hooks/use-settings";
 import { useCart } from "@/features/souvenirs/hooks/use-cart";
 import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -9,10 +10,12 @@ import { FaWhatsapp } from "react-icons/fa6";
 export function FloatingWhatsApp() {
   const pathname = usePathname();
   const { totalItemsCount } = useCart();
+  const { data: settings } = useSettings();
   const [isDismissed, setIsDismissed] = useState(false);
   const [showCloseBadge, setShowCloseBadge] = useState(false);
 
-  const isSouvenirPage = pathname?.includes("/souvenirs") || pathname?.includes("/oleh-oleh") || pathname === "/";
+  const isSouvenirPage =
+    pathname?.includes("/souvenirs") || pathname?.includes("/oleh-oleh") || pathname === "/";
   const hasActiveCart = isSouvenirPage && totalItemsCount > 0;
 
   useEffect(() => {
@@ -31,9 +34,11 @@ export function FloatingWhatsApp() {
 
   if (isDismissed) return null;
 
-  const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281242163116";
+  const lodgingName = settings?.lodging_name || "Penginapan Annisa";
+  const waNumber =
+    settings?.whatsapp_number || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281242163116";
   const defaultText = encodeURIComponent(
-    "Halo Penginapan Annisa, saya ingin tanya ketersediaan kamar transit dekat Bandara Pattimura Ambon.",
+    `Halo ${lodgingName}, saya ingin tanya ketersediaan kamar transit dekat Bandara Pattimura Ambon.`,
   );
   const waUrl = `https://wa.me/${waNumber}?text=${defaultText}`;
 
