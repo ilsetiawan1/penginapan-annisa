@@ -127,6 +127,7 @@ export class SouvenirRepository {
     items: { souvenirId: string; quantity: number }[],
     paymentMethod = "cash",
     cashReceived?: number,
+    userId?: string,
   ) {
     return prisma.$transaction(async (tx) => {
       const detailedItems = [];
@@ -187,6 +188,7 @@ export class SouvenirRepository {
       const transaction = await tx.posTransaction.create({
         data: {
           receiptNumber,
+          userId: userId ?? null,
           totalAmount: grandTotal,
           paidAmount,
           changeAmount: change,
@@ -194,6 +196,7 @@ export class SouvenirRepository {
           items: {
             create: detailedItems.map((di) => ({
               souvenirId: di.souvenirId,
+              productName: di.name,
               quantity: di.quantity,
               price: di.price,
               subtotal: di.subtotal,

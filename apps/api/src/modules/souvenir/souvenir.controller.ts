@@ -106,7 +106,7 @@ export class SouvenirController {
 
   processPosCheckout = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const receipt = await this.service.processPosCheckout(req.body);
+      const receipt = await this.service.processPosCheckout(req.body, req.user?.id);
       return sendSuccess(res, receipt, "Transaksi POS kasir berhasil.", HTTP_STATUS.CREATED);
     } catch (error) {
       return next(error);

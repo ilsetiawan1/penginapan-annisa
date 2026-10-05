@@ -94,12 +94,12 @@ export class SouvenirService {
     return { success: true, message: `Produk '${existing.name}' berhasil dihapus permanen.` };
   }
 
-  async processPosCheckout(input: PosCheckoutInput) {
+  async processPosCheckout(input: PosCheckoutInput, userId?: string) {
     if (!input.items || input.items.length === 0) {
       throw new AppError("Keranjang belanja kosong.", HTTP_STATUS.BAD_REQUEST);
     }
 
-    return this.repo.processCheckout(input.items, input.paymentMethod, input.cashReceived);
+    return this.repo.processCheckout(input.items, input.paymentMethod, input.cashReceived, userId);
   }
 }
 
