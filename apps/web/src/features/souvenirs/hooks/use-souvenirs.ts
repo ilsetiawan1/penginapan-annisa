@@ -7,6 +7,7 @@ import type {
   UpdateSouvenirInput,
 } from "@annisa/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { souvenirsApi } from "../api/souvenirs.api";
 
@@ -140,4 +141,25 @@ export function useForceDeleteSouvenir() {
       toast.error(msg);
     },
   });
+}
+
+export function useSouvenirFilterState(initialCategory = "all") {
+  const [activeTab, setActiveTab] = useState<"active" | "trash">("active");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+
+  const resetFilters = useCallback(() => {
+    setSearchQuery("");
+    setSelectedCategory("all");
+  }, []);
+
+  return {
+    activeTab,
+    setActiveTab,
+    searchQuery,
+    setSearchQuery,
+    selectedCategory,
+    setSelectedCategory,
+    resetFilters,
+  };
 }

@@ -81,15 +81,13 @@ export function SouvenirFilter({
         {/* Dropdown Options List */}
         {isOpen && (
           <div className="absolute left-0 right-0 top-full mt-2 bg-white/98 backdrop-blur-xl rounded-2xl shadow-xl shadow-[#7a68b7]/15 border border-slate-200/90 py-1.5 px-1.5 z-40 animate-in fade-in zoom-in-95 duration-150">
-            <div className="space-y-1" role="listbox">
+            <div className="space-y-1">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat;
                 return (
                   <button
                     key={cat}
                     type="button"
-                    role="option"
-                    aria-selected={isActive}
                     onClick={() => {
                       onCategoryChange(cat);
                       setIsOpen(false);

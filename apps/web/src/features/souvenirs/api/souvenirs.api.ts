@@ -48,7 +48,10 @@ export const souvenirsApi = {
     return apiClient.put<Souvenir>(`/souvenirs/${id}`, input);
   },
 
-  deleteSouvenir: async (id: string, permanent?: boolean): Promise<{ success: boolean; message: string }> => {
+  deleteSouvenir: async (
+    id: string,
+    permanent?: boolean,
+  ): Promise<{ success: boolean; message: string }> => {
     const url = permanent ? `/souvenirs/${id}/force` : `/souvenirs/${id}`;
     return apiClient.delete<{ success: boolean; message: string }>(url);
   },

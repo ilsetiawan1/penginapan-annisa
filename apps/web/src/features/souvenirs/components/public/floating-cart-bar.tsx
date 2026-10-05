@@ -1,22 +1,24 @@
 "use client";
 
-import { useCart } from "@/features/souvenirs/hooks/use-cart";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "../../hooks/use-cart";
 import { CartDrawerModal } from "./cart-drawer-modal";
 
 export function FloatingCartBar() {
   const { totalItemsCount, totalPrice } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Jangan tampilkan jika keranjang kosong
   if (totalItemsCount === 0) return null;
 
   return (
     <>
       <div className="fixed bottom-7 sm:bottom-6 inset-x-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-40 animate-in fade-in slide-in-from-bottom-4 duration-300 sm:w-full sm:max-w-md pointer-events-none pb-[env(safe-area-inset-bottom,0px)]">
-        <div
+        <button
+          type="button"
           onClick={() => setIsCartOpen(true)}
-          className="bg-white/95 hover:bg-white text-slate-900 p-2 sm:p-2.5 pl-3 rounded-full backdrop-blur-xl border border-[#ddd3f3] shadow-xl shadow-[#7a68b7]/15 flex items-center justify-between gap-2.5 pointer-events-auto cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.98]"
+          className="w-full text-left bg-white/95 hover:bg-white text-slate-900 p-2 sm:p-2.5 pl-3 rounded-full backdrop-blur-xl border border-[#ddd3f3] shadow-xl shadow-[#7a68b7]/15 flex items-center justify-between gap-2.5 pointer-events-auto cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.98]"
         >
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#ede8f8] text-[#594791] border border-[#ddd3f3] flex items-center justify-center font-bold text-xs shrink-0">
@@ -35,14 +37,11 @@ export function FloatingCartBar() {
             </div>
           </div>
 
-          <button
-            type="button"
-            className="flex items-center gap-1.5 bg-[#7a68b7] hover:bg-[#6c59aa] text-white px-3.5 sm:px-4 py-2 rounded-full text-xs font-bold shadow-xs border border-[#6c59aa]/40 transition shrink-0 cursor-pointer"
-          >
+          <div className="flex items-center gap-1.5 bg-[#7a68b7] hover:bg-[#6c59aa] text-white px-3.5 sm:px-4 py-2 rounded-full text-xs font-bold shadow-xs border border-[#6c59aa]/40 transition shrink-0">
             <span>Lihat Keranjang</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
+          </div>
+        </button>
       </div>
 
       <CartDrawerModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />

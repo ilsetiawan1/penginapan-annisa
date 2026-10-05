@@ -26,7 +26,7 @@ export function CartDrawerModal({ isOpen, onClose }: CartDrawerModalProps) {
   const [pickupTime, setPickupTime] = useState<string>("14:00");
 
   const formattedPickupDate = pickupDate
-    ? new Date(pickupDate + "T00:00:00").toLocaleDateString("id-ID", {
+    ? new Date(`${pickupDate}T00:00:00`).toLocaleDateString("id-ID", {
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -201,7 +201,10 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label htmlFor="cart-guest-name" className="text-[10px] font-semibold text-slate-600 block mb-0.5">
+                    <label
+                      htmlFor="cart-guest-name"
+                      className="text-[10px] font-semibold text-slate-600 block mb-0.5"
+                    >
                       Nama <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -216,7 +219,10 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   </div>
 
                   <div>
-                    <label htmlFor="cart-guest-phone" className="text-[10px] font-semibold text-slate-600 block mb-0.5">
+                    <label
+                      htmlFor="cart-guest-phone"
+                      className="text-[10px] font-semibold text-slate-600 block mb-0.5"
+                    >
                       No. WhatsApp <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -233,7 +239,10 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label htmlFor="cart-pickup-date" className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5">
+                    <label
+                      htmlFor="cart-pickup-date"
+                      className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5"
+                    >
                       <Calendar className="w-2.5 h-2.5 text-purple-600" />
                       <span>
                         Tgl Ambil <span className="text-red-500">*</span>
@@ -250,7 +259,10 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   </div>
 
                   <div>
-                    <label htmlFor="cart-pickup-time" className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5">
+                    <label
+                      htmlFor="cart-pickup-time"
+                      className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5"
+                    >
                       <Clock className="w-2.5 h-2.5 text-purple-600" />
                       <span>
                         Jam WIT <span className="text-red-500">*</span>
