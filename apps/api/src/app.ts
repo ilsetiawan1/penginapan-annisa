@@ -14,6 +14,7 @@ import { reservationRouter } from "./modules/reservation/reservation.routes";
 import { roomRouter } from "./modules/room/room.routes";
 import { souvenirRouter } from "./modules/souvenir/souvenir.routes";
 import storageRouter from "./modules/storage/storage.routes";
+import { userRouter } from "./modules/user/user.routes";
 
 import { logger } from "./utils/logger.util";
 export { logger };
@@ -61,6 +62,7 @@ app.use("/api/v1/souvenirs", souvenirRouter);
 app.use("/api/v1/articles", articleRouter);
 app.use("/api/v1/reports", reportRouter);
 app.use("/api/v1/storage", storageRouter);
+app.use("/api/v1/users", userRouter);
 
 // Centralized Error Handling
 app.use(errorHandler);
