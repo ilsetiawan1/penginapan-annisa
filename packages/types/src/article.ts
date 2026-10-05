@@ -57,5 +57,13 @@ export const articleQuerySchema = z.object({
   categorySlug: z.string().optional(),
   isPublished: z.boolean().optional(),
   search: z.string().optional(),
+  status: z.enum(["active", "trash", "all"]).optional(),
+  trash: z.boolean().optional(),
 });
 export type ArticleQuery = z.infer<typeof articleQuerySchema>;
+
+export interface ArticleCounts {
+  active: number;
+  trash: number;
+  total: number;
+}

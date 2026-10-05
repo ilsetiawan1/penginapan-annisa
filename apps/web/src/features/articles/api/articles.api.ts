@@ -2,6 +2,7 @@ import { apiClient } from "@/lib/api/client";
 import type {
   Article,
   ArticleCategory,
+  ArticleCounts,
   ArticleQuery,
   CreateArticleInput,
   UpdateArticleInput,
@@ -13,6 +14,10 @@ export const articlesApi = {
       "/articles",
       query as Record<string, string | number | boolean | undefined>,
     );
+  },
+
+  getCounts: async (): Promise<ArticleCounts> => {
+    return apiClient.get<ArticleCounts>("/articles/counts");
   },
 
   getArticleBySlug: async (slug: string): Promise<Article> => {
@@ -31,7 +36,10 @@ export const articlesApi = {
     return apiClient.put<Article>(`/articles/${id}`, input);
   },
 
-  deleteArticle: async (id: string, permanent?: boolean): Promise<{ success: boolean; message: string }> => {
+  deleteArticle: async (
+    id: string,
+    permanent?: boolean,
+  ): Promise<{ success: boolean; message: string }> => {
     const url = permanent ? `/articles/${id}/force` : `/articles/${id}`;
     return apiClient.delete<{ success: boolean; message: string }>(url);
   },

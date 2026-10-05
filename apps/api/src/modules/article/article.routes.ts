@@ -9,9 +9,10 @@ import "./article.openapi"; // Register docs
 
 const router = Router();
 
-// Public: List articles, categories, and read by slug
-router.get("/", articleController.getAllArticles);
+// Public: List articles, categories, counts, and read by slug
+router.get("/counts", articleController.getCounts);
 router.get("/categories", articleController.getAllCategories);
+router.get("/", articleController.getAllArticles);
 router.get("/:slug", articleController.getArticleBySlug);
 
 // Protected Owner Only: Scrape, Create, Update, Delete

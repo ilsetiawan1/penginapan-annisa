@@ -5,7 +5,8 @@ export class ArticleRepository {
     categorySlug?: string;
     isPublished?: boolean;
     search?: string;
-    status?: "active" | "trash";
+    status?: "active" | "trash" | "all";
+    trash?: boolean;
   }) {
     // 1. Auto-Pruning: Hapus permanen artikel yang berada di sampah lebih dari 30 hari
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
@@ -38,15 +39,19 @@ export class ArticleRepository {
       ];
     }
 
-    if (filter?.status === "trash") {
-      where.deletedAt = { not: null, gte: thirtyDaysAgo };
+    const isTrash = filter?.status === "trash" || filter?.trash === true;
+
+    if (isTrash) {
+      where.deletedAt = { not: null };
+    } else if (filter?.status === "all") {
+      // Tampilkan semua (baik aktif maupun sampah)
     } else {
       where.deletedAt = null;
     }
 
     return prisma.article.findMany({
       where,
-      orderBy: filter?.status === "trash" ? { deletedAt: "desc" } : { createdAt: "desc" },
+      orderBy: isTrash ? { deletedAt: "desc" } : { createdAt: "desc" },
       include: {
         category: true,
         author: {
@@ -54,6 +59,14 @@ export class ArticleRepository {
         },
       },
     });
+  }
+
+  async getCounts() {
+    const [active, trash] = await Promise.all([
+      prisma.article.count({ where: { deletedAt: null } }),
+      prisma.article.count({ where: { deletedAt: { not: null } } }),
+    ]);
+    return { active, trash, total: active + trash };
   }
 
   async findBySlug(slug: string) {

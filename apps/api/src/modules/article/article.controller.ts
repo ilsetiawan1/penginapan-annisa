@@ -16,21 +16,35 @@ export class ArticleController {
 
   getAllArticles = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { category, isPublished, search, status } = req.query as {
+      const { category, isPublished, search, status, trash } = req.query as {
         category?: string;
         isPublished?: string;
         search?: string;
-        status?: "active" | "trash";
+        status?: "active" | "trash" | "all";
+        trash?: string;
       };
+
+      const isTrash = status === "trash" || trash === "true";
+      const resolvedStatus = isTrash ? "trash" : status;
 
       const articles = await this.service.getAllArticles({
         categorySlug: category,
         isPublished: isPublished !== undefined ? isPublished === "true" : undefined,
         search,
-        status,
+        status: resolvedStatus,
+        trash: isTrash,
       });
 
       return sendSuccess(res, articles, "Daftar artikel berhasil diambil.");
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  getCounts = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      const counts = await this.service.getCounts();
+      return sendSuccess(res, counts, "Jumlah artikel berhasil diambil.");
     } catch (error) {
       return next(error);
     }
@@ -57,7 +71,7 @@ export class ArticleController {
 
   createArticle = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const authorId = req.user!.id;
+      const authorId = req.user?.id || "";
       const article = await this.service.createArticle(authorId, req.body);
       return sendSuccess(res, article, "Artikel berhasil dipublikasikan!", HTTP_STATUS.CREATED);
     } catch (error) {
@@ -141,7 +155,7 @@ export class ArticleController {
         const text = $(el).text().trim();
         // Skip empty paragraphs or ads (Kompas often has "Baca juga" links inside p tags which we might want to keep or filter, but we keep it simple)
         if (text && !text.includes("Baca juga:")) {
-          content += text + "\n\n";
+          content += `${text}\n\n`;
         }
       });
 
@@ -189,7 +203,7 @@ export class ArticleController {
       console.error("Scraping error:", error);
       return res
         .status(500)
-        .json({ success: false, message: "Terjadi kesalahan saat scraping: " + error.message });
+        .json({ success: false, message: `Terjadi kesalahan saat scraping: ${error.message}` });
     }
   };
 }

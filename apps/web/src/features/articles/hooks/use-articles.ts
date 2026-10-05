@@ -7,12 +7,21 @@ import { articlesApi } from "../api/articles.api";
 
 export const ARTICLES_QUERY_KEY = ["articles"] as const;
 export const ARTICLE_CATEGORIES_QUERY_KEY = ["article-categories"] as const;
+export const ARTICLE_COUNTS_QUERY_KEY = ["article-counts"] as const;
 
 export function useArticles(query?: ArticleQuery) {
   return useQuery({
     queryKey: [...ARTICLES_QUERY_KEY, query],
     queryFn: () => articlesApi.getAllArticles(query),
     staleTime: 1000 * 60, // 1 minute
+  });
+}
+
+export function useArticleCounts() {
+  return useQuery({
+    queryKey: ARTICLE_COUNTS_QUERY_KEY,
+    queryFn: () => articlesApi.getCounts(),
+    staleTime: 1000 * 30, // 30 seconds
   });
 }
 
@@ -42,6 +51,7 @@ export function useCreateArticle() {
       toast.success("Artikel berhasil dipublikasikan!");
       queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: ARTICLE_CATEGORIES_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: ARTICLE_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal membuat artikel.";
@@ -59,6 +69,7 @@ export function useUpdateArticle() {
     onSuccess: () => {
       toast.success("Artikel berhasil diperbarui!");
       queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: ARTICLE_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal memperbarui artikel.";
@@ -80,6 +91,7 @@ export function useDeleteArticle() {
           : "Artikel dipindahkan ke sampah (dapat dipulihkan dalam 30 hari).",
       );
       queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: ARTICLE_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal menghapus artikel.";
@@ -96,6 +108,7 @@ export function useRestoreArticle() {
     onSuccess: () => {
       toast.success("Artikel berhasil dipulihkan!");
       queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: ARTICLE_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal memulihkan artikel.";
@@ -112,6 +125,7 @@ export function useForceDeleteArticle() {
     onSuccess: () => {
       toast.success("Artikel berhasil dihapus permanen!");
       queryClient.invalidateQueries({ queryKey: ARTICLES_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: ARTICLE_COUNTS_QUERY_KEY });
     },
     onError: (err: unknown) => {
       const msg = err instanceof Error ? err.message : "Gagal menghapus permanen artikel.";

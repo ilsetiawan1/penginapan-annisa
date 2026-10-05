@@ -23,9 +23,14 @@ export class ArticleService {
     categorySlug?: string;
     isPublished?: boolean;
     search?: string;
-    status?: "active" | "trash";
+    status?: "active" | "trash" | "all";
+    trash?: boolean;
   }) {
     return this.repo.findAll(filter);
+  }
+
+  async getCounts() {
+    return this.repo.getCounts();
   }
 
   async getArticleBySlug(slug: string) {
