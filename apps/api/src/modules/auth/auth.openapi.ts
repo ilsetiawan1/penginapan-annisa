@@ -58,19 +58,3 @@ registry.registerPath({
     },
   },
 });
-
-// Endpoint 3: GET /api/v1/auth/imagekit-auth
-registry.registerPath({
-  method: "get",
-  path: "/api/v1/auth/imagekit-auth",
-  summary: "Generate ImageKit Client Upload Token",
-  description:
-    "Menghasilkan token autentikasi client-side untuk upload gambar langsung ke ImageKit.io CDN.",
-  tags: ["1. Auth & Session"],
-  security: [{ BearerAuth: [] }],
-  responses: {
-    200: {
-      description: "Token ImageKit berhasil digenerate",
-    },
-  },
-});

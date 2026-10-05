@@ -12,7 +12,6 @@ router.post("/login", validateRequest({ body: loginInputSchema }), authControlle
 router.get("/me", authMiddleware, authController.getMe);
 router.post("/logout", authController.logout);
 
-router.get("/imagekit-auth", authMiddleware, authController.getImageKitAuth);
 router.post("/r2-presigned-url", authMiddleware, authController.getR2PresignedUrl);
 
 export const authRouter = router;

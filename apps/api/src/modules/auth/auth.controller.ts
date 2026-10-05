@@ -2,7 +2,6 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import type { NextFunction, Request, Response } from "express";
 import { config } from "../../config";
-import { getImageKitAuthParams } from "../../utils/imagekit.util";
 import { s3Client } from "../../utils/r2.util";
 import { sendSuccess } from "../../utils/response.util";
 import { type AuthService, authService } from "./auth.service";
@@ -43,18 +42,12 @@ export class AuthController {
 
   getMe = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!.id;
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ success: false, message: "Unauthorized" });
+      }
       const user = await this.service.getProfile(userId);
       return sendSuccess(res, user, "Data profil berhasil diambil.");
-    } catch (error) {
-      return next(error);
-    }
-  };
-
-  getImageKitAuth = async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-      const authParams = getImageKitAuthParams();
-      return sendSuccess(res, authParams, "ImageKit client upload token berhasil dibuat.");
     } catch (error) {
       return next(error);
     }

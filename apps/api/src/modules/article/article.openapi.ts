@@ -94,7 +94,7 @@ registry.registerPath({
               "Keindahan salah satu pantai terindah di Indonesia yang berjarak 40 menit dari Penginapan Annisa.",
             content:
               "Pantai Liang dinobatkan oleh PBB sebagai salah satu pantai terindah di Indonesia karena gradasi air lautnya yang memukau...",
-            coverImage: "https://ik.imagekit.io/penginapanannisa/articles/pantai-liang.webp",
+            coverImage: "https://pub-sample.r2.dev/articles/pantai-liang.webp",
             isPublished: true,
           },
         },
