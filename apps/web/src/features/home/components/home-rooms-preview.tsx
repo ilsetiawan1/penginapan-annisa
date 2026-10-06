@@ -110,14 +110,19 @@ export function HomeRoomsPreview() {
       </div>
 
       {/* Skewed 3D Carousel Showcase */}
-      <div className="relative max-w-5xl mx-auto px-4">
+      <div className="relative max-w-5xl mx-auto px-2 sm:px-4">
         <SkewedCarousel<FeaturedRoom>
           items={rooms}
           cardWidth={280}
+          mobileCardWidth={215}
           aspect={1.32}
+          step={294}
+          mobileStep={118}
           skew={5}
+          mobileSkew={3}
           sideScale={0.65}
-          autoPlay={5000}
+          mobileSideScale={0.72}
+          autoPlay={3000}
           renderCard={(room, isCenter) => (
             <div className="h-full w-full flex flex-col justify-between bg-white text-left select-none">
               {/* Foto Kamar / Placeholder (Lebih Panjang & Dominan) */}
@@ -140,27 +145,27 @@ export function HomeRoomsPreview() {
                 )}
 
                 {/* Badge Tipe Kamar */}
-                <div className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#e9e8ea] text-[#3c315b] text-[10px] font-medium shadow-xs">
-                  <Tag className="w-3 h-3 text-[#3c315b]" />
+                <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#e9e8ea] text-[#3c315b] text-[9px] sm:text-[10px] font-medium shadow-xs">
+                  <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#3c315b]" />
                   <span>{room.typeLabel}</span>
                 </div>
               </div>
 
               {/* Body Info (Tanpa Deskripsi Panjang) */}
-              <div className="p-3.5 sm:p-4 shrink-0 flex flex-col gap-2.5">
+              <div className="p-3 sm:p-4 shrink-0 flex flex-col gap-2 sm:gap-2.5">
                 <div>
-                  <h3 className="font-medium text-sm text-[#1c1c1c] leading-snug line-clamp-1">
+                  <h3 className="font-medium text-xs sm:text-sm text-[#1c1c1c] leading-snug line-clamp-1">
                     {room.name}
                   </h3>
                 </div>
 
                 {/* Baris Harga & Aksi WhatsApp */}
-                <div className="pt-2.5 border-t border-[#e9e8ea] flex items-center justify-between gap-2">
+                <div className="pt-2 sm:pt-2.5 border-t border-[#e9e8ea] flex items-center justify-between gap-1.5 sm:gap-2">
                   <div>
-                    <span className="text-base font-bold text-[#1c1c1c] leading-none block">
+                    <span className="text-sm sm:text-base font-bold text-[#1c1c1c] leading-none block">
                       {room.price}
                     </span>
-                    <span className="text-[10px] text-[#86848d] font-normal mt-0.5 block">
+                    <span className="text-[9px] sm:text-[10px] text-[#86848d] font-normal mt-0.5 block">
                       DP 50%: {room.dp}
                     </span>
                   </div>
@@ -168,7 +173,7 @@ export function HomeRoomsPreview() {
                   {isCenter ? (
                     <Button
                       asChild
-                      className="rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white font-medium text-xs h-8 px-4 gap-1.5 shadow-[0px_0px_12px_rgba(226,223,254,0.85)] cursor-pointer shrink-0 transition-all duration-200 hover:scale-105 active:scale-95"
+                      className="rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white font-medium text-[11px] sm:text-xs h-7 sm:h-8 px-3 sm:px-4 gap-1 sm:gap-1.5 shadow-[0px_0px_12px_rgba(226,223,254,0.85)] cursor-pointer shrink-0 transition-all duration-200 hover:scale-105 active:scale-95"
                     >
                       <a
                         href={getRoomBookingWhatsAppUrl({
@@ -179,13 +184,13 @@ export function HomeRoomsPreview() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <Bed className="w-3.5 h-3.5" />
+                        <Bed className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         <span>Pesan</span>
                       </a>
                     </Button>
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-[#f4f2f4] border border-[#e9e8ea] flex items-center justify-center text-[#86848d] shrink-0">
-                      <Bed className="w-3.5 h-3.5" />
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#f4f2f4] border border-[#e9e8ea] flex items-center justify-center text-[#86848d] shrink-0">
+                      <Bed className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     </div>
                   )}
                 </div>

@@ -18,14 +18,22 @@ export type SkewedCarouselProps<T extends SkewedCarouselItem = SkewedCarouselIte
   defaultIndex?: number;
   /** lebar kartu tengah (px) */
   cardWidth?: number;
+  /** lebar kartu tengah di layar mobile (<640px) */
+  mobileCardWidth?: number;
   /** rasio tinggi / lebar kartu */
   aspect?: number;
   /** jarak antar kartu (px), default = cardWidth * 1.05 */
   step?: number;
+  /** jarak antar kartu di layar mobile (<640px) */
+  mobileStep?: number;
   /** besar kemiringan kartu samping (derajat) */
   skew?: number;
+  /** besar kemiringan kartu samping di mobile */
+  mobileSkew?: number;
   /** lebar kartu samping relatif ke kartu tengah (0-1) */
   sideScale?: number;
+  /** lebar kartu samping di mobile */
+  mobileSideScale?: number;
   /** putar balik dari akhir ke awal */
   loop?: boolean;
   /** autoplay dalam ms (0 = mati) */
@@ -40,10 +48,14 @@ export function SkewedCarousel<T extends SkewedCarouselItem = SkewedCarouselItem
   items,
   defaultIndex = 0,
   cardWidth = 280,
+  mobileCardWidth = 220,
   aspect = 1.25,
   step,
+  mobileStep = 120,
   skew = 5,
+  mobileSkew = 3,
   sideScale = 0.65,
+  mobileSideScale = 0.72,
   loop = true,
   autoPlay = 0,
   onChange,
@@ -56,10 +68,22 @@ export function SkewedCarousel<T extends SkewedCarouselItem = SkewedCarouselItem
     Math.min(Math.max(defaultIndex, 0), Math.max(n - 1, 0)),
   );
   const [paused, setPaused] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
   const drag = React.useRef<{ x: number; moved: boolean } | null>(null);
 
-  const cardHeight = cardWidth * aspect;
-  const gap = step ?? cardWidth * 1.05;
+  React.useEffect(() => {
+    const mql = window.matchMedia("(max-width: 639px)");
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  const currentCardWidth = isMobile ? mobileCardWidth : cardWidth;
+  const currentCardHeight = currentCardWidth * aspect;
+  const currentGap = isMobile ? mobileStep : (step ?? cardWidth * 1.05);
+  const currentSkew = isMobile ? mobileSkew : skew;
+  const currentSideScale = isMobile ? mobileSideScale : sideScale;
 
   const go = React.useCallback(
     (to: number) => {
@@ -145,7 +169,7 @@ export function SkewedCarousel<T extends SkewedCarouselItem = SkewedCarouselItem
     >
       <div
         className="relative mx-auto w-full overflow-hidden touch-pan-y"
-        style={{ height: cardHeight + 40 }}
+        style={{ height: currentCardHeight + (isMobile ? 32 : 40) }}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerCancel={() => {
@@ -158,9 +182,9 @@ export function SkewedCarousel<T extends SkewedCarouselItem = SkewedCarouselItem
           const isCenter = d === 0;
           const hidden = abs > 3;
 
-          const sx = isCenter ? 1 : sideScale;
-          const sy = isCenter ? 1 : Math.max(0.8, 0.95 - (abs - 1) * 0.05);
-          const skewY = isCenter ? 0 : -Math.sign(d) * skew;
+          const sx = isCenter ? 1 : currentSideScale;
+          const sy = isCenter ? 1 : isMobile ? 0.88 : Math.max(0.8, 0.95 - (abs - 1) * 0.05);
+          const skewY = isCenter ? 0 : -Math.sign(d) * currentSkew;
 
           return (
             <div
@@ -180,17 +204,21 @@ export function SkewedCarousel<T extends SkewedCarouselItem = SkewedCarouselItem
                 }
               }}
               tabIndex={isCenter ? 0 : -1}
-              className={`absolute top-1/2 left-1/2 cursor-pointer overflow-hidden rounded-2xl bg-white border border-[#e9e8ea] shadow-[0px_4px_20px_rgba(226,223,254,0.45)] transition-[transform,opacity] duration-700 motion-reduce:transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3c315b] ${
+              className={`absolute top-1/2 left-1/2 cursor-pointer overflow-hidden rounded-2xl bg-white border border-[#e9e8ea] ${
+                isCenter
+                  ? "shadow-[0px_10px_32px_rgba(60,49,91,0.12)] blur-none"
+                  : "shadow-[0px_4px_16px_rgba(226,223,254,0.35)] blur-[1.5px]"
+              } transition-[transform,opacity,filter,box-shadow] duration-700 motion-reduce:transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3c315b] ${
                 hidden ? "pointer-events-none" : ""
               }`}
               style={{
-                width: cardWidth,
-                height: cardHeight,
-                marginLeft: -cardWidth / 2,
-                marginTop: -cardHeight / 2,
+                width: currentCardWidth,
+                height: currentCardHeight,
+                marginLeft: -currentCardWidth / 2,
+                marginTop: -currentCardHeight / 2,
                 zIndex: 10 - abs,
                 opacity: hidden ? 0 : isCenter ? 1 : 0.85,
-                transform: `translateX(${d * gap}px) skewY(${skewY}deg) scale(${sx}, ${sy})`,
+                transform: `translateX(${d * currentGap}px) skewY(${skewY}deg) scale(${sx}, ${sy})`,
                 transitionTimingFunction: "cubic-bezier(0.25, 1.25, 0.35, 1)",
               }}
             >
