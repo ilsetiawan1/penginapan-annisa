@@ -2,23 +2,20 @@
 
 import { CardScatter, type CardScatterItem } from "@/components/ui/card-scatter";
 import { FloatingCartBar } from "@/features/souvenirs/components/public/floating-cart-bar";
-import { SouvenirOrderModal } from "@/features/souvenirs/components/public/souvenir-order-modal";
-import { SOUVENIR_COLLECTION, type SouvenirProduct } from "@/features/souvenirs/data";
+import { SOUVENIR_COLLECTION } from "@/features/souvenirs/data";
 import { useSouvenirs } from "@/features/souvenirs/hooks/use-souvenirs";
 import type { Souvenir } from "@annisa/types";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 interface FeaturedSouvenir extends CardScatterItem {
   categoryLabel?: string;
   stock?: number;
-  raw: SouvenirProduct;
 }
 
 export function HomeSouvenirsPreview() {
   const { data: dbSouvenirs } = useSouvenirs();
-  const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
 
   // Filter khusus kategori Minyak Kayu Putih Asli, urutkan stok terbanyak, maksimal 10 produk
   const souvenirs: FeaturedSouvenir[] = useMemo(() => {
@@ -56,17 +53,6 @@ export function HomeSouvenirsPreview() {
           categoryLabel: s.category?.name || "Minyak Kayu Putih Asli",
           stock: s.stock,
           image: s.imageUrl || "",
-          raw: {
-            id: s.id as unknown as number,
-            name: s.name,
-            category: "Minyak & Herbal",
-            categoryLabel: s.category?.name || "Minyak Kayu Putih Asli",
-            price: `Rp ${s.price.toLocaleString("id-ID")}`,
-            priceNum: s.price,
-            desc: s.description || "Minyak kayu putih murni khas Maluku.",
-            origin: "Ambon Manise",
-            image: s.imageUrl || "",
-          },
         }));
       }
     }
@@ -84,7 +70,6 @@ export function HomeSouvenirsPreview() {
       title: s.name,
       categoryLabel: s.categoryLabel,
       image: s.image,
-      raw: s,
     }));
   }, [dbSouvenirs]);
 
@@ -104,7 +89,7 @@ export function HomeSouvenirsPreview() {
         </p>
       </div>
 
-      {/* Card Scatter Showcase */}
+      {/* Card Scatter Showcase (Preview murni tanpa modal pesanan) */}
       <div className="relative max-w-6xl mx-auto px-4">
         {souvenirs.length > 0 ? (
           <CardScatter<FeaturedSouvenir>
@@ -115,7 +100,6 @@ export function HomeSouvenirsPreview() {
             activeScale={1.08}
             autoPlay={3500}
             pauseOnHover={true}
-            onItemClick={(item) => setSelectedItem(item.raw)}
             renderCard={(item) => (
               <div className="flex h-full flex-col p-2.5 bg-white text-left select-none">
                 {/* Foto Produk */}
@@ -145,7 +129,7 @@ export function HomeSouvenirsPreview() {
                   )}
                 </div>
 
-                {/* Title Card Bersih (Tanpa Harga, Tanpa Deskripsi, Tanpa Tombol Titip Ambil) */}
+                {/* Title Card Bersih */}
                 <div className="px-1 pt-2.5 pb-0.5 text-center">
                   <p className="truncate text-xs sm:text-sm font-medium text-[#1c1c1c] leading-snug">
                     {item.title}
@@ -171,13 +155,6 @@ export function HomeSouvenirsPreview() {
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
-
-      {/* Modal Detail & Pemesanan WA saat Kartu Diklik */}
-      <SouvenirOrderModal
-        item={selectedItem}
-        isOpen={!!selectedItem}
-        onClose={() => setSelectedItem(null)}
-      />
 
       {/* Floating Cart Bar jika ada item di keranjang */}
       <FloatingCartBar />
