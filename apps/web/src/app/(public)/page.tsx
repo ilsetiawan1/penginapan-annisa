@@ -10,7 +10,7 @@ export default function HomePage() {
       {/* 2. PILIHAN UNIT KAMAR TRANSIT (TARGET AUTO SCROLL DARI HERO) */}
       <section
         id="pilihan-kamar"
-        className="relative w-full bg-[#faf9fc] pb-12 sm:pb-16 px-4 scroll-mt-20"
+        className="relative w-full bg-[#fdfcfe] pb-12 sm:pb-16 px-4 scroll-mt-20"
       >
         <div className="max-w-6xl mx-auto w-full">
           <ScrollReveal delay={60}>
