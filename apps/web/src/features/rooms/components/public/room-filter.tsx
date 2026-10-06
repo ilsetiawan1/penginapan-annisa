@@ -1,14 +1,13 @@
 "use client";
 
 import { Calendar, Moon } from "lucide-react";
+import { useRef } from "react";
 
 interface RoomFilterProps {
   checkInDate: string;
   onCheckInDateChange: (date: string) => void;
   nights: number;
   onNightsChange: (nights: number) => void;
-  activeFilter: "all" | "ac" | "kipas" | "tersedia";
-  onFilterChange: (filter: "all" | "ac" | "kipas" | "tersedia") => void;
 }
 
 export function RoomFilter({
@@ -16,9 +15,10 @@ export function RoomFilter({
   onCheckInDateChange,
   nights,
   onNightsChange,
-  activeFilter,
-  onFilterChange,
 }: RoomFilterProps) {
+  const dateInputRef = useRef<HTMLInputElement>(null);
+  const nightsSelectRef = useRef<HTMLSelectElement>(null);
+
   const now = new Date();
   const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
@@ -31,55 +31,89 @@ export function RoomFilter({
     : "Pilih Tanggal";
 
   return (
-    <section className="relative z-20 -mt-6 sm:-mt-8 max-w-4xl mx-auto px-3 sm:px-4">
-      <div className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 shadow-xl border border-white/80 space-y-2 sm:space-y-3">
-        {/* Baris 1: Date & Duration (2 Kolom Berdampingan dengan Desain Modern Traveloka/Airbnb Style) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 items-center">
-          {/* Box Tanggal Check-In */}
-          <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-[#7a68b7] transition flex items-center justify-between">
-            <label htmlFor="kamar-checkin-date" className="sr-only">
-              Tanggal Check-In
-            </label>
-            <div>
-              <span className="text-[9px] sm:text-[10px] font-black text-slate-600 uppercase tracking-wider block">
+    <section className="max-w-xl mx-auto px-4 -mt-8 relative z-20">
+      <div className="bg-white rounded-3xl border border-[#e9e8ea] p-3 sm:p-4 shadow-[0px_6px_25px_rgba(226,223,254,0.4)]">
+        {/* Input Check-in & Durasi */}
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 items-center">
+          {/* Card Input Check-in (Seluruh area card dapat diklik untuk membuka calendar picker) */}
+          <label
+            htmlFor="kamar-checkin-date"
+            className="relative bg-[#f4f2f4]/60 hover:bg-[#f4f2f4] border border-[#e9e8ea] hover:border-[#3c315b]/40 rounded-2xl px-3.5 py-2.5 transition flex items-center justify-between cursor-pointer focus-within:border-[#3c315b]"
+          >
+            <div className="pointer-events-none select-none">
+              <span className="text-[10px] font-normal text-[#86848d] uppercase tracking-wider block">
                 TGL CHECK-IN
               </span>
-              <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+              <span className="text-xs sm:text-sm font-medium text-[#1c1c1c] block leading-tight mt-0.5">
                 {formattedDate}
               </span>
             </div>
-            <Calendar className="w-4 h-4 text-[#7a68b7] shrink-0" />
+            <Calendar className="w-4 h-4 text-[#3c315b] shrink-0 pointer-events-none" />
             <input
+              ref={dateInputRef}
               id="kamar-checkin-date"
               aria-label="Tanggal Check-In"
               type="date"
               min={todayStr}
               value={checkInDate}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  try {
+                    e.currentTarget.showPicker();
+                  } catch {
+                    // ignore
+                  }
+                }
+              }}
+              onClick={(e) => {
+                try {
+                  e.currentTarget.showPicker();
+                } catch {
+                  // ignore
+                }
+              }}
               onChange={(e) => onCheckInDateChange(e.target.value)}
-              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
             />
-          </div>
+          </label>
 
-          {/* Box Lama Menginap */}
-          <div className="relative bg-slate-50 border border-slate-200/90 rounded-2xl px-3 py-1.5 focus-within:border-[#7a68b7] transition flex items-center justify-between">
-            <label htmlFor="kamar-nights" className="sr-only">
-              Lama Menginap
-            </label>
-            <div>
-              <span className="text-[9px] sm:text-[10px] font-black text-slate-600 uppercase tracking-wider block">
+          {/* Card Input Lama Menginap (Seluruh area card dapat diklik untuk membuka dropdown) */}
+          <label
+            htmlFor="kamar-nights"
+            className="relative bg-[#f4f2f4]/60 hover:bg-[#f4f2f4] border border-[#e9e8ea] hover:border-[#3c315b]/40 rounded-2xl px-3.5 py-2.5 transition flex items-center justify-between cursor-pointer focus-within:border-[#3c315b]"
+          >
+            <div className="pointer-events-none select-none">
+              <span className="text-[10px] font-normal text-[#86848d] uppercase tracking-wider block">
                 LAMA MENGINAP
               </span>
-              <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+              <span className="text-xs sm:text-sm font-medium text-[#1c1c1c] block leading-tight mt-0.5">
                 {nights} Malam {nights === 1 ? "Transit" : ""}
               </span>
             </div>
-            <Moon className="w-4 h-4 text-[#7a68b7] shrink-0" />
+            <Moon className="w-4 h-4 text-[#3c315b] shrink-0 pointer-events-none" />
             <select
+              ref={nightsSelectRef}
               id="kamar-nights"
               aria-label="Lama Menginap"
               value={nights}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  try {
+                    e.currentTarget.showPicker();
+                  } catch {
+                    // ignore
+                  }
+                }
+              }}
+              onClick={(e) => {
+                try {
+                  e.currentTarget.showPicker();
+                } catch {
+                  // ignore
+                }
+              }}
               onChange={(e) => onNightsChange(Number(e.target.value))}
-              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
             >
               <option value={1}>1 Malam Transit</option>
               <option value={2}>2 Malam</option>
@@ -87,71 +121,7 @@ export function RoomFilter({
               <option value={4}>4 Malam</option>
               <option value={5}>5 Malam</option>
             </select>
-          </div>
-
-          {/* Indikator DP 50% (Hanya tampil di tablet/desktop agar tampilan mobile sangat ringkas) */}
-          <div className="hidden sm:flex bg-[#ede8f8]/80 border border-[#ddd3f3] rounded-2xl p-2 text-center flex-col justify-center">
-            <span className="text-[10px] font-bold text-[#594791] block">
-              DP Otomatis: <strong>50% Transfer</strong>
-            </span>
-            <span className="text-[10px] text-slate-600 font-medium">
-              Pelunasan 50% saat tiba di lokasi
-            </span>
-          </div>
-        </div>
-
-        {/* Baris 2: Filter Kategori Tipe Kamar (Horizontal Scrollable Strip) */}
-        <div className="flex items-center gap-1.5 pt-0.5 border-t border-slate-100/90 overflow-x-auto no-scrollbar py-0.5">
-          <button
-            type="button"
-            onClick={() => onFilterChange("all")}
-            aria-pressed={activeFilter === "all"}
-            className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer ${
-              activeFilter === "all"
-                ? "bg-[#7a68b7] text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8]/60"
-            }`}
-          >
-            Semua Kamar
-          </button>
-          <button
-            type="button"
-            onClick={() => onFilterChange("ac")}
-            aria-pressed={activeFilter === "ac"}
-            className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
-              activeFilter === "ac"
-                ? "bg-[#7a68b7] text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8]/60"
-            }`}
-          >
-            <span>Tipe AC</span>
-            <span className="font-normal opacity-80 text-[10px] sm:text-[11px]">Rp 275.000</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onFilterChange("kipas")}
-            aria-pressed={activeFilter === "kipas"}
-            className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
-              activeFilter === "kipas"
-                ? "bg-[#7a68b7] text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:text-[#594791] hover:bg-[#ede8f8]/60"
-            }`}
-          >
-            <span>Tipe Kipas</span>
-            <span className="font-normal opacity-80 text-[10px] sm:text-[11px]">Rp 200.000</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onFilterChange("tersedia")}
-            aria-pressed={activeFilter === "tersedia"}
-            className={`px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold shrink-0 transition-all cursor-pointer ${
-              activeFilter === "tersedia"
-                ? "bg-emerald-600 text-white shadow-xs"
-                : "bg-emerald-50 text-emerald-800 hover:bg-emerald-100"
-            }`}
-          >
-            🟢 Tersedia
-          </button>
+          </label>
         </div>
       </div>
     </section>

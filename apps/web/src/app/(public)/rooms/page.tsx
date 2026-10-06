@@ -13,7 +13,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   // BANGUNAN A
   {
     number: "A1",
-    name: "Kamar #A1 (AC)",
+    name: "Kamar #A1",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -32,7 +32,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   },
   {
     number: "A2",
-    name: "Kamar #A2 (AC)",
+    name: "Kamar #A2",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -51,7 +51,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   },
   {
     number: "A3",
-    name: "Kamar #A3 (Kipas)",
+    name: "Kamar #A3",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -69,7 +69,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   },
   {
     number: "A4",
-    name: "Kamar #A4 (Kipas)",
+    name: "Kamar #A4",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -89,7 +89,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   // BANGUNAN B
   {
     number: "B1",
-    name: "Kamar #B1 (AC)",
+    name: "Kamar #B1",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -108,7 +108,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   },
   {
     number: "B2",
-    name: "Kamar #B2 (AC)",
+    name: "Kamar #B2",
     type: "ac",
     status: "tersedia",
     price: "275.000",
@@ -127,7 +127,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   },
   {
     number: "B3",
-    name: "Kamar #B3 (Kipas)",
+    name: "Kamar #B3",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -145,7 +145,7 @@ const DEFAULT_PUBLIC_ROOMS: RoomItem[] = [
   },
   {
     number: "B4",
-    name: "Kamar #B4 (Kipas)",
+    name: "Kamar #B4",
     type: "kipas",
     status: "tersedia",
     price: "200.000",
@@ -216,7 +216,7 @@ export default function KamarPage() {
 
       return {
         number: r.roomNumber,
-        name: `Kamar #${r.roomNumber} (${isAc ? "AC" : "Kipas"})`,
+        name: `Kamar #${r.roomNumber}`,
         type: isAc ? "ac" : "kipas",
         status: isAvailable ? "tersedia" : "terisi",
         price: priceNum.toLocaleString("id-ID"),
@@ -254,14 +254,14 @@ export default function KamarPage() {
         onCheckInDateChange={setCheckInDate}
         nights={nights}
         onNightsChange={setNights}
-        activeFilter={filter}
-        onFilterChange={setFilter}
       />
       <RoomGrid
         rooms={filteredRooms}
         searchQuery={searchQuery}
         checkInDate={checkInDate}
         nights={nights}
+        activeFilter={filter}
+        onFilterChange={setFilter}
         onReset={() => {
           setSearchQuery("");
           setFilter("all");
