@@ -1,14 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { SkewedCarousel, type SkewedCarouselItem } from "@/components/ui/skewed-carousel";
 import { useRooms } from "@/features/rooms/hooks/use-rooms";
 import { getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
-import { ArrowRight, Bed, ChevronLeft, ChevronRight, Tag } from "lucide-react";
+import type { Room } from "@annisa/types";
+import { ArrowRight, Bed, Tag } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
-interface FeaturedRoom {
+interface FeaturedRoom extends SkewedCarouselItem {
   id: string;
+  title: string;
   name: string;
   typeLabel: string;
   price: string;
@@ -21,6 +24,7 @@ interface FeaturedRoom {
 const DEFAULT_3_FEATURED_ROOMS: FeaturedRoom[] = [
   {
     id: "A1",
+    title: "Kamar #A1",
     name: "Kamar #A1 (AC)",
     typeLabel: "Tipe AC",
     price: "Rp 275.000",
@@ -31,6 +35,7 @@ const DEFAULT_3_FEATURED_ROOMS: FeaturedRoom[] = [
   },
   {
     id: "A2",
+    title: "Kamar #A2",
     name: "Kamar #A2 (AC)",
     typeLabel: "Tipe AC",
     price: "Rp 275.000",
@@ -41,6 +46,7 @@ const DEFAULT_3_FEATURED_ROOMS: FeaturedRoom[] = [
   },
   {
     id: "A3",
+    title: "Kamar #A3",
     name: "Kamar #A3 (Kipas)",
     typeLabel: "Tipe Kipas",
     price: "Rp 200.000",
@@ -52,16 +58,15 @@ const DEFAULT_3_FEATURED_ROOMS: FeaturedRoom[] = [
 ];
 
 export function HomeRoomsPreview() {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
   const { data: dbRooms } = useRooms();
 
-  // Sinkronkan 3 kamar unggulan secara langsung dari database backend (Cloudflare R2)
+  // Sinkronkan 3 kamar unggulan secara langsung dari database backend
   const rooms: FeaturedRoom[] = useMemo(() => {
     if (!dbRooms || dbRooms.length === 0) {
       return DEFAULT_3_FEATURED_ROOMS;
     }
 
-    return dbRooms.slice(0, 3).map((r: any) => {
+    return dbRooms.slice(0, 3).map((r: Room) => {
       const isAc =
         r.roomType?.name?.toLowerCase().includes("ac") ||
         (r.roomNumber?.startsWith("A") && !r.roomType?.name?.toLowerCase().includes("kipas"));
@@ -74,6 +79,7 @@ export function HomeRoomsPreview() {
 
       return {
         id: r.roomNumber,
+        title: `Kamar #${r.roomNumber}`,
         name: `Kamar #${r.roomNumber} (${isAc ? "AC" : "Kipas"})`,
         typeLabel: isAc ? "Tipe AC" : "Tipe Kipas",
         price: `Rp ${priceNum.toLocaleString("id-ID")}`,
@@ -87,207 +93,115 @@ export function HomeRoomsPreview() {
     });
   }, [dbRooms]);
 
-  const count = rooms.length || 3;
-  const REPEAT_COUNT = 40;
-  const loopTrack = Array.from({ length: REPEAT_COUNT }, () => rooms).flat();
-  const initialIndex = Math.floor(REPEAT_COUNT / 2) * count;
-  const [currentIndex, setCurrentIndex] = useState<number>(initialIndex);
-
-  const activeDotIndex = ((currentIndex % count) + count) % count;
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => prev - 1);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => prev + 1);
-  };
-
-  const CARD_WIDTH = 270; // px
-  const CARD_GAP = 16; // px
-  const TOTAL_CARD_UNIT = CARD_WIDTH + CARD_GAP; // 286px
-
   return (
-    <div className="w-full relative overflow-hidden py-4 sm:py-6">
+    <div className="w-full relative overflow-hidden py-4 sm:py-6 bg-[#fdfcfe]">
       {/* Centered Section Header */}
       <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8 px-4">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ede8f8] text-[#594791] border border-[#ddd3f3] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider mb-2.5">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f4f2f4] text-[#3c315b] border border-[#e9e8ea] text-[11px] font-medium tracking-wide mb-2.5">
           <span>PILIHAN KAMAR TRANSIT</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-slate-900 leading-tight">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-[#1c1c1c] tracking-[-0.025em] leading-tight">
           Unit Kamar Bersih &amp; Terawat
         </h2>
-        <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
-          100% kamar mandi dalam pribadi, kasur besar muat 2–3 tamu, TV layar datar, dan WiFi gratis
-          kencang.
+        <p className="text-xs sm:text-sm text-[#86848d] mt-2 max-w-md mx-auto leading-relaxed font-normal">
+          100% kamar mandi dalam pribadi, kasur besar muat 2–3 tamu, pendingin ruangan, dan WiFi
+          gratis kencang.
         </p>
       </div>
 
-      {/* 3D Smooth Sliding Carousel Track */}
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-12">
-        {/* Tombol Navigasi Kiri */}
-        <button
-          type="button"
-          onClick={handlePrev}
-          aria-label="Kamar Sebelumnya"
-          className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-[#7a68b7] hover:border-[#7a68b7]/50 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
-        >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
-
-        {/* Tombol Navigasi Kanan */}
-        <button
-          type="button"
-          onClick={handleNext}
-          aria-label="Kamar Berikutnya"
-          className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-700 hover:text-[#7a68b7] hover:border-[#7a68b7]/50 hover:scale-110 shadow-lg flex items-center justify-center transition-all cursor-pointer"
-        >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
-
-        {/* Carousel Container */}
-        <div className="overflow-hidden py-4 sm:py-6">
-          <div
-            className="flex items-center transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
-            style={{
-              transform: `translateX(calc(50% - ${
-                currentIndex * TOTAL_CARD_UNIT + CARD_WIDTH / 2
-              }px))`,
-            }}
-          >
-            {loopTrack.map((room, index) => {
-              const isCenter = index === currentIndex;
-              const isAdjacent = Math.abs(index - currentIndex) === 1;
-
-              return (
-                <div
-                  key={`${room.id}-${index}`}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-[270px] shrink-0 mx-2 transition-all duration-500 cursor-pointer ${
-                    isCenter
-                      ? "scale-100 sm:scale-105 z-20 opacity-100"
-                      : isAdjacent
-                        ? "scale-95 z-10 opacity-80 sm:opacity-90"
-                        : "scale-90 opacity-40"
-                  }`}
-                >
-                  <div
-                    className={`rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 flex flex-col justify-between ${
-                      isCenter
-                        ? "border-2 border-[#7a68b7] shadow-xl shadow-[#7a68b7]/15"
-                        : "border border-slate-200/80 shadow-sm"
-                    }`}
-                  >
-                    {/* Foto Kamar Bersih atau Placeholder */}
-                    <div className="relative h-36 sm:h-44 w-full bg-slate-100 overflow-hidden">
-                      {room.image ? (
-                        <img
-                          src={room.image}
-                          alt={room.name}
-                          loading="eager"
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#faf8fd] via-[#ede8f8]/60 to-slate-100 flex flex-col items-center justify-center gap-1.5 text-[#7a68b7]/60 p-4">
-                          <Bed className="w-8 h-8 stroke-[1.5]" />
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                            {room.name}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Body Info */}
-                    <div className="p-3 sm:p-4 text-left flex-1 flex flex-col justify-between space-y-1.5">
-                      <div>
-                        {/* Kategori Tipe Kamar */}
-                        <div className="flex items-center gap-1 text-[#7a68b7] font-bold text-[10px] sm:text-[11px] mb-0.5">
-                          <Tag className="w-3 h-3 text-[#7a68b7] shrink-0" />
-                          <span className="truncate">{room.typeLabel}</span>
-                        </div>
-
-                        {/* Nama Kamar */}
-                        <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 leading-snug line-clamp-1">
-                          {room.name}
-                        </h3>
-
-                        {/* Deskripsi Singkat */}
-                        <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">
-                          {room.desc}
-                        </p>
-                      </div>
-
-                      {/* Baris Harga & Aksi WhatsApp */}
-                      <div className="pt-2.5 border-t border-slate-100 mt-2 flex items-center justify-between gap-2">
-                        <div>
-                          <span className="text-base sm:text-lg font-black text-[#594791] leading-none block">
-                            {room.price}
-                          </span>
-                          <span className="text-[10px] text-slate-600 font-semibold mt-0.5 block">
-                            DP 50%: {room.dp}
-                          </span>
-                        </div>
-
-                        {isCenter ? (
-                          <Button
-                            asChild
-                            className="rounded-xl bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-bold text-xs h-9 px-3.5 gap-1.5 shadow-md shadow-[#7a68b7]/25 border border-[#6c59aa]/40 cursor-pointer shrink-0"
-                          >
-                            <a
-                              href={getRoomBookingWhatsAppUrl({
-                                roomNumber: room.id,
-                                roomName: room.name,
-                                price: room.price.replace("Rp ", ""),
-                              })}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <Bed className="w-4 h-4" />
-                              <span>Pesan</span>
-                            </a>
-                          </Button>
-                        ) : (
-                          <div className="w-8 h-8 rounded-xl bg-[#ede8f8] border border-[#ddd3f3] flex items-center justify-center text-[#7a68b7] shrink-0">
-                            <Bed className="w-4 h-4" />
-                          </div>
-                        )}
-                      </div>
-                    </div>
+      {/* Skewed 3D Carousel Showcase */}
+      <div className="relative max-w-5xl mx-auto px-4">
+        <SkewedCarousel<FeaturedRoom>
+          items={rooms}
+          cardWidth={280}
+          aspect={1.32}
+          skew={5}
+          sideScale={0.65}
+          autoPlay={5000}
+          renderCard={(room, isCenter) => (
+            <div className="h-full w-full flex flex-col justify-between bg-white text-left select-none">
+              {/* Foto Kamar / Placeholder (Lebih Panjang & Dominan) */}
+              <div className="relative flex-1 min-h-0 w-full bg-[#f4f2f4] overflow-hidden">
+                {room.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={room.image}
+                    alt={room.name}
+                    loading="eager"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-[#faf8fd] via-[#ede8f8]/60 to-[#f4f2f4] flex flex-col items-center justify-center gap-1.5 text-[#3c315b]/60 p-4">
+                    <Bed className="w-8 h-8 stroke-[1.5]" />
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-[#86848d]">
+                      {room.name}
+                    </span>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+                )}
 
-        {/* Pagination Dots Slider Indicator */}
-        <div className="flex items-center justify-center gap-1.5 mt-2 sm:mt-3">
-          {rooms.map((room, idx) => (
-            <button
-              key={room.id}
-              type="button"
-              onClick={() => {
-                const diff = idx - activeDotIndex;
-                setCurrentIndex((prev) => prev + diff);
-              }}
-              aria-label={`Lihat ${room.name}`}
-              className={`transition-all duration-300 rounded-full cursor-pointer ${
-                idx === activeDotIndex
-                  ? "w-6 h-2 bg-[#7a68b7] shadow-xs"
-                  : "w-2 h-2 bg-slate-300 hover:bg-slate-400"
-              }`}
-            />
-          ))}
-        </div>
+                {/* Badge Tipe Kamar */}
+                <div className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#e9e8ea] text-[#3c315b] text-[10px] font-medium shadow-xs">
+                  <Tag className="w-3 h-3 text-[#3c315b]" />
+                  <span>{room.typeLabel}</span>
+                </div>
+              </div>
+
+              {/* Body Info (Tanpa Deskripsi Panjang) */}
+              <div className="p-3.5 sm:p-4 shrink-0 flex flex-col gap-2.5">
+                <div>
+                  <h3 className="font-medium text-sm text-[#1c1c1c] leading-snug line-clamp-1">
+                    {room.name}
+                  </h3>
+                </div>
+
+                {/* Baris Harga & Aksi WhatsApp */}
+                <div className="pt-2.5 border-t border-[#e9e8ea] flex items-center justify-between gap-2">
+                  <div>
+                    <span className="text-base font-bold text-[#1c1c1c] leading-none block">
+                      {room.price}
+                    </span>
+                    <span className="text-[10px] text-[#86848d] font-normal mt-0.5 block">
+                      DP 50%: {room.dp}
+                    </span>
+                  </div>
+
+                  {isCenter ? (
+                    <Button
+                      asChild
+                      className="rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white font-medium text-xs h-8 px-4 gap-1.5 shadow-[0px_0px_12px_rgba(226,223,254,0.85)] cursor-pointer shrink-0 transition-all duration-200 hover:scale-105 active:scale-95"
+                    >
+                      <a
+                        href={getRoomBookingWhatsAppUrl({
+                          roomNumber: room.id,
+                          roomName: room.name,
+                          price: room.price.replace("Rp ", ""),
+                        })}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Bed className="w-3.5 h-3.5" />
+                        <span>Pesan</span>
+                      </a>
+                    </Button>
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-[#f4f2f4] border border-[#e9e8ea] flex items-center justify-center text-[#86848d] shrink-0">
+                      <Bed className="w-3.5 h-3.5" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        />
       </div>
 
-      {/* Link ke Katalog Lengkap */}
+      {/* Link ke Halaman Katalog Lengkap */}
       <div className="text-center mt-6 sm:mt-8">
         <Link
           href="/rooms"
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-[#7a68b7] hover:text-[#594791] hover:underline transition"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#3c315b] hover:text-[#2d2445] hover:underline transition"
         >
-          <span>Lihat Seluruh 8 Unit Kamar di Halaman Katalog Lengkap</span>
+          <span>Lihat Semua Kamar</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
