@@ -1,6 +1,5 @@
 import { BookOpen, Search } from "lucide-react";
 import Image from "next/image";
-import { Button } from "../../../../components/ui/button";
 
 interface ArticleHeroProps {
   searchQuery: string;
@@ -9,41 +8,42 @@ interface ArticleHeroProps {
 
 export function ArticleHero({ searchQuery, onSearchChange }: ArticleHeroProps) {
   return (
-    <section className="relative w-full h-[400px] sm:h-[480px] lg:h-[520px] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
       <Image
         src="/images/articles/default-cover.jpg"
-        alt="Pantai Liang Ambon"
+        alt="Pantai Liang Ambon Maluku"
         fill
         className="object-cover"
         priority
       />
-      {/* Top dark overlay for text contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/40 to-transparent" />
-      {/* Smooth Bottom White Fade Transition */}
-      <div className="absolute inset-x-0 bottom-0 h-36 sm:h-48 bg-gradient-to-t from-[#faf9fc] via-[#faf9fc]/80 to-transparent pointer-events-none" />
+      {/* Light Phantom Optimized Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1c1c]/70 via-[#1c1c1c]/45 to-[#fdfcfe] backdrop-blur-[0.5px]" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-14 sm:pt-16">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-3 sm:mb-4 shadow-sm">
-          <BookOpen className="w-3.5 h-3.5 text-[#c4b5e6]" />
+      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-10 sm:pt-14">
+        {/* Badge Atas */}
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-normal tracking-wide uppercase mb-4 shadow-sm">
+          <BookOpen className="w-3.5 h-3.5 text-white/90" />
           <span>BLOG PENGINAPAN ANNISA</span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow-md">
+        {/* Headline Editorial Sans-Serif */}
+        <h1 className="text-3xl sm:text-5xl font-normal tracking-[-0.025em] text-white leading-tight text-center">
           Inspirasi Liburan &amp; Tips Wisata
         </h1>
 
-        <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
+        {/* Subheadline */}
+        <p className="text-sm sm:text-base text-white/90 max-w-xl mx-auto mt-3 font-normal text-center leading-relaxed">
           Temukan panduan wisata pantai eksotis, rekomendasi kuliner khas Maluku, dan tips transit
-          nyaman di Ambon...
+          nyaman di Ambon.
         </p>
 
-        {/* Floating Search Bar */}
-        <div className="max-w-2xl mx-auto bg-white rounded-full p-1.5 sm:p-2 shadow-2xl flex items-center gap-2 border border-white/80">
+        {/* Glassmorphism Floating Search Bar */}
+        <div className="max-w-xl mx-auto mt-8 flex items-center bg-white/95 backdrop-blur-md border border-[#e9e8ea] rounded-full p-1.5 shadow-[0px_4px_20px_rgba(226,223,254,0.45)]">
           <label htmlFor="article-search-input" className="sr-only">
             Cari artikel atau destinasi wisata
           </label>
-          <div className="pl-3.5 sm:pl-4 text-slate-500">
-            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" />
+          <div className="pl-3.5 sm:pl-4 text-[#86848d]">
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[#86848d]" />
           </div>
           <input
             id="article-search-input"
@@ -51,16 +51,16 @@ export function ArticleHero({ searchQuery, onSearchChange }: ArticleHeroProps) {
             aria-label="Cari artikel atau destinasi wisata"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Cari artikel atau destinasi..."
-            className="w-full bg-transparent text-slate-900 placeholder:text-slate-500 text-xs sm:text-sm font-medium outline-none py-1"
+            placeholder="Cari artikel atau destinasi wisata..."
+            className="flex-1 bg-transparent px-4 py-2 text-sm text-[#1c1c1c] placeholder:text-[#86848d] focus:outline-none"
           />
-          <Button
+          <button
             type="button"
             aria-label="Tombol cari artikel"
-            className="rounded-full bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-bold text-xs sm:text-sm px-5 sm:px-7 py-2 h-9 sm:h-10 shrink-0 shadow-md shadow-[#7a68b7]/25 border border-[#6c59aa]/40 transition-all cursor-pointer active:scale-95"
+            className="bg-[#3c315b] hover:bg-[#2d2445] text-white rounded-full px-5 py-2 text-xs font-normal transition-all active:scale-95 cursor-pointer shrink-0"
           >
             Cari
-          </Button>
+          </button>
         </div>
       </div>
     </section>
