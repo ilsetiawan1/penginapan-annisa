@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Outfit, Poppins } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -7,6 +7,13 @@ const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -32,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={poppins.variable}>
+    <html lang="id" className={`${poppins.variable} ${outfit.variable}`}>
       <body
         className={`${poppins.className} antialiased bg-[#faf9fc] text-slate-900 selection:bg-purple-200 selection:text-purple-900`}
       >
