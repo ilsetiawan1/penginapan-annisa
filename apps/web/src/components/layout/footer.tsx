@@ -1,12 +1,14 @@
 "use client";
 
 import { useSettings } from "@/features/settings/hooks/use-settings";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { usePWAInstall } from "@/hooks/use-pwa-install";
+import { Clock, Download, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
   const { data: settings } = useSettings();
+  const { canInstall, installPWA } = usePWAInstall();
   const lodgingName = settings?.lodging_name || "Penginapan Annisa";
   const waNumber = settings?.whatsapp_number || "6281240822240";
   const airportDistance = settings?.airport_distance || "Transit Dekat Bandara Pattimura";
@@ -23,7 +25,7 @@ export function Footer() {
           <div className="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-[#e2dffe]/15 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-16 -right-16 w-56 h-56 rounded-full bg-[#e2dffe]/15 blur-3xl pointer-events-none" />
 
-          {/* Content inside Floating Softselling Card (Tanpa Tombol WhatsApp) */}
+          {/* Content inside Floating Softselling Card */}
           <div className="relative z-10 max-w-xl mx-auto text-center space-y-2.5 sm:space-y-3">
             {/* Headline */}
             <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-white leading-tight tracking-[-0.025em]">
@@ -42,12 +44,12 @@ export function Footer() {
       {/* ====================================================
           CLEAN WHITE FOOTER BODY (Compact 2-Col on Mobile / 3-Col on Desktop)
           ==================================================== */}
-      <div className="w-full bg-white pt-20 sm:pt-28 pb-8 px-4 border-t border-slate-200/80 text-slate-700">
+      <div className="w-full bg-white pt-20 sm:pt-28 pb-8 px-4 border-t border-[#e9e8ea] text-[#1c1c1c]">
         <div className="max-w-5xl mx-auto space-y-6 md:space-y-0 md:grid md:grid-cols-12 md:gap-10">
           {/* Kolom 1: Identitas & Slogan (md:col-span-5) */}
           <div className="md:col-span-5 space-y-2.5">
             <Link href="/" className="flex items-center gap-2.5 group w-fit">
-              <div className="relative w-8 h-8 rounded-full overflow-hidden bg-purple-100 p-0.5 border border-purple-200 shrink-0 shadow-2xs">
+              <div className="relative w-8 h-8 rounded-full overflow-hidden bg-[#f4f2f4] p-0.5 border border-[#e9e8ea] shrink-0 shadow-2xs">
                 <Image
                   src="/images/branding/logo.png"
                   alt={`Logo ${lodgingName}`}
@@ -56,51 +58,51 @@ export function Footer() {
                 />
               </div>
               <div>
-                <span className="font-extrabold text-sm text-slate-900 leading-tight block group-hover:text-purple-700 transition">
+                <span className="font-medium text-sm text-[#1c1c1c] leading-tight block group-hover:text-[#3c315b] transition">
                   {lodgingName}
                 </span>
-                <span className="text-[10px] text-purple-700 font-bold block leading-none">
+                <span className="text-[11px] text-[#86848d] font-normal tracking-tight block leading-none mt-0.5">
                   {airportDistance}
                 </span>
               </div>
             </Link>
 
-            <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed max-w-sm">
+            <p className="text-[11px] sm:text-xs text-[#86848d] leading-relaxed max-w-sm font-normal">
               Pilihan akomodasi transit nyaman, bersih, dan terjangkau untuk kebutuhan istirahat
               setiba atau sebelum penerbangan Anda.
             </p>
           </div>
 
           {/* Container Kolom 2 & 3 (Mobile: 2 Kolom Sejajar Rapi / Desktop: Terpisah) */}
-          <div className="grid grid-cols-2 gap-4 md:col-span-7 md:grid-cols-7 md:gap-8 pt-3 md:pt-0 border-t border-slate-100 md:border-t-0">
+          <div className="grid grid-cols-2 gap-4 md:col-span-7 md:grid-cols-7 md:gap-8 pt-4 md:pt-0 border-t border-[#e9e8ea] md:border-t-0">
             {/* Kolom 2: Menu Navigasi (md:col-span-3) */}
             <div className="md:col-span-3 space-y-2">
-              <h3 className="font-black text-[11px] sm:text-xs uppercase tracking-wider text-slate-900">
+              <h3 className="font-medium text-[11px] sm:text-xs uppercase tracking-wider text-[#1c1c1c]">
                 Menu Halaman
               </h3>
-              <ul className="space-y-1.5 text-xs font-semibold text-slate-600">
+              <ul className="space-y-1.5 text-xs font-normal text-[#86848d]">
                 <li>
-                  <Link href="/" className="hover:text-purple-700 transition">
+                  <Link href="/" className="hover:text-[#3c315b] transition">
                     Beranda
                   </Link>
                 </li>
                 <li>
-                  <Link href="/rooms" className="hover:text-purple-700 transition">
+                  <Link href="/rooms" className="hover:text-[#3c315b] transition">
                     Pilihan Kamar
                   </Link>
                 </li>
                 <li>
-                  <Link href="/souvenirs" className="hover:text-purple-700 transition">
+                  <Link href="/souvenirs" className="hover:text-[#3c315b] transition">
                     Oleh-oleh Khas
                   </Link>
                 </li>
                 <li>
-                  <Link href="/articles" className="hover:text-purple-700 transition">
+                  <Link href="/articles" className="hover:text-[#3c315b] transition">
                     Artikel Wisata
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-purple-700 transition">
+                  <Link href="/contact" className="hover:text-[#3c315b] transition">
                     Kontak &amp; Peta
                   </Link>
                 </li>
@@ -109,32 +111,32 @@ export function Footer() {
 
             {/* Kolom 3: Layanan & Kontak Resmi (md:col-span-4) */}
             <div className="md:col-span-4 space-y-2">
-              <h3 className="font-black text-[11px] sm:text-xs uppercase tracking-wider text-slate-900">
+              <h3 className="font-medium text-[11px] sm:text-xs uppercase tracking-wider text-[#1c1c1c]">
                 Info &amp; Lokasi
               </h3>
-              <div className="space-y-2 text-xs text-slate-600">
+              <div className="space-y-2 text-xs text-[#86848d]">
                 <div className="flex items-start gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-purple-700 shrink-0 mt-0.5" />
+                  <Clock className="w-3.5 h-3.5 text-[#3c315b] shrink-0 mt-0.5" />
                   <span className="text-[11px] sm:text-xs leading-tight">
-                    Buka: <strong>06:00 – 22:00 WIT</strong>
+                    Buka: <strong className="text-[#1c1c1c] font-medium">06:00 – 22:00 WIT</strong>
                   </span>
                 </div>
 
                 <div className="flex items-start gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-purple-700 shrink-0 mt-0.5" />
+                  <Phone className="w-3.5 h-3.5 text-[#3c315b] shrink-0 mt-0.5" />
                   <a
                     href={`https://wa.me/${waNumber}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-[11px] sm:text-xs font-bold text-slate-900 hover:text-purple-700 transition leading-tight"
+                    className="text-[11px] sm:text-xs font-medium text-[#1c1c1c] hover:text-[#3c315b] transition leading-tight"
                   >
                     {waNumber.startsWith("62") ? `0${waNumber.slice(2)}` : waNumber}
                   </a>
                 </div>
 
                 <div className="flex items-start gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-purple-700 shrink-0 mt-0.5" />
-                  <span className="text-[11px] sm:text-xs leading-tight text-slate-500">
+                  <MapPin className="w-3.5 h-3.5 text-[#3c315b] shrink-0 mt-0.5" />
+                  <span className="text-[11px] sm:text-xs leading-tight text-[#86848d]">
                     Jl. Bandara Pattimura, Tawiri, Kota Ambon
                   </span>
                 </div>
@@ -143,10 +145,23 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Copyright Strip */}
-        <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-1.5 text-[10px] sm:text-[11px] text-slate-600 font-medium text-center sm:text-left">
+        {/* Tombol Pasang Aplikasi PWA (Muncul HANYA jika canInstall === true) */}
+        {canInstall && (
+          <div className="max-w-5xl mx-auto mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={installPWA}
+              className="inline-flex items-center gap-2 rounded-full border border-[#e9e8ea] bg-white px-4 py-2 text-xs font-normal text-[#3c315b] shadow-xs transition-all duration-200 hover:bg-[#f4f2f4] active:scale-95 cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5 text-[#3c315b]" />
+              <span>Pasang Aplikasi Penginapan Annisa</span>
+            </button>
+          </div>
+        )}
+
+        {/* Bottom Copyright Strip (Tunggal & Terpusat) */}
+        <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-[#e9e8ea] text-center text-[10px] sm:text-[11px] text-[#86848d] font-normal">
           <p>© 2026 {lodgingName}. Hak Cipta Dilindungi.</p>
-          <p className="text-slate-600 font-medium">Tawiri, Ambon, Maluku</p>
         </div>
       </div>
     </footer>
