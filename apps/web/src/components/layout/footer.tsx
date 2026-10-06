@@ -1,61 +1,40 @@
 "use client";
 
 import { useSettings } from "@/features/settings/hooks/use-settings";
-import { ArrowRight, Clock, MapPin, Phone } from "lucide-react";
+import { Clock, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaWhatsapp } from "react-icons/fa6";
-import { ANNISA_WA_NUMBER } from "../../lib/whatsapp";
-import { Button } from "../ui/button";
 
 export function Footer() {
   const { data: settings } = useSettings();
   const lodgingName = settings?.lodging_name || "Penginapan Annisa";
-  const waNumber = settings?.whatsapp_number || ANNISA_WA_NUMBER;
+  const waNumber = settings?.whatsapp_number || "6281240822240";
   const airportDistance = settings?.airport_distance || "Transit Dekat Bandara Pattimura";
 
   return (
-    <footer className="relative w-full pt-10 sm:pt-16">
+    <footer className="relative w-full pt-8 sm:pt-12">
       {/* ====================================================
-          FLOATING OVERLAPPING CTA CARD (Scenic Glassmorphism Effect)
+          FLOATING OVERLAPPING SOFTELLING BANNER CARD
           ==================================================== */}
-      <div className="relative max-w-5xl mx-auto px-4 -mb-14 sm:-mb-20 z-20">
-        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#2d224e]/50 backdrop-blur-xl text-white p-6 sm:p-10 md:p-12 shadow-2xl shadow-[#36285d]/30 border border-white/30">
-          {/* Frosted Glass Gradient Overlay with Ambient Glow Orbs */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2d224e]/85 via-slate-950/70 to-[#2d224e]/85 backdrop-blur-md pointer-events-none" />
-          <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-[#7a68b7]/25 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-[#9f8ec8]/25 blur-3xl pointer-events-none" />
+      <div className="relative max-w-5xl mx-auto px-4 -mb-10 sm:-mb-14 z-20">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#3c315b] text-white p-6 sm:p-8 md:p-10 shadow-xl shadow-[#3c315b]/20 border border-[#e9e8ea]/15">
+          {/* Frosted / Ambient Glow Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3c315b] via-[#2d2445] to-[#3c315b] pointer-events-none" />
+          <div className="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-[#e2dffe]/15 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -right-16 w-56 h-56 rounded-full bg-[#e2dffe]/15 blur-3xl pointer-events-none" />
 
-          {/* Content inside Floating Glass Card */}
-          <div className="relative z-10 max-w-xl mx-auto text-center space-y-3 sm:space-y-4">
+          {/* Content inside Floating Softselling Card (Tanpa Tombol WhatsApp) */}
+          <div className="relative z-10 max-w-xl mx-auto text-center space-y-2.5 sm:space-y-3">
             {/* Headline */}
-            <h2 className="text-xl sm:text-3xl font-serif font-black text-white leading-tight drop-shadow-md tracking-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-normal text-white leading-tight tracking-[-0.025em]">
               Istirahat Nyaman Dekat Bandara Pattimura
             </h2>
 
             {/* Concise Subtitle */}
-            <p className="text-xs sm:text-sm text-slate-100/90 font-normal leading-relaxed drop-shadow-xs max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-[#e2dffe]/90 font-normal leading-relaxed max-w-md mx-auto">
               Solusi penginapan transit bebas macet di Ambon dengan kamar bersih, tenang, dan
               fasilitas lengkap.
             </p>
-
-            {/* CTA Button */}
-            <div className="pt-1.5 sm:pt-2">
-              <Button
-                asChild
-                className="rounded-full bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-bold text-xs sm:text-sm h-11 sm:h-12 px-6 sm:px-8 gap-2 shadow-xl shadow-[#7a68b7]/30 transition-all hover:scale-105 border border-[#6c59aa]/40 cursor-pointer"
-              >
-                <a
-                  href={`https://wa.me/${ANNISA_WA_NUMBER}?text=Halo%20Penginapan%20Annisa,%20saya%20ingin%20tanya%20ketersediaan%20kamar%20transit`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <FaWhatsapp className="w-4 h-4" />
-                  <span>Pesan Kamar via WhatsApp</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-              </Button>
-            </div>
           </div>
         </div>
       </div>
