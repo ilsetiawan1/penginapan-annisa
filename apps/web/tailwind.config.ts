@@ -51,6 +51,20 @@ const config: Config = {
           dirty: "#f59e0b",
           maintenance: "#ef4444",
         },
+        phantom: {
+          canvas: "#fdfcfe",
+          surface: "#f4f2f4",
+          primary: "#1c1c1c",
+          muted: "#86848d",
+          violet: "#3c315b",
+          glow: "#e2dffe",
+          border: "#e9e8ea",
+        },
+      },
+      boxShadow: {
+        lavender: "0px 0px 20px 0px rgba(226,223,254,0.7)",
+        "lavender-glow": "0px 0px 16px rgba(226,223,254,0.9)",
+        "lavender-card": "0px 10px 30px rgba(226,223,254,0.6)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],

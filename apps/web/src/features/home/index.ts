@@ -5,3 +5,4 @@ export * from "./components/home-rooms-preview";
 export * from "./components/home-souvenirs-preview";
 export * from "./components/values-section";
 export * from "./components/faq-section";
+export * from "./hooks";
