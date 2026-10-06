@@ -1,55 +1,65 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import type { SouvenirProduct } from "@/features/souvenirs/data";
 import { useState } from "react";
 import { FloatingCartBar } from "./floating-cart-bar";
 import { SouvenirCard } from "./souvenir-card";
+import { SouvenirFilter } from "./souvenir-filter";
 import { SouvenirOrderModal } from "./souvenir-order-modal";
 
 interface SouvenirGridProps {
   items: SouvenirProduct[];
   searchQuery: string;
+  categories: string[];
+  activeCategory: string;
+  onCategoryChange: (category: string) => void;
   onReset: () => void;
 }
 
-export function SouvenirGrid({ items, searchQuery, onReset }: SouvenirGridProps) {
+export function SouvenirGrid({
+  items,
+  searchQuery,
+  categories,
+  activeCategory,
+  onCategoryChange,
+  onReset,
+}: SouvenirGridProps) {
   const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
 
   return (
-    <section className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 pb-16 sm:pb-20">
-      <div className="flex items-center justify-between mt-6 sm:mt-10 mb-4 sm:mb-6">
+    <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      {/* Section Header: Title di atas & Filter Pills di bawahnya */}
+      <div className="mb-8 space-y-3.5">
         <div>
-          <h2 className="text-xl sm:text-3xl font-serif font-black text-slate-950 tracking-tight leading-tight">
+          <h2 className="text-2xl font-normal tracking-tight text-[#1c1c1c]">
             Daftar Produk Oleh-oleh
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5 hidden sm:block">
-            Semua produk etalase siap diambil langsung di meja resepsionis (750m Bandara Pattimura).
-          </p>
         </div>
-        <span className="text-[11px] bg-purple-50 text-purple-800 font-bold px-2.5 py-1 rounded-full border border-purple-100 hidden sm:inline-block">
-          Tersedia di Resepsionis
-        </span>
+
+        {/* Filter Kategori Pills (Posisikan di bawah judul) */}
+        <SouvenirFilter
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryChange={onCategoryChange}
+        />
       </div>
 
       {items.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-3xl border border-slate-200 p-6 max-w-md mx-auto">
-          <p className="text-slate-500 text-xs sm:text-sm font-medium">
-            Tidak ditemukan produk oleh-oleh dengan kata kunci &quot;
-            {searchQuery}&quot;.
+        <div className="text-center py-16 bg-white rounded-3xl border border-[#e9e8ea] p-8 shadow-[0px_4px_20px_rgba(226,223,254,0.3)] max-w-md mx-auto">
+          <p className="text-[#86848d] text-sm font-normal">
+            Tidak ditemukan produk oleh-oleh dengan kata kunci &quot;{searchQuery}&quot;.
           </p>
-          <Button
-            variant="outline"
-            size="sm"
+          <button
+            type="button"
             onClick={onReset}
-            className="mt-3 rounded-full text-xs font-bold cursor-pointer"
+            className="mt-4 px-5 py-2 rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white text-xs font-normal transition-all active:scale-95 cursor-pointer"
           >
             Reset Pencarian
-          </Button>
+          </button>
         </div>
       ) : (
-        /* Grid Layout: 2 Kolom di Mobile, 3 Kolom di Tablet, 4 Kolom di Desktop */
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+        /* Grid Layout: 2 Kolom di Mobile, 3 Kolom di Tablet, 4 Kolom di Desktop (max-w-6xl) */
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
           {items.map((item) => (
             <SouvenirCard key={item.id} item={item} onOpenOrder={(it) => setSelectedItem(it)} />
           ))}
@@ -59,7 +69,7 @@ export function SouvenirGrid({ items, searchQuery, onReset }: SouvenirGridProps)
       {/* Modal Interaktif Pemesanan Titip Ambil Langsung */}
       <SouvenirOrderModal
         item={selectedItem}
-        isOpen={!!selectedItem}
+        isOpen={Boolean(selectedItem)}
         onClose={() => setSelectedItem(null)}
       />
 

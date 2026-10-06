@@ -1,6 +1,5 @@
 import { Gift, Search } from "lucide-react";
 import Image from "next/image";
-import { Button } from "../../../../components/ui/button";
 
 interface SouvenirHeroProps {
   searchQuery: string;
@@ -11,38 +10,39 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
   return (
     <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
       <Image
-        src="/images/heroes/souvenir-hero.jpg"
+        src="/images/heroes/souvenir-maluku-hero.png"
         alt="Oleh-oleh Khas Ambon Maluku"
         fill
         className="object-cover"
         priority
       />
-      {/* Top dark overlay for text contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/40 to-transparent" />
-      {/* Smooth Bottom White Fade Transition */}
-      <div className="absolute inset-x-0 bottom-0 h-36 sm:h-48 bg-gradient-to-t from-[#faf9fc] via-[#faf9fc]/80 to-transparent pointer-events-none" />
+      {/* Optimized Gradient Overlay for crisp readability & smooth transition */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1c1c]/70 via-[#1c1c1c]/45 to-[#fdfcfe] backdrop-blur-[0.5px]" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-14 sm:pt-16">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] sm:text-xs font-bold mb-3 sm:mb-4 shadow-sm">
-          <Gift className="w-3.5 h-3.5 text-[#c4b5e6]" />
+      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-10 sm:pt-14">
+        {/* Badge Atas */}
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-normal tracking-wide uppercase mb-4 shadow-sm">
+          <Gift className="w-3.5 h-3.5 text-white/90" />
           <span>ETALASE RESEPSIONIS ANNISA</span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow-md">
+        {/* Headline */}
+        <h1 className="text-3xl sm:text-5xl font-normal tracking-[-0.025em] text-white leading-tight">
           Oleh-oleh Khas Ambon &amp; Maluku
         </h1>
 
-        <p className="text-xs sm:text-sm md:text-base text-slate-200 font-normal max-w-xl mx-auto leading-relaxed drop-shadow-sm mb-6 sm:mb-8">
-          Minyak kayu putih, minyak cengkeh, dan aneka camilan khas Maluku di resepsionis.
+        {/* Subheadline */}
+        <p className="text-sm sm:text-base text-white/90 max-w-xl mx-auto mt-3 font-normal text-center leading-relaxed">
+          Minyak kayu putih, minyak cengkeh, dan aneka camilan khas Maluku di meja resepsionis.
         </p>
 
-        {/* Floating Search Bar */}
-        <div className="max-w-xl mx-auto bg-white rounded-full p-1.5 sm:p-2 shadow-2xl flex items-center gap-2 border border-white/80">
+        {/* Glassmorphism Floating Search Bar */}
+        <div className="max-w-xl mx-auto mt-8 flex items-center bg-white/95 backdrop-blur-md border border-[#e9e8ea] rounded-full p-1.5 shadow-[0px_4px_20px_rgba(226,223,254,0.45)]">
           <label htmlFor="souvenir-search-input" className="sr-only">
             Cari produk oleh-oleh khas Ambon
           </label>
-          <div className="pl-3.5 sm:pl-4 text-slate-500">
-            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" />
+          <div className="pl-3.5 sm:pl-4 text-[#86848d]">
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[#86848d]" />
           </div>
           <input
             id="souvenir-search-input"
@@ -50,16 +50,16 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
             aria-label="Cari produk oleh-oleh khas Ambon"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Cari oleh-oleh (misal: Minyak Kayu Putih, Bagea)..."
-            className="w-full bg-transparent text-slate-900 placeholder:text-slate-500 text-xs sm:text-sm font-medium outline-none py-1"
+            placeholder="Cari oleh-oleh misal: Minyak Kayu Putih, Bagea..."
+            className="flex-1 bg-transparent px-4 py-2 text-sm text-[#1c1c1c] placeholder:text-[#86848d] focus:outline-none"
           />
-          <Button
+          <button
             type="button"
             aria-label="Tombol cari oleh-oleh"
-            className="rounded-full bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 h-9 sm:h-10 shrink-0 shadow-md shadow-[#7a68b7]/25 border border-[#6c59aa]/40 transition-all cursor-pointer active:scale-95"
+            className="h-9 px-5 rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-[#fdfcfe] text-xs font-normal transition-all active:scale-95 cursor-pointer"
           >
             Cari
-          </Button>
+          </button>
         </div>
       </div>
     </section>

@@ -1,6 +1,5 @@
 "use client";
 
-import { SouvenirFilter } from "@/features/souvenirs/components/public/souvenir-filter";
 import { SouvenirGrid } from "@/features/souvenirs/components/public/souvenir-grid";
 import { SouvenirHero } from "@/features/souvenirs/components/public/souvenir-hero";
 import { SOUVENIR_COLLECTION, type SouvenirProduct } from "@/features/souvenirs/data";
@@ -57,21 +56,19 @@ export default function OlehOlehPage() {
   return (
     <div className="w-full">
       <SouvenirHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-      <SouvenirFilter
-        categories={categories}
-        activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
-      />
       {isLoading ? (
-        <div className="max-w-5xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 animate-pulse">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-            <div key={i} className="h-80 bg-slate-200/80 rounded-3xl" />
+            <div key={i} className="h-72 bg-[#f4f2f4] rounded-3xl border border-[#e9e8ea]" />
           ))}
         </div>
       ) : (
         <SouvenirGrid
           items={filteredSouvenirs}
           searchQuery={searchQuery}
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
           onReset={() => {
             setSearchQuery("");
             setActiveCategory("Semua");

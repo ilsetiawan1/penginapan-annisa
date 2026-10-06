@@ -83,83 +83,82 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md max-h-[88dvh] overflow-y-auto p-0 rounded-2xl sm:rounded-3xl border-0 shadow-2xl bg-[#faf9fc] flex flex-col">
-        <DialogTitle className="sr-only">Titip Ambil {item.name}</DialogTitle>
+      <DialogContent className="max-w-md max-h-[88dvh] overflow-y-auto p-0 rounded-3xl border border-[#e9e8ea] shadow-2xl bg-white flex flex-col">
+        <DialogTitle className="sr-only">Pesan {item.name}</DialogTitle>
         <DialogDescription className="sr-only">
           Formulir pemesanan titip ambil {item.name} di Resepsionis Penginapan Annisa
         </DialogDescription>
-        {/* Header Visual Bar */}
-        <div className="bg-gradient-to-r from-purple-900 via-purple-950 to-indigo-950 text-white py-3 px-4 sm:py-3.5 sm:px-5 pr-12 rounded-t-2xl sm:rounded-t-3xl relative overflow-hidden shrink-0">
-          <div className="absolute -bottom-6 -right-6 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none" />
 
+        {/* Header Visual Bar */}
+        <div className="bg-[#3c315b] text-white py-3.5 px-4 sm:px-5 pr-12 rounded-t-3xl relative overflow-hidden shrink-0">
           <div className="relative z-10 flex items-center gap-3">
             {/* Foto Thumbnail Produk */}
-            <div className="relative w-11 h-11 sm:w-14 sm:h-14 rounded-xl overflow-hidden border border-white/20 shrink-0 bg-slate-800 shadow-md">
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden border border-white/20 shrink-0 bg-[#2d2445] shadow-md">
               <Image src={item.image} alt={item.name} fill unoptimized className="object-cover" />
             </div>
 
             <div className="min-w-0">
-              <div className="flex items-center gap-1 text-purple-200 text-[10px] font-bold uppercase tracking-wider mb-0.5">
-                <Tag className="w-2.5 h-2.5 text-purple-300" />
+              <div className="flex items-center gap-1 text-white/80 text-[10px] font-medium uppercase tracking-wider mb-0.5">
+                <Tag className="w-2.5 h-2.5 text-white/70" />
                 <span>{item.categoryLabel}</span>
               </div>
-              <h2 className="text-xs sm:text-base font-serif font-black text-white leading-tight line-clamp-1">
+              <h2 className="text-sm sm:text-base font-medium text-white leading-tight line-clamp-1">
                 {item.name}
               </h2>
-              <span className="text-xs sm:text-sm font-black text-amber-400 mt-0.5 block">
-                {item.price} <span className="text-[10px] text-purple-200 font-normal">/ unit</span>
+              <span className="text-xs sm:text-sm font-semibold text-amber-300 mt-0.5 block">
+                {item.price} <span className="text-[10px] text-white/70 font-normal">/ unit</span>
               </span>
             </div>
           </div>
         </div>
 
         {/* Modal Form Body */}
-        <div className="p-3 sm:p-4 space-y-2.5 text-left">
+        <div className="p-4 sm:p-5 space-y-3 text-left">
           {/* 1. Atur Jumlah Unit */}
-          <div className="bg-white p-2.5 rounded-xl border border-slate-200/90 shadow-2xs flex items-center justify-between">
+          <div className="bg-[#f4f2f4]/60 p-3 rounded-2xl border border-[#e9e8ea] flex items-center justify-between">
             <div>
-              <span className="text-xs font-bold text-slate-800 block">Jumlah Pesanan</span>
-              <span className="text-[10px] text-slate-600 font-medium">
-                Pilih kuantiti yang disiapkan
-              </span>
+              <span className="text-xs font-medium text-[#1c1c1c] block">Jumlah Pesanan</span>
+              <span className="text-[10px] text-[#86848d]">Pilih kuantiti yang disiapkan</span>
             </div>
 
-            <div className="flex items-center gap-2 bg-purple-50 p-0.5 rounded-lg border border-purple-100">
+            <div className="flex items-center gap-2 bg-white p-1 rounded-full border border-[#e9e8ea] shadow-2xs">
               <button
                 type="button"
                 aria-label="Kurangi jumlah pesanan"
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="w-6 h-6 rounded-md bg-white hover:bg-purple-100 text-purple-900 flex items-center justify-center font-bold text-xs transition cursor-pointer shadow-2xs"
+                className="w-6 h-6 rounded-full bg-[#f4f2f4] hover:bg-[#e9e8ea] text-[#1c1c1c] flex items-center justify-center font-bold text-xs transition cursor-pointer"
               >
                 <Minus className="w-3 h-3" />
               </button>
-              <span className="text-xs font-black text-purple-950 w-4 text-center">{quantity}</span>
+              <span className="text-xs font-semibold text-[#1c1c1c] w-5 text-center">
+                {quantity}
+              </span>
               <button
                 type="button"
                 aria-label="Tambah jumlah pesanan"
                 onClick={() => setQuantity((q) => Math.min(20, q + 1))}
-                className="w-6 h-6 rounded-md bg-[#7a68b7] hover:bg-[#6c59aa] text-white flex items-center justify-center font-bold text-xs transition cursor-pointer shadow-2xs"
+                className="w-6 h-6 rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white flex items-center justify-center font-bold text-xs transition cursor-pointer"
               >
                 <Plus className="w-3 h-3" />
               </button>
             </div>
           </div>
 
-          {/* 2. Formulir Identitas & Jadwal (2 Kolom Ramping) */}
-          <div className="space-y-2 bg-white p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs">
-            <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-900 flex items-center gap-1">
-              <User className="w-3 h-3 text-purple-700" />
+          {/* 2. Formulir Identitas & Jadwal */}
+          <div className="space-y-2.5 bg-[#f4f2f4]/60 p-3 sm:p-3.5 rounded-2xl border border-[#e9e8ea]">
+            <h3 className="text-[10px] font-medium uppercase tracking-wider text-[#1c1c1c] flex items-center gap-1.5">
+              <User className="w-3 h-3 text-[#3c315b]" />
               <span>Identitas &amp; Jadwal Ambil</span>
             </h3>
 
             {/* Nama & WA Bersisian */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2.5">
               <div>
                 <label
                   htmlFor="order-guest-name"
-                  className="text-[10px] font-semibold text-slate-600 block mb-0.5"
+                  className="text-[10px] font-normal text-[#86848d] block mb-1"
                 >
-                  Nama <span className="text-red-500">*</span>
+                  Nama <span className="text-rose-500">*</span>
                 </label>
                 <input
                   id="order-guest-name"
@@ -168,16 +167,16 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   placeholder="Nama Pemesan"
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
-                  className="w-full h-8 bg-[#faf9fd] border border-slate-200 rounded-lg px-2 py-1 text-xs font-medium text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
+                  className="w-full h-9 bg-white border border-[#e9e8ea] rounded-xl px-2.5 py-1 text-xs font-normal text-[#1c1c1c] outline-none focus:border-[#3c315b] transition"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="order-guest-phone"
-                  className="text-[10px] font-semibold text-slate-600 block mb-0.5"
+                  className="text-[10px] font-normal text-[#86848d] block mb-1"
                 >
-                  No. WhatsApp <span className="text-red-500">*</span>
+                  No. WhatsApp <span className="text-rose-500">*</span>
                 </label>
                 <input
                   id="order-guest-phone"
@@ -186,21 +185,21 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   placeholder="081234567890"
                   value={guestPhone}
                   onChange={(e) => setGuestPhone(e.target.value)}
-                  className="w-full h-8 bg-[#faf9fd] border border-slate-200 rounded-lg px-2 py-1 text-xs font-medium text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
+                  className="w-full h-9 bg-white border border-[#e9e8ea] rounded-xl px-2.5 py-1 text-xs font-normal text-[#1c1c1c] outline-none focus:border-[#3c315b] transition"
                 />
               </div>
             </div>
 
             {/* Tanggal & Jam Pengambilan */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2.5">
               <div>
                 <label
                   htmlFor="order-pickup-date"
-                  className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5"
+                  className="text-[10px] font-normal text-[#86848d] flex items-center gap-1 mb-1"
                 >
-                  <Calendar className="w-2.5 h-2.5 text-purple-600" />
+                  <Calendar className="w-2.5 h-2.5 text-[#3c315b]" />
                   <span>
-                    Tgl Ambil <span className="text-red-500">*</span>
+                    Tgl Ambil <span className="text-rose-500">*</span>
                   </span>
                 </label>
                 <input
@@ -209,18 +208,18 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   aria-label="Tanggal Ambil"
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className="w-full h-8 bg-[#faf9fd] border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
+                  className="w-full h-9 bg-white border border-[#e9e8ea] rounded-xl px-2.5 py-1 text-xs font-normal text-[#1c1c1c] outline-none focus:border-[#3c315b] transition cursor-pointer"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="order-pickup-time"
-                  className="text-[10px] font-semibold text-slate-600 flex items-center gap-1 mb-0.5"
+                  className="text-[10px] font-normal text-[#86848d] flex items-center gap-1 mb-1"
                 >
-                  <Clock className="w-2.5 h-2.5 text-purple-600" />
+                  <Clock className="w-2.5 h-2.5 text-[#3c315b]" />
                   <span>
-                    Jam WIT <span className="text-red-500">*</span>
+                    Jam WIT <span className="text-rose-500">*</span>
                   </span>
                 </label>
                 <input
@@ -229,33 +228,33 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   aria-label="Jam Pengambilan WIT"
                   value={pickupTime}
                   onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full h-8 bg-[#faf9fd] border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-900 outline-none focus:border-purple-600 focus:bg-white transition"
+                  className="w-full h-9 bg-white border border-[#e9e8ea] rounded-xl px-2.5 py-1 text-xs font-normal text-[#1c1c1c] outline-none focus:border-[#3c315b] transition cursor-pointer"
                 />
               </div>
             </div>
           </div>
 
-          {/* 3. Catatan Ringkas & Padat Konsep Layanan */}
-          <div className="bg-purple-50/70 px-2.5 py-1.5 rounded-xl border border-purple-200/60 flex items-center gap-2 text-left">
-            <Store className="w-3.5 h-3.5 text-purple-800 shrink-0" />
-            <p className="text-[10px] text-purple-950 font-medium leading-tight">
-              <strong>Titip Ambil (Self Pick-Up):</strong> Disiapkan di meja resepsionis untuk
-              diambil &amp; dibayar langsung saat tiba (tanpa kurir).
+          {/* 3. Catatan Layanan */}
+          <div className="bg-[#f4f2f4] px-3 py-2 rounded-2xl border border-[#e9e8ea] flex items-center gap-2 text-left">
+            <Store className="w-3.5 h-3.5 text-[#3c315b] shrink-0" />
+            <p className="text-[10px] text-[#3c315b] font-normal leading-tight">
+              <strong>Titip Ambil:</strong> Disiapkan di meja resepsionis untuk diambil &amp;
+              dibayar langsung saat tiba di penginapan.
             </p>
           </div>
 
           {/* 4. Total & Tombol Aksi */}
-          <div className="pt-0.5 space-y-2">
-            <div className="flex items-center justify-between px-0.5">
-              <span className="text-[11px] font-bold text-slate-500">
+          <div className="pt-1 space-y-2.5">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-xs text-[#86848d] font-normal">
                 Total Tagihan ({quantity} unit):
               </span>
-              <strong className="text-sm sm:text-base font-black text-purple-800">
+              <strong className="text-base font-semibold text-[#1c1c1c]">
                 Rp {totalPrice.toLocaleString("id-ID")}
               </strong>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2.5">
               <Button
                 type="button"
                 variant="outline"
@@ -264,7 +263,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   toast.success(`${quantity}x ${item.name} ditambahkan ke keranjang.`);
                   onClose();
                 }}
-                className="w-full h-9 sm:h-10 rounded-xl border-[#ddd3f3] hover:bg-[#ede8f8] text-[#594791] font-bold text-xs gap-1.5 transition cursor-pointer"
+                className="w-full h-10 rounded-full border-[#e9e8ea] hover:bg-[#f4f2f4] text-[#3c315b] font-normal text-xs gap-1.5 transition cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>+ Keranjang</span>
@@ -272,9 +271,9 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
               <Button
                 onClick={handleSendOrder}
-                className="w-full h-9 sm:h-10 rounded-xl sm:rounded-2xl bg-[#7a68b7] hover:bg-[#6c59aa] text-white font-extrabold text-xs gap-1.5 shadow-sm shadow-[#7a68b7]/25 border border-[#6c59aa]/40 hover:shadow-md transition cursor-pointer"
+                className="w-full h-10 rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white font-medium text-xs sm:text-sm gap-1.5 shadow-sm transition cursor-pointer active:scale-95"
               >
-                <FaWhatsapp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <FaWhatsapp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
                 <span>Pesan WhatsApp</span>
               </Button>
             </div>
