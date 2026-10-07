@@ -8,7 +8,7 @@ interface SouvenirHeroProps {
 
 export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps) {
   return (
-    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden bg-[#fdfcfe]">
       <Image
         src="/images/heroes/souvenir-hero.webp"
         alt="Oleh-oleh Khas Ambon Maluku"
@@ -16,8 +16,11 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
         className="object-cover"
         priority
       />
-      {/* Optimized Gradient Overlay for crisp readability & smooth transition */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1c1c]/70 via-[#1c1c1c]/45 to-[#fdfcfe] backdrop-blur-[0.5px]" />
+      {/* Top dark gradient overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1c1c]/75 via-[#1c1c1c]/45 to-transparent pointer-events-none" />
+
+      {/* Seamless bottom fade transition to canvas (#fdfcfe) eliminating all lines/seams */}
+      <div className="absolute inset-x-0 -bottom-1 h-32 sm:h-44 bg-gradient-to-t from-[#fdfcfe] via-[#fdfcfe]/90 to-transparent pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-10 sm:pt-14">
         {/* Headline */}

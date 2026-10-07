@@ -39,7 +39,7 @@ export default function OlehOlehPage() {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-[#fdfcfe]">
       <SouvenirHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       {isLoading ? (
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 animate-pulse">

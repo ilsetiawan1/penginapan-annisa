@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { GlassIcon } from "@/components/ui/glass-icons";
 import { Bed, KeyRound } from "lucide-react";
+import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 
 const STEPS = [
@@ -9,16 +10,19 @@ const STEPS = [
     id: 1,
     title: "Pilih Tipe Kamar",
     icon: Bed,
+    color: "brand",
   },
   {
     id: 2,
     title: "Chat WhatsApp",
     icon: FaWhatsapp,
+    color: "brand",
   },
   {
     id: 3,
     title: "DP & Siap Istirahat",
     icon: KeyRound,
+    color: "brand",
   },
 ];
 
@@ -60,7 +64,7 @@ export function TimelineMobile() {
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* 1. Step Progress Indicators (3 Connected Segment Pills) */}
-      <div className="flex items-center justify-between gap-2.5 mb-5 px-1">
+      <div className="flex items-center justify-between gap-2.5 mb-8 px-1">
         {STEPS.map((step, index) => {
           const isActive = index === activeIndex;
           const isPassed = index < activeIndex;
@@ -77,11 +81,7 @@ export function TimelineMobile() {
               <div className="flex items-center justify-center mb-1.5">
                 <span
                   className={`text-[11px] font-medium transition-colors duration-200 ${
-                    isActive
-                      ? "text-[#3c315b]"
-                      : isPassed
-                        ? "text-[#7a68b7]"
-                        : "text-[#86848d]"
+                    isActive ? "text-[#3c315b]" : isPassed ? "text-[#7a68b7]" : "text-[#86848d]"
                   }`}
                 >
                   0{step.id}
@@ -108,36 +108,31 @@ export function TimelineMobile() {
         })}
       </div>
 
-      {/* 2. Standalone Bouncy Icon Card & Title (Tanpa Box Luar & Tanpa Tag Langkah) */}
-      <div
+      {/* 2. Standalone 3D Glass Icon Card & Title */}
+      <button
         key={currentStep.id}
+        type="button"
         onClick={handleNext}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            handleNext();
-          }
-        }}
-        role="button"
-        tabIndex={0}
         aria-label={`Langkah aktif: ${currentStep.title}. Klik untuk lanjut.`}
-        className="flex flex-col items-center text-center cursor-pointer group focus:outline-none"
+        className="w-full flex flex-col items-center text-center cursor-pointer group focus:outline-none bg-transparent border-none p-0 pt-1"
       >
-        <div className="relative mb-3">
+        <div className="relative mb-3.5 pt-1 flex items-center justify-center">
           {/* Subtle Ambient Glow */}
-          <div className="absolute inset-0 bg-[#e2dffe]/60 rounded-2xl blur-md scale-95 group-hover:scale-110 transition-transform duration-300" />
+          <div className="absolute inset-0 bg-[#e2dffe]/50 rounded-2xl blur-lg scale-90 pointer-events-none" />
 
-          {/* Bouncy Spring Pop Card */}
-          <div className="relative w-16 h-16 rounded-2xl bg-white border border-[#e9e8ea] shadow-sm shadow-[#3c315b]/10 flex items-center justify-center animate-spring-bounce group-active:scale-90 transition-transform">
-            <CurrentIcon className="w-8 h-8 text-[#3c315b]" />
-          </div>
+          {/* 3D Glass Icon Card */}
+          <GlassIcon
+            icon={<CurrentIcon className="w-6 h-6 text-white" />}
+            color={currentStep.color}
+            className="animate-spring-bounce"
+          />
         </div>
 
         {/* Title */}
         <h3 className="text-sm font-medium text-[#1c1c1c] leading-tight tracking-tight">
           {currentStep.title}
         </h3>
-      </div>
+      </button>
     </div>
   );
 }

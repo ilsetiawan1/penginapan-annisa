@@ -1,4 +1,4 @@
-import { Bed, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import Image from "next/image";
 
 interface RoomHeroProps {
@@ -8,7 +8,7 @@ interface RoomHeroProps {
 
 export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
   return (
-    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden bg-[#fdfcfe]">
       <Image
         src="/images/heroes/room-hero.webp"
         alt="Jembatan Merah Putih Ambon"
@@ -16,26 +16,17 @@ export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
         className="object-cover"
         priority
       />
-      {/* Optimized Gradient Overlay for crisp readability & smooth transition */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1c1c]/70 via-[#1c1c1c]/45 to-[#fdfcfe] backdrop-blur-[0.5px]" />
+      {/* Top dark gradient overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1c1c]/75 via-[#1c1c1c]/45 to-transparent pointer-events-none" />
+
+      {/* Seamless bottom fade transition to canvas (#fdfcfe) eliminating all lines/seams */}
+      <div className="absolute inset-x-0 -bottom-1 h-32 sm:h-44 bg-gradient-to-t from-[#fdfcfe] via-[#fdfcfe]/90 to-transparent pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-10 sm:pt-14">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-normal tracking-wide uppercase mb-4 shadow-sm">
-          <Bed className="w-3.5 h-3.5 text-white/90" />
-          <span>KATALOG 8 UNIT KAMAR</span>
-        </div>
-
         {/* Headline */}
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-normal tracking-[-0.025em] text-white leading-tight text-center">
           Pilihan Kamar Transit Nyaman
         </h1>
-
-        {/* Subheadline */}
-        <p className="text-sm sm:text-base text-white/90 max-w-xl mx-auto mt-3 font-normal text-center leading-relaxed">
-          Kamar bersih &amp; tenang, 100% kamar mandi dalam pribadi, hanya 750 meter atau 2–3 menit
-          dari Bandara Pattimura.
-        </p>
 
         {/* Glassmorphism Floating Search Bar */}
         <div className="max-w-xl mx-auto mt-8 flex items-center bg-white/95 backdrop-blur-md border border-[#e9e8ea] rounded-full p-1.5 shadow-[0px_4px_20px_rgba(226,223,254,0.45)]">

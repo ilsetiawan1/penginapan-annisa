@@ -247,7 +247,7 @@ export default function KamarPage() {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-[#fdfcfe]">
       <RoomHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <RoomFilter
         checkInDate={checkInDate}

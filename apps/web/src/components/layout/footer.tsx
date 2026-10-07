@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 export function Footer() {
   const pathname = usePathname();
   const { data: settings } = useSettings();
-  const { canInstall, installPWA } = usePWAInstall();
+  const { installPWA } = usePWAInstall();
   const lodgingName = settings?.lodging_name || "Penginapan Annisa";
   const waNumber = settings?.whatsapp_number || "6281240822240";
   const airportDistance = settings?.airport_distance || "Transit Dekat Bandara Pattimura";
@@ -64,28 +64,26 @@ export function Footer() {
                 />
               </div>
               <div>
-                <span className="font-medium text-sm text-[#1c1c1c] leading-tight block group-hover:text-[#3c315b] transition">
+                <span className="font-signature font-normal text-lg sm:text-xl text-[#1c1c1c] tracking-normal block group-hover:text-[#3c315b] transition leading-none pt-0.5">
                   {lodgingName}
                 </span>
-                <span className="text-[11px] text-[#86848d] font-normal tracking-tight block leading-none mt-0.5">
+                <span className="text-[11px] text-[#86848d] font-normal tracking-tight block leading-none mt-1">
                   {airportDistance}
                 </span>
               </div>
             </Link>
 
-            {/* Tombol Unduh Aplikasi PWA di bawah identitas logo (Normal tanpa bounce) */}
-            {canInstall && (
-              <div className="pt-1.5">
-                <button
-                  type="button"
-                  onClick={installPWA}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#e9e8ea] bg-white px-3.5 py-1.5 text-xs font-normal text-[#3c315b] shadow-2xs transition-all duration-200 hover:bg-[#f4f2f4] active:scale-95 cursor-pointer"
-                >
-                  <Download className="w-3.5 h-3.5 text-[#3c315b]" />
-                  <span>Unduh Aplikasi Penginapan Annisa</span>
-                </button>
-              </div>
-            )}
+            {/* Tombol Unduh Aplikasi PWA di bawah identitas logo */}
+            <div className="pt-1.5">
+              <button
+                type="button"
+                onClick={installPWA}
+                className="inline-flex items-center gap-2 rounded-full border border-[#e9e8ea] bg-white px-3.5 py-1.5 text-xs font-normal text-[#3c315b] shadow-2xs transition-all duration-200 hover:bg-[#f4f2f4] active:scale-95 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5 text-[#3c315b]" />
+                <span>Unduh Aplikasi Penginapan Annisa</span>
+              </button>
+            </div>
           </div>
 
           {/* Container Kolom 2 & 3 (Mobile: 2 Kolom Sejajar Rapi / Desktop: Terpisah) */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: string[];
@@ -46,18 +47,42 @@ export function usePWAInstall() {
   }, []);
 
   const installPWA = async () => {
-    if (!deferredPrompt) return;
-
-    await deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") {
-      setIsInstalled(true);
+    if (isInstalled) {
+      toast.success("Aplikasi Penginapan Annisa sudah terpasang di perangkat Anda.");
+      return;
     }
-    setDeferredPrompt(null);
+
+    if (deferredPrompt) {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        setIsInstalled(true);
+        toast.success("Aplikasi Penginapan Annisa berhasil dipasang.");
+      }
+      setDeferredPrompt(null);
+      return;
+    }
+
+    // Panduan fallback jika browser tidak memicu beforeinstallprompt secara otomatis (Safari iOS, Firefox, atau Chrome desktop)
+    if (typeof window !== "undefined") {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (isIOS) {
+        toast.info(
+          "Untuk memasang di iPhone/iPad: Ketuk ikon 'Bagikan' (Share) di Safari, lalu pilih 'Tambah ke Layar Utama'.",
+          { duration: 5000 },
+        );
+      } else {
+        toast.info(
+          "Untuk memasang: Buka menu browser (ikon titik tiga atau ikon pasang di kolom alamat), lalu pilih 'Pasang/Install'.",
+          { duration: 5000 },
+        );
+      }
+    }
   };
 
   return {
-    canInstall: !isInstalled && deferredPrompt !== null,
+    canInstall: true,
     installPWA,
+    isInstalled,
   };
 }

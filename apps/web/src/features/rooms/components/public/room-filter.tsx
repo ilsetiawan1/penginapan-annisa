@@ -31,14 +31,14 @@ export function RoomFilter({
     : "Pilih Tanggal";
 
   return (
-    <section className="max-w-xl mx-auto px-4 -mt-8 relative z-20">
+    <section className="max-w-xl mx-auto px-4 mt-3 sm:mt-4 relative z-20">
       <div className="bg-white rounded-3xl border border-[#e9e8ea] p-3 sm:p-4 shadow-[0px_6px_25px_rgba(226,223,254,0.4)]">
         {/* Input Check-in & Durasi */}
         <div className="grid grid-cols-2 gap-2.5 sm:gap-4 items-center">
           {/* Card Input Check-in (Seluruh area card dapat diklik untuk membuka calendar picker) */}
           <label
             htmlFor="kamar-checkin-date"
-            className="relative bg-[#f4f2f4]/60 hover:bg-[#f4f2f4] border border-[#e9e8ea] hover:border-[#3c315b]/40 rounded-2xl px-3.5 py-2.5 transition flex items-center justify-between cursor-pointer focus-within:border-[#3c315b]"
+            className="relative bg-[#f4f2f4]/60 hover:bg-[#f4f2f4] border border-[#e9e8ea] hover:border-[#3c315b]/40 rounded-2xl py-2.5 px-3.5 sm:py-3 sm:px-4 transition flex items-center justify-between cursor-pointer focus-within:border-[#3c315b]"
           >
             <div className="pointer-events-none select-none">
               <span className="text-[10px] font-normal text-[#86848d] uppercase tracking-wider block">
@@ -80,7 +80,7 @@ export function RoomFilter({
           {/* Card Input Lama Menginap (Seluruh area card dapat diklik untuk membuka dropdown) */}
           <label
             htmlFor="kamar-nights"
-            className="relative bg-[#f4f2f4]/60 hover:bg-[#f4f2f4] border border-[#e9e8ea] hover:border-[#3c315b]/40 rounded-2xl px-3.5 py-2.5 transition flex items-center justify-between cursor-pointer focus-within:border-[#3c315b]"
+            className="relative bg-[#f4f2f4]/60 hover:bg-[#f4f2f4] border border-[#e9e8ea] hover:border-[#3c315b]/40 rounded-2xl py-2.5 px-3.5 sm:py-3 sm:px-4 transition flex items-center justify-between cursor-pointer focus-within:border-[#3c315b]"
           >
             <div className="pointer-events-none select-none">
               <span className="text-[10px] font-normal text-[#86848d] uppercase tracking-wider block">
