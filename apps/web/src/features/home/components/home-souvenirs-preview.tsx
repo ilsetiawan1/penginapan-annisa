@@ -2,7 +2,6 @@
 
 import { CardScatter, type CardScatterItem } from "@/components/ui/card-scatter";
 import { FloatingCartBar } from "@/features/souvenirs/components/public/floating-cart-bar";
-import { SOUVENIR_COLLECTION } from "@/features/souvenirs/data";
 import { useSouvenirs } from "@/features/souvenirs/hooks/use-souvenirs";
 import type { Souvenir } from "@annisa/types";
 import { ArrowRight, Sparkles } from "lucide-react";
@@ -19,57 +18,40 @@ export function HomeSouvenirsPreview() {
 
   // Filter khusus kategori Minyak Kayu Putih Asli, urutkan stok terbanyak, maksimal 10 produk
   const souvenirs: FeaturedSouvenir[] = useMemo(() => {
-    if (dbSouvenirs && dbSouvenirs.length > 0) {
-      // 1. Filter kategori Minyak Kayu Putih Asli yang memiliki stok (> 0)
-      const mkpItems = dbSouvenirs.filter((s: Souvenir) => {
-        const catName = s.category?.name?.toLowerCase() || "";
-        const catSlug = s.category?.slug?.toLowerCase() || "";
-        const prodName = s.name.toLowerCase();
+    if (!dbSouvenirs || dbSouvenirs.length === 0) return [];
 
-        const isMkp =
-          catSlug.includes("minyak-kayu-putih") ||
-          catSlug.includes("minyak") ||
-          catName.includes("minyak kayu putih") ||
-          catName.includes("minyak") ||
-          prodName.includes("mkp") ||
-          prodName.includes("minyak kayu putih");
+    // 1. Filter kategori Minyak Kayu Putih Asli yang memiliki stok (> 0)
+    const mkpItems = dbSouvenirs.filter((s: Souvenir) => {
+      const catName = s.category?.name?.toLowerCase() || "";
+      const catSlug = s.category?.slug?.toLowerCase() || "";
+      const prodName = s.name.toLowerCase();
 
-        const hasStock = typeof s.stock === "number" ? s.stock > 0 : true;
-        const available = s.isAvailable !== false;
+      const isMkp =
+        catSlug.includes("minyak-kayu-putih") ||
+        catSlug.includes("minyak") ||
+        catName.includes("minyak kayu putih") ||
+        catName.includes("minyak") ||
+        prodName.includes("mkp") ||
+        prodName.includes("minyak kayu putih");
 
-        return isMkp && hasStock && available;
-      });
+      const hasStock = typeof s.stock === "number" ? s.stock > 0 : true;
+      const available = s.isAvailable !== false;
 
-      // 2. Urutkan berdasarkan stok terbanyak (descending)
-      mkpItems.sort((a, b) => (b.stock ?? 0) - (a.stock ?? 0));
+      return isMkp && hasStock && available;
+    });
 
-      // 3. Batasi maksimal 10 kartu. Jika produk < 5 (misal 3), hanya tampilkan 3 tanpa card kosong
-      const limited = mkpItems.slice(0, 10);
+    // 2. Urutkan berdasarkan stok terbanyak (descending)
+    mkpItems.sort((a, b) => (b.stock ?? 0) - (a.stock ?? 0));
 
-      if (limited.length > 0) {
-        return limited.map((s) => ({
-          id: s.id,
-          title: s.name,
-          categoryLabel: s.category?.name || "Minyak Kayu Putih Asli",
-          stock: s.stock,
-          image: s.imageUrl || "",
-        }));
-      }
-    }
+    // 3. Batasi maksimal 10 kartu. Jika produk < 5 (misal 3), hanya tampilkan 3 tanpa card kosong
+    const limited = mkpItems.slice(0, 10);
 
-    // Fallback: SOUVENIR_COLLECTION produk Minyak Kayu Putih (maksimal 10)
-    const fallbackMkp = SOUVENIR_COLLECTION.filter(
-      (s) =>
-        s.category === "Minyak & Herbal" ||
-        s.categoryLabel.toLowerCase().includes("minyak") ||
-        s.name.toLowerCase().includes("mkp"),
-    ).slice(0, 10);
-
-    return fallbackMkp.map((s) => ({
+    return limited.map((s) => ({
       id: s.id,
       title: s.name,
-      categoryLabel: s.categoryLabel,
-      image: s.image,
+      categoryLabel: s.category?.name || "Minyak Kayu Putih Asli",
+      stock: s.stock,
+      image: s.imageUrl || "",
     }));
   }, [dbSouvenirs]);
 

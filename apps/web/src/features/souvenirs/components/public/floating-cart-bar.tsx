@@ -28,7 +28,7 @@ export function FloatingCartBar() {
               </span>
             </div>
             <div className="min-w-0">
-              <span className="text-xs sm:text-sm font-semibold text-white block leading-tight truncate">
+              <span className="text-xs sm:text-sm font-medium text-white tracking-tight block leading-tight truncate">
                 Rp {totalPrice.toLocaleString("id-ID")}
               </span>
               <span className="text-[10px] sm:text-[11px] text-white/80 font-normal block truncate">

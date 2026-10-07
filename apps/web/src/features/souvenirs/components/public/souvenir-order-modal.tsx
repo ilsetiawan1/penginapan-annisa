@@ -2,34 +2,43 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import type { SouvenirProduct } from "@/features/souvenirs/data";
 import { cartStore } from "@/features/souvenirs/hooks/use-cart";
 import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
+import type { Souvenir } from "@annisa/types";
 import { Calendar, Clock, Minus, Plus, Store, Tag, User } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { toast } from "sonner";
 
+const getTodayStr = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 interface SouvenirOrderModalProps {
-  item: SouvenirProduct | null;
+  item: Souvenir | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function SouvenirOrderModal({ item, isOpen, onClose }: SouvenirOrderModalProps) {
+  const todayStr = getTodayStr();
   const [quantity, setQuantity] = useState<number>(1);
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
-  const [pickupDate, setPickupDate] = useState<string>(() => {
-    return new Date().toISOString().split("T")[0];
-  });
+  const [pickupDate, setPickupDate] = useState<string>(todayStr);
   const [pickupTime, setPickupTime] = useState<string>("14:00");
 
   if (!item) return null;
 
-  const unitPrice = item.priceNum;
+  const unitPrice = item.price;
   const totalPrice = unitPrice * quantity;
+  const categoryLabel = item.category?.name || "Oleh-oleh Khas Maluku";
+  const formattedPrice = `Rp ${item.price.toLocaleString("id-ID")}`;
 
   // Format tanggal ke Bahasa Indonesia (Contoh: 23 September 2026, 14:00 WIT)
   const formattedPickupDate = pickupDate
@@ -58,13 +67,18 @@ export function SouvenirOrderModal({ item, isOpen, onClose }: SouvenirOrderModal
       return;
     }
 
+    if (pickupDate < todayStr) {
+      toast.error("Tanggal pengambilan tidak boleh sebelum hari ini.");
+      return;
+    }
+
     const waMessage = `*Halo Resepsionis Penginapan Annisa, saya ingin Titip Ambil Oleh-Oleh:*
 
 *Detail Produk:*
 - Nama Produk: *${item.name}*
-- Kategori: *${item.categoryLabel}*
+- Kategori: *${categoryLabel}*
 - Jumlah: *${quantity} pcs*
-- Harga Satuan: *${item.price}*
+- Harga Satuan: *${formattedPrice}*
 - *Total Tagihan: Rp ${totalPrice.toLocaleString("id-ID")}*
 
 *Identitas Pemesan:*
@@ -83,37 +97,50 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md max-h-[88dvh] overflow-y-auto p-0 rounded-3xl border border-[#e9e8ea] shadow-2xl bg-white flex flex-col">
+      <DialogContent className="w-[calc(100%-2rem)] max-w-lg mx-auto rounded-3xl bg-white p-5 sm:p-6 shadow-2xl border border-[#e9e8ea] overflow-hidden max-h-[88dvh] overflow-y-auto flex flex-col gap-0">
         <DialogTitle className="sr-only">Pesan {item.name}</DialogTitle>
         <DialogDescription className="sr-only">
           Formulir pemesanan titip ambil {item.name} di Resepsionis Penginapan Annisa
         </DialogDescription>
 
-        {/* Header Visual Bar */}
-        <div className="bg-[#3c315b] text-white py-3.5 px-4 sm:px-5 pr-12 rounded-t-3xl relative overflow-hidden shrink-0">
+        {/* Header Visual Bar Bersih (Light Phantom) */}
+        <div className="text-[#1c1c1c] pr-8 relative overflow-hidden shrink-0">
           <div className="relative z-10 flex items-center gap-3">
             {/* Foto Thumbnail Produk */}
-            <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden border border-white/20 shrink-0 bg-[#2d2445] shadow-md">
-              <Image src={item.image} alt={item.name} fill unoptimized className="object-cover" />
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden border border-[#e9e8ea] shrink-0 bg-[#f4f2f4] shadow-2xs">
+              <Image
+                src={item.imageUrl || "/images/placeholder-product.webp"}
+                alt={item.name}
+                fill
+                unoptimized
+                className="object-cover"
+              />
             </div>
 
             <div className="min-w-0">
-              <div className="flex items-center gap-1 text-white/80 text-[10px] font-medium uppercase tracking-wider mb-0.5">
-                <Tag className="w-2.5 h-2.5 text-white/70" />
-                <span>{item.categoryLabel}</span>
+              <div className="flex items-center gap-1 text-[#86848d] text-[10px] font-medium uppercase tracking-wider mb-0.5">
+                <Tag className="w-2.5 h-2.5 text-[#86848d]" />
+                <span>{categoryLabel}</span>
               </div>
-              <h2 className="text-sm sm:text-base font-medium text-white leading-tight line-clamp-1">
+              <h2 className="text-sm sm:text-base font-medium text-[#1c1c1c] leading-tight line-clamp-1">
                 {item.name}
               </h2>
-              <span className="text-xs sm:text-sm font-semibold text-amber-300 mt-0.5 block">
-                {item.price} <span className="text-[10px] text-white/70 font-normal">/ unit</span>
+              <span className="text-xs sm:text-sm font-medium text-[#1c1c1c] tracking-tight mt-0.5 block">
+                {formattedPrice}{" "}
+                <span className="text-[10px] text-[#86848d] font-normal">/ unit</span>
               </span>
             </div>
           </div>
         </div>
 
         {/* Modal Form Body */}
-        <div className="p-4 sm:p-5 space-y-3 text-left">
+        <div className="space-y-3 text-left mt-3">
+          {/* Deskripsi Lengkap Produk */}
+          {item.description && (
+            <div className="w-full text-xs sm:text-sm text-[#86848d] leading-relaxed p-3 bg-[#fdfcfe] border border-[#e9e8ea] rounded-2xl">
+              <p>{item.description}</p>
+            </div>
+          )}
           {/* 1. Atur Jumlah Unit */}
           <div className="bg-[#f4f2f4]/60 p-3 rounded-2xl border border-[#e9e8ea] flex items-center justify-between">
             <div>
@@ -206,8 +233,17 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   id="order-pickup-date"
                   type="date"
                   aria-label="Tanggal Ambil"
+                  min={todayStr}
                   value={pickupDate}
-                  onChange={(e) => setPickupDate(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val && val < todayStr) {
+                      setPickupDate(todayStr);
+                      toast.error("Tanggal tidak boleh sebelum hari ini.");
+                    } else {
+                      setPickupDate(val);
+                    }
+                  }}
                   className="w-full h-9 bg-white border border-[#e9e8ea] rounded-xl px-2.5 py-1 text-xs font-normal text-[#1c1c1c] outline-none focus:border-[#3c315b] transition cursor-pointer"
                 />
               </div>
@@ -249,9 +285,9 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
               <span className="text-xs text-[#86848d] font-normal">
                 Total Tagihan ({quantity} unit):
               </span>
-              <strong className="text-base font-semibold text-[#1c1c1c]">
+              <span className="text-sm sm:text-base font-medium text-[#1c1c1c] tracking-tight">
                 Rp {totalPrice.toLocaleString("id-ID")}
-              </strong>
+              </span>
             </div>
 
             <div className="grid grid-cols-2 gap-2.5">
@@ -263,18 +299,18 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   toast.success(`${quantity}x ${item.name} ditambahkan ke keranjang.`);
                   onClose();
                 }}
-                className="w-full h-10 rounded-full border-[#e9e8ea] hover:bg-[#f4f2f4] text-[#3c315b] font-normal text-xs gap-1.5 transition cursor-pointer"
+                className="w-full h-11 rounded-full border-[#e9e8ea] hover:bg-[#f4f2f4] text-[#1c1c1c] font-medium text-xs sm:text-sm gap-1.5 transition cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>+ Keranjang</span>
+                <span>Keranjang</span>
               </Button>
 
               <Button
                 onClick={handleSendOrder}
-                className="w-full h-10 rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white font-medium text-xs sm:text-sm gap-1.5 shadow-sm transition cursor-pointer active:scale-95"
+                className="w-full h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-medium inline-flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer"
               >
-                <FaWhatsapp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-                <span>Pesan WhatsApp</span>
+                <FaWhatsapp className="w-4 h-4 text-white" />
+                <span>Pesan</span>
               </Button>
             </div>
           </div>

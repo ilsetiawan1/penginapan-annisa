@@ -10,19 +10,26 @@ import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { toast } from "sonner";
 
+const getTodayStr = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 interface CartDrawerModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function CartDrawerModal({ isOpen, onClose }: CartDrawerModalProps) {
+  const todayStr = getTodayStr();
   const { items, totalPrice, totalItemsCount, updateQuantity, removeItem, clearCart } = useCart();
 
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
-  const [pickupDate, setPickupDate] = useState<string>(() => {
-    return new Date().toISOString().split("T")[0];
-  });
+  const [pickupDate, setPickupDate] = useState<string>(todayStr);
   const [pickupTime, setPickupTime] = useState<string>("14:00");
 
   const formattedPickupDate = pickupDate
@@ -48,6 +55,16 @@ export function CartDrawerModal({ isOpen, onClose }: CartDrawerModalProps) {
 
     if (!guestPhone.trim()) {
       toast.error("Nomor WhatsApp wajib diisi.");
+      return;
+    }
+
+    if (!pickupDate || !pickupTime) {
+      toast.error("Tanggal dan jam pengambilan wajib dipilih.");
+      return;
+    }
+
+    if (pickupDate < todayStr) {
+      toast.error("Tanggal pengambilan tidak boleh sebelum hari ini.");
       return;
     }
 
@@ -82,23 +99,23 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md max-h-[88dvh] overflow-y-auto p-0 rounded-3xl border border-[#e9e8ea] shadow-2xl bg-white flex flex-col">
+      <DialogContent className="w-[calc(100%-2rem)] max-w-lg mx-auto rounded-3xl bg-white p-5 sm:p-6 shadow-2xl border border-[#e9e8ea] overflow-hidden max-h-[88dvh] overflow-y-auto flex flex-col gap-0">
         <DialogTitle className="sr-only">Keranjang Titip Ambil</DialogTitle>
         <DialogDescription className="sr-only">
           Daftar belanja produk oleh-oleh khas Maluku untuk titip ambil di meja resepsionis
         </DialogDescription>
 
-        {/* Header Visual Bar */}
-        <div className="bg-[#3c315b] text-white py-3.5 px-4 sm:px-5 pr-12 rounded-t-3xl relative overflow-hidden shrink-0 flex items-center justify-between">
+        {/* Header Visual Bar Bersih (Light Phantom) */}
+        <div className="text-[#1c1c1c] pb-3.5 border-b border-[#e9e8ea] pr-8 relative overflow-hidden shrink-0 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
-              <ShoppingBag className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-full bg-[#f4f2f4] border border-[#e9e8ea] flex items-center justify-center shrink-0 text-[#3c315b]">
+              <ShoppingBag className="w-4 h-4 text-[#3c315b]" />
             </div>
             <div>
-              <h2 className="text-sm sm:text-base font-medium text-white leading-tight">
+              <h2 className="text-sm sm:text-base font-medium text-[#1c1c1c] leading-tight">
                 Keranjang Titip Ambil
               </h2>
-              <span className="text-[10px] sm:text-[11px] text-white/80 font-normal">
+              <span className="text-[10px] sm:text-[11px] text-[#86848d] font-normal">
                 {totalItemsCount} produk dipilih
               </span>
             </div>
@@ -106,7 +123,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
         </div>
 
         {/* Body Content */}
-        <div className="p-4 sm:p-5 space-y-3 text-left">
+        <div className="pt-3.5 space-y-3 text-left">
           {items.length === 0 ? (
             <div className="py-8 text-center text-[#86848d]">
               <ShoppingBag className="w-8 h-8 mx-auto mb-2 text-[#86848d]" />
@@ -150,7 +167,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                       </div>
                       <div className="min-w-0">
                         <h4 className="text-xs font-medium text-[#1c1c1c] truncate">{it.name}</h4>
-                        <span className="text-xs font-semibold text-[#3c315b] block">
+                        <span className="text-xs font-medium text-[#1c1c1c] tracking-tight block">
                           Rp {(it.price * it.quantity).toLocaleString("id-ID")}
                         </span>
                       </div>
@@ -253,8 +270,17 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                       id="cart-pickup-date"
                       type="date"
                       aria-label="Tanggal Ambil"
+                      min={todayStr}
                       value={pickupDate}
-                      onChange={(e) => setPickupDate(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val && val < todayStr) {
+                          setPickupDate(todayStr);
+                          toast.error("Tanggal tidak boleh sebelum hari ini.");
+                        } else {
+                          setPickupDate(val);
+                        }
+                      }}
                       className="w-full h-9 bg-white border border-[#e9e8ea] rounded-xl px-2.5 py-1 text-xs font-normal text-[#1c1c1c] outline-none focus:border-[#3c315b] transition cursor-pointer"
                     />
                   </div>
@@ -296,17 +322,17 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   <span className="text-xs text-[#86848d] font-normal">
                     Total Tagihan ({totalItemsCount} item):
                   </span>
-                  <strong className="text-base font-semibold text-[#1c1c1c]">
+                  <span className="text-sm sm:text-base font-medium text-[#1c1c1c] tracking-tight">
                     Rp {totalPrice.toLocaleString("id-ID")}
-                  </strong>
+                  </span>
                 </div>
 
                 <Button
                   onClick={handleCheckout}
-                  className="w-full py-3 rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white font-medium text-sm gap-2 shadow-sm transition cursor-pointer active:scale-95 h-11"
+                  className="w-full h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs sm:text-sm inline-flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer"
                 >
-                  <FaWhatsapp className="w-4 h-4 text-emerald-400" />
-                  <span>Pesan via WhatsApp</span>
+                  <FaWhatsapp className="w-4 h-4 text-white" />
+                  <span>Pesan</span>
                 </Button>
               </div>
             </>

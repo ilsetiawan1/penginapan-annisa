@@ -1,6 +1,6 @@
 "use client";
 
-import type { SouvenirProduct } from "@/features/souvenirs/data";
+import type { Souvenir } from "@annisa/types";
 import { useState } from "react";
 import { FloatingCartBar } from "./floating-cart-bar";
 import { SouvenirCard } from "./souvenir-card";
@@ -8,7 +8,7 @@ import { SouvenirFilter } from "./souvenir-filter";
 import { SouvenirOrderModal } from "./souvenir-order-modal";
 
 interface SouvenirGridProps {
-  items: SouvenirProduct[];
+  items: Souvenir[];
   searchQuery: string;
   categories: string[];
   activeCategory: string;
@@ -24,7 +24,7 @@ export function SouvenirGrid({
   onCategoryChange,
   onReset,
 }: SouvenirGridProps) {
-  const [selectedItem, setSelectedItem] = useState<SouvenirProduct | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Souvenir | null>(null);
 
   return (
     <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
@@ -58,8 +58,8 @@ export function SouvenirGrid({
           </button>
         </div>
       ) : (
-        /* Grid Layout: 2 Kolom di Mobile, 3 Kolom di Tablet, 4 Kolom di Desktop (max-w-6xl) */
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+        /* Grid Layout: 2 Kolom Mobile, 3 Kolom Tablet (md), 4 Kolom Desktop (lg) */
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {items.map((item) => (
             <SouvenirCard key={item.id} item={item} onOpenOrder={(it) => setSelectedItem(it)} />
           ))}

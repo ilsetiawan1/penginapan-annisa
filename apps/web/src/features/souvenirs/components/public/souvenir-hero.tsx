@@ -1,4 +1,4 @@
-import { Gift, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import Image from "next/image";
 
 interface SouvenirHeroProps {
@@ -20,12 +20,6 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
       <div className="absolute inset-0 bg-gradient-to-b from-[#1c1c1c]/70 via-[#1c1c1c]/45 to-[#fdfcfe] backdrop-blur-[0.5px]" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white pt-10 sm:pt-14">
-        {/* Badge Atas */}
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-normal tracking-wide uppercase mb-4 shadow-sm">
-          <Gift className="w-3.5 h-3.5 text-white/90" />
-          <span>ETALASE RESEPSIONIS ANNISA</span>
-        </div>
-
         {/* Headline */}
         <h1 className="text-3xl sm:text-5xl font-normal tracking-[-0.025em] text-white leading-tight">
           Oleh-oleh Khas Ambon &amp; Maluku
@@ -51,7 +45,7 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Cari oleh-oleh misal: Minyak Kayu Putih, Bagea..."
-            className="flex-1 bg-transparent px-4 py-2 text-sm text-[#1c1c1c] placeholder:text-[#86848d] focus:outline-none"
+            className="flex-1 bg-transparent px-4 py-2 text-xs sm:text-sm text-[#1c1c1c] placeholder:text-[#86848d] focus:outline-none"
           />
           <button
             type="button"

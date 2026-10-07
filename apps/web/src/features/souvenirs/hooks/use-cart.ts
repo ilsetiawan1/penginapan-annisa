@@ -1,7 +1,7 @@
 "use client";
 
+import type { Souvenir } from "@annisa/types";
 import { useEffect, useState, useSyncExternalStore } from "react";
-import type { SouvenirProduct } from "../data";
 
 export interface CartItem {
   id: string | number;
@@ -53,7 +53,7 @@ export const cartStore = {
       emitChange();
     }
   },
-  addItem(product: SouvenirProduct, quantity = 1) {
+  addItem(product: Souvenir, quantity = 1) {
     const existingIndex = memoryCart.findIndex(
       (item) => item.id.toString() === product.id.toString(),
     );
@@ -68,10 +68,10 @@ export const cartStore = {
         {
           id: product.id,
           name: product.name,
-          price: product.priceNum,
-          priceFormatted: product.price,
-          image: product.image,
-          category: product.categoryLabel,
+          price: product.price,
+          priceFormatted: `Rp ${product.price.toLocaleString("id-ID")}`,
+          image: product.imageUrl || "/images/placeholder-product.webp",
+          category: product.category?.name || "Oleh-oleh",
           quantity,
         },
       ];
@@ -123,7 +123,7 @@ export function useCart() {
     items: isClient ? items : [],
     totalItemsCount: isClient ? totalItemsCount : 0,
     totalPrice: isClient ? totalPrice : 0,
-    addItem: (p: SouvenirProduct, qty?: number) => cartStore.addItem(p, qty),
+    addItem: (p: Souvenir, qty?: number) => cartStore.addItem(p, qty),
     updateQuantity: (id: string | number, qty: number) => cartStore.updateQuantity(id, qty),
     removeItem: (id: string | number) => cartStore.removeItem(id),
     clearCart: () => cartStore.clearCart(),
