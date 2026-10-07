@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Birthstone+Bounce:wght@400;500&family=Great+Vibes&family=Alex+Brush&family=Allura&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -23,6 +23,10 @@ body {
 
 .font-sans {
   font-family: "Poppins", var(--font-sans), sans-serif !important;
+}
+
+.font-signature {
+  font-family: "Brittany", "Brittany Signature", "Birthstone Bounce", "Great Vibes", "Alex Brush", "Allura", cursive !important;
 }
 
 /* Hide dev indicators */
@@ -128,12 +132,32 @@ nextjs-portal,
   animation: heroFloat2 18s ease-in-out infinite;
 }
 
+@keyframes bounce5s {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40%, 43% {
+    transform: translateY(-8px);
+  }
+  70% {
+    transform: translateY(-4px);
+  }
+  90% {
+    transform: translateY(-2px);
+  }
+}
+
+.animate-bounce-5s {
+  animation: bounce5s 5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-flow-dash,
   .animate-spring-bounce,
   .animate-hero-glow,
   .animate-hero-float-1,
   .animate-hero-float-2,
+  .animate-bounce-5s,
   .animate-\[progress_3\.6s_linear\] {
     animation: none !important;
   }

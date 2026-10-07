@@ -32,7 +32,7 @@ export function FloatingWhatsApp() {
     return () => clearTimeout(timer);
   }, [showCloseBadge]);
 
-  if (isDismissed) return null;
+  if (isDismissed || pathname === "/contact" || pathname?.startsWith("/contact")) return null;
 
   const lodgingName = settings?.lodging_name || "Penginapan Annisa";
   const waNumber =

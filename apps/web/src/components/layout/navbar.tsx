@@ -41,7 +41,7 @@ export function Navbar() {
               priority
             />
           </div>
-          <span className="font-display font-semibold text-sm sm:text-base text-[#1c1c1c] tracking-tight transition group-hover:text-[#3c315b] whitespace-nowrap">
+          <span className="font-signature font-normal text-xl sm:text-2xl text-[#1c1c1c] tracking-normal transition group-hover:text-[#3c315b] whitespace-nowrap leading-none pt-0.5">
             {lodgingName}
           </span>
         </Link>
@@ -71,7 +71,7 @@ export function Navbar() {
           {/* Booking CTA Button (Hidden on Mobile) */}
           <Link
             href="/rooms"
-            className="hidden sm:inline-flex items-center justify-center gap-1.5 bg-[#3c315b] hover:bg-[#2d2445] text-[#fdfcfe] font-medium text-xs tracking-wide rounded-full px-5 py-2.5 shadow-[0px_0px_14px_rgba(226,223,254,0.85)] transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+            className="hidden sm:inline-flex items-center justify-center gap-1.5 bg-[#3c315b] hover:bg-[#2d2445] text-[#fdfcfe] font-light text-xs tracking-wide rounded-full px-5 py-2.5 shadow-[0px_0px_14px_rgba(226,223,254,0.85)] transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
             title="Pilih dan Pesan Kamar Transit"
           >
             <Bed className="w-3.5 h-3.5" />

@@ -3,18 +3,18 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getGeneralContactWhatsAppUrl } from "@/lib/whatsapp";
-import { MessageSquare, Phone, Send } from "lucide-react";
-import { useState } from "react";
+import { MessageSquare, Send } from "lucide-react";
 
 export function ContactForm() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [topic, setTopic] = useState("Ketersediaan Kamar Transit");
-  const [message, setMessage] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formatted = `Halo Penginapan Annisa, saya ${name || "Tamu"} (${phone || "-"}).\n- Topik: ${topic}\n- Pesan: ${message || "Ingin bertanya seputar penginapan transit."}`;
+    const data = new FormData(e.currentTarget);
+    const name = (data.get("name") as string)?.trim();
+    const phone = (data.get("phone") as string)?.trim();
+    const topic = (data.get("topic") as string)?.trim();
+    const message = (data.get("message") as string)?.trim();
+
+    const formatted = `Halo Penginapan Annisa, saya ${name || "Tamu"} (${phone || "-"}).\n- Topik: ${topic || "Ketersediaan Kamar Transit"}\n- Pesan: ${message || "Ingin bertanya seputar penginapan transit."}`;
     const url = getGeneralContactWhatsAppUrl(formatted);
     window.open(url, "_blank");
   };
@@ -30,42 +30,48 @@ export function ContactForm() {
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label htmlFor="contact-name" className="text-[11px] font-bold text-slate-700 block mb-1">Nama Anda</label>
+          <label htmlFor="contact-name" className="text-[11px] font-bold text-slate-700 block mb-1">
+            Nama Anda
+          </label>
           <input
             id="contact-name"
+            name="name"
             type="text"
             aria-label="Nama Anda"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
             placeholder="Contoh: Rahmat Hidayat"
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 outline-none focus:border-purple-500 focus:bg-white transition"
           />
         </div>
 
         <div>
-          <label htmlFor="contact-phone" className="text-[11px] font-bold text-slate-700 block mb-1">
+          <label
+            htmlFor="contact-phone"
+            className="text-[11px] font-bold text-slate-700 block mb-1"
+          >
             Nomor WhatsApp Anda
           </label>
           <input
             id="contact-phone"
+            name="phone"
             type="tel"
             aria-label="Nomor WhatsApp Anda"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
             placeholder="Contoh: 081234567890"
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 outline-none focus:border-purple-500 focus:bg-white transition"
           />
         </div>
 
         <div>
-          <label htmlFor="contact-topic" className="text-[11px] font-bold text-slate-700 block mb-1">
+          <label
+            htmlFor="contact-topic"
+            className="text-[11px] font-bold text-slate-700 block mb-1"
+          >
             Topik Pertanyaan
           </label>
           <select
             id="contact-topic"
+            name="topic"
             aria-label="Topik Pertanyaan"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
+            defaultValue="Ketersediaan Kamar Transit"
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 outline-none focus:border-purple-500 focus:bg-white transition"
           >
             <option value="Ketersediaan Kamar Transit">Ketersediaan Kamar Transit</option>
@@ -78,15 +84,17 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor="contact-message" className="text-[11px] font-bold text-slate-700 block mb-1">
+          <label
+            htmlFor="contact-message"
+            className="text-[11px] font-bold text-slate-700 block mb-1"
+          >
             Isi Pesan / Pertanyaan
           </label>
           <textarea
             id="contact-message"
+            name="message"
             aria-label="Isi Pesan atau Pertanyaan"
             rows={3}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
             placeholder="Tuliskan detail pertanyaan atau tanggal transit Anda..."
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 outline-none focus:border-purple-500 focus:bg-white transition resize-none"
           />

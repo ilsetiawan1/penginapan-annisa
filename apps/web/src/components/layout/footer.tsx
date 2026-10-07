@@ -5,13 +5,19 @@ import { usePWAInstall } from "@/hooks/use-pwa-install";
 import { Clock, Download, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
+  const pathname = usePathname();
   const { data: settings } = useSettings();
   const { canInstall, installPWA } = usePWAInstall();
   const lodgingName = settings?.lodging_name || "Penginapan Annisa";
   const waNumber = settings?.whatsapp_number || "6281240822240";
   const airportDistance = settings?.airport_distance || "Transit Dekat Bandara Pattimura";
+
+  if (pathname === "/contact") {
+    return null;
+  }
 
   return (
     <footer className="relative w-full pt-8 sm:pt-12">
@@ -67,10 +73,19 @@ export function Footer() {
               </div>
             </Link>
 
-            <p className="text-[11px] sm:text-xs text-[#86848d] leading-relaxed max-w-sm font-normal">
-              Pilihan akomodasi transit nyaman, bersih, dan terjangkau untuk kebutuhan istirahat
-              setiba atau sebelum penerbangan Anda.
-            </p>
+            {/* Tombol Unduh Aplikasi PWA di bawah identitas logo (Normal tanpa bounce) */}
+            {canInstall && (
+              <div className="pt-1.5">
+                <button
+                  type="button"
+                  onClick={installPWA}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#e9e8ea] bg-white px-3.5 py-1.5 text-xs font-normal text-[#3c315b] shadow-2xs transition-all duration-200 hover:bg-[#f4f2f4] active:scale-95 cursor-pointer"
+                >
+                  <Download className="w-3.5 h-3.5 text-[#3c315b]" />
+                  <span>Unduh Aplikasi Penginapan Annisa</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Container Kolom 2 & 3 (Mobile: 2 Kolom Sejajar Rapi / Desktop: Terpisah) */}
@@ -117,8 +132,8 @@ export function Footer() {
               <div className="space-y-2 text-xs text-[#86848d]">
                 <div className="flex items-start gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-[#3c315b] shrink-0 mt-0.5" />
-                  <span className="text-[11px] sm:text-xs leading-tight">
-                    Buka: <strong className="text-[#1c1c1c] font-medium">06:00 – 22:00 WIT</strong>
+                  <span className="text-[11px] sm:text-xs leading-tight text-[#86848d]">
+                    Buka: 06:00 – 22:00 WIT
                   </span>
                 </div>
 
@@ -128,7 +143,7 @@ export function Footer() {
                     href={`https://wa.me/${waNumber}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-[11px] sm:text-xs font-medium text-[#1c1c1c] hover:text-[#3c315b] transition leading-tight"
+                    className="text-[11px] sm:text-xs font-normal text-[#86848d] hover:text-[#3c315b] transition leading-tight"
                   >
                     {waNumber.startsWith("62") ? `0${waNumber.slice(2)}` : waNumber}
                   </a>
@@ -144,20 +159,6 @@ export function Footer() {
             </div>
           </div>
         </div>
-
-        {/* Tombol Pasang Aplikasi PWA (Muncul HANYA jika canInstall === true) */}
-        {canInstall && (
-          <div className="max-w-5xl mx-auto mt-8 flex justify-center">
-            <button
-              type="button"
-              onClick={installPWA}
-              className="inline-flex items-center gap-2 rounded-full border border-[#e9e8ea] bg-white px-4 py-2 text-xs font-normal text-[#3c315b] shadow-xs transition-all duration-200 hover:bg-[#f4f2f4] active:scale-95 cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5 text-[#3c315b]" />
-              <span>Pasang Aplikasi Penginapan Annisa</span>
-            </button>
-          </div>
-        )}
 
         {/* Bottom Copyright Strip (Tunggal & Terpusat) */}
         <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-[#e9e8ea] text-center text-[10px] sm:text-[11px] text-[#86848d] font-normal">

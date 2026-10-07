@@ -10,7 +10,7 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
   return (
     <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
       <Image
-        src="/images/heroes/souvenir-maluku-hero.png"
+        src="/images/heroes/souvenir-hero.webp"
         alt="Oleh-oleh Khas Ambon Maluku"
         fill
         className="object-cover"

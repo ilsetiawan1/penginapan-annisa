@@ -76,9 +76,7 @@ export function getRoomAvailabilityInquiryUrl(
   const cleanRoomName = formatRoomTitle(roomName, roomNumber);
 
   const dateContext =
-    dateStr && dateStr !== "Hari Ini"
-      ? `untuk tanggal *${dateStr}*`
-      : "untuk hari ini";
+    dateStr && dateStr !== "Hari Ini" ? `untuk tanggal *${dateStr}*` : "untuk hari ini";
 
   const nightsContext = nights && nights > 1 ? ` (${nights} malam)` : "";
 
@@ -107,6 +105,38 @@ export function getGeneralContactWhatsAppUrl(message?: string) {
   const text =
     message ||
     "Halo Penginapan Annisa, saya ingin bertanya seputar layanan transit, antar-jemput, dan kamar dekat Bandara Pattimura.";
+  return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+
+/**
+ * Generates structured inquiry WhatsApp URL from the contact page form.
+ */
+export function getContactFormWhatsAppUrl(params: {
+  name?: string;
+  arrivalDate?: string;
+  arrivalTime?: string;
+  roomType?: string;
+  message?: string;
+}) {
+  const { name, arrivalDate, arrivalTime, roomType, message } = params;
+  const guestName = name?.trim() || "Tamu";
+  const guestDate = arrivalDate?.trim();
+  const guestArrival = arrivalTime?.trim();
+  const guestRoomType = roomType && roomType !== "Belum tahu" ? roomType : "";
+  const guestMessage = message?.trim() || "Saya ingin menanyakan informasi kamar dan transit.";
+
+  let text = `Halo Resepsionis Penginapan Annisa, saya ${guestName}.\n`;
+  if (guestDate) {
+    text += `• Tanggal Tiba: ${guestDate}\n`;
+  }
+  if (guestArrival) {
+    text += `• Waktu Tiba: ${guestArrival}\n`;
+  }
+  if (guestRoomType) {
+    text += `• Pilihan Tipe Kamar: ${guestRoomType}\n`;
+  }
+  text += `• Pesan: ${guestMessage}`;
+
   return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 

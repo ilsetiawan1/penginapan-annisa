@@ -10,7 +10,7 @@ export function ArticleHero({ searchQuery, onSearchChange }: ArticleHeroProps) {
   return (
     <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden">
       <Image
-        src="/images/articles/default-cover.jpg"
+        src="/images/heroes/article-hero.webp"
         alt="Pantai Liang Ambon Maluku"
         fill
         className="object-cover"
