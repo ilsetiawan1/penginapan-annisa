@@ -42,7 +42,7 @@ export function ArticleGrid({
                 className={
                   sortOrder === "newest"
                     ? "rounded-full bg-white px-3 py-1 text-xs font-medium text-zinc-900 shadow-xs transition-all duration-150 cursor-pointer"
-                    : "rounded-full px-3 py-1 text-xs font-normal text-zinc-500 hover:text-zinc-800 transition-all duration-150 cursor-pointer"
+                    : "rounded-full px-3 py-1 text-xs font-light text-zinc-500 hover:text-zinc-800 transition-all duration-150 cursor-pointer"
                 }
               >
                 Terbaru
@@ -53,7 +53,7 @@ export function ArticleGrid({
                 className={
                   sortOrder === "oldest"
                     ? "rounded-full bg-white px-3 py-1 text-xs font-medium text-zinc-900 shadow-xs transition-all duration-150 cursor-pointer"
-                    : "rounded-full px-3 py-1 text-xs font-normal text-zinc-500 hover:text-zinc-800 transition-all duration-150 cursor-pointer"
+                    : "rounded-full px-3 py-1 text-xs font-light text-zinc-500 hover:text-zinc-800 transition-all duration-150 cursor-pointer"
                 }
               >
                 Terlama
