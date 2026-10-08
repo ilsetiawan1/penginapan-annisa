@@ -62,7 +62,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   }
 
   const contentType = response.headers.get("content-type");
-  const isJson = contentType && contentType.includes("application/json");
+  const isJson = contentType?.includes("application/json");
 
   if (!isJson) {
     if (!response.ok) {

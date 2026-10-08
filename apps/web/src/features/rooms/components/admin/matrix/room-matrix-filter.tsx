@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, RotateCw, SlidersHorizontal } from "lucide-react";
+import Link from "next/link";
 
 interface RoomMatrixFilterProps {
   filterStatus: string;
@@ -12,9 +13,17 @@ interface RoomMatrixFilterProps {
     dirty: number;
     total: number;
   };
+  onRefresh?: () => void;
+  isRefreshing?: boolean;
 }
 
-export function RoomMatrixFilter({ filterStatus, setFilterStatus, counts }: RoomMatrixFilterProps) {
+export function RoomMatrixFilter({
+  filterStatus,
+  setFilterStatus,
+  counts,
+  onRefresh,
+  isRefreshing = false,
+}: RoomMatrixFilterProps) {
   const filterButtons = [
     {
       id: "all",
@@ -52,22 +61,48 @@ export function RoomMatrixFilter({ filterStatus, setFilterStatus, counts }: Room
     <div className="bg-white/80 backdrop-blur-md p-2.5 sm:p-2 rounded-2xl border border-slate-200/80 shadow-2xs w-full">
       {/* MOBILE & TABLET VIEW: Compact Clean Dropdown (< lg) */}
       <div className="block lg:hidden">
-        <div className="relative">
-          <select
-            id="mobileStatusFilter"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            aria-label="Filter status kamar"
-            className="w-full appearance-none bg-white border border-[#e9e8ea] rounded-2xl px-4 py-2.5 text-xs font-medium text-[#1c1c1c] shadow-sm focus:outline-hidden focus:border-[#3c315b] transition-all pr-10 cursor-pointer"
-          >
-            <option value="all">Semua ({counts.total} Unit)</option>
-            <option value="ready">Tersedia ({counts.ready} Unit)</option>
-            <option value="occupied">Terisi ({counts.occupied} Unit)</option>
-            <option value="booked">Dipesan ({counts.booked} Unit)</option>
-            <option value="dirty">Perlu Bersih ({counts.dirty} Unit)</option>
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400">
-            <ChevronDown className="w-4 h-4" />
+        <div className="flex items-center justify-between gap-2">
+          <div className="relative w-40 sm:w-44 md:w-48 shrink-0">
+            <select
+              id="mobileStatusFilter"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              aria-label="Filter status kamar"
+              className="w-full h-9 appearance-none bg-white border border-slate-200/80 hover:border-slate-300 focus:border-[#3c315b] rounded-xl pl-3.5 pr-8 text-xs font-medium text-slate-800 shadow-2xs focus:outline-hidden transition-all cursor-pointer"
+            >
+              {filterButtons.map((btn) => (
+                <option key={btn.id} value={btn.id}>
+                  {btn.label}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400">
+              <ChevronDown className="w-3.5 h-3.5" />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              href="/admin/master-rooms"
+              className="flex items-center gap-1.5 h-9 px-3 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-2xs transition whitespace-nowrap"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
+              <span className="hidden sm:inline">Atur Tarif</span>
+            </Link>
+
+            {onRefresh && (
+              <button
+                type="button"
+                onClick={onRefresh}
+                title="Muat Ulang Data"
+                aria-label="Muat Ulang Data"
+                className="h-9 w-9 shrink-0 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-600 flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
+              >
+                <RotateCw
+                  className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-slate-900" : ""}`}
+                />
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -103,16 +138,28 @@ export function RoomMatrixFilter({ filterStatus, setFilterStatus, counts }: Room
           })}
         </div>
 
-        {/* Legend indicator */}
-        <div className="flex items-center gap-3 text-xs text-slate-400 px-3 font-medium shrink-0">
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>Siap Huni</span>
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-blue-500" />
-            <span>Terisi</span>
-          </span>
+        <div className="flex items-center gap-2 shrink-0">
+          <Link
+            href="/admin/master-rooms"
+            className="flex items-center gap-1.5 h-9 px-3.5 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-2xs transition whitespace-nowrap"
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
+            <span>Atur Tarif</span>
+          </Link>
+
+          {onRefresh && (
+            <button
+              type="button"
+              onClick={onRefresh}
+              title="Muat Ulang Data"
+              aria-label="Muat Ulang Data"
+              className="h-9 w-9 shrink-0 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-600 flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
+            >
+              <RotateCw
+                className={`w-4 h-4 ${isRefreshing ? "animate-spin text-slate-900" : ""}`}
+              />
+            </button>
+          )}
         </div>
       </div>
     </div>

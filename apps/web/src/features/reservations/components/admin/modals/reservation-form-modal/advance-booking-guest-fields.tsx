@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPhoneWithSpaces } from "@/lib/whatsapp";
 import { Phone, PhoneCall, User, Users } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import type { BookingChannel } from "./advance-booking-types";
@@ -23,11 +24,9 @@ export function AdvanceBookingGuestFields({
 }: AdvanceBookingGuestFieldsProps) {
   return (
     <div className="space-y-2.5">
-      {/* Pilihan Sumber Pemesanan (Channel / Source) */}
+      {/* Pilihan Sumber Pemesanan */}
       <div className="space-y-1">
-        <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">
-          Sumber Pemesanan (Channel)
-        </span>
+        <span className="text-xs font-semibold text-slate-800 block">Sumber Pemesanan</span>
         <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200/80">
           <button
             type="button"
@@ -78,10 +77,7 @@ export function AdvanceBookingGuestFields({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div className="space-y-1">
-          <label
-            htmlFor="adv-name"
-            className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block"
-          >
+          <label htmlFor="adv-name" className="text-xs font-semibold text-slate-800 block">
             Nama Lengkap Pemesan
           </label>
           <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 focus-within:border-[#3c315b] rounded-xl px-2.5 py-1.5">
@@ -90,7 +86,7 @@ export function AdvanceBookingGuestFields({
               id="adv-name"
               type="text"
               required
-              placeholder="Contoh: Pak Hendra Pratama"
+              placeholder="Nama Tamu"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
               className="w-full bg-transparent text-xs font-semibold text-slate-900 outline-none placeholder:text-slate-400"
@@ -99,10 +95,7 @@ export function AdvanceBookingGuestFields({
         </div>
 
         <div className="space-y-1">
-          <label
-            htmlFor="adv-phone"
-            className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block"
-          >
+          <label htmlFor="adv-phone" className="text-xs font-semibold text-slate-800 block">
             {channel === "whatsapp" ? "No. WhatsApp Tamu" : "No. Telepon / Kontak"}
           </label>
           <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 focus-within:border-[#3c315b] rounded-xl px-2.5 py-1.5">
@@ -111,9 +104,9 @@ export function AdvanceBookingGuestFields({
               id="adv-phone"
               type="tel"
               required={channel === "whatsapp"}
-              placeholder="Contoh: 081234567890"
+              placeholder="08XX XXXX XXXX"
               value={guestPhone}
-              onChange={(e) => setGuestPhone(e.target.value.replace(/\D/g, ""))}
+              onChange={(e) => setGuestPhone(formatPhoneWithSpaces(e.target.value))}
               className="w-full bg-transparent text-xs font-semibold text-slate-900 outline-none placeholder:text-slate-400"
             />
           </div>

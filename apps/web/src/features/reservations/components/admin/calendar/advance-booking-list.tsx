@@ -33,6 +33,18 @@ export function AdvanceBookingList({ onCheckInNow }: AdvanceBookingListProps) {
 
   return (
     <div className="w-full space-y-6 pb-6">
+      {/* 1. Header Standar Langsung di Kanvas */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+            Kalender Reservasi
+          </h2>
+          <p className="text-xs md:text-sm text-slate-500 mt-1">
+            Pantau ketersediaan jadwal menginap dan timeline reservasi kamar
+          </p>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 w-full items-stretch">
         {/* Kolom Kiri: Kalender Interaktif (Fluid Full-Width) */}
         <div className="xl:col-span-8">

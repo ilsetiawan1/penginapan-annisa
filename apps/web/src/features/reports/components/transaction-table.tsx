@@ -13,15 +13,27 @@ export interface TransactionRecord {
 
 interface TransactionTableProps {
   transactions: TransactionRecord[];
+  searchQuery?: string;
 }
 
-export function TransactionTable({ transactions }: TransactionTableProps) {
+export function TransactionTable({ transactions, searchQuery }: TransactionTableProps) {
+  const isSearching = Boolean(searchQuery?.trim());
+
   return (
     <section className="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-slate-900">Riwayat Transaksi Reservasi</h3>
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="text-sm font-semibold text-slate-900">Riwayat Transaksi Reservasi</h3>
+          {isSearching && (
+            <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200/80">
+              {transactions.length} hasil ditemukan
+            </span>
+          )}
+        </div>
         <p className="text-xs text-slate-500 mt-0.5">
-          Daftar reservasi terverifikasi pada periode bulan terpilih
+          {isSearching
+            ? `Menampilkan transaksi yang cocok dengan "${searchQuery}" pada periode bulan terpilih`
+            : "Daftar reservasi terverifikasi pada periode bulan terpilih"}
         </p>
       </div>
 
@@ -43,8 +55,9 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
             {transactions.length === 0 ? (
               <tr>
                 <td colSpan={8} className="py-12 text-center text-slate-400 font-medium text-xs">
-                  Belum ada riwayat transaksi pada periode ini. Data akan otomatis tercatat saat ada
-                  tamu yang check-in atau reservasi terkonfirmasi.
+                  {isSearching
+                    ? `Tidak ada riwayat transaksi dengan kata kunci "${searchQuery}" pada periode bulan ini.`
+                    : "Belum ada riwayat transaksi pada periode ini. Data akan otomatis tercatat saat ada tamu yang check-in atau reservasi terkonfirmasi."}
                 </td>
               </tr>
             ) : (
@@ -62,8 +75,11 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
                   <td className="py-3 px-3 font-medium text-slate-800">{trx.room}</td>
                   <td className="py-3 px-3 font-semibold text-slate-900">{trx.guest}</td>
                   <td className="py-3 px-3 tabular-nums">{trx.nights} Malam</td>
-                  <td className="py-3 px-3 text-right font-semibold text-slate-900 tabular-nums">
-                    Rp {trx.amount.toLocaleString("id-ID")}
+                  <td className="py-3 px-3 text-right tabular-nums">
+                    <span className="text-slate-400 font-normal mr-1">Rp</span>
+                    <span className="font-normal text-slate-900">
+                      {trx.amount.toLocaleString("id-ID")}
+                    </span>
                   </td>
                   <td className="py-3 px-4 sm:px-3 text-center">
                     <span

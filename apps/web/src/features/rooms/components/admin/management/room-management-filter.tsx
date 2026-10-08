@@ -1,5 +1,7 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
+
 interface RoomManagementFilterProps {
   filterBuilding: "all" | "A" | "B";
   setFilterBuilding: (val: "all" | "A" | "B") => void;
@@ -9,52 +11,23 @@ export function RoomManagementFilter({
   filterBuilding,
   setFilterBuilding,
 }: RoomManagementFilterProps) {
-  const options = [
-    {
-      id: "all" as const,
-      label: "Semua Kamar",
-      badge: "8 Unit",
-    },
-    {
-      id: "A" as const,
-      label: "Bangunan A",
-      badge: "4 Kamar · 2 AC · 2 Kipas",
-    },
-    {
-      id: "B" as const,
-      label: "Bangunan B",
-      badge: "4 Kamar · 2 AC · 2 Kipas",
-    },
-  ];
-
   return (
-    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
-      {options.map((opt) => {
-        const isActive = filterBuilding === opt.id;
-        return (
-          <button
-            key={opt.id}
-            type="button"
-            onClick={() => setFilterBuilding(opt.id)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-              isActive
-                ? "bg-slate-900 text-white shadow-xs"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200/80"
-            }`}
-          >
-            <span>{opt.label}</span>
-            <span
-              className={`text-[10px] font-semibold px-2 py-0.5 rounded-full tabular-nums ${
-                isActive
-                  ? "bg-white/20 text-white"
-                  : "bg-white text-slate-600 border border-slate-200/60"
-              }`}
-            >
-              {opt.badge}
-            </span>
-          </button>
-        );
-      })}
+    <div className="flex items-center gap-3">
+      <div className="relative">
+        <select
+          value={filterBuilding}
+          onChange={(e) => setFilterBuilding(e.target.value as "all" | "A" | "B")}
+          aria-label="Filter kategori bangunan"
+          className="h-9 pl-3.5 pr-8 rounded-xl border border-slate-200/80 bg-white text-xs font-medium text-slate-700 hover:border-slate-300 focus:border-[#3c315b] outline-none shadow-2xs cursor-pointer appearance-none transition-colors"
+        >
+          <option value="all">Semua Kategori</option>
+          <option value="A">Bangunan A</option>
+          <option value="B">Bangunan B</option>
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400">
+          <ChevronDown className="w-3.5 h-3.5" />
+        </div>
+      </div>
     </div>
   );
 }

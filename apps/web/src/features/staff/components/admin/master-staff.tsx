@@ -3,7 +3,7 @@
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import type { CreateUserInput, UpdateUserInput, User } from "@annisa/types";
 import { AlertCircle, Loader2, Users } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   useCreateStaff,
   useDeleteStaff,
@@ -14,6 +14,7 @@ import { StaffCard } from "./staff-card";
 import { StaffDeleteModal, StaffToggleActiveModal } from "./staff-delete-modal";
 import { StaffFormModal } from "./staff-form-modal";
 import { StaffHeader } from "./staff-header";
+import { StaffToolbar } from "./staff-toolbar";
 
 export function MasterStaff() {
   const { user: currentUser } = useAuth();
@@ -23,10 +24,20 @@ export function MasterStaff() {
   const updateMutation = useUpdateStaff();
   const deleteMutation = useDeleteStaff();
 
+  const [searchQuery, setSearchQuery] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedStaffForEdit, setSelectedStaffForEdit] = useState<User | null>(null);
   const [selectedStaffForToggle, setSelectedStaffForToggle] = useState<User | null>(null);
   const [selectedStaffForDelete, setSelectedStaffForDelete] = useState<User | null>(null);
+
+  // Filter daftar staf secara reaktif berdasarkan username / nama / email
+  const filteredStaffList = useMemo(() => {
+    if (!searchQuery.trim()) return staffList;
+    const q = searchQuery.toLowerCase().trim();
+    return staffList.filter(
+      (staff) => staff.name.toLowerCase().includes(q) || staff.email.toLowerCase().includes(q),
+    );
+  }, [staffList, searchQuery]);
 
   const handleOpenAdd = () => {
     setSelectedStaffForEdit(null);
@@ -71,8 +82,17 @@ export function MasterStaff() {
 
   return (
     <div className="w-full space-y-6">
-      {/* Header Halaman Terbuka */}
-      <StaffHeader onRefresh={refetch} isRefreshing={isFetching} onAddStaff={handleOpenAdd} />
+      {/* 1. Header Halaman */}
+      <StaffHeader />
+
+      {/* 2. Toolbar di Atas Card: Search Bar Sejajar Refresh & Tambah Pengguna */}
+      <StaffToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onRefresh={refetch}
+        isRefreshing={isFetching}
+        onAddStaff={handleOpenAdd}
+      />
 
       {/* State Loading */}
       {isLoading && (
@@ -90,7 +110,7 @@ export function MasterStaff() {
         </div>
       )}
 
-      {/* State Empty */}
+      {/* State Database Kosong (Tanpa Pencarian) */}
       {!isLoading && !isError && staffList.length === 0 && (
         <div className="w-full py-16 flex flex-col items-center justify-center text-slate-400 border border-dashed border-slate-200 rounded-2xl bg-slate-50/50 p-6 text-center">
           <Users className="w-10 h-10 stroke-[1.5] text-slate-300 mb-2" />
@@ -102,10 +122,29 @@ export function MasterStaff() {
         </div>
       )}
 
+      {/* State Hasil Pencarian Kosong */}
+      {!isLoading && !isError && staffList.length > 0 && filteredStaffList.length === 0 && (
+        <div className="w-full py-14 flex flex-col items-center justify-center text-slate-400 border border-dashed border-slate-200 rounded-2xl bg-white p-6 text-center shadow-2xs">
+          <Users className="w-10 h-10 stroke-[1.5] text-slate-300 mb-2" />
+          <h3 className="text-sm font-semibold text-slate-700">Akun Tidak Ditemukan</h3>
+          <p className="text-xs text-slate-500 max-w-sm mt-1">
+            Tidak ada akun staf dengan username atau nama yang cocok dengan &quot;{searchQuery}
+            &quot;.
+          </p>
+          <button
+            type="button"
+            onClick={() => setSearchQuery("")}
+            className="mt-3 text-xs font-medium text-[#3c315b] hover:underline cursor-pointer"
+          >
+            Reset Pencarian
+          </button>
+        </div>
+      )}
+
       {/* Grid Kartu Pengguna Responsif Penuh */}
-      {!isLoading && !isError && staffList.length > 0 && (
+      {!isLoading && !isError && filteredStaffList.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
-          {staffList.map((staff) => (
+          {filteredStaffList.map((staff) => (
             <StaffCard
               key={staff.id}
               staff={staff}

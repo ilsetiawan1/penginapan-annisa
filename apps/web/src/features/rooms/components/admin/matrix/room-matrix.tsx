@@ -23,17 +23,15 @@ export function RoomMatrix() {
   return (
     <div className="w-full flex flex-col gap-4 sm:gap-5 pb-6">
       {/* 1. PAGE HEADER & ACTION CONTROLS */}
-      <RoomMatrixHeader
-        onOpenAdvanceBooking={() => modals.setIsAdvanceBookingOpen(true)}
-        onRefresh={handlers.handleResetRooms}
-        isRefreshing={modals.isRefreshing}
-      />
+      <RoomMatrixHeader onOpenAdvanceBooking={() => modals.setIsAdvanceBookingOpen(true)} />
 
-      {/* 2. FILTER BAR: DUAL VIEWPORT ARCHITECTURE */}
+      {/* 2. FILTER BAR: DUAL VIEWPORT ARCHITECTURE & TOOLBAR */}
       <RoomMatrixFilter
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
         counts={counts}
+        onRefresh={handlers.handleResetRooms}
+        isRefreshing={modals.isRefreshing}
       />
 
       {/* 3. TWO COLUMN LAYOUT: BANGUNAN A & BANGUNAN B */}

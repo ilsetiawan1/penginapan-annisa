@@ -1,9 +1,10 @@
 "use client";
 
+import { getDirectWhatsAppUrl } from "@/lib/whatsapp";
 import { Calendar, CheckCircle2, ChevronDown, Moon } from "lucide-react";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
-import type { AdvanceBookingData, BookingChannel } from "../modals";
+import type { AdvanceBookingData } from "../modals";
 
 interface BookingDateDetailsPanelProps {
   selectedDate: Date;
@@ -16,27 +17,47 @@ interface BookingDateDetailsPanelProps {
   onCheckInNow?: (booking: AdvanceBookingData) => void;
 }
 
-function ChannelBadge({ channel }: { channel?: BookingChannel }) {
-  if (channel === "walk_in") {
-    return (
-      <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[10px] font-semibold px-2 py-0.5 rounded-full">
-        Walk-in
-      </span>
-    );
+function parseBookingNotes(notes?: string | null): {
+  estimatedArrival: string | null;
+  otherNotes: string | null;
+} {
+  if (!notes) return { estimatedArrival: null, otherNotes: null };
+
+  const parts = notes.split("•").map((p) => p.trim());
+  let arrival: string | null = null;
+  const otherParts: string[] = [];
+
+  for (const part of parts) {
+    const lower = part.toLowerCase();
+    if (
+      lower.startsWith("[channel:") ||
+      lower.includes("channel:") ||
+      lower.includes("sumber pesan")
+    ) {
+      continue;
+    }
+    if (
+      lower.includes("wit") ||
+      lower.startsWith("landing") ||
+      lower.includes("jam ") ||
+      lower.includes("tiba") ||
+      lower.includes(":") ||
+      lower.includes(".")
+    ) {
+      let timeStr = part;
+      if (timeStr.toLowerCase().startsWith("landing ")) {
+        timeStr = timeStr.slice(8).trim();
+      }
+      arrival = timeStr;
+    } else {
+      otherParts.push(part);
+    }
   }
-  if (channel === "phone") {
-    return (
-      <span className="bg-sky-50 text-sky-700 border border-sky-200 text-[10px] font-semibold px-2 py-0.5 rounded-full">
-        Telepon
-      </span>
-    );
-  }
-  return (
-    <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-      <FaWhatsapp className="w-2.5 h-2.5" />
-      <span>WA</span>
-    </span>
-  );
+
+  return {
+    estimatedArrival: arrival,
+    otherNotes: otherParts.length > 0 ? otherParts.join(" • ") : null,
+  };
 }
 
 export function BookingDateDetailsPanel({
@@ -85,6 +106,7 @@ export function BookingDateDetailsPanel({
               const cardKey = `${b.id}-${b.nightIndex}`;
               const isExpanded = !!expandedCardKeys[cardKey];
               const isLunas = b.dpPaid >= b.totalAmount;
+              const { estimatedArrival, otherNotes } = parseBookingNotes(b.notes);
 
               return (
                 <div
@@ -102,7 +124,7 @@ export function BookingDateDetailsPanel({
                     className="w-full text-left flex items-center justify-between gap-2 cursor-pointer select-none group"
                   >
                     <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                      <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-800 border border-slate-200/80 font-bold text-xs flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 border border-slate-200/80 font-normal text-xs flex items-center justify-center shrink-0">
                         #{b.roomCode}
                       </div>
                       <div className="min-w-0 flex-1">
@@ -116,7 +138,6 @@ export function BookingDateDetailsPanel({
                     </div>
 
                     <div className="flex items-center gap-1.5 shrink-0">
-                      <ChannelBadge channel={b.channel} />
                       <span
                         className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
                           isLunas
@@ -161,11 +182,19 @@ export function BookingDateDetailsPanel({
                             {b.guestPhone}
                           </strong>
                         </div>
-                        {b.notes && (
+                        {estimatedArrival && (
                           <div className="flex items-center justify-between">
-                            <span className="text-slate-500 text-[11px]">Catatan / Jam:</span>
+                            <span className="text-slate-500 text-[11px]">Estimasi tiba:</span>
                             <strong className="text-slate-800 font-semibold text-[11px]">
-                              {b.notes}
+                              {estimatedArrival}
+                            </strong>
+                          </div>
+                        )}
+                        {otherNotes && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500 text-[11px]">Catatan:</span>
+                            <strong className="text-slate-800 font-semibold text-[11px]">
+                              {otherNotes}
                             </strong>
                           </div>
                         )}
@@ -183,30 +212,43 @@ export function BookingDateDetailsPanel({
                         </div>
                       </div>
 
-                      {/* Tombol Aksi */}
-                      <div className="flex items-center justify-end gap-2 pt-1">
-                        {b.guestPhone && b.guestPhone !== "-" && (
-                          <a
-                            href={`https://wa.me/${b.guestPhone.replace(/[^0-9]/g, "")}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 text-[11px] font-semibold hover:bg-emerald-100 transition-colors"
-                          >
-                            <FaWhatsapp className="w-3.5 h-3.5 text-emerald-600" />
-                            <span>Chat WA</span>
-                          </a>
-                        )}
+                      {/* Footer: Keterangan Sumber Pemesanan & Tombol Aksi */}
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+                        <div className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+                          <span>Dipesan melalui:</span>
+                          <span className="font-semibold text-slate-800">
+                            {b.channel === "walk_in"
+                              ? "Tatap Muka"
+                              : b.channel === "phone"
+                                ? "Telepon"
+                                : "WhatsApp"}
+                          </span>
+                        </div>
 
-                        {onCheckInNow && b.status !== "checked_in" && (
-                          <button
-                            type="button"
-                            onClick={() => onCheckInNow(b)}
-                            className="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
-                          >
-                            <CheckCircle2 className="w-3.5 h-3.5" />
-                            <span>Check-in Tamu</span>
-                          </button>
-                        )}
+                        <div className="flex items-center gap-2 ml-auto">
+                          {b.guestPhone && b.guestPhone !== "-" && (
+                            <a
+                              href={getDirectWhatsAppUrl(b.guestPhone)}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 text-[11px] font-semibold hover:bg-emerald-100 transition-colors"
+                            >
+                              <FaWhatsapp className="w-3.5 h-3.5 text-emerald-600" />
+                              <span>Chat WA</span>
+                            </a>
+                          )}
+
+                          {onCheckInNow && b.status !== "checked_in" && (
+                            <button
+                              type="button"
+                              onClick={() => onCheckInNow(b)}
+                              className="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
+                            >
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              <span>Check-in Tamu</span>
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )}

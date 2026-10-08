@@ -192,11 +192,6 @@ export function AdvanceBookingCalendar({
               )
             </span>
           </div>
-          <div className="pt-1 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-            <span>Check-in 14:00 WIT</span>
-            <span>•</span>
-            <span>Check-out 12:00 WIT</span>
-          </div>
         </div>
       </div>
     </div>

@@ -211,9 +211,14 @@ export function useAdvanceBookingForm({
     e.preventDefault();
     if (!guestName.trim()) return;
     if (isSelectedRoomOccupied) return;
+    if (!landingTime.trim()) {
+      toast.error("Estimasi jam tiba wajib diisi");
+      return;
+    }
 
-    if (channel === "whatsapp" || guestPhone.trim()) {
-      const phoneValidation = whatsAppPhoneSchema.safeParse(guestPhone.trim());
+    const cleanPhone = guestPhone.replace(/\D/g, "");
+    if (channel === "whatsapp" || cleanPhone) {
+      const phoneValidation = whatsAppPhoneSchema.safeParse(cleanPhone);
       if (!phoneValidation.success) {
         toast.error(
           phoneValidation.error.issues[0]?.message ||
@@ -231,17 +236,16 @@ export function useAdvanceBookingForm({
             ? "[Channel: Telepon]"
             : "[Channel: WhatsApp]";
 
-      const computedNotes = [
-        channelLabel,
-        landingTime.trim() ? `Landing ${landingTime.trim().replace(":", ".")} WIT` : null,
-      ]
-        .filter(Boolean)
-        .join(" • ");
+      const arrivalTimeStr = landingTime.trim()
+        ? `${landingTime.trim().replace(":", ".")} WIT`
+        : "";
+
+      const computedNotes = [channelLabel, arrivalTimeStr].filter(Boolean).join(" • ");
 
       const res = await createAdvanceMutation.mutateAsync({
         roomCode: selectedRoom.code,
         guestName: guestName.trim(),
-        guestPhone: guestPhone.trim() || (channel === "walk_in" ? "081200000000" : "-"),
+        guestPhone: cleanPhone || (channel === "walk_in" ? "081200000000" : "-"),
         checkInDate,
         nights,
         dpPaid,
@@ -260,7 +264,7 @@ export function useAdvanceBookingForm({
             ? "Tipe AC"
             : "Tipe Kipas",
         guestName: guestName.trim(),
-        guestPhone: guestPhone.trim() || "-",
+        guestPhone: cleanPhone || "-",
         checkInDate: formatIdDate(checkInDate),
         checkOutDate: formatIdDate(checkOutDate),
         checkInIso: checkInDate,

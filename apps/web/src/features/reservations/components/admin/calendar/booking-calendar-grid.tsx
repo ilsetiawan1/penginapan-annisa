@@ -192,10 +192,10 @@ export function BookingCalendarGrid({
                 {dayBookings.slice(0, 2).map((bk) => (
                   <div
                     key={`${bk.id}-${bk.nightIndex}`}
-                    className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md flex items-center justify-between gap-1 border leading-tight bg-white border-slate-200/90 text-slate-800 shadow-2xs"
+                    className="text-[9px] font-normal px-1.5 py-0.5 rounded-md flex items-center justify-between gap-1 border leading-tight bg-white border-slate-200/90 text-slate-700 shadow-2xs"
                     title={`#${bk.roomCode} - ${bk.guestName} (${bk.nights} Malam)`}
                   >
-                    <span className="font-bold truncate">#{bk.roomCode}</span>
+                    <span className="font-normal truncate">#{bk.roomCode}</span>
                     <ChannelBadgeTag channel={bk.channel} />
                   </div>
                 ))}

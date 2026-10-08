@@ -21,9 +21,7 @@ export function AdvanceBookingRoomPicker({
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">
-          Pilih Unit Kamar
-        </span>
+        <span className="text-xs font-semibold text-slate-800 block">Pilih Unit Kamar</span>
         <span className="text-[10px] font-semibold text-slate-500">
           {availableRoomsCount} dari 8 kamar tersedia
         </span>

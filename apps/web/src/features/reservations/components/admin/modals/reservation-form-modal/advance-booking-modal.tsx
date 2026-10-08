@@ -139,7 +139,8 @@ export function AdvanceBookingModal(props: AdvanceBookingModalProps) {
                   isPending ||
                   isSelectedRoomOccupied ||
                   availableRoomsCount === 0 ||
-                  !guestName.trim()
+                  !guestName.trim() ||
+                  !landingTime.trim()
                 }
                 onClose={props.onClose}
               />

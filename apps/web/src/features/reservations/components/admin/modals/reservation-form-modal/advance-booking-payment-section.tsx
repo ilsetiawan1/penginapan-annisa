@@ -24,27 +24,35 @@ export function AdvanceBookingPaymentSection({
   isSubmitDisabled,
   onClose,
 }: AdvanceBookingPaymentSectionProps) {
+  const isLunas = totalAmount > 0 && dpPaid >= totalAmount;
+  const isDp = !isLunas;
+
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <label
-          htmlFor="adv-dp"
-          className="text-[10px] font-black text-slate-700 uppercase tracking-wider block"
-        >
+        <label htmlFor="adv-dp" className="text-xs font-semibold text-slate-800 block">
           Nominal DP Ditransfer
         </label>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <button
             type="button"
             onClick={() => setDpPaid(Math.round(totalAmount * 0.5))}
-            className="text-[9px] font-bold px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200/80 cursor-pointer transition-colors"
+            className={`text-[10px] px-2.5 py-0.5 rounded-lg border cursor-pointer transition-colors ${
+              isDp
+                ? "bg-emerald-50 text-emerald-700 border-emerald-300 font-bold shadow-2xs"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-200/80 font-medium"
+            }`}
           >
             DP 50%
           </button>
           <button
             type="button"
             onClick={() => setDpPaid(totalAmount)}
-            className="text-[9px] font-bold px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200/80 cursor-pointer transition-colors"
+            className={`text-[10px] px-2.5 py-0.5 rounded-lg border cursor-pointer transition-colors ${
+              isLunas
+                ? "bg-emerald-50 text-emerald-700 border-emerald-300 font-bold shadow-2xs"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-200/80 font-medium"
+            }`}
           >
             Lunas 100%
           </button>

@@ -144,6 +144,36 @@ export function getContactFormWhatsAppUrl(params: {
  * Generates WhatsApp Digital Receipt URL (used by staff/admin).
  */
 export function getDigitalReceiptWhatsAppUrl(guestPhone: string, receiptContent: string) {
-  const cleanPhone = guestPhone.startsWith("0") ? `62${guestPhone.slice(1)}` : guestPhone;
+  const digits = guestPhone.replace(/\D/g, "");
+  const cleanPhone = digits.startsWith("0")
+    ? `62${digits.slice(1)}`
+    : digits.startsWith("62")
+      ? digits
+      : `62${digits}`;
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(receiptContent)}`;
+}
+
+/**
+ * Normalizes phone number into international Indonesian WhatsApp link (e.g. https://wa.me/6281234567890)
+ */
+export function getDirectWhatsAppUrl(rawPhone: string, message?: string): string {
+  const digits = rawPhone.replace(/\D/g, "");
+  if (!digits) return "#";
+  let standardized = digits;
+  if (standardized.startsWith("0")) {
+    standardized = `62${standardized.slice(1)}`;
+  } else if (!standardized.startsWith("62")) {
+    standardized = `62${standardized}`;
+  }
+  const textQuery = message ? `?text=${encodeURIComponent(message)}` : "";
+  return `https://wa.me/${standardized}${textQuery}`;
+}
+
+/**
+ * Format phone input value by inserting spaces every 4 digits (e.g. 0812 3456 7890)
+ */
+export function formatPhoneWithSpaces(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 15);
+  const chunks = digits.match(/.{1,4}/g);
+  return chunks ? chunks.join(" ") : "";
 }

@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useReservations } from "@/features/reservations/hooks/use-reservations";
+import { formatPhoneWithSpaces } from "@/lib/whatsapp";
 import { whatsAppPhoneSchema } from "@annisa/types";
 import { AlertCircle, Banknote, Check, Landmark, Phone, QrCode, User } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -218,8 +219,9 @@ export function CheckInModal({
     e.preventDefault();
     if (!guestName.trim() || hasCollision) return;
 
-    if (guestPhone.trim()) {
-      const phoneValidation = whatsAppPhoneSchema.safeParse(guestPhone.trim());
+    const cleanPhone = guestPhone.replace(/\D/g, "");
+    if (cleanPhone) {
+      const phoneValidation = whatsAppPhoneSchema.safeParse(cleanPhone);
       if (!phoneValidation.success) {
         setPhoneError(
           phoneValidation.error.issues[0]?.message ||
@@ -233,7 +235,7 @@ export function CheckInModal({
       roomId,
       roomNumber,
       guestName: guestName.trim(),
-      guestPhone: guestPhone.trim() || "081200000000",
+      guestPhone: cleanPhone || "081200000000",
       checkInDate: formatIdDate(checkInDate),
       checkOutDate: formatIdDate(checkOutDate),
       totalNights: nights,
@@ -365,7 +367,7 @@ export function CheckInModal({
                     id="checkin-guest-name"
                     type="text"
                     required
-                    placeholder="Nama tamu..."
+                    placeholder="Nama Tamu"
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
                     className="w-full bg-transparent text-xs sm:text-sm text-slate-900 outline-none placeholder:text-slate-400 font-medium"
@@ -389,10 +391,10 @@ export function CheckInModal({
                   <input
                     id="checkin-guest-phone"
                     type="tel"
-                    placeholder="08xxxxxxxxxx"
+                    placeholder="08XX XXXX XXXX"
                     value={guestPhone}
                     onChange={(e) => {
-                      setGuestPhone(e.target.value.replace(/\D/g, ""));
+                      setGuestPhone(formatPhoneWithSpaces(e.target.value));
                       setPhoneError(null);
                     }}
                     className="w-full bg-transparent text-xs sm:text-sm text-slate-900 outline-none placeholder:text-slate-400 font-medium"

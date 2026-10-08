@@ -68,7 +68,7 @@ export function OccupancyVolumeChart({
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="hidden sm:inline-flex items-center text-[10px] font-bold text-[#594791] bg-[#ede8f8] border border-[#ddd3f3] px-2 py-1 rounded-lg">
+            <span className="hidden sm:inline-flex items-center text-[10px] font-medium text-[#594791] bg-[#ede8f8] border border-[#ddd3f3] px-2 py-1 rounded-lg">
               Target: 6 Kamar (75%)
             </span>
 
@@ -106,7 +106,7 @@ export function OccupancyVolumeChart({
             </span>{" "}
             Kamar Terisi
           </span>
-          <span className="inline-flex items-center text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-lg">
+          <span className="inline-flex items-center text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-lg">
             +{activeItem.occupancyPercent}% Okupansi
           </span>
           <span className="text-xs text-slate-400 font-medium">
