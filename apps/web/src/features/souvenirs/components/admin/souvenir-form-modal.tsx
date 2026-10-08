@@ -128,7 +128,7 @@ export function SouvenirFormModal({
     "Katalog Oleh-Oleh";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs overflow-y-auto !m-0 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-200">
       <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl border border-slate-200/80 p-6 my-auto space-y-5 animate-in zoom-in-95 duration-200">
         {/* Modal Header */}
         <div className="flex items-start justify-between border-b border-slate-100 pb-3.5">
