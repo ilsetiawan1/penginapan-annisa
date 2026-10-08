@@ -13,9 +13,22 @@ export function RoomDetailPaymentSection({ room }: RoomDetailPaymentSectionProps
   const isBooked = room.status === "booked";
 
   const total = room.totalAmount || room.price;
-  const dp = room.dpPaid || (isBooked ? Math.round(total * 0.5) : isOccupied ? total : 0);
+  const nights = room.totalNights || 1;
+  const roomPrice = room.price || Math.round(total / nights);
+  const dp =
+    room.dpPaid !== undefined
+      ? room.dpPaid
+      : isBooked
+        ? Math.round(total * 0.5)
+        : isOccupied
+          ? total
+          : 0;
   const remaining =
-    room.remainingAmount !== undefined ? room.remainingAmount : isBooked ? total - dp : 0;
+    room.remainingAmount !== undefined
+      ? room.remainingAmount
+      : isBooked
+        ? Math.max(0, total - dp)
+        : 0;
 
   return (
     <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 space-y-2.5 text-xs">
@@ -27,7 +40,9 @@ export function RoomDetailPaymentSection({ room }: RoomDetailPaymentSectionProps
       </div>
 
       <div className="flex items-center justify-between text-slate-600">
-        <span>Tarif Sewa ({room.totalNights || 1} Malam)</span>
+        <span>
+          Rp {roomPrice.toLocaleString("id-ID")} × {nights} Malam
+        </span>
         <span className="font-semibold text-slate-900">Rp {total.toLocaleString("id-ID")}</span>
       </div>
 

@@ -8,6 +8,25 @@ interface RoomDetailGuestSectionProps {
   room: RoomItem;
 }
 
+export function formatStayDates(checkInDate?: string | Date, checkOutDate?: string | Date): string {
+  if (!checkInDate || !checkOutDate) return "-";
+  const inD = new Date(checkInDate);
+  const outD = new Date(checkOutDate);
+  if (Number.isNaN(inD.getTime()) || Number.isNaN(outD.getTime())) return "-";
+  const inStr = inD.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "short",
+    timeZone: "Asia/Jayapura",
+  });
+  const outStr = outD.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "Asia/Jayapura",
+  });
+  return `${inStr} – ${outStr}`;
+}
+
 export function formatIndoDate(dateStr?: string | Date, timeFallback?: string): string {
   if (!dateStr) return "-";
   const d = new Date(dateStr);
@@ -64,14 +83,19 @@ export function RoomDetailGuestSection({ room }: RoomDetailGuestSectionProps) {
         </div>
       </div>
 
-      <div className="pt-2.5 border-t border-slate-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
-        <div>
-          <span className="text-slate-400 text-[11px] block">Durasi &amp; Periode:</span>
-          <span className="text-slate-900 font-medium">
-            {room.totalNights || 1} Malam ({formatIndoDate(room.checkInDate, "14:00 WIT")} –{" "}
-            {formatIndoDate(room.checkOutDate, "12:00 WIT")})
+      <div className="pt-2.5 border-t border-slate-200/70 space-y-1">
+        <span className="text-slate-400 text-[11px] block">Durasi &amp; Periode:</span>
+        <div className="flex items-center gap-2">
+          <span className="text-slate-900 font-semibold text-xs sm:text-sm">
+            {formatStayDates(room.checkInDate, room.checkOutDate)}
+          </span>
+          <span className="text-[10px] font-semibold text-slate-700 bg-white border border-slate-200/80 px-2 py-0.5 rounded-md shadow-2xs">
+            {room.totalNights || 1} Malam
           </span>
         </div>
+        <p className="text-[11px] text-slate-400">
+          Check-in 14:00 • Check-out 12:00 WIT
+        </p>
       </div>
     </div>
   );

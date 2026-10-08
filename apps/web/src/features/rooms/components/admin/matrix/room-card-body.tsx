@@ -7,12 +7,38 @@ interface RoomCardBodyProps {
   onOpenDetail?: (room: RoomItem) => void;
 }
 
+function formatStayRange(checkIn?: string, checkOut?: string): string {
+  if (!checkIn || !checkOut) return "";
+  try {
+    const inDate = new Date(checkIn);
+    const outDate = new Date(checkOut);
+    if (Number.isNaN(inDate.getTime()) || Number.isNaN(outDate.getTime())) {
+      return "";
+    }
+    const inStr = inDate.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      timeZone: "Asia/Jayapura",
+    });
+    const outStr = outDate.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      timeZone: "Asia/Jayapura",
+    });
+    return `📅 ${inStr} – ${outStr}`;
+  } catch {
+    return "";
+  }
+}
+
 export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
   const isReady = room.status === "ready";
   const isOccupied = room.status === "occupied";
   const isDirty = room.status === "dirty";
   const isMaintenance = room.status === "maintenance";
   const isBooked = room.status === "booked";
+  const stayRangeText = isBooked ? formatStayRange(room.checkInDate, room.checkOutDate) : "";
 
   return (
     <div className="mt-3 select-none">
@@ -71,8 +97,11 @@ export function RoomCardBody({ room, onOpenDetail }: RoomCardBodyProps) {
             </span>
           </div>
           <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1.5 border-t border-slate-200/60 mt-1">
-            <span className="truncate max-w-[120px]" title={room.notes || "Booking via WA"}>
-              {room.notes || "Booking via WA"}
+            <span
+              className="truncate font-medium text-slate-600"
+              title={stayRangeText || room.notes || "Booking via WA"}
+            >
+              {stayRangeText || room.notes || "Booking via WA"}
             </span>
             <span className="font-semibold text-slate-900 shrink-0">
               Sisa Rp {(room.remainingAmount || room.price * 0.5).toLocaleString("id-ID")}

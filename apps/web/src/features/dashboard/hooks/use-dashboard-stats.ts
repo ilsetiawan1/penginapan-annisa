@@ -10,6 +10,6 @@ export function useDashboardStats() {
     queryKey: DASHBOARD_STATS_QUERY_KEY,
     queryFn: () => dashboardApi.getOverviewStats(),
     refetchInterval: 1000 * 30, // 30s auto-refresh
-    staleTime: 1000 * 15,
+    staleTime: 1000 * 60,
   });
 }

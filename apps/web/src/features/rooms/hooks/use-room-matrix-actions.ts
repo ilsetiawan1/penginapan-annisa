@@ -10,7 +10,7 @@ import {
   useCreateWalkInBooking,
 } from "@/features/reservations/hooks/use-reservations";
 import type { RoomItem, RoomStatus } from "@/features/rooms/components/admin/matrix/room-card";
-import { useRooms, useUpdateRoomStatus } from "@/features/rooms/hooks/use-rooms";
+import { ROOMS_QUERY_KEY, useRooms, useUpdateRoomStatus } from "@/features/rooms/hooks/use-rooms";
 import type { Room } from "@annisa/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -107,6 +107,7 @@ export function useRoomMatrixActions() {
 
   // Handle Check-In Tamu Walk-In
   const handleConfirmCheckIn = async (data: CheckInFormData) => {
+    const previousRooms = rooms;
     setRooms((prev) =>
       prev.map((r) => {
         if (r.code === data.roomNumber) {
@@ -143,7 +144,8 @@ export function useRoomMatrixActions() {
       });
     } catch (err) {
       console.error("Gagal check-in walk-in:", err);
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+      setRooms(previousRooms);
+      queryClient.invalidateQueries({ queryKey: ROOMS_QUERY_KEY });
     }
   };
 
@@ -152,6 +154,7 @@ export function useRoomMatrixActions() {
     const targetRoom = rooms.find((r) => r.code === roomCode);
     const resvId = targetRoom?.reservationId;
 
+    const previousRooms = rooms;
     setRooms((prev) =>
       prev.map((r) => {
         if (r.code === roomCode) {
@@ -188,7 +191,8 @@ export function useRoomMatrixActions() {
       }
     } catch (err) {
       console.error("Gagal pelunasan check-in:", err);
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+      setRooms(previousRooms);
+      queryClient.invalidateQueries({ queryKey: ROOMS_QUERY_KEY });
     }
   };
 
@@ -198,6 +202,7 @@ export function useRoomMatrixActions() {
     const roomCode = checkOutModalData.code;
     const resvId = checkOutModalData.reservationId;
 
+    const previousRooms = rooms;
     setRooms((prev) =>
       prev.map((r) => {
         if (r.code === roomCode) {
@@ -237,7 +242,8 @@ export function useRoomMatrixActions() {
       }
     } catch (err) {
       console.error("Gagal check-out:", err);
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+      setRooms(previousRooms);
+      queryClient.invalidateQueries({ queryKey: ROOMS_QUERY_KEY });
     }
   };
 

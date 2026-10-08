@@ -38,7 +38,7 @@ export function RoomDetailActions({
         type="button"
         variant="outline"
         onClick={onClose}
-        className="rounded-xl text-xs font-medium h-9 px-4 cursor-pointer"
+        className="rounded-full border border-slate-200 text-slate-700 hover:bg-slate-50 h-11 px-5 text-sm font-medium cursor-pointer"
       >
         Tutup
       </Button>
@@ -65,9 +65,9 @@ export function RoomDetailActions({
               onClose();
               if (onOpenSettlement) onOpenSettlement(room);
             }}
-            className="rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold h-9 px-4 gap-1.5 cursor-pointer shadow-xs"
+            className="bg-[#3c315b] hover:bg-[#2d2445] text-white font-medium rounded-full h-11 px-6 text-sm transition-all shadow-sm cursor-pointer gap-2"
           >
-            <CheckCircle2 className="w-3.5 h-3.5" />
+            <CheckCircle2 className="w-4 h-4" />
             <span>Pelunasan &amp; Masuk</span>
           </Button>
         )}

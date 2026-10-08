@@ -1,7 +1,9 @@
 "use client";
 
+import { DashboardSkeleton } from "@/features/dashboard/components/dashboard-skeleton";
 import { OperationalDashboard } from "@/features/dashboard/components/operational-dashboard";
 import { useRouter } from "next/navigation";
+import { Suspense } from "react";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -25,5 +27,9 @@ export default function AdminDashboardPage() {
     }
   };
 
-  return <OperationalDashboard onNavigateTab={handleNavigate} />;
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <OperationalDashboard onNavigateTab={handleNavigate} />
+    </Suspense>
+  );
 }

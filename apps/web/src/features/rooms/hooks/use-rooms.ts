@@ -8,12 +8,30 @@ import { roomsApi } from "../api/rooms.api";
 export const ROOMS_QUERY_KEY = ["rooms"] as const;
 export const ROOM_TYPES_QUERY_KEY = ["room-types"] as const;
 
-export function useRooms(query?: RoomQuery) {
+export interface UseRoomsOptions {
+  staleTime?: number;
+  refetchInterval?: number | false;
+  refetchIntervalInBackground?: boolean;
+  refetchOnWindowFocus?: boolean;
+}
+
+export function useRooms(query?: RoomQuery, options?: UseRoomsOptions) {
   return useQuery({
     queryKey: [...ROOMS_QUERY_KEY, query],
     queryFn: () => roomsApi.getAllRooms(query),
-    staleTime: 1000 * 3, // 3 seconds for instant real-time sync across admin and public views
-    refetchOnWindowFocus: true,
+    staleTime: options?.staleTime ?? 1000 * 60, // 60s default for instant cache-first navigation
+    refetchInterval: options?.refetchInterval,
+    refetchIntervalInBackground: options?.refetchIntervalInBackground ?? false,
+    refetchOnWindowFocus: options?.refetchOnWindowFocus ?? true,
+  });
+}
+
+export function usePublicRooms(query?: RoomQuery) {
+  return useRooms(query, {
+    refetchInterval: 10_000, // 10s background polling
+    refetchIntervalInBackground: false, // only poll when tab is active
+    refetchOnWindowFocus: true, // auto-refetch when user focuses tab
+    staleTime: 5_000, // 5s low staleTime for fast reactivity
   });
 }
 

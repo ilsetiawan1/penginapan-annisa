@@ -8,9 +8,11 @@ export class ReportService {
   }
 
   async getDashboardOverviewStats() {
-    const roomCounts = await this.repo.getRoomStatusCounts();
-    const todayStats = await this.repo.getTodayCheckInOutCount();
-    const monthlyRev = await this.repo.getMonthlyRevenue();
+    const [roomCounts, todayStats, monthlyRev] = await Promise.all([
+      this.repo.getRoomStatusCounts(),
+      this.repo.getTodayCheckInOutCount(),
+      this.repo.getMonthlyRevenue(),
+    ]);
 
     // Occupancy Rate: ((occupied + booked) / totalRooms) * 100
     const occupiedOrBooked = roomCounts.occupiedRooms + roomCounts.bookedRooms;

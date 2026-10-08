@@ -1,8 +1,8 @@
 "use client";
 
+import { CreateButton } from "@/components/ui/create-button";
 import { CalendarPlus, RotateCw, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
-import { CreateButton } from "@/components/ui/create-button";
 
 interface RoomMatrixHeaderProps {
   onOpenAdvanceBooking: () => void;
@@ -35,13 +35,6 @@ export function RoomMatrixHeader({
           <span>Atur Tarif</span>
         </Link>
 
-        <CreateButton
-          onClick={onOpenAdvanceBooking}
-          icon={<CalendarPlus className="w-3.5 h-3.5 text-slate-300 shrink-0" />}
-        >
-          Tambah Reservasi
-        </CreateButton>
-
         <button
           type="button"
           onClick={onRefresh}
@@ -50,6 +43,13 @@ export function RoomMatrixHeader({
         >
           <RotateCw className={`w-4 h-4 ${isRefreshing ? "animate-spin text-slate-900" : ""}`} />
         </button>
+
+        <CreateButton
+          onClick={onOpenAdvanceBooking}
+          icon={<CalendarPlus className="w-3.5 h-3.5 text-slate-300 shrink-0" />}
+        >
+          Tambah Reservasi
+        </CreateButton>
       </div>
     </div>
   );

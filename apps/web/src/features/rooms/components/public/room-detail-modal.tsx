@@ -97,12 +97,19 @@ export function RoomDetailModal({
               <span>{room.type === "ac" ? "Tipe AC" : "Tipe Kipas"}</span>
             </div>
 
-            {isAvailable ? (
+            {room.status === "tersedia" && (
               <span className="bg-emerald-50/95 backdrop-blur-md text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-medium shadow-xs flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
                 <span>Tersedia</span>
               </span>
-            ) : (
+            )}
+            {room.status === "dipesan" && (
+              <span className="bg-amber-50/95 backdrop-blur-md text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-xs font-medium shadow-xs flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
+                <span>Dipesan</span>
+              </span>
+            )}
+            {room.status === "terisi" && (
               <span className="bg-rose-50/95 backdrop-blur-md text-rose-600 border border-rose-200 px-3 py-1 rounded-full text-xs font-medium shadow-xs flex items-center gap-1">
                 <Clock className="w-3 h-3" />
                 <span>Terisi</span>
@@ -252,7 +259,9 @@ export function RoomDetailModal({
           ) : (
             <div className="flex flex-col gap-2 shrink-0">
               <div className="bg-amber-50 border border-amber-200 text-amber-900 text-xs px-3 py-2 rounded-xl text-center font-normal">
-                Unit {cleanRoomTitle} sedang terisi di tanggal yang Anda pilih ({formattedDateStr}).
+                {room.status === "dipesan"
+                  ? `Unit ${cleanRoomTitle} sudah dipesan untuk tanggal yang Anda pilih (${formattedDateStr}).`
+                  : `Unit ${cleanRoomTitle} sedang terisi di tanggal yang Anda pilih (${formattedDateStr}).`}
               </div>
               <Button
                 asChild

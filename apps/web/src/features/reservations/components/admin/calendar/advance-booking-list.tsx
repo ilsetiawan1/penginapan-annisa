@@ -1,9 +1,15 @@
 "use client";
 
 import { useReservationCalendar } from "@/features/reservations/hooks/use-reservation-calendar";
-import { type AdvanceBookingData, AdvanceBookingModal } from "../modals";
+import dynamic from "next/dynamic";
+import type { AdvanceBookingData } from "../modals";
 import { BookingCalendarGrid } from "./booking-calendar-grid";
 import { BookingDateDetailsPanel } from "./booking-date-details-panel";
+
+const AdvanceBookingModal = dynamic(
+  () => import("../modals/reservation-form-modal").then((m) => m.AdvanceBookingModal),
+  { ssr: false },
+);
 
 interface AdvanceBookingListProps {
   onCheckInNow?: (booking: AdvanceBookingData) => void;

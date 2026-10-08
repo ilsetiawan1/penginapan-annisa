@@ -1,16 +1,56 @@
 "use client";
 
-import {
-  type AdvanceBookingData,
-  AdvanceBookingModal,
-  BookingSettlementModal,
-  type CheckInFormData,
-  CheckInModal,
-  CheckOutModal,
-  ReceiptModal,
+import type {
+  AdvanceBookingData,
+  CheckInFormData,
 } from "@/features/reservations/components/admin/modals";
+import dynamic from "next/dynamic";
 import type { RoomItem } from "./room-card";
-import { RoomDetailModal } from "./room-detail-modal";
+
+const CheckInModal = dynamic(
+  () =>
+    import("@/features/reservations/components/admin/modals/checkin-modal").then(
+      (m) => m.CheckInModal,
+    ),
+  { ssr: false },
+);
+
+const CheckOutModal = dynamic(
+  () =>
+    import("@/features/reservations/components/admin/modals/checkout-modal").then(
+      (m) => m.CheckOutModal,
+    ),
+  { ssr: false },
+);
+
+const ReceiptModal = dynamic(
+  () =>
+    import("@/features/reservations/components/admin/modals/receipt-modal").then(
+      (m) => m.ReceiptModal,
+    ),
+  { ssr: false },
+);
+
+const BookingSettlementModal = dynamic(
+  () =>
+    import("@/features/reservations/components/admin/modals/booking-settlement-modal").then(
+      (m) => m.BookingSettlementModal,
+    ),
+  { ssr: false },
+);
+
+const AdvanceBookingModal = dynamic(
+  () =>
+    import("@/features/reservations/components/admin/modals/reservation-form-modal").then(
+      (m) => m.AdvanceBookingModal,
+    ),
+  { ssr: false },
+);
+
+const RoomDetailModal = dynamic(
+  () => import("./room-detail-modal").then((m) => m.RoomDetailModal),
+  { ssr: false },
+);
 
 interface RoomMatrixModalsProps {
   checkInModalData: RoomItem | null;

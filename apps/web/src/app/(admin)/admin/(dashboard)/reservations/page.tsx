@@ -1,11 +1,17 @@
 "use client";
 
-import { AdvanceBookingList } from "@/features/reservations/components/admin/calendar";
+import {
+  AdvanceBookingList,
+  BookingCalendarSkeleton,
+} from "@/features/reservations/components/admin/calendar";
+import { Suspense } from "react";
 
 export default function AdminReservationsPage() {
   return (
     <div className="w-full">
-      <AdvanceBookingList />
+      <Suspense fallback={<BookingCalendarSkeleton />}>
+        <AdvanceBookingList />
+      </Suspense>
     </div>
   );
 }

@@ -119,7 +119,7 @@ export default function AdminDashboardLayout({
           </div>
 
           {/* Right: Date & Time Badge */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="hidden md:flex items-center gap-3 shrink-0">
             {currentTime && (
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-200 bg-white text-slate-600 text-xs font-medium shadow-2xs">
                 <Clock className="w-3.5 h-3.5 text-slate-400" />

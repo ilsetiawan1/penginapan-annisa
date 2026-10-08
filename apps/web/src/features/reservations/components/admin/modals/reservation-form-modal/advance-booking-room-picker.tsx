@@ -44,7 +44,7 @@ export function AdvanceBookingRoomPicker({
                 occupied
                   ? "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed line-through opacity-60"
                   : isSelected
-                    ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                    ? "bg-[#3c315b] text-white border-[#3c315b] shadow-sm"
                     : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300 cursor-pointer"
               }`}
               title={

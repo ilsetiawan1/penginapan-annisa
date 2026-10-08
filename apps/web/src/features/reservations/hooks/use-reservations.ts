@@ -20,7 +20,7 @@ export function useReservations(query?: ReservationQuery) {
   return useQuery({
     queryKey: [...RESERVATIONS_QUERY_KEY, query],
     queryFn: () => reservationsApi.getAllReservations(query),
-    staleTime: 1000 * 15, // 15 seconds
+    staleTime: 1000 * 60, // 60s for instant cache-first navigation across admin routes
   });
 }
 

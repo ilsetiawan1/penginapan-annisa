@@ -1,7 +1,33 @@
 "use client";
 
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
-import { CALENDAR_DAYS_HEADER, formatIdDate } from "./advance-booking-types";
+import { CALENDAR_DAYS_HEADER, formatIdDate, parseIsoDate } from "./advance-booking-types";
+
+function formatStayDates(checkIn: string, checkOut: string): string {
+  if (!checkIn || !checkOut) return "";
+  const dIn =
+    typeof checkIn === "string" && !checkIn.includes("T")
+      ? parseIsoDate(checkIn)
+      : new Date(checkIn);
+  const dOut =
+    typeof checkOut === "string" && !checkOut.includes("T")
+      ? parseIsoDate(checkOut)
+      : new Date(checkOut);
+  if (Number.isNaN(dIn.getTime()) || Number.isNaN(dOut.getTime())) {
+    return `${formatIdDate(checkIn)} – ${formatIdDate(checkOut)}`;
+  }
+  const inDay = dIn.getDate();
+  const inMonth = dIn.toLocaleDateString("id-ID", { month: "short" });
+  const inYear = dIn.getFullYear();
+  const outDay = dOut.getDate();
+  const outMonth = dOut.toLocaleDateString("id-ID", { month: "short" });
+  const outYear = dOut.getFullYear();
+
+  if (inYear === outYear) {
+    return `${inDay} ${inMonth} – ${outDay} ${outMonth} ${outYear}`;
+  }
+  return `${inDay} ${inMonth} ${inYear} – ${outDay} ${outMonth} ${outYear}`;
+}
 
 interface AdvanceBookingCalendarProps {
   calendarMonth: Date;
@@ -37,7 +63,7 @@ export function AdvanceBookingCalendar({
   const prevMonthDays = new Date(calYear, calMonth, 0).getDate();
 
   return (
-    <div className="lg:col-span-5 bg-slate-50/70 rounded-2xl p-3 sm:p-3.5 border border-slate-200/80 shadow-2xs space-y-2.5">
+    <div className="md:col-span-5 bg-slate-50/70 rounded-2xl p-3 sm:p-3.5 border border-slate-200/80 shadow-2xs space-y-2.5">
       {/* Header Mini Calendar */}
       <div className="flex items-center justify-between">
         <h4 className="text-xs sm:text-sm font-bold text-slate-900 capitalize tracking-tight flex items-center gap-1.5">
@@ -109,12 +135,14 @@ export function AdvanceBookingCalendar({
 
           if (isPast) {
             dayClass += "text-slate-300 cursor-not-allowed ";
+          } else if (isCheckIn && isCheckOut) {
+            dayClass += "bg-[#3c315b] text-white font-bold rounded-xl z-10 shadow-sm ";
           } else if (isCheckIn) {
-            dayClass += "bg-slate-900 text-white font-bold rounded-l-xl z-10 shadow-xs ";
+            dayClass += "bg-[#3c315b] text-white font-bold rounded-l-xl z-10 shadow-sm ";
           } else if (isCheckOut) {
-            dayClass += "bg-slate-800 text-white font-bold rounded-r-xl z-10 shadow-xs ";
+            dayClass += "bg-[#3c315b] text-white font-bold rounded-r-xl z-10 shadow-sm ";
           } else if (isInStayRange) {
-            dayClass += "bg-slate-200 text-slate-900 font-semibold rounded-none ";
+            dayClass += "bg-[#ede8f5] text-[#3c315b] font-semibold rounded-none ";
           } else {
             dayClass += "text-slate-700 hover:bg-slate-100 hover:text-slate-900 rounded-lg ";
           }
@@ -134,47 +162,41 @@ export function AdvanceBookingCalendar({
         })}
       </div>
 
-      {/* Box Ringkasan Statis Rentang Tanggal */}
+      {/* Box Ringkas: Rentang Menginap & Total Tagihan */}
       <div className="pt-2 border-t border-slate-200/80">
-        <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-center justify-between text-xs shadow-2xs">
-          <div>
-            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">
-              Rentang Menginap
+        <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 text-xs shadow-2xs space-y-1">
+          <div className="text-slate-800 text-[11px] sm:text-xs font-medium leading-relaxed">
+            <span className="font-semibold text-slate-900">
+              {formatStayDates(checkInDate, checkOutDate)}
             </span>
-            <span className="font-semibold text-slate-800 text-xs">
-              {formatIdDate(checkInDate)} → {formatIdDate(checkOutDate)}
+            <span className="text-slate-600"> ({nights} Malam)</span>
+            <span className="text-slate-400 mx-1.5">•</span>
+            <span>
+              Total:{" "}
+              <strong className="font-bold text-slate-900">
+                Rp {totalAmount.toLocaleString("id-ID")}
+              </strong>
+            </span>
+            <span className="text-slate-500">
+              {" "}
+              (Sisa:{" "}
+              <strong
+                className={
+                  remainingAmount > 0
+                    ? "font-semibold text-amber-700"
+                    : "font-semibold text-emerald-700"
+                }
+              >
+                Rp {remainingAmount.toLocaleString("id-ID")}
+              </strong>
+              )
             </span>
           </div>
-          <span className="text-xs font-bold text-slate-900 bg-slate-100 border border-slate-200/80 px-2.5 py-1 rounded-lg">
-            {nights} Malam
-          </span>
-        </div>
-      </div>
-
-      {/* Rangkuman Biaya & Waktu Check-In/Out */}
-      <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 text-xs shadow-2xs space-y-1.5">
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">
-              Total Tagihan
-            </span>
-            <strong className="text-xs sm:text-sm font-bold text-slate-900">
-              Rp {totalAmount.toLocaleString("id-ID")}
-            </strong>
+          <div className="pt-1 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+            <span>Check-in 14:00 WIT</span>
+            <span>•</span>
+            <span>Check-out 12:00 WIT</span>
           </div>
-          <div className="text-right">
-            <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">
-              Sisa di Lokasi
-            </span>
-            <strong className="text-xs sm:text-sm font-bold text-amber-700">
-              Rp {remainingAmount.toLocaleString("id-ID")}
-            </strong>
-          </div>
-        </div>
-        <div className="pt-1 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
-          <span>Check-in 14:00 WIT</span>
-          <span>•</span>
-          <span>Check-out 12:00 WIT</span>
         </div>
       </div>
     </div>

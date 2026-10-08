@@ -50,35 +50,30 @@ export function RoomMatrixFilter({ filterStatus, setFilterStatus, counts }: Room
 
   return (
     <div className="bg-white/80 backdrop-blur-md p-2.5 sm:p-2 rounded-2xl border border-slate-200/80 shadow-2xs w-full">
-      {/* MOBILE VIEW ONLY: Responsive Category Filter Dropdown (< md) */}
-      <div className="block md:hidden">
-        <label
-          htmlFor="mobileCategoryFilter"
-          className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5 px-1"
-        >
-          Filter Status Kamar:
-        </label>
+      {/* MOBILE & TABLET VIEW: Compact Clean Dropdown (< lg) */}
+      <div className="block lg:hidden">
         <div className="relative">
           <select
-            id="mobileCategoryFilter"
+            id="mobileStatusFilter"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="w-full appearance-none bg-slate-50/80 border border-slate-200 text-slate-800 text-xs font-medium py-2.5 pl-3 pr-8 rounded-xl focus:outline-hidden focus:ring-1 focus:ring-slate-400 focus:bg-white transition-all shadow-2xs"
+            aria-label="Filter status kamar"
+            className="w-full appearance-none bg-white border border-[#e9e8ea] rounded-2xl px-4 py-2.5 text-xs font-medium text-[#1c1c1c] shadow-sm focus:outline-hidden focus:border-[#3c315b] transition-all pr-10 cursor-pointer"
           >
-            <option value="all">Semua Kamar ({counts.total} Unit)</option>
-            <option value="ready">🟢 Tersedia ({counts.ready} Unit)</option>
-            <option value="occupied">🔵 Terisi ({counts.occupied} Unit)</option>
-            <option value="booked">🟡 Dipesan ({counts.booked} Unit)</option>
-            <option value="dirty">🔴 Perlu Bersih ({counts.dirty} Unit)</option>
+            <option value="all">Semua ({counts.total} Unit)</option>
+            <option value="ready">Tersedia ({counts.ready} Unit)</option>
+            <option value="occupied">Terisi ({counts.occupied} Unit)</option>
+            <option value="booked">Dipesan ({counts.booked} Unit)</option>
+            <option value="dirty">Perlu Bersih ({counts.dirty} Unit)</option>
           </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400">
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400">
             <ChevronDown className="w-4 h-4" />
           </div>
         </div>
       </div>
 
-      {/* DESKTOP VIEW ONLY: Segmented Filter Pills (>= md) */}
-      <div className="hidden md:flex items-center justify-between gap-3">
+      {/* DESKTOP VIEW ONLY: Segmented Filter Pills (>= lg) */}
+      <div className="hidden lg:flex items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-1.5">
           {filterButtons.map((btn) => {
             const isActive = filterStatus === btn.id;

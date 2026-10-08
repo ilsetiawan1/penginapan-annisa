@@ -4,8 +4,10 @@ import {
   useCreateAdvanceBooking,
   useReservations,
 } from "@/features/reservations/hooks/use-reservations";
+import { whatsAppPhoneSchema } from "@annisa/types";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   type AdvanceBookingData,
   type BookingChannel,
@@ -48,7 +50,10 @@ export function useAdvanceBookingForm({
   const [guestName, setGuestName] = useState<string>("");
   const [guestPhone, setGuestPhone] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<"transfer" | "qris" | "cash">("transfer");
-  const [dpPaid, setDpPaid] = useState<number>(137500);
+  const [dpPaid, setDpPaid] = useState<number>(() => {
+    const defaultRoom = ROOM_OPTIONS.find((r) => r.code === "A1") || ROOM_OPTIONS[0];
+    return Math.round(defaultRoom.price * 0.5);
+  });
   const [landingTime, setLandingTime] = useState<string>("14:30");
 
   const [calendarMonth, setCalendarMonth] = useState<Date>(() =>
@@ -70,8 +75,10 @@ export function useAdvanceBookingForm({
       setGuestName("");
       setGuestPhone("");
       setLandingTime("14:30");
+      const currentRoom = ROOM_OPTIONS.find((r) => r.code === selectedRoomCode) || ROOM_OPTIONS[0];
+      setDpPaid(Math.round(currentRoom.price * 1 * 0.5));
     }
-  }, [isOpen, initialDate, todayIso]);
+  }, [isOpen, initialDate, todayIso, selectedRoomCode]);
 
   const activeReservations = useMemo(() => {
     const list: { roomCode: string; inIso: string; outIso: string; status: string }[] = [];
@@ -142,6 +149,7 @@ export function useAdvanceBookingForm({
     if (!newInIso) return;
     setCheckInDate(newInIso);
     setCheckOutDate(addDays(newInIso, nights));
+    setDpPaid(Math.round(selectedRoom.price * nights * 0.5));
   };
 
   const handleCheckOutChange = (newOutIso: string) => {
@@ -150,11 +158,13 @@ export function useAdvanceBookingForm({
       const fixedOut = addDays(checkInDate, 1);
       setCheckOutDate(fixedOut);
       setNights(1);
+      setDpPaid(Math.round(selectedRoom.price * 1 * 0.5));
       return;
     }
     setCheckOutDate(newOutIso);
     const diff = calcDaysDiff(checkInDate, newOutIso);
     setNights(diff);
+    setDpPaid(Math.round(selectedRoom.price * diff * 0.5));
   };
 
   const handleNightsChange = (newNights: number) => {
@@ -170,12 +180,14 @@ export function useAdvanceBookingForm({
       setCheckInDate(clickedIso);
       setCheckOutDate(addDays(clickedIso, 1));
       setNights(1);
+      setDpPaid(Math.round(selectedRoom.price * 1 * 0.5));
       return;
     }
 
     if (clickedIso === checkInDate) {
       setCheckOutDate(addDays(clickedIso, 1));
       setNights(1);
+      setDpPaid(Math.round(selectedRoom.price * 1 * 0.5));
       return;
     }
 
@@ -183,6 +195,7 @@ export function useAdvanceBookingForm({
       setCheckOutDate(clickedIso);
       const diff = calcDaysDiff(checkInDate, clickedIso);
       setNights(diff);
+      setDpPaid(Math.round(selectedRoom.price * diff * 0.5));
     }
   };
 
@@ -198,6 +211,17 @@ export function useAdvanceBookingForm({
     e.preventDefault();
     if (!guestName.trim()) return;
     if (isSelectedRoomOccupied) return;
+
+    if (channel === "whatsapp" || guestPhone.trim()) {
+      const phoneValidation = whatsAppPhoneSchema.safeParse(guestPhone.trim());
+      if (!phoneValidation.success) {
+        toast.error(
+          phoneValidation.error.issues[0]?.message ||
+            "Nomor WhatsApp hanya boleh berisi angka (9–15 digit)",
+        );
+        return;
+      }
+    }
 
     try {
       const channelLabel =

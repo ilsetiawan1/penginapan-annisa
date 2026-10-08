@@ -21,10 +21,16 @@ export type PaymentStatus = z.infer<typeof paymentStatusSchema>;
 export const paymentMethodSchema = z.enum(["cash", "transfer", "qris"]);
 export type PaymentMethod = z.infer<typeof paymentMethodSchema>;
 
+export const whatsAppPhoneSchema = z
+  .string()
+  .regex(/^[0-9]+$/, "Nomor WhatsApp hanya boleh berisi angka")
+  .min(9, "Nomor WhatsApp minimal 9 digit")
+  .max(15, "Nomor WhatsApp maksimal 15 digit");
+
 export const guestSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(2, "Nama tamu minimal 2 karakter"),
-  phone: z.string().min(8, "Nomor WhatsApp tidak valid"),
+  phone: whatsAppPhoneSchema,
   email: z.string().email().nullable().optional(),
   idCardNumber: z.string().nullable().optional(),
   address: z.string().nullable().optional(),

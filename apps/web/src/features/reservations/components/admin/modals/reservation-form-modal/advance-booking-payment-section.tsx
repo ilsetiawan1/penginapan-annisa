@@ -69,7 +69,7 @@ export function AdvanceBookingPaymentSection({
               onClick={() => setPaymentMethod(m)}
               className={`py-1.5 rounded-lg text-[10px] font-bold uppercase transition-all cursor-pointer flex items-center justify-center gap-1 ${
                 paymentMethod === m
-                  ? "bg-slate-900 text-white shadow-2xs"
+                  ? "bg-[#3c315b] text-white shadow-sm"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
@@ -88,14 +88,14 @@ export function AdvanceBookingPaymentSection({
           type="button"
           variant="outline"
           onClick={onClose}
-          className="rounded-xl h-9 px-4 text-xs font-semibold text-slate-600 hover:bg-slate-100 cursor-pointer"
+          className="rounded-full border border-slate-200 text-slate-700 hover:bg-slate-50 h-11 px-5 text-sm font-medium cursor-pointer"
         >
           Batal
         </Button>
         <Button
           type="submit"
           disabled={isSubmitDisabled}
-          className="rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm h-9 px-5 gap-1.5 shadow-xs cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-[#3c315b] hover:bg-[#2d2445] text-white font-medium rounded-full h-11 px-6 text-sm transition-all shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
           {isPending ? (
             <>

@@ -82,12 +82,7 @@ export function AdvanceBookingModal(props: AdvanceBookingModalProps) {
       <DialogContent className="max-w-4xl w-[96vw] max-h-[90vh] overflow-y-auto bg-white rounded-3xl p-4 sm:p-5 shadow-2xl border border-slate-200 text-slate-900">
         <DialogHeader className="text-left pb-2 border-b border-slate-100 flex flex-row items-center justify-between">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-slate-100 text-slate-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-slate-200/80">
-                Reservasi Tamu • Multi-Kanal
-              </span>
-            </div>
-            <DialogTitle className="text-base sm:text-lg font-bold text-slate-900 leading-tight mt-1">
+            <DialogTitle className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
               Catat Reservasi Baru
             </DialogTitle>
             <DialogDescription className="text-xs text-slate-500 mt-0.5">
@@ -98,7 +93,7 @@ export function AdvanceBookingModal(props: AdvanceBookingModalProps) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-3 pt-1">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5 items-start">
             {/* Kolom Kiri: Kalender, Tanggal Check-In/Out, Durasi & Rincian Tagihan */}
             <AdvanceBookingCalendar
               calendarMonth={calendarMonth}
@@ -113,7 +108,7 @@ export function AdvanceBookingModal(props: AdvanceBookingModalProps) {
             />
 
             {/* Kolom Kanan: Pemilihan Kamar, Sumber & Data Tamu, Estimasi Jam Tiba, Pembayaran */}
-            <div className="lg:col-span-7 space-y-3">
+            <div className="md:col-span-7 space-y-3">
               <AdvanceBookingRoomPicker
                 selectedRoomCode={selectedRoomCode}
                 onSelectRoomCode={handleSelectRoomCode}

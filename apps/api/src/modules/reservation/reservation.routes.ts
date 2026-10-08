@@ -16,11 +16,12 @@ import "./reservation.openapi"; // Register docs
 const router = Router();
 
 // Public: Online Booking Draft from Guest Portal
-router.post(
-  "/booking",
+const onlineBookingMiddlewares = [
   validateRequest({ body: createOnlineBookingInputSchema }),
   reservationController.createOnlineBooking,
-);
+];
+router.post("/booking", ...onlineBookingMiddlewares);
+router.post("/online", ...onlineBookingMiddlewares);
 
 // Protected PMS Staff / Owner Endpoints
 router.get("/", authMiddleware, reservationController.getAllReservations);
@@ -46,35 +47,42 @@ router.get(
   reservationController.getReservationById,
 );
 
-router.patch(
-  "/:id/confirm-dp",
+const confirmDpMiddlewares = [
   authMiddleware,
   validateRequest({
     params: z.object({ id: z.string().uuid() }),
     body: confirmDpInputSchema,
   }),
   reservationController.confirmDp,
-);
+];
+router.patch("/:id/confirm-dp", ...confirmDpMiddlewares);
+router.post("/:id/confirm-dp", ...confirmDpMiddlewares);
 
-router.patch(
-  "/:id/checkin",
+const checkInMiddlewares = [
   authMiddleware,
   validateRequest({
     params: z.object({ id: z.string().uuid() }),
     body: checkInInputSchema,
   }),
   reservationController.checkIn,
-);
+];
+router.patch("/:id/checkin", ...checkInMiddlewares);
+router.patch("/:id/check-in", ...checkInMiddlewares);
+router.post("/:id/checkin", ...checkInMiddlewares);
+router.post("/:id/check-in", ...checkInMiddlewares);
 
-router.patch(
-  "/:id/checkout",
+const checkOutMiddlewares = [
   authMiddleware,
   validateRequest({
     params: z.object({ id: z.string().uuid() }),
     body: checkOutInputSchema,
   }),
   reservationController.checkOut,
-);
+];
+router.patch("/:id/checkout", ...checkOutMiddlewares);
+router.patch("/:id/check-out", ...checkOutMiddlewares);
+router.post("/:id/checkout", ...checkOutMiddlewares);
+router.post("/:id/check-out", ...checkOutMiddlewares);
 
 router.get(
   "/:id/receipt",

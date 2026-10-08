@@ -133,10 +133,7 @@ export class ReservationService {
     // Ambil data kamar berdasarkan ID (UUID) atau nomor kamar ("A1", "A2", dll)
     const targetRoom = await prisma.room.findFirst({
       where: {
-        OR: [
-          { id: input.roomId },
-          { roomNumber: { equals: input.roomId, mode: "insensitive" } },
-        ],
+        OR: [{ id: input.roomId }, { roomNumber: { equals: input.roomId, mode: "insensitive" } }],
       },
       include: { roomType: true },
     });

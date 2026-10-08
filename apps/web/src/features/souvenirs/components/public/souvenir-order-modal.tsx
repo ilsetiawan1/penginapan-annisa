@@ -211,7 +211,7 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   aria-label="Nomor WhatsApp"
                   placeholder="081234567890"
                   value={guestPhone}
-                  onChange={(e) => setGuestPhone(e.target.value)}
+                  onChange={(e) => setGuestPhone(e.target.value.replace(/\D/g, ""))}
                   className="w-full h-9 bg-white border border-[#e9e8ea] rounded-xl px-2.5 py-1 text-xs font-normal text-[#1c1c1c] outline-none focus:border-[#3c315b] transition"
                 />
               </div>

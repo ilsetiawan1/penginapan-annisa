@@ -56,7 +56,7 @@ export const reservationsApi = {
   },
 
   createOnlineBooking: async (input: CreateOnlineBookingInput): Promise<OnlineBookingResponse> => {
-    return apiClient.post<OnlineBookingResponse>("/reservations/online", input);
+    return apiClient.post<OnlineBookingResponse>("/reservations/booking", input);
   },
 
   createWalkInBooking: async (input: CreateWalkInBookingInput): Promise<Reservation> => {
@@ -68,15 +68,15 @@ export const reservationsApi = {
   },
 
   confirmDp: async (id: string, input: ConfirmDpInput): Promise<Reservation> => {
-    return apiClient.post<Reservation>(`/reservations/${id}/confirm-dp`, input);
+    return apiClient.patch<Reservation>(`/reservations/${id}/confirm-dp`, input);
   },
 
   checkIn: async (id: string, input: CheckInInput): Promise<Reservation> => {
-    return apiClient.post<Reservation>(`/reservations/${id}/check-in`, input);
+    return apiClient.patch<Reservation>(`/reservations/${id}/checkin`, input);
   },
 
   checkOut: async (id: string, input: CheckOutInput): Promise<Reservation> => {
-    return apiClient.post<Reservation>(`/reservations/${id}/check-out`, input);
+    return apiClient.patch<Reservation>(`/reservations/${id}/checkout`, input);
   },
 
   getReceipt: async (id: string): Promise<DigitalReceipt> => {

@@ -4,7 +4,7 @@ import type { RoomItem } from "@/features/rooms/components/public/room-card";
 import { RoomFilter } from "@/features/rooms/components/public/room-filter";
 import { RoomGrid } from "@/features/rooms/components/public/room-grid";
 import { RoomHero } from "@/features/rooms/components/public/room-hero";
-import { useRooms } from "@/features/rooms/hooks/use-rooms";
+import { usePublicRooms } from "@/features/rooms/hooks/use-rooms";
 import { useEffect, useMemo, useState } from "react";
 
 const LOCAL_STORAGE_KEY = "annisa_master_rooms_v3";
@@ -180,8 +180,8 @@ export default function KamarPage() {
     return `${out.getFullYear()}-${String(out.getMonth() + 1).padStart(2, "0")}-${String(out.getDate()).padStart(2, "0")}`;
   }, [checkInDate, nights]);
 
-  // Ambil data kamar langsung dari database server dengan parameter tanggal check-in & check-out
-  const { data: dbRooms } = useRooms({ checkInDate, checkOutDate });
+  // Ambil data kamar langsung dari database server dengan background polling otomatis (10s)
+  const { data: dbRooms } = usePublicRooms({ checkInDate, checkOutDate });
 
   // Bersihkan sisa localStorage lama agar tidak pernah meracuni cache browser
   useEffect(() => {
@@ -214,11 +214,22 @@ export default function KamarPage() {
       // Kamar berstatus tersedia HANYA JIKA tidak ada reservasi aktif pada rentang tanggal yang dipilih
       const isAvailable = r.isAvailable !== undefined ? r.isAvailable : r.status === "ready";
 
+      let status: "tersedia" | "terisi" | "dipesan" = "tersedia";
+      if (r.status === "occupied") {
+        status = "terisi";
+      } else if (r.status === "booked" || r.hasConflict) {
+        status = "dipesan";
+      } else if (!isAvailable) {
+        status = "terisi";
+      } else {
+        status = "tersedia";
+      }
+
       return {
         number: r.roomNumber,
         name: `Kamar #${r.roomNumber}`,
         type: isAc ? "ac" : "kipas",
-        status: isAvailable ? "tersedia" : "terisi",
+        status,
         price: priceNum.toLocaleString("id-ID"),
         dp: dpNum.toLocaleString("id-ID"),
         bed: r.roomType?.bedType || "1 Kasur Queen (Double Bed)",

@@ -9,7 +9,7 @@ export interface RoomItem {
   number: string;
   name: string;
   type: "ac" | "kipas";
-  status: "tersedia" | "terisi";
+  status: "tersedia" | "terisi" | "dipesan";
   price: string; // e.g. "275.000"
   dp: string;
   bed: string;
@@ -68,14 +68,22 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
                 {room.type === "ac" ? "Tipe AC" : "Tipe Kipas"}
               </span>
 
-              {isAvailable ? (
+              {room.status === "tersedia" && (
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-medium flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
                   <span>Tersedia</span>
                 </span>
-              ) : (
-                <span className="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-600 text-[11px] font-medium">
-                  Terisi
+              )}
+              {room.status === "dipesan" && (
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 text-[11px] font-medium flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
+                  <span>Dipesan</span>
+                </span>
+              )}
+              {room.status === "terisi" && (
+                <span className="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-600 text-[11px] font-medium flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block" />
+                  <span>Terisi</span>
                 </span>
               )}
             </div>
