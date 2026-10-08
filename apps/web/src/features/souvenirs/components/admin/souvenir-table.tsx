@@ -1,16 +1,11 @@
 "use client";
 
+import { cleanImageUrl } from "@/lib/string";
 import type { Souvenir } from "@annisa/types";
 import { AlertTriangle, Edit2, Package, RotateCcw, Trash2 } from "lucide-react";
 import { useState } from "react";
 
-export function cleanImageUrl(url?: string | null): string {
-  if (!url) return "";
-  return url
-    .replace(/^"+|"+$/g, "")
-    .replace(/^'+|'+$/g, "")
-    .trim();
-}
+export { cleanImageUrl };
 
 function SouvenirPhotoThumbnail({ imageUrl, name }: { imageUrl?: string | null; name: string }) {
   const [hasError, setHasError] = useState(false);

@@ -1,6 +1,7 @@
 "use client";
 
 import { ImageUpload, uploadBase64ToR2 } from "@/components/ui/image-upload";
+import { generateSlug } from "@/lib/string";
 import type { Article, ArticleCategory } from "@annisa/types";
 import { Loader2, Wand2, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -111,11 +112,6 @@ export function ArticleFormModal({
       if (finalImageUrl.startsWith("data:")) {
         toast.loading("Mengunggah cover artikel ke Cloudflare R2...", { id: "upload-toast" });
         try {
-          const generateSlug = (text: string) =>
-            text
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-")
-              .replace(/(^-|-$)/g, "");
           const slugPrefix = generateSlug(title);
 
           finalImageUrl = await uploadBase64ToR2(

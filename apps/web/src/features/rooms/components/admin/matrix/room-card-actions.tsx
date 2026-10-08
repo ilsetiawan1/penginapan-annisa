@@ -1,5 +1,6 @@
 "use client";
 
+import { getDirectWhatsAppUrl } from "@/lib/whatsapp";
 import { CheckCircle2, LogOut, MessageCircle, Plus, Sparkles, Wrench } from "lucide-react";
 import type { RoomItem } from "./room-card";
 
@@ -55,7 +56,7 @@ export function RoomCardActions({
           </button>
           {room.guestPhone && (
             <a
-              href={`https://wa.me/${room.guestPhone.replace(/[^0-9]/g, "")}`}
+              href={getDirectWhatsAppUrl(room.guestPhone)}
               target="_blank"
               rel="noreferrer"
               className="w-9 h-9 rounded-xl border border-slate-200 bg-white/80 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 hover:border-emerald-300 transition-colors cursor-pointer shadow-2xs flex items-center justify-center shrink-0"

@@ -1,10 +1,7 @@
 "use client";
 
 import { uploadBase64ToR2 } from "@/components/ui/image-upload";
-import {
-  type MasterRoomItem,
-  cleanImageUrl,
-} from "@/features/rooms/components/admin/management/room-master-card";
+import type { MasterRoomItem } from "@/features/rooms/components/admin/management/room-master-card";
 import {
   useRoomTypes,
   useRooms,
@@ -12,6 +9,7 @@ import {
   useUpdateRoomRate,
 } from "@/features/rooms/hooks/use-rooms";
 import { apiClient } from "@/lib/api/client";
+import { cleanImageUrl, generateSlug } from "@/lib/string";
 import type { Room, RoomType } from "@annisa/types";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -183,11 +181,6 @@ export function useRoomManagementActions() {
         id: "upload-room-img",
       });
       try {
-        const generateSlug = (text: string) =>
-          text
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/(^-|-$)/g, "");
         const slugPrefix = generateSlug(editingRoom.typeName);
 
         finalImageUrl = await uploadBase64ToR2(

@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { getDigitalReceiptWhatsAppUrl } from "@/lib/whatsapp";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
@@ -72,11 +73,7 @@ Ada pertanyaan atau butuh petunjuk arah dari bandara? Silakan balas pesan ini. T
   };
 
   const handleSendWA = () => {
-    let cleanPhone = guestPhone.replace(/[^0-9]/g, "");
-    if (cleanPhone.startsWith("0")) {
-      cleanPhone = `62${cleanPhone.slice(1)}`;
-    }
-    const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(receiptText)}`;
+    const url = getDigitalReceiptWhatsAppUrl(guestPhone, receiptText);
     window.open(url, "_blank");
   };
 

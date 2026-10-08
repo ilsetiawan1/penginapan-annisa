@@ -1,5 +1,6 @@
 "use client";
 
+import { formatCleanRoomType } from "@/lib/string";
 import { getDirectWhatsAppUrl } from "@/lib/whatsapp";
 import { Calendar, CheckCircle2, ChevronDown, Moon } from "lucide-react";
 import { useState } from "react";
@@ -132,7 +133,7 @@ export function BookingDateDetailsPanel({
                           {b.guestName}
                         </strong>
                         <span className="text-[11px] text-slate-500 font-medium block mt-0.5">
-                          {b.roomTypeName.replace(/^(Kamar|Tipe)\s+/gi, "")} • {b.nights} Malam
+                          {formatCleanRoomType(b.roomTypeName)} • {b.nights} Malam
                         </span>
                       </div>
                     </div>

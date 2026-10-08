@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { formatCleanRoomName, parsePriceToNumber } from "@/lib/string";
 import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
 import { Bed, Check, Clock, Fan, Tag, Tv, Wifi, Wind } from "lucide-react";
 import { useState } from "react";
@@ -29,13 +30,11 @@ export function RoomDetailModal({
   if (!room) return null;
 
   const isAvailable = room.status === "tersedia";
-  const numericPrice = Number(room.price.replace(/\./g, ""));
+  const numericPrice = parsePriceToNumber(room.price);
   const totalPrice = numericPrice * nights;
   const dpPrice = Math.round(totalPrice * 0.5);
 
-  const cleanRoomTitle = room.number
-    ? `Kamar #${room.number}`
-    : room.name.replace(/\s*\([^)]*\)/, "");
+  const cleanRoomTitle = room.number ? `Kamar #${room.number}` : formatCleanRoomName(room.name);
 
   const formattedDateStr = checkInDate
     ? new Date(checkInDate).toLocaleDateString("id-ID", {

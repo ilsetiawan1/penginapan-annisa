@@ -1,6 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { formatCleanRoomName, parsePriceToNumber } from "@/lib/string";
 import { ArrowRight, Bed } from "lucide-react";
 import { useState } from "react";
 import { RoomDetailModal } from "./room-detail-modal";
@@ -29,11 +30,11 @@ export function RoomCard({ room, checkInDate, nights = 1 }: RoomCardProps) {
   const [imgError, setImgError] = useState(false);
 
   const isAvailable = room.status === "tersedia";
-  const numericPrice = Number(room.price.replace(/\./g, ""));
+  const numericPrice = parsePriceToNumber(room.price);
   const totalPrice = numericPrice * nights;
 
   // Pastikan nama kamar tidak mengandung suffix duplikat seperti (AC) atau (Kipas)
-  const cleanRoomName = room.name.replace(/\s*\((?:AC|Kipas)\)/gi, "");
+  const cleanRoomName = formatCleanRoomName(room.name);
   const hasValidImage = Boolean(room.image && room.image.trim() !== "" && !imgError);
 
   return (

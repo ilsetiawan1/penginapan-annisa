@@ -1,5 +1,6 @@
 "use client";
 
+import { getDirectWhatsAppUrl } from "@/lib/whatsapp";
 import { Calendar, User } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import type { RoomItem } from "./room-card";
@@ -70,7 +71,7 @@ export function RoomDetailGuestSection({ room }: RoomDetailGuestSectionProps) {
             </span>
             {room.guestPhone && (
               <a
-                href={`https://wa.me/${room.guestPhone.replace(/[^0-9]/g, "")}`}
+                href={getDirectWhatsAppUrl(room.guestPhone)}
                 target="_blank"
                 rel="noreferrer"
                 className="p-1 rounded-md bg-white border border-slate-200 text-slate-600 hover:text-emerald-700 hover:border-emerald-300 transition-colors"
@@ -93,9 +94,7 @@ export function RoomDetailGuestSection({ room }: RoomDetailGuestSectionProps) {
             {room.totalNights || 1} Malam
           </span>
         </div>
-        <p className="text-[11px] text-slate-400">
-          Check-in 14:00 • Check-out 12:00 WIT
-        </p>
+        <p className="text-[11px] text-slate-400">Check-in 14:00 • Check-out 12:00 WIT</p>
       </div>
     </div>
   );

@@ -1,15 +1,10 @@
 "use client";
 
+import { cleanImageUrl } from "@/lib/string";
 import { Bed, Edit3 } from "lucide-react";
 import { useState } from "react";
 
-export function cleanImageUrl(url?: string | null): string {
-  if (!url) return "";
-  return url
-    .replace(/^"+|"+$/g, "")
-    .replace(/^'+|'+$/g, "")
-    .trim();
-}
+export { cleanImageUrl };
 
 export interface MasterRoomItem {
   id: string;
