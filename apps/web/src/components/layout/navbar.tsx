@@ -42,7 +42,7 @@ export function Navbar() {
               priority
             />
           </div>
-          <span className="font-signature font-normal text-xl sm:text-2xl text-[#1c1c1c] tracking-normal transition group-hover:text-[#3c315b] whitespace-nowrap leading-none pt-0.5">
+          <span className="font-signature font-normal text-base sm:text-xl text-[#1c1c1c] tracking-normal transition group-hover:text-[#3c315b] whitespace-nowrap leading-none pt-0.5">
             {lodgingName}
           </span>
         </Link>

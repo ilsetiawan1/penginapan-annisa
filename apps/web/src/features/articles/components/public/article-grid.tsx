@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
 import { ArticleCard, type ArticleItem } from "./article-card";
 import { ArticleFilter } from "./article-filter";
 
@@ -27,28 +26,45 @@ export function ArticleGrid({
 }: ArticleGridProps) {
   return (
     <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-      {/* Section Header: Heading & Urutan di atas, Filter Pills tepat di bawahnya */}
+      {/* Section Header: Heading & Urutan sejajar, Filter Pills di bawahnya */}
       <div className="mb-8 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h2 className="text-2xl font-normal tracking-tight text-[#1c1c1c]">Artikel Terbaru</h2>
-            <p className="text-xs text-[#86848d] mt-0.5">
-              Panduan wisata, kuliner, dan tips transit nyaman di sekitar Kota Ambon &amp; Bandara
-              Pattimura.
-            </p>
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between sm:justify-start gap-3 flex-wrap">
+            <h2 className="text-xl sm:text-2xl font-normal tracking-tight text-[#1c1c1c]">
+              Artikel Terbaru
+            </h2>
+
+            {/* Badge Filter: Terbaru & Terlama */}
+            <div className="inline-flex items-center gap-1 p-0.5 rounded-full bg-slate-100/90 border border-slate-200/80 text-xs">
+              <button
+                type="button"
+                onClick={() => onSortChange?.("newest")}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                  sortOrder === "newest"
+                    ? "bg-[#3c315b] text-white shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Terbaru
+              </button>
+              <button
+                type="button"
+                onClick={() => onSortChange?.("oldest")}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                  sortOrder === "oldest"
+                    ? "bg-[#3c315b] text-white shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Terlama
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-[#86848d] border border-[#e9e8ea] bg-white rounded-full px-3.5 py-1.5 shadow-2xs shrink-0 self-start sm:self-auto">
-            <span className="font-normal">URUTKAN:</span>
-            <button
-              type="button"
-              onClick={() => onSortChange?.(sortOrder === "newest" ? "oldest" : "newest")}
-              className="text-[#3c315b] font-medium flex items-center gap-1 cursor-pointer hover:text-[#2d2445] transition-colors"
-            >
-              <span>{sortOrder === "oldest" ? "Terlama" : "Terbaru"}</span>
-              <ChevronDown className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          <p className="text-xs text-zinc-600">
+            Panduan wisata, kuliner, dan tips transit nyaman di sekitar Kota Ambon &amp; Bandara
+            Pattimura.
+          </p>
         </div>
 
         {/* Filter Kategori Pills di bawah heading */}

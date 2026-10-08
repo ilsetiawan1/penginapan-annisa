@@ -65,7 +65,7 @@ export function Footer() {
                 />
               </div>
               <div>
-                <span className="font-signature font-normal text-lg sm:text-xl text-[#1c1c1c] tracking-normal block group-hover:text-[#3c315b] transition leading-none pt-0.5">
+                <span className="font-signature font-normal text-sm sm:text-lg text-[#1c1c1c] tracking-normal block group-hover:text-[#3c315b] transition leading-none pt-0.5">
                   {lodgingName}
                 </span>
                 <span className="text-[11px] text-zinc-600 font-normal tracking-tight block leading-none mt-1">
