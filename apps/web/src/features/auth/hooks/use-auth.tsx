@@ -1,7 +1,7 @@
 "use client";
 
 import type { LoginInput, User } from "@annisa/types";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { authApi } from "../api/auth.api";
@@ -22,8 +22,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isAdminOrAuthRoute = Boolean(
+    pathname?.startsWith("/admin") || pathname?.startsWith("/login"),
+  );
 
   const fetchUserProfile = useCallback(async () => {
+    // Jangan panggil /auth/me di halaman publik tanpa kebutuhan autentikasi
+    if (!isAdminOrAuthRoute) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       const profile = await authApi.getMe();
@@ -33,7 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [isAdminOrAuthRoute]);
 
   useEffect(() => {
     fetchUserProfile();

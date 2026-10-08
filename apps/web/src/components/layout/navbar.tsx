@@ -37,6 +37,7 @@ export function Navbar() {
               src="/images/branding/logo.png"
               alt={`Logo ${lodgingName}`}
               fill
+              sizes="32px"
               className="object-contain p-0.5"
               priority
             />

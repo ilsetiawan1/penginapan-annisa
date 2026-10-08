@@ -16,6 +16,7 @@ export function HeroSection() {
         alt="Pantai Ambon & Transit Bandara Pattimura"
         fill
         priority
+        quality={65}
         className="object-cover object-center pointer-events-none"
       />
 

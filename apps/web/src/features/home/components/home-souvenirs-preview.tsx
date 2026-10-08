@@ -5,6 +5,7 @@ import { FloatingCartBar } from "@/features/souvenirs/components/public/floating
 import { useSouvenirs } from "@/features/souvenirs/hooks/use-souvenirs";
 import type { Souvenir } from "@annisa/types";
 import { ArrowRight, Sparkles } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
@@ -87,12 +88,14 @@ export function HomeSouvenirsPreview() {
                 {/* Foto Produk */}
                 <div className="relative min-h-0 flex-1 overflow-hidden rounded-xl bg-[#f4f2f4]">
                   {item.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
+                      fill
                       draggable={false}
-                      className="h-full w-full object-cover"
+                      sizes="(max-width: 640px) 320px, 200px"
+                      loading="lazy"
+                      className="object-cover"
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-[#faf8fd] via-[#ede8f8]/60 to-[#f4f2f4] flex flex-col items-center justify-center gap-1.5 text-[#3c315b]/60 p-4">

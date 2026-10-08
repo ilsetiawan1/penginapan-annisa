@@ -28,8 +28,12 @@ export const metadata: Metadata = {
   description:
     "Penginapan transit nyaman, bersih, dan hemat hanya 750 meter dari Bandara Internasional Pattimura Ambon. Dilengkapi AC/Kipas, WiFi gratis, kamar mandi dalam, dan etalase oleh-oleh khas Maluku.",
   icons: {
-    icon: "/images/branding/logo.png",
-    apple: "/images/branding/logo.png",
+    icon: [
+      { url: "/images/branding/favicon.ico" },
+      { url: "/images/branding/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/images/branding/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/images/branding/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 

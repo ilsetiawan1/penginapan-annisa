@@ -6,6 +6,7 @@ import { useRooms } from "@/features/rooms/hooks/use-rooms";
 import { getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
 import type { Room } from "@annisa/types";
 import { ArrowRight, Bed, Tag } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
@@ -128,12 +129,13 @@ export function HomeRoomsPreview() {
               {/* Foto Kamar / Placeholder (Lebih Panjang & Dominan) */}
               <div className="relative flex-1 min-h-0 w-full bg-[#f4f2f4] overflow-hidden">
                 {room.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={room.image}
                     alt={room.name}
-                    loading="eager"
-                    className="w-full h-full object-cover"
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 640px) 100vw, 380px"
+                    className="object-cover"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-[#faf8fd] via-[#ede8f8]/60 to-[#f4f2f4] flex flex-col items-center justify-center gap-1.5 text-[#3c315b]/60 p-4">

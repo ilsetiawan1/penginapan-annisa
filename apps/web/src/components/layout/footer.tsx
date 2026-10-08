@@ -60,6 +60,7 @@ export function Footer() {
                   src="/images/branding/logo.png"
                   alt={`Logo ${lodgingName}`}
                   fill
+                  sizes="32px"
                   className="object-contain"
                 />
               </div>
@@ -67,7 +68,7 @@ export function Footer() {
                 <span className="font-signature font-normal text-lg sm:text-xl text-[#1c1c1c] tracking-normal block group-hover:text-[#3c315b] transition leading-none pt-0.5">
                   {lodgingName}
                 </span>
-                <span className="text-[11px] text-[#86848d] font-normal tracking-tight block leading-none mt-1">
+                <span className="text-[11px] text-zinc-600 font-normal tracking-tight block leading-none mt-1">
                   {airportDistance}
                 </span>
               </div>
@@ -93,29 +94,29 @@ export function Footer() {
               <h3 className="font-medium text-[11px] sm:text-xs uppercase tracking-wider text-[#1c1c1c]">
                 Menu Halaman
               </h3>
-              <ul className="space-y-1.5 text-xs font-normal text-[#86848d]">
+              <ul className="space-y-0.5 text-xs font-normal text-zinc-600">
                 <li>
-                  <Link href="/" className="hover:text-[#3c315b] transition">
+                  <Link href="/" className="py-1.5 block hover:text-[#3c315b] transition">
                     Beranda
                   </Link>
                 </li>
                 <li>
-                  <Link href="/rooms" className="hover:text-[#3c315b] transition">
+                  <Link href="/rooms" className="py-1.5 block hover:text-[#3c315b] transition">
                     Pilihan Kamar
                   </Link>
                 </li>
                 <li>
-                  <Link href="/souvenirs" className="hover:text-[#3c315b] transition">
+                  <Link href="/souvenirs" className="py-1.5 block hover:text-[#3c315b] transition">
                     Oleh-oleh Khas
                   </Link>
                 </li>
                 <li>
-                  <Link href="/articles" className="hover:text-[#3c315b] transition">
+                  <Link href="/articles" className="py-1.5 block hover:text-[#3c315b] transition">
                     Artikel Wisata
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-[#3c315b] transition">
+                  <Link href="/contact" className="py-1.5 block hover:text-[#3c315b] transition">
                     Kontak &amp; Peta
                   </Link>
                 </li>
@@ -127,10 +128,10 @@ export function Footer() {
               <h3 className="font-medium text-[11px] sm:text-xs uppercase tracking-wider text-[#1c1c1c]">
                 Info &amp; Lokasi
               </h3>
-              <div className="space-y-2 text-xs text-[#86848d]">
+              <div className="space-y-2 text-xs text-zinc-600">
                 <div className="flex items-start gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-[#3c315b] shrink-0 mt-0.5" />
-                  <span className="text-[11px] sm:text-xs leading-tight text-[#86848d]">
+                  <span className="text-[11px] sm:text-xs leading-tight text-zinc-600">
                     Buka: 06:00 – 22:00 WIT
                   </span>
                 </div>
@@ -141,7 +142,7 @@ export function Footer() {
                     href={`https://wa.me/${waNumber}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-[11px] sm:text-xs font-normal text-[#86848d] hover:text-[#3c315b] transition leading-tight"
+                    className="text-[11px] sm:text-xs font-normal text-zinc-600 hover:text-[#3c315b] transition leading-tight py-1 block"
                   >
                     {waNumber.startsWith("62") ? `0${waNumber.slice(2)}` : waNumber}
                   </a>
@@ -149,7 +150,7 @@ export function Footer() {
 
                 <div className="flex items-start gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-[#3c315b] shrink-0 mt-0.5" />
-                  <span className="text-[11px] sm:text-xs leading-tight text-[#86848d]">
+                  <span className="text-[11px] sm:text-xs leading-tight text-zinc-600">
                     Jl. Bandara Pattimura, Tawiri, Kota Ambon
                   </span>
                 </div>
@@ -159,7 +160,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Copyright Strip (Tunggal & Terpusat) */}
-        <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-[#e9e8ea] text-center text-[10px] sm:text-[11px] text-[#86848d] font-normal">
+        <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-[#e9e8ea] text-center text-[10px] sm:text-[11px] text-zinc-600 font-normal">
           <p>© 2026 {lodgingName}. Hak Cipta Dilindungi.</p>
         </div>
       </div>

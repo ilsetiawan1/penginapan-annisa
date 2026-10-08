@@ -129,9 +129,9 @@ export function TimelineMobile() {
         </div>
 
         {/* Title */}
-        <h3 className="text-sm font-medium text-[#1c1c1c] leading-tight tracking-tight">
+        <p className="text-sm font-medium text-[#1c1c1c] leading-tight tracking-tight">
           {currentStep.title}
-        </h3>
+        </p>
       </button>
     </div>
   );
