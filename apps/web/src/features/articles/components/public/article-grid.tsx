@@ -35,26 +35,26 @@ export function ArticleGrid({
             </h2>
 
             {/* Badge Filter: Terbaru & Terlama */}
-            <div className="inline-flex items-center gap-1 p-0.5 rounded-full bg-slate-100/90 border border-slate-200/80 text-xs">
+            <div className="inline-flex items-center rounded-full bg-zinc-100 p-0.5 text-xs border border-zinc-200/60">
               <button
                 type="button"
                 onClick={() => onSortChange?.("newest")}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                className={
                   sortOrder === "newest"
-                    ? "bg-[#3c315b] text-white shadow-2xs"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
+                    ? "rounded-full bg-white px-3 py-1 text-xs font-medium text-zinc-900 shadow-xs transition-all duration-150 cursor-pointer"
+                    : "rounded-full px-3 py-1 text-xs font-normal text-zinc-500 hover:text-zinc-800 transition-all duration-150 cursor-pointer"
+                }
               >
                 Terbaru
               </button>
               <button
                 type="button"
                 onClick={() => onSortChange?.("oldest")}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                className={
                   sortOrder === "oldest"
-                    ? "bg-[#3c315b] text-white shadow-2xs"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
+                    ? "rounded-full bg-white px-3 py-1 text-xs font-medium text-zinc-900 shadow-xs transition-all duration-150 cursor-pointer"
+                    : "rounded-full px-3 py-1 text-xs font-normal text-zinc-500 hover:text-zinc-800 transition-all duration-150 cursor-pointer"
+                }
               >
                 Terlama
               </button>
