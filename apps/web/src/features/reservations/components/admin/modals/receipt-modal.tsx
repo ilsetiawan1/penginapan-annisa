@@ -62,7 +62,7 @@ Halo Bpk/Ibu *${guestName}*, terima kasih telah memilih Penginapan Annisa.
 - DP Dibayar: *Rp ${dpPaid.toLocaleString("id-ID")}* (LUNAS)
 - Sisa Pelunasan: *Rp ${remainingAmount.toLocaleString("id-ID")}* (${remainingAmount === 0 ? "LUNAS 100%" : "Dibayar saat Check-In/Out"})
 
-Fasilitas: 100% Kamar Mandi Dalam Pribadi, AC/Kipas, TV, WiFi Kencang, Handuk & Air Mineral.
+Fasilitas: 100% Kamar Mandi Dalam Pribadi, AC/Kipas, TV, WiFi Kencang, Handuk Bersih.
 
 Ada pertanyaan atau butuh petunjuk arah dari bandara? Silakan balas pesan ini. Terima kasih.`;
 

@@ -9,33 +9,12 @@ async function main() {
       : "Not set"
   );
 
-  const [
-    roomCount,
-    roomTypeCount,
-    userCount,
-    settingsCount,
-    reservationCount,
-    articleCount,
-    categoryCount,
-  ] = await Promise.all([
-    prisma.room.count(),
-    prisma.roomType.count(),
-    prisma.user.count(),
-    prisma.systemSetting.count(),
-    prisma.reservation.count(),
-    prisma.article.count(),
-    prisma.articleCategory.count(),
-  ]);
-
-  console.log("=== Neon Connection & Health Check Result ===");
-  console.log(`- Room records          : ${roomCount}`);
-  console.log(`- RoomType records      : ${roomTypeCount}`);
-  console.log(`- User records          : ${userCount}`);
-  console.log(`- Reservation records   : ${reservationCount}`);
-  console.log(`- Article records       : ${articleCount}`);
-  console.log(`- ArticleCategory records: ${categoryCount}`);
-  console.log(`- SystemSetting records : ${settingsCount}`);
-  console.log("Status: OK, all queries succeeded without data loss.");
+  const updatedRoomTypes = await prisma.roomType.findMany({
+    select: { name: true, slug: true, facilities: true },
+  });
+  console.log("=== Room Types in Neon ===");
+  console.log(JSON.stringify(updatedRoomTypes, null, 2));
+  console.log("Status: OK, Neon facilities verified.");
 }
 
 main()

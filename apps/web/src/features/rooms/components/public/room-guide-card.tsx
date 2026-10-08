@@ -20,7 +20,7 @@ export function RoomGuideCard() {
               Dilengkapi{" "}
               <strong className="text-slate-900 font-bold">1 kasur besar (muat 2–3 orang)</strong>,{" "}
               <strong className="text-slate-900 font-bold">100% kamar mandi dalam pribadi</strong>,
-              TV layar datar, WiFi kencang, handuk bersih, dan air mineral. Pembedanya hanya pada
+              TV layar datar, WiFi kencang, dan handuk bersih. Pembedanya hanya pada
               pendingin ruangan (Tipe AC &amp; Tipe Kipas).
             </p>
           </div>

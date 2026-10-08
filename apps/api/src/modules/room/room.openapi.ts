@@ -139,7 +139,6 @@ registry.registerPath({
               "WiFi Gratis 50 Mbps",
               "TV LED 32 Inch",
               "Handuk Bersih & Sabun",
-              "Air Mineral Gratis",
               "Sarapan Pagi Gratis (Promo Lebaran)",
             ],
             description:
