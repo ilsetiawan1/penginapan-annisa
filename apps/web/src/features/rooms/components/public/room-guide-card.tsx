@@ -34,7 +34,7 @@ export function RoomGuideCard() {
               <li className="flex items-start gap-2">
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
-                  <strong className="text-slate-900">Jarak Kilat 750m</strong> dari pintu gerbang
+                  <strong className="text-slate-900">Jarak Kilat (2-3 Menit)</strong> dari pintu gerbang
                   terminal Bandara Pattimura (bebas macet).
                 </span>
               </li>

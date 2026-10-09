@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Phase_3_Database_Design_Complete-blue?style=for-the-badge)
 
-Sistem Informasi Manajemen Properti (PMS) Ringan, Reservasi WhatsApp Mandiri, dan Etalase Digital untuk **Penginapan Annisa** — Penginapan Transit Terdekat (750 Meter) dari **Bandara Internasional Pattimura Ambon, Maluku**.
+Sistem Informasi Manajemen Properti (PMS) Ringan, Reservasi WhatsApp Mandiri, dan Etalase Digital untuk **Penginapan Annisa** — Penginapan Transit Terdekat (2-3 Menit) dari **Bandara Internasional Pattimura Ambon, Maluku**.
 
 ---
 

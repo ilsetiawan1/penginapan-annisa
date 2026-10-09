@@ -23,7 +23,7 @@ export function AdminSettings({
   const [waNumber, setWaNumber] = useState(ANNISA_WA_NUMBER);
   const [lodgingName, setLodgingName] = useState("Penginapan Annisa");
   const [distanceText, setDistanceText] = useState(
-    "750 meter atau 2–3 menit dari Bandara Pattimura",
+    "2-3 Menit dari Bandara Pattimura",
   );
   const [checkinTime, setCheckinTime] = useState("14:00 WIT");
   const [checkoutTime, setCheckoutTime] = useState("12:00 WIT");
@@ -46,7 +46,7 @@ export function AdminSettings({
       setWaNumber(settings.whatsapp_number || ANNISA_WA_NUMBER);
       setLodgingName(settings.lodging_name || "Penginapan Annisa");
       setDistanceText(
-        settings.airport_distance || "750 meter atau 2–3 menit dari Bandara Pattimura",
+        settings.airport_distance || "2-3 Menit dari Bandara Pattimura",
       );
       setCheckinTime(settings.checkin_time || "14:00 WIT");
       setCheckoutTime(settings.checkout_time || "12:00 WIT");

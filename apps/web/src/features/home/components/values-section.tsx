@@ -4,7 +4,7 @@ export function ValuesSection() {
   const values = [
     {
       icon: MapPin,
-      badge: "750m Bandara",
+      badge: "2-3 Menit Bandara",
       title: "Bebas Risiko Terlambat",
       desc: "Hanya 2–3 menit ke terminal Bandara Pattimura, bebas macet.",
     },

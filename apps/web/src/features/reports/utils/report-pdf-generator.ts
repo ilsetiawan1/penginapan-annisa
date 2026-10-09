@@ -279,7 +279,7 @@ export function generateReportPdf(report: MonthReportData): boolean {
         <div class="header-bar">
           <div>
             <h1 class="brand-name">PENGINAPAN ANNISA AMBON</h1>
-            <p class="brand-sub">Penginapan Transit 750m dari Bandara Pattimura Ambon</p>
+            <p class="brand-sub">Penginapan Transit 2-3 Menit dari Bandara Pattimura Ambon</p>
             <p class="brand-sub">Jl. Bandara Pattimura, Tawiri, Ambon • Telp / WA: 0812-4040-5050</p>
           </div>
           <div style="text-align: right;">

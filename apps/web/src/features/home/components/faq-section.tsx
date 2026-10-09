@@ -9,7 +9,7 @@ export function FaqSection() {
   const faqs = [
     {
       q: "Berapa jarak dari Bandara Pattimura ke Penginapan Annisa?",
-      a: "Hanya 750 meter (sekitar 2–3 menit perjalanan). Anda bisa jalan kaki santai atau naik kendaraan dengan sangat cepat tanpa khawatir macet.",
+      a: "Hanya 2-3 menit perjalanan dari Bandara Internasional Pattimura Ambon. Anda bisa jalan kaki santai atau berkendara singkat tanpa khawatir macet atau ketinggalan pesawat.",
     },
     {
       q: "Bagaimana jika saya check-in pagi hari (misal jam 07:00 WIT)?",

@@ -45,8 +45,8 @@ export function ReceiptModal({
 }: ReceiptModalProps) {
   const [copied, setCopied] = useState<boolean>(false);
 
-  const receiptText = `*BUKTI TRANSAKSI RESERVASI — PENGINAPAN ANNISA AMBON*
-Jl. Bandara Pattimura, Tawiri (750m dari Bandara)
+  const receiptText = `*BUKTI TRANSAKSI RESERVASI: PENGINAPAN ANNISA AMBON*
+Jl. Bandara Pattimura, Tawiri (2-3 Menit dari Bandara)
 WhatsApp: 0812-4216-3116
 ---------------------------------------------
 Halo Bpk/Ibu *${guestName}*, terima kasih telah memilih Penginapan Annisa.

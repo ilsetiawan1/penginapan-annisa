@@ -325,7 +325,7 @@ export function RoomDetailModal({
                   <Clock className="w-3.5 h-3.5 text-[#3c315b]" />
                   <span>Check-In: 14:00 WIT · Check-Out: 12:00 WIT</span>
                 </div>
-                <span className="text-[11px] text-[#86848d] hidden sm:inline">750m Bandara</span>
+                <span className="text-[11px] text-[#86848d] hidden sm:inline">2-3 Menit Bandara</span>
               </div>
 
               {/* Action Button Step 1 */}

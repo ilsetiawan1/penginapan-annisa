@@ -134,7 +134,7 @@ export default function PrivacyPage() {
                 </li>
                 <li>
                   <strong>Komunikasi Kedatangan:</strong> Memudahkan koordinasi penjemputan atau
-                  petunjuk arah jalan dari Bandara Pattimura Ambon (jarak 750 meter).
+                  petunjuk arah jalan dari Bandara Pattimura Ambon (jarak 2-3 menit perjalanan).
                 </li>
                 <li>
                   <strong>Penyiapan Oleh-oleh:</strong> Menyiapkan paket minyak kayu putih, minyak

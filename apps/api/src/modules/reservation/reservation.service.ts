@@ -105,7 +105,7 @@ export class ReservationService {
     });
 
     // 6. Buat format pesan konfirmasi WhatsApp
-    const waMessage = `Halo ${guest.name}, terima kasih telah memesan kamar di Penginapan Annisa (750m Bandara Pattimura Ambon).%0A%0A*Detail Booking:*%0AKode: ${code}%0AKamar: ${availableRoom.roomType.name} (${availableRoom.roomNumber})%0ACheck-in: ${input.checkInDate}%0ACheck-out: ${input.checkOutDate} (${totalNights} Malam)%0ATotal: Rp ${grandTotal.toLocaleString("id-ID")}%0A*DP 50%: Rp ${dpAmount.toLocaleString("id-ID")}*%0A%0ASilakan transfer DP ke:%0A${config.bank.name} a/n ${config.bank.holder}%0ARekening: ${config.bank.account}%0A%0ASetelah transfer, mohon kirim bukti transfer ke nomor ini. Terima kasih!`;
+    const waMessage = `Halo ${guest.name}, terima kasih telah memesan kamar di Penginapan Annisa (2-3 Menit dari Bandara Pattimura Ambon).%0A%0A*Detail Booking:*%0AKode: ${code}%0AKamar: ${availableRoom.roomType.name} (${availableRoom.roomNumber})%0ACheck-in: ${input.checkInDate}%0ACheck-out: ${input.checkOutDate} (${totalNights} Malam)%0ATotal: Rp ${grandTotal.toLocaleString("id-ID")}%0A*DP 50%: Rp ${dpAmount.toLocaleString("id-ID")}*%0A%0ASilakan transfer DP ke:%0A${config.bank.name} a/n ${config.bank.holder}%0ARekening: ${config.bank.account}%0A%0ASetelah transfer, mohon kirim bukti transfer ke nomor ini. Terima kasih!`;
 
     const waLink = `https://wa.me/${config.whatsapp.officialNumber}?text=${waMessage}`;
 
@@ -421,7 +421,7 @@ export class ReservationService {
     return {
       receiptNumber: `REC-${resv.code}`,
       hotelName: "Penginapan Annisa",
-      location: "Laha, Teluk Ambon (750m dari Bandara Pattimura)",
+      location: "Laha, Teluk Ambon (2-3 Menit dari Bandara Pattimura)",
       guest: {
         name: resv.guest.name,
         phone: resv.guest.phone,

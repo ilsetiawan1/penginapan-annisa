@@ -138,7 +138,7 @@ export function Navbar() {
 
             <div className="mt-3 pt-2.5 border-t border-[#e9e8ea] px-2 flex items-center justify-between text-[11px] text-[#86848d]">
               <span>Buka 06:00 – 22:00 WIT</span>
-              <span>750m Bandara</span>
+              <span>2-3 Menit ke Bandara</span>
             </div>
           </div>
         </>

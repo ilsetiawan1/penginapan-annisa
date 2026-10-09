@@ -253,7 +253,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                 Butuh Istirahat Dekat Bandara Pattimura?
               </h3>
               <p className="text-xs sm:text-sm text-white/85 leading-relaxed">
-                Penginapan Annisa hanya 750 meter dari bandara. Fasilitas AC dingin, kamar mandi
+                Penginapan Annisa hanya 2-3 menit dari bandara. Fasilitas AC dingin, kamar mandi
                 dalam, dan kasur empuk.
               </p>
             </div>

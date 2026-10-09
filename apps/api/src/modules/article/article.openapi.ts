@@ -128,7 +128,7 @@ registry.registerPath({
         "application/json": {
           schema: updateArticleInputSchema,
           example: {
-            title: "Panduan Transit Praktis 750m dari Bandara Pattimura Ambon (Update 2026)",
+            title: "Panduan Transit Praktis 2-3 Menit dari Bandara Pattimura Ambon (Update 2026)",
             isPublished: true,
           },
         },

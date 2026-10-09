@@ -61,7 +61,7 @@ export default function TermsPage() {
               <p>
                 Website ini berfungsi sebagai media katalog informasi resmi mengenai fasilitas,
                 ketersediaan unit kamar, tarif per malam, dan produk oleh-oleh khas Maluku di{" "}
-                <strong>Penginapan Annisa</strong> (berlokasi di Tawiri, 750 meter dari Bandara
+                <strong>Penginapan Annisa</strong> (berlokasi di Tawiri, 2-3 menit dari Bandara
                 Internasional Pattimura Ambon).
               </p>
               <p>

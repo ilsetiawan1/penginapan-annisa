@@ -20,11 +20,11 @@ Aplikasi web modern **Next.js 15 (App Router)** untuk **Penginapan Annisa**, men
 
 ### 1. 🌐 Public Guest Portal (5 Menu Utama)
 
-- **`/` (Beranda):** Hero section 750m Bandara Pattimura Ambon + Smart Availability Checker Widget.
+- **`/` (Beranda):** Hero section 2-3 Menit Bandara Pattimura Ambon + Smart Availability Checker Widget.
 - **`/kamar` (Katalog Kamar):** Tampilan 8 kamar (4 AC @ Rp 275rb & 4 Kipas @ Rp 200rb) + Modal Detail Fasilitas.
 - **`/oleh-oleh` (Etalase Produk):** Showcase Minyak Kayu Putih Asli Namlea, Kue Bagea, Roti Kenari, Halua Kenari.
 - **`/artikel` (Panduan Wisata):** Artikel wisata pantai, kuliner Ambon, dan tips transit pesawat.
-- **`/contact` (Kontak & Lokasi):** Embed peta lokasi Google Maps 750m dari bandara + tombol WhatsApp direct chat.
+- **`/contact` (Kontak & Lokasi):** Embed peta lokasi Google Maps (2-3 Menit dari Bandara) + tombol WhatsApp direct chat.
 
 ### 2. 👑 Admin PMS (Property Management System)
 

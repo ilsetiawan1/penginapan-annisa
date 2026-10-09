@@ -83,7 +83,7 @@ async function main() {
       name: "Kamar Tipe Kipas",
       slug: "kamar-kipas",
       description:
-        "Kamar ekonomis yang bersih, rapi, dan tenang dengan kipas angin dinding, kamar mandi dalam, dan WiFi gratis. Pilihan hemat transit 750m dari Bandara Pattimura.",
+        "Kamar ekonomis yang bersih, rapi, dan tenang dengan kipas angin dinding, kamar mandi dalam, dan WiFi gratis. Pilihan hemat transit 2-3 menit dari Bandara Pattimura.",
       basePrice: 200000,
       capacity: 3,
       bedType: "1 Double Bed / 2 Single Bed",
@@ -454,7 +454,7 @@ async function main() {
   const defaultSettings = [
     { key: "whatsapp_number", value: "6281242163116" },
     { key: "lodging_name", value: "Penginapan Annisa" },
-    { key: "airport_distance", value: "750 meter atau 2–3 menit dari Bandara Pattimura" },
+    { key: "airport_distance", value: "2-3 Menit dari Bandara Pattimura" },
   ];
 
   for (const s of defaultSettings) {

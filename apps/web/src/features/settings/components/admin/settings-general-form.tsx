@@ -245,7 +245,7 @@ export function SettingsGeneralForm({
               disabled={!isEditing}
               value={distanceText}
               onChange={(e) => onDistanceTextChange(e.target.value)}
-              placeholder="750 meter atau 2–3 menit dari Bandara Pattimura"
+              placeholder="2-3 Menit dari Bandara Pattimura"
               className={inputBaseWithIcon}
             />
           </div>

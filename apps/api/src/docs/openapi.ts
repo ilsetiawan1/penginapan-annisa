@@ -26,7 +26,7 @@ export function generateOpenApiSpec() {
       title: "Penginapan Annisa PMS & Public Reservation API",
       version: "1.0.0",
       description:
-        "REST API resmi untuk Sistem Informasi Manajemen Kamar, Reservasi WhatsApp / Walk-in, Kasir POS Oleh-Oleh, dan CMS Pariwisata Penginapan Annisa (750m dari Bandara Pattimura Ambon).",
+        "REST API resmi untuk Sistem Informasi Manajemen Kamar, Reservasi WhatsApp / Walk-in, Kasir POS Oleh-Oleh, dan CMS Pariwisata Penginapan Annisa (2-3 Menit dari Bandara Pattimura Ambon).",
       contact: {
         name: "Penginapan Annisa Tech Team",
       },

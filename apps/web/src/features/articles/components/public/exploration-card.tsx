@@ -36,7 +36,7 @@ export function ExplorationCard() {
                 <span className="text-purple-700 font-bold mt-0.5">✓</span>
                 <span>
                   Pilih penginapan transit{" "}
-                  <strong className="text-slate-900">750m dari Bandara Pattimura</strong> untuk
+                  <strong className="text-slate-900">2-3 Menit dari Bandara Pattimura</strong> untuk
                   kemudahan mobilitas tanpa risiko macet.
                 </span>
               </li>

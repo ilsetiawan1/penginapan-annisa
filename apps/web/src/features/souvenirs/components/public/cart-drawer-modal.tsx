@@ -88,7 +88,7 @@ ${itemsSummary}
 - No. WhatsApp: *${guestPhone.trim()}*
 - *Estimasi Waktu Ambil:* *${effectivePickupSchedule}*
 
-*Lokasi Pengambilan:* Meja Resepsionis Penginapan Annisa (750m Bandara Pattimura).
+*Lokasi Pengambilan:* Meja Resepsionis Penginapan Annisa (2-3 Menit dari Bandara Pattimura).
 Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Terima kasih.`;
 
     const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
