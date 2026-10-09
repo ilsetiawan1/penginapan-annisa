@@ -35,4 +35,7 @@ Thumbs.db
 .agents/
 skills-lock.json
 
+# Local Image Originals Backup
+apps/web/public/images/heroes/originals/
+
 

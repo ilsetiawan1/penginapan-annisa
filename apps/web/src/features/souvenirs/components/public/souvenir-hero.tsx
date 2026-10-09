@@ -8,7 +8,7 @@ interface SouvenirHeroProps {
 
 export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps) {
   return (
-    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden bg-[#fdfcfe]">
+    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden bg-[#1c1a24]">
       <Image
         src="/images/heroes/souvenir-hero.webp"
         alt="Oleh-oleh Khas Ambon Maluku"
@@ -27,11 +27,6 @@ export function SouvenirHero({ searchQuery, onSearchChange }: SouvenirHeroProps)
         <h1 className="text-3xl sm:text-5xl font-normal tracking-[-0.025em] text-white leading-tight">
           Oleh-oleh Khas Ambon &amp; Maluku
         </h1>
-
-        {/* Subheadline */}
-        <p className="text-sm sm:text-base text-white/90 max-w-xl mx-auto mt-3 font-normal text-center leading-relaxed">
-          Minyak kayu putih, minyak cengkeh, dan aneka camilan khas Maluku di meja resepsionis.
-        </p>
 
         {/* Glassmorphism Floating Search Bar */}
         <div className="max-w-xl mx-auto mt-8 flex items-center bg-white/95 backdrop-blur-md border border-[#e9e8ea] rounded-full p-1.5 shadow-[0px_4px_20px_rgba(226,223,254,0.45)]">

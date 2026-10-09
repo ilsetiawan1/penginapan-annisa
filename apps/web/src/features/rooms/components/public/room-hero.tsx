@@ -8,7 +8,7 @@ interface RoomHeroProps {
 
 export function RoomHero({ searchQuery, onSearchChange }: RoomHeroProps) {
   return (
-    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden bg-[#fdfcfe]">
+    <section className="relative w-full h-[380px] sm:h-[460px] lg:h-[490px] flex items-center justify-center overflow-hidden bg-[#1c1a24]">
       <Image
         src="/images/heroes/room-hero.webp"
         alt="Jembatan Merah Putih Ambon"

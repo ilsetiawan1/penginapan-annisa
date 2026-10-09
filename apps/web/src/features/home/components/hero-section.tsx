@@ -9,7 +9,7 @@ export function HeroSection() {
   const { handleScrollToRooms } = useHeroActions();
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col justify-center pt-32 pb-20 sm:pt-36 sm:pb-24 md:pt-48 md:pb-32 lg:pt-52 lg:pb-36 overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col justify-center pt-32 pb-20 sm:pt-36 sm:pb-24 md:pt-48 md:pb-32 lg:pt-52 lg:pb-36 overflow-hidden bg-[#fdfcfe]">
       {/* Background Image: home-hero.webp */}
       <Image
         src="/images/heroes/home-hero.webp"

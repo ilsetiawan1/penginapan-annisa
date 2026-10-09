@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function ContactHero() {
   return (
-    <section className="relative w-full h-[280px] sm:h-[320px] md:h-[320px] lg:h-[330px] flex items-center justify-center overflow-hidden bg-[#fdfcfe]">
+    <section className="relative w-full h-[280px] sm:h-[320px] md:h-[320px] lg:h-[330px] flex items-center justify-center overflow-hidden bg-[#1c1a24]">
       <Image
         src="/images/heroes/contact-hero.webp"
         alt="Lanskap Ambon - Penginapan Annisa"

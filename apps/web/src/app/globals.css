@@ -23,11 +23,6 @@ body {
   font-family: "Poppins", var(--font-sans), sans-serif !important;
 }
 
-.font-signature {
-  font-family: "Brittany", "Brittany Signature", "Birthstone Bounce", "Great Vibes", "Alex Brush",
-    "Allura", cursive !important;
-}
-
 /* Hide dev indicators */
 nextjs-portal,
 #nextjs-dev-tools,
