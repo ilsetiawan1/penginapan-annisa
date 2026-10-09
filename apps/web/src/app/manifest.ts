@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Penginapan Annisa Ambon",
-    short_name: "Annisa PMS",
+    name: "Penginapan Annisa",
+    short_name: "Annisa Ambon",
     description:
       "Sistem Manajemen Kamar Transit & Katalog Penginapan Annisa (2-3 Menit dari Bandara Pattimura)",
     start_url: "/",
