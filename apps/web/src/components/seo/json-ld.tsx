@@ -121,6 +121,45 @@ export function JsonLd() {
           },
         ],
       },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.penginapanannisa.com/#faq",
+        name: "Pertanyaan Seputar Transit & Layanan Penginapan Annisa",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Berapa jarak dari Bandara Pattimura ke Penginapan Annisa?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Hanya 2-3 menit perjalanan dari Bandara Internasional Pattimura Ambon. Anda bisa jalan kaki santai atau berkendara singkat tanpa khawatir macet atau ketinggalan pesawat.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Bagaimana jika saya check-in pagi hari (misal jam 07:00 WIT)?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Penginapan kami buka melayani tamu dari jam 06:00 pagi hingga 22:00 malam WIT. Jika Anda tiba dengan penerbangan pagi, Anda bisa langsung masuk istirahat jika kamar sudah selesai dibersihkan.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Bagaimana cara pesan kamar dan cara pembayarannya?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Pilih tanggal dan tipe kamar pada formulir, lalu pesan instan via WhatsApp. Untuk mengunci kamar, cukup bayar DP 50% via transfer bank atau QRIS, dan sisa pembayaran dilunasi saat tiba di lokasi.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Apakah seluruh kamar mandi berada di dalam kamar?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Ya, seluruh unit kamar di Penginapan Annisa telah dilengkapi kamar mandi pribadi di dalam kamar.",
+            },
+          },
+        ],
+      },
     ],
   };
 
