@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Syarat & Ketentuan | Penginapan Annisa Ambon",
   description:
     "Syarat dan ketentuan resmi reservasi kamar transit, jam check-in/check-out, kebijakan pembayaran, serta aturan menginap di Penginapan Annisa dekat Bandara Pattimura Ambon.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default function TermsPage() {

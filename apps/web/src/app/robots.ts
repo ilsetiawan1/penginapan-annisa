@@ -9,5 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/internal", "/admin", "/admin/", "/api/"],
       },
     ],
+    sitemap: "https://www.penginapanannisa.com/sitemap.xml",
+    host: "https://www.penginapanannisa.com",
   };
 }

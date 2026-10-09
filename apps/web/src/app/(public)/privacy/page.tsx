@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "Kebijakan Privasi | Penginapan Annisa Ambon",
   description:
     "Kebijakan privasi dan komitmen pelindungan data pribadi (UU No. 27/2022) tamu di Penginapan Annisa dekat Bandara Pattimura Ambon.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {

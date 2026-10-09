@@ -1,4 +1,14 @@
+import type { Metadata } from "next";
 import { ContactHero, ContactInfo } from "@/features/contact";
+
+export const metadata: Metadata = {
+  title: "Kontak & Lokasi Peta",
+  description:
+    "Lokasi strategis hanya 2-3 menit dari Bandara Pattimura Ambon di Jl. Bandara Pattimura, Tawiri. Hubungi kami via WhatsApp untuk reservasi dan petunjuk arah.",
+  alternates: {
+    canonical: "/contact",
+  },
+};
 
 export default function ContactPage() {
   return (
