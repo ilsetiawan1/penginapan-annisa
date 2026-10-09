@@ -6,6 +6,7 @@ import { useCart } from "@/features/souvenirs/hooks/use-cart";
 import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 import { Calendar, Clock, Minus, Plus, ShoppingBag, Store, Trash2, User } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { toast } from "sonner";
@@ -334,6 +335,18 @@ Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Te
                   <FaWhatsapp className="w-4 h-4 text-white" />
                   <span>Pesan</span>
                 </Button>
+
+                <p className="text-[11px] text-zinc-400 text-center leading-tight">
+                  Melanjutkan ke WhatsApp berarti menyetujui{" "}
+                  <Link
+                    href="/terms"
+                    target="_blank"
+                    className="underline hover:text-zinc-600 transition-colors"
+                  >
+                    Syarat &amp; Ketentuan
+                  </Link>{" "}
+                  kami.
+                </p>
               </div>
             </>
           )}

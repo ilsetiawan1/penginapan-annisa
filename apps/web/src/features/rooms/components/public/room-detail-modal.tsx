@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { formatCleanRoomName, parsePriceToNumber } from "@/lib/string";
 import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
 import { Bed, Check, Clock, Fan, Tag, Tv, Wifi, Wind } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { MdOutlineShower, MdOutlineWash } from "react-icons/md";
@@ -246,15 +247,28 @@ export function RoomDetailModal({
 
           {/* Action Button: WhatsApp */}
           {isAvailable ? (
-            <Button
-              asChild
-              className="w-full rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white font-normal text-xs sm:text-sm h-11 gap-2 shadow-[0px_4px_16px_rgba(60,49,91,0.25)] transition-all cursor-pointer shrink-0 active:scale-[0.99]"
-            >
-              <a href={waUrl} target="_blank" rel="noreferrer">
-                <FaWhatsapp className="w-4 h-4 text-emerald-400" />
-                <span>Mulai Reservasi</span>
-              </a>
-            </Button>
+            <div>
+              <Button
+                asChild
+                className="w-full rounded-full bg-[#3c315b] hover:bg-[#2d2445] text-white font-normal text-xs sm:text-sm h-11 gap-2 shadow-[0px_4px_16px_rgba(60,49,91,0.25)] transition-all cursor-pointer shrink-0 active:scale-[0.99]"
+              >
+                <a href={waUrl} target="_blank" rel="noreferrer">
+                  <FaWhatsapp className="w-4 h-4 text-emerald-400" />
+                  <span>Mulai Reservasi</span>
+                </a>
+              </Button>
+              <p className="text-[11px] text-zinc-400 text-center mt-2 leading-tight">
+                Melanjutkan ke WhatsApp berarti menyetujui{" "}
+                <Link
+                  href="/terms"
+                  target="_blank"
+                  className="underline hover:text-zinc-600 transition-colors"
+                >
+                  Syarat &amp; Ketentuan
+                </Link>{" "}
+                kami.
+              </p>
+            </div>
           ) : (
             <div className="flex flex-col gap-2 shrink-0">
               <div className="bg-amber-50 border border-amber-200 text-amber-900 text-xs px-3 py-2 rounded-xl text-center font-normal">

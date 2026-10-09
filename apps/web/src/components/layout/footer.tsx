@@ -50,7 +50,7 @@ export function Footer() {
       {/* ====================================================
           CLEAN WHITE FOOTER BODY (Compact 2-Col on Mobile / 3-Col on Desktop)
           ==================================================== */}
-      <div className="w-full bg-white pt-20 sm:pt-28 pb-8 px-4 border-t border-[#e9e8ea] text-[#1c1c1c]">
+      <div className="w-full bg-white pt-20 sm:pt-28 pb-20 sm:pb-12 md:pb-8 px-4 border-t border-[#e9e8ea] text-[#1c1c1c]">
         <div className="max-w-5xl mx-auto space-y-6 md:space-y-0 md:grid md:grid-cols-12 md:gap-10">
           {/* Kolom 1: Identitas & Slogan (md:col-span-5) */}
           <div className="md:col-span-5 space-y-2.5">
@@ -159,9 +159,23 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Copyright Strip (Tunggal & Terpusat) */}
-        <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-[#e9e8ea] text-center text-[10px] sm:text-[11px] text-zinc-600 font-normal">
+        {/* Bottom Copyright Strip & Legal Links */}
+        <div className="max-w-5xl mx-auto mt-7 pt-4 border-t border-[#e9e8ea] flex flex-col sm:flex-row items-center sm:justify-start gap-x-3 gap-y-2 text-center sm:text-left text-[11px] text-zinc-500 font-normal">
           <p>© 2026 {lodgingName}. Hak Cipta Dilindungi.</p>
+          <span className="hidden sm:inline text-zinc-300 select-none" aria-hidden="true">
+            ·
+          </span>
+          <div className="flex items-center justify-center gap-2.5 sm:gap-3">
+            <Link href="/terms" className="hover:text-zinc-800 transition-colors py-0.5">
+              Syarat &amp; Ketentuan
+            </Link>
+            <span className="text-zinc-300 select-none" aria-hidden="true">
+              ·
+            </span>
+            <Link href="/privacy" className="hover:text-zinc-800 transition-colors py-0.5">
+              Kebijakan Privasi
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
