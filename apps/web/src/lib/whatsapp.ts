@@ -26,12 +26,41 @@ export function getRoomBookingWhatsAppUrl(params: {
   roomName: string;
   price: string;
   checkInDate?: string;
+  checkOutDate?: string;
   nights?: number;
   total?: string;
   dp?: string;
+  guestName?: string;
+  guestPhone?: string;
 }) {
-  const { roomNumber, roomName, price, checkInDate, nights, total, dp } = params;
+  const {
+    roomNumber,
+    roomName,
+    price,
+    checkInDate,
+    checkOutDate,
+    nights,
+    total,
+    dp,
+    guestName,
+    guestPhone,
+  } = params;
   const cleanRoomName = formatRoomTitle(roomName, roomNumber);
+
+  // Jika menyertakan identitas tamu menginap
+  if (guestName || guestPhone) {
+    let text = "Halo Penginapan Annisa, saya ingin reservasi kamar:";
+    if (guestName) text += `\n• Tamu Menginap: *${guestName.trim()}*`;
+    if (guestPhone) text += `\n• No. WhatsApp Tamu: *${guestPhone.trim()}*`;
+    text += `\n• Unit: *${cleanRoomName}*`;
+    if (checkInDate) text += `\n• Check-In: *${checkInDate}* (mulai 14:00 WIT)`;
+    if (checkOutDate) text += `\n• Check-Out: *${checkOutDate}* (maks 12:00 WIT)`;
+    if (nights) text += `\n• Durasi: *${nights} Malam*`;
+    if (total) text += `\n• Estimasi Total: *Rp ${total}*`;
+    if (dp) text += `\n• DP 50%: *Rp ${dp}*`;
+    text += "\n\nApakah unit tersedia pada jadwal tersebut? Terima kasih.";
+    return `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(text)}`;
+  }
 
   // Jika dari preview beranda tanpa tanggal spesifik
   if (!checkInDate) {
