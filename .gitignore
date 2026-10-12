@@ -38,4 +38,7 @@ skills-lock.json
 # Local Image Originals Backup
 apps/web/public/images/heroes/originals/
 
+# Utility Scripts
+scripts/
+
 

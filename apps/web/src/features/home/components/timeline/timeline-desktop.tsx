@@ -1,3 +1,6 @@
+"use client";
+
+import { GlassIcon } from "@/components/ui/glass-icons";
 import { Bed, KeyRound } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 
@@ -78,10 +81,13 @@ export function TimelineDesktop() {
           <span className="absolute -top-4 left-6 text-7xl font-black text-slate-200/40 select-none pointer-events-none -z-10">
             1
           </span>
-          <div className="relative mb-3.5">
-            <div className="w-14 h-14 rounded-2xl bg-white border border-[#e9e8ea] shadow-sm shadow-[#3c315b]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <Bed className="w-6 h-6 text-[#3c315b]" />
-            </div>
+          <div className="relative mb-4 flex items-center justify-center">
+            <div className="absolute inset-0 bg-[#e2dffe]/40 rounded-2xl blur-lg scale-90 pointer-events-none" />
+            <GlassIcon
+              icon={<Bed className="w-6 h-6 text-white" />}
+              color="brand"
+              className="group-hover:scale-105 transition-transform duration-300"
+            />
           </div>
           <h2 className="font-medium text-base text-[#1c1c1c] leading-tight mb-1.5">
             {STEPS[0].title}
@@ -91,15 +97,18 @@ export function TimelineDesktop() {
           </p>
         </div>
 
-        {/* Step 2: Peak Center Node (Border diselaraskan border-[#e9e8ea]) */}
+        {/* Step 2: Peak Center Node */}
         <div className="flex flex-col items-center text-center -mt-3 group relative px-2">
           <span className="absolute -top-6 left-12 text-7xl font-black text-[#e2dffe]/60 select-none pointer-events-none -z-10">
             2
           </span>
-          <div className="relative mb-3.5">
-            <div className="w-16 h-16 rounded-2xl bg-white border border-[#e9e8ea] shadow-sm shadow-[#3c315b]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <FaWhatsapp className="w-8 h-8 text-[#3c315b]" />
-            </div>
+          <div className="relative mb-4 flex items-center justify-center">
+            <div className="absolute inset-0 bg-[#e2dffe]/50 rounded-2xl blur-lg scale-90 pointer-events-none" />
+            <GlassIcon
+              icon={<FaWhatsapp className="w-7 h-7 text-white" />}
+              color="brand"
+              className="group-hover:scale-105 transition-transform duration-300"
+            />
           </div>
           <h2 className="font-medium text-base text-[#1c1c1c] leading-tight mb-1.5">
             {STEPS[1].title}
@@ -114,10 +123,13 @@ export function TimelineDesktop() {
           <span className="absolute -top-4 right-6 text-7xl font-black text-slate-200/40 select-none pointer-events-none -z-10">
             3
           </span>
-          <div className="relative mb-3.5">
-            <div className="w-14 h-14 rounded-2xl bg-white border border-[#e9e8ea] shadow-sm shadow-[#3c315b]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <KeyRound className="w-6 h-6 text-[#3c315b]" />
-            </div>
+          <div className="relative mb-4 flex items-center justify-center">
+            <div className="absolute inset-0 bg-[#e2dffe]/40 rounded-2xl blur-lg scale-90 pointer-events-none" />
+            <GlassIcon
+              icon={<KeyRound className="w-6 h-6 text-white" />}
+              color="brand"
+              className="group-hover:scale-105 transition-transform duration-300"
+            />
           </div>
           <h2 className="font-medium text-base text-[#1c1c1c] leading-tight mb-1.5">
             {STEPS[2].title}

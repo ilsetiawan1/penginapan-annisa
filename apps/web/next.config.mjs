@@ -43,6 +43,42 @@ const nextConfig = {
         destination: "/articles/:slug*",
         permanent: true,
       },
+      // 301 Redirects untuk slug lama yang terlanjur terindeks di Google Search
+      {
+        source: "/articles/oleh-oleh-khas-ambon-minyak-kayu-putih-bagea",
+        destination: "/souvenirs",
+        permanent: true,
+      },
+      {
+        source: "/articles/pesona-pantai-liang-pantai-terindah-ambon",
+        destination: "/articles/pantai-liang-daya-tarik-harga-tiket-dan-rute",
+        permanent: true,
+      },
+      {
+        source: "/articles/sensasi-rujak-natsepa-kuliner-wajib-ambon",
+        destination: "/articles/wisata-pantai-natsepa-ambon-daya-tarik-tiket-dan-jam-buka",
+        permanent: true,
+      },
+      {
+        source: "/articles/panduan-transit-nyaman-bandara-pattimura-ambon",
+        destination: "/articles/panduan-transit-nyaman-di-bandara-pattimura-ambon-tips-anti-telat-untuk-penerbangan-pagi",
+        permanent: true,
+      },
+      {
+        source: "/articles/keajaiban-belut-morea-raksasa-desa-waai",
+        destination: "/articles",
+        permanent: true,
+      },
+      {
+        source: "/articles/senja-magis-pintu-kota-tebing-karang-ikonik",
+        destination: "/articles",
+        permanent: true,
+      },
+      {
+        source: "/articles/sejarah-benteng-amsterdam-hila-maluku",
+        destination: "/articles",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

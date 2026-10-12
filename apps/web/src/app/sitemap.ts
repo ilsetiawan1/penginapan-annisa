@@ -3,13 +3,13 @@ import type { MetadataRoute } from "next";
 const BASE_URL = "https://www.penginapanannisa.com";
 
 const DEFAULT_ARTICLE_SLUGS = [
-  "pesona-pantai-liang-pantai-terindah-ambon",
-  "sensasi-rujak-natsepa-kuliner-wajib-ambon",
-  "panduan-transit-nyaman-bandara-pattimura-ambon",
-  "keajaiban-belut-morea-raksasa-desa-waai",
-  "oleh-oleh-khas-ambon-minyak-kayu-putih-bagea",
-  "senja-magis-pintu-kota-tebing-karang-ikonik",
-  "sejarah-benteng-amsterdam-hila-maluku",
+  "trik-cerdas-kemas-bagasi-transit-pattimura",
+  "tips-transit-nyaman-di-bandara-pattimura",
+  "panduan-transit-nyaman-di-bandara-pattimura-ambon-tips-anti-telat-untuk-penerbangan-pagi",
+  "wisata-pantai-natsepa-ambon-daya-tarik-tiket-dan-jam-buka",
+  "rekomendasi-wisata-air-di-maluku-tengah-dari-hangatnya-tulehu-ke-segarnya-pantai-liang",
+  "pantai-liang-diserbu-ribuan-pengunjung-saat-musim-liburan",
+  "pantai-liang-daya-tarik-harga-tiket-dan-rute",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -65,18 +65,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let slugs = DEFAULT_ARTICLE_SLUGS;
 
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+    const apiUrl =
+      process.env.INTERNAL_API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      "http://103.143.12.212/api/v1";
     const res = await fetch(`${apiUrl}/articles`, {
       next: { revalidate: 3600 },
     });
     if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        slugs = data.map((item: { slug: string }) => item.slug);
+      const json = await res.json();
+      const articles = Array.isArray(json) ? json : json?.data;
+      if (Array.isArray(articles) && articles.length > 0) {
+        slugs = articles.map((item: { slug: string }) => item.slug);
       }
     }
   } catch {
-    // Gunakan daftar default jika API sedang offline saat proses build
+    // Gunakan daftar default resmi jika API sedang offline saat proses build
   }
 
   const dynamicArticleRoutes: MetadataRoute.Sitemap = slugs.map((slug) => ({
