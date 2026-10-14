@@ -2,6 +2,7 @@
 
 import { useSettings } from "@/features/settings/hooks/use-settings";
 import { useCart } from "@/features/souvenirs/hooks/use-cart";
+import { normalizeWaNumber } from "@/lib/whatsapp";
 import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -35,8 +36,9 @@ export function FloatingWhatsApp() {
   if (isDismissed || pathname === "/contact" || pathname?.startsWith("/contact")) return null;
 
   const lodgingName = settings?.lodging_name || "Penginapan Annisa";
-  const waNumber =
-    settings?.whatsapp_number || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281242163116";
+  const waNumber = normalizeWaNumber(
+    settings?.whatsapp_number || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER,
+  );
   const defaultText = encodeURIComponent(
     `Halo ${lodgingName}, saya ingin tanya ketersediaan kamar transit dekat Bandara Pattimura Ambon.`,
   );

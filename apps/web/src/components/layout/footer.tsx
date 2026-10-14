@@ -2,6 +2,7 @@
 
 import { useSettings } from "@/features/settings/hooks/use-settings";
 import { usePWAInstall } from "@/hooks/use-pwa-install";
+import { formatDisplayPhoneNumber, normalizeWaNumber } from "@/lib/whatsapp";
 import { Clock, Download, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +13,8 @@ export function Footer() {
   const { data: settings } = useSettings();
   const { installPWA } = usePWAInstall();
   const lodgingName = settings?.lodging_name || "Penginapan Annisa";
-  const waNumber = settings?.whatsapp_number || "6281240822240";
+  const waNumber = normalizeWaNumber(settings?.whatsapp_number);
+  const displayWa = formatDisplayPhoneNumber(settings?.whatsapp_number);
   const airportDistance = settings?.airport_distance || "Transit Dekat Bandara Pattimura";
 
   if (pathname === "/contact") {
@@ -144,7 +146,7 @@ export function Footer() {
                     rel="noreferrer"
                     className="text-[11px] sm:text-xs font-normal text-zinc-600 hover:text-[#3c315b] transition leading-tight py-1 block"
                   >
-                    {waNumber.startsWith("62") ? `0${waNumber.slice(2)}` : waNumber}
+                    {displayWa}
                   </a>
                 </div>
 

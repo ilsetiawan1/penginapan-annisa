@@ -27,9 +27,9 @@ export function useSettings() {
         return DEFAULT_SYSTEM_SETTINGS;
       }
     },
-    initialData: DEFAULT_SYSTEM_SETTINGS,
-    staleTime: 1000 * 60 * 5, // 5 menit
-    retry: false,
+    placeholderData: DEFAULT_SYSTEM_SETTINGS,
+    staleTime: 1000 * 30, // 30 detik
+    refetchOnMount: true,
   });
 }
 
@@ -38,8 +38,11 @@ export function useUpdateSettings() {
 
   return useMutation({
     mutationFn: (input: UpdateSettingsInput) => settingsApi.updateSettings(input),
-    onSuccess: () => {
+    onSuccess: (savedData) => {
       toast.success("Pengaturan sistem & nomor WhatsApp berhasil diperbarui ke database!");
+      if (savedData) {
+        queryClient.setQueryData(SETTINGS_QUERY_KEY, savedData);
+      }
       queryClient.invalidateQueries({ queryKey: SETTINGS_QUERY_KEY });
     },
     onError: (error: Error) => {
