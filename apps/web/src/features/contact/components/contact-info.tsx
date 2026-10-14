@@ -120,7 +120,7 @@ export function ContactInfo() {
                 Jam Operasional
               </span>
               <p className="text-xs sm:text-sm font-medium text-[#1c1c1c] leading-snug mt-0.5">
-                07.00 – 22.00 WIT
+                06.00 – 22.00 WIT
               </p>
             </div>
           </div>
@@ -218,7 +218,7 @@ export function ContactInfo() {
                 name="arrivalTime"
                 type="text"
                 required
-                placeholder="Contoh: Jam 07:00 WIT"
+                placeholder="Contoh: Jam 06:00 WIT"
                 className="w-full rounded-xl bg-[#f4f2f4]/60 border border-[#e9e8ea] px-3.5 py-2 text-xs sm:text-sm text-[#1c1c1c] placeholder:text-[#86848d] focus:outline-none focus:border-[#3c315b] focus:bg-white transition-all"
               />
             </div>
