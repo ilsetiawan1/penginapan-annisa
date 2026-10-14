@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { formatCleanRoomName, parsePriceToNumber } from "@/lib/string";
 import { getRoomAvailabilityInquiryUrl, getRoomBookingWhatsAppUrl } from "@/lib/whatsapp";
+import { useSettings } from "@/features/settings/hooks/use-settings";
 import {
   ArrowLeft,
   ArrowRight,
@@ -63,6 +64,7 @@ export function RoomDetailModal({
   checkInDate,
   nights = 1,
 }: RoomDetailModalProps) {
+  const { data: settings } = useSettings();
   const todayStr = getTodayStr();
   const [step, setStep] = useState<1 | 2>(1);
   const [imgError, setImgError] = useState(false);
@@ -115,24 +117,31 @@ export function RoomDetailModal({
 
   const isFormValid = guestName.trim().length > 0 && guestPhone.trim().length >= 8;
 
-  const waUrl = getRoomBookingWhatsAppUrl({
-    roomNumber: room.number,
-    roomName: cleanRoomTitle,
-    price: room.price,
-    checkInDate: formattedCheckInStr,
-    checkOutDate: formattedCheckOutStr,
-    nights: durationNights,
-    total: totalPrice.toLocaleString("id-ID"),
-    dp: dpPrice.toLocaleString("id-ID"),
-    guestName,
-    guestPhone,
-  });
+  const waUrl = getRoomBookingWhatsAppUrl(
+    {
+      roomNumber: room.number,
+      roomName: cleanRoomTitle,
+      price: room.price,
+      checkInDate: formattedCheckInStr,
+      checkOutDate: formattedCheckOutStr,
+      nights: durationNights,
+      total: totalPrice.toLocaleString("id-ID"),
+      dp: dpPrice.toLocaleString("id-ID"),
+      guestName,
+      guestPhone,
+    },
+    settings?.whatsapp_number,
+  );
 
-  const waInquiryUrl = getRoomAvailabilityInquiryUrl({
-    roomName: cleanRoomTitle,
-    dateStr: formattedCheckInStr,
-    nights: durationNights,
-  });
+  const waInquiryUrl = getRoomAvailabilityInquiryUrl(
+    {
+      roomName: cleanRoomTitle,
+      dateStr: formattedCheckInStr,
+      nights: durationNights,
+    },
+    undefined,
+    settings?.whatsapp_number,
+  );
 
   const handleBookingClick = (e: React.MouseEvent) => {
     if (!isFormValid) {

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cartStore } from "@/features/souvenirs/hooks/use-cart";
+import { useSettings } from "@/features/settings/hooks/use-settings";
 import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 import type { Souvenir } from "@annisa/types";
 import { Calendar, Clock, Minus, Plus, Store, Tag, User } from "lucide-react";
@@ -27,6 +28,7 @@ interface SouvenirOrderModalProps {
 }
 
 export function SouvenirOrderModal({ item, isOpen, onClose }: SouvenirOrderModalProps) {
+  const { data: settings } = useSettings();
   const todayStr = getTodayStr();
   const [quantity, setQuantity] = useState<number>(1);
   const [guestName, setGuestName] = useState<string>("");
@@ -90,7 +92,8 @@ export function SouvenirOrderModal({ item, isOpen, onClose }: SouvenirOrderModal
 *Lokasi Pengambilan:* Meja Resepsionis Penginapan Annisa (2-3 Menit dari Bandara Pattimura).
 Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Terima kasih.`;
 
-    const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+    const targetWa = settings?.whatsapp_number || ANNISA_WA_NUMBER;
+    const waUrl = `https://wa.me/${targetWa}?text=${encodeURIComponent(waMessage)}`;
 
     window.open(waUrl, "_blank");
     onClose();

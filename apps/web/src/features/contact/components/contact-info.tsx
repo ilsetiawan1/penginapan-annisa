@@ -1,11 +1,23 @@
 "use client";
 
-import { ANNISA_WA_NUMBER, getContactFormWhatsAppUrl } from "@/lib/whatsapp";
+import { useSettings } from "@/features/settings/hooks/use-settings";
+import {
+  ANNISA_WA_NUMBER,
+  formatDisplayPhoneNumber,
+  getContactFormWhatsAppUrl,
+  normalizeWaNumber,
+} from "@/lib/whatsapp";
 import { Clock, MapPin, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
 
 export function ContactInfo() {
+  const { data: settings } = useSettings();
+  const rawWa = settings?.whatsapp_number || ANNISA_WA_NUMBER;
+  const cleanWa = normalizeWaNumber(rawWa);
+  const displayPhone = formatDisplayPhoneNumber(rawWa);
+  const telNumber = cleanWa.startsWith("62") ? `0${cleanWa.slice(2)}` : cleanWa;
+
   // Tanggal hari ini format YYYY-MM-DD berbasis waktu lokal untuk batas minimum kalender
   const [todayStr, setTodayStr] = useState(() => {
     const now = new Date();
@@ -51,13 +63,16 @@ export function ContactInfo() {
       formattedDate = arrivalDate;
     }
 
-    const url = getContactFormWhatsAppUrl({
-      name,
-      arrivalDate: formattedDate,
-      arrivalTime,
-      roomType,
-      message,
-    });
+    const url = getContactFormWhatsAppUrl(
+      {
+        name,
+        arrivalDate: formattedDate,
+        arrivalTime,
+        roomType,
+        message,
+      },
+      cleanWa,
+    );
     window.open(url, "_blank");
   };
 
@@ -121,16 +136,16 @@ export function ContactInfo() {
               </span>
               <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                 <a
-                  href={`https://wa.me/${ANNISA_WA_NUMBER}`}
+                  href={`https://wa.me/${cleanWa}`}
                   target="_blank"
                   rel="noreferrer"
                   className="text-xs sm:text-sm font-medium text-[#3c315b] hover:underline"
                 >
-                  0812-4216-3116
+                  {displayPhone}
                 </a>
                 <span className="text-xs text-[#86848d]">•</span>
                 <a
-                  href="tel:081242163116"
+                  href={`tel:${telNumber}`}
                   className="text-xs text-[#86848d] hover:text-[#3c315b] transition-colors"
                 >
                   Panggilan Seluler

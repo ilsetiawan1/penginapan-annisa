@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useCart } from "@/features/souvenirs/hooks/use-cart";
+import { useSettings } from "@/features/settings/hooks/use-settings";
 import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 import { Calendar, Clock, Minus, Plus, ShoppingBag, Store, Trash2, User } from "lucide-react";
 import Image from "next/image";
@@ -25,6 +26,7 @@ interface CartDrawerModalProps {
 }
 
 export function CartDrawerModal({ isOpen, onClose }: CartDrawerModalProps) {
+  const { data: settings } = useSettings();
   const todayStr = getTodayStr();
   const { items, totalPrice, totalItemsCount, updateQuantity, removeItem, clearCart } = useCart();
 
@@ -91,7 +93,8 @@ ${itemsSummary}
 *Lokasi Pengambilan:* Meja Resepsionis Penginapan Annisa (2-3 Menit dari Bandara Pattimura).
 Pesanan disiapkan untuk diambil dan dibayar langsung saat tiba di penginapan. Terima kasih.`;
 
-    const waUrl = `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+    const targetWa = settings?.whatsapp_number || ANNISA_WA_NUMBER;
+    const waUrl = `https://wa.me/${targetWa}?text=${encodeURIComponent(waMessage)}`;
 
     window.open(waUrl, "_blank");
     clearCart();

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useRooms } from "@/features/rooms/hooks/use-rooms";
+import { useSettings } from "@/features/settings/hooks/use-settings";
 import { ANNISA_WA_NUMBER } from "@/lib/whatsapp";
 import { Bed, Check, Clock, Wind } from "lucide-react";
 import Image from "next/image";
@@ -19,6 +20,7 @@ function getTodayString(): string {
 }
 
 export function BookingWidget() {
+  const { data: settings } = useSettings();
   const todayStr = getTodayString();
   const [selectedType, setSelectedType] = useState<RoomType>("ac");
   const [checkInDate, setCheckInDate] = useState<string>(todayStr);
@@ -80,8 +82,10 @@ export function BookingWidget() {
       ? `Halo Penginapan Annisa, saya ingin menanyakan ketersediaan kamar *${typeName}*.\n\nSaya melihat tipe ini sedang terisi untuk tanggal *${formattedDate}* (${nights} malam).\n• Nama: *${guestName || "-"}*\n• WhatsApp: *${guestPhone || "-"}*\n\nApakah ada unit kamar lain atau tanggal alternatif yang masih kosong? Terima kasih.`
       : `Halo Penginapan Annisa, saya ingin reservasi kamar:\n• Tipe: *${typeName}*\n• Tgl Check-In: *${formattedDate}*\n• Durasi: *${nights} Malam*\n• Nama Pemesan: *${guestName || "-"}*\n• WhatsApp: *${guestPhone || "-"}*\n• Estimasi Total: *Rp ${totalPrice.toLocaleString("id-ID")}*\n• DP 50%: *Rp ${dpPrice.toLocaleString("id-ID")}*\n\nApakah kamar ini tersedia di jadwal tersebut? Terima kasih.`;
 
+    const targetWa = settings?.whatsapp_number || ANNISA_WA_NUMBER;
+
     window.open(
-      `https://wa.me/${ANNISA_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`,
+      `https://wa.me/${targetWa}?text=${encodeURIComponent(waMessage)}`,
       "_blank",
     );
   };
