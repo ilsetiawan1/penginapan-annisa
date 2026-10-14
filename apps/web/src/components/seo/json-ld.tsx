@@ -1,4 +1,9 @@
+import { extractDigits } from "@/lib/whatsapp";
+
 export function JsonLd() {
+  const phoneDigits = extractDigits(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281343438252");
+  const telephone = `+${phoneDigits}`;
+
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -14,7 +19,7 @@ export function JsonLd() {
         description:
           "Penginapan transit nyaman, bersih, dan hemat hanya 2-3 menit dari Bandara Internasional Pattimura Ambon. Dilengkapi kamar AC/Kipas, kamar mandi dalam, WiFi gratis, dan etalase oleh-oleh khas Maluku.",
         url: "https://www.penginapanannisa.com",
-        telephone: "+6281242163116",
+        telephone,
         priceRange: "Rp 200.000 - Rp 275.000",
         currenciesAccepted: "IDR",
         paymentAccepted: "Cash, Bank Transfer, QRIS",

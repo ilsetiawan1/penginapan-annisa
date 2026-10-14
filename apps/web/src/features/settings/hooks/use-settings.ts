@@ -8,7 +8,7 @@ import { settingsApi } from "../api/settings.api";
 export const SETTINGS_QUERY_KEY = ["system-settings"] as const;
 
 export const DEFAULT_SYSTEM_SETTINGS: SystemSettings = {
-  whatsapp_number: "6281242163116",
+  whatsapp_number: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281343438252",
   lodging_name: "Penginapan Annisa",
   airport_distance: "2-3 Menit dari Bandara Pattimura",
   checkin_time: "14:00 WIT",

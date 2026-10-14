@@ -9,7 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { getDigitalReceiptWhatsAppUrl } from "@/lib/whatsapp";
+import { useSettings } from "@/features/settings/hooks/use-settings";
+import { formatDisplayPhoneNumber, getDigitalReceiptWhatsAppUrl } from "@/lib/whatsapp";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
@@ -43,13 +44,17 @@ export function ReceiptModal({
   dpPaid,
   remainingAmount,
 }: ReceiptModalProps) {
+  const { data: settings } = useSettings();
   const [copied, setCopied] = useState<boolean>(false);
+  const waDisplay = formatDisplayPhoneNumber(settings?.whatsapp_number);
+  const lodgingName = settings?.lodging_name || "Penginapan Annisa";
+  const distanceText = settings?.airport_distance || "2-3 Menit dari Bandara";
 
-  const receiptText = `*BUKTI TRANSAKSI RESERVASI: PENGINAPAN ANNISA AMBON*
-Jl. Bandara Pattimura, Tawiri (2-3 Menit dari Bandara)
-WhatsApp: 0812-4216-3116
+  const receiptText = `*BUKTI TRANSAKSI RESERVASI: ${lodgingName.toUpperCase()} AMBON*
+Jl. Bandara Pattimura, Tawiri (${distanceText})
+WhatsApp: ${waDisplay}
 ---------------------------------------------
-Halo Bpk/Ibu *${guestName}*, terima kasih telah memilih Penginapan Annisa.
+Halo Bpk/Ibu *${guestName}*, terima kasih telah memilih ${lodgingName}.
 
 *DETAIL RESERVASI:*
 - No. Kamar: *Kamar #${roomNumber}* (${roomTypeName})

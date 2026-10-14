@@ -2,106 +2,86 @@
 
 **Tanggal:** 14 Oktober 2026  
 **Target:** Frontend (`apps/web`)  
-**Tujuan:** Mengintegrasikan seluruh nomor WhatsApp publik dengan data dinamis dari tabel `system_settings` (via endpoint `/api/v1/settings`), menggantikan konstanta statis `ANNISA_WA_NUMBER` agar pembaruan nomor di halaman `/admin/settings` langsung berlaku di seluruh antarmuka publik tanpa perlu rebuild atau deploy ulang.
+**Tujuan:** Mengintegrasikan seluruh nomor WhatsApp publik dengan data dinamis dari tabel `system_settings` (via endpoint `/api/v1/settings`), menggantikan konstanta statis dan menghapus ketergantungan pada environment variable `NEXT_PUBLIC_WHATSAPP_NUMBER` agar pembaruan nomor di halaman `/admin/settings` langsung berlaku secara real-time di seluruh antarmuka publik tanpa perlu rebuild atau deploy ulang di Vercel.
 
 ---
 
-## 1. Analisis & Audit Kondisi Saat Ini
+## 1. Analisis & Audit Kondisi Terkini
 
-### A. Status Backend & Database (Sudah Siap 100%)
+### A. Status Backend & Database (100% Siap & Dinamis)
 * **Tabel Database (`packages/db/prisma/schema.prisma`):**
   Tabel `system_settings` menggunakan pola Key-Value (`key`, `value`, `updated_at`).
 * **Endpoint API (`apps/api`):**
   * `GET /api/v1/settings`: Mengembalikan konfigurasi publik (termasuk `whatsapp_number`, `lodging_name`, `airport_distance`).
   * `PUT /api/v1/settings`: Menerima pembaruan batch dari admin dan menyimpan ke database Neon.
-* **Tidak Ada Perubahan di Backend & Database:**
-  Zero-touch pada `apps/api/` dan `packages/db/`. Tidak perlu migrasi DB dan tidak perlu git pull/redeploy di VPS.
+* **Status VPS & Neon:**
+  Backend VPS dan database Neon sudah berjalan secara dinamis. Zero-touch pada `apps/api/` dan `packages/db/`. Tidak perlu migrasi DB dan tidak perlu git pull/redeploy di VPS.
 
-### B. Status Frontend (`apps/web`)
-* **Sudah Dinamis:**
-  1. `FloatingWhatsApp` (`apps/web/src/components/layout/floating-whatsapp.tsx`): menggunakan `useSettings()` -> `settings?.whatsapp_number`.
-  2. `Footer` (`apps/web/src/components/layout/footer.tsx`): menggunakan `useSettings()` -> `settings?.whatsapp_number`.
-* **Masih Menggunakan Nilai Statis (Harus Diperbaiki):**
-  1. `whatsapp.ts` (`apps/web/src/lib/whatsapp.ts`): seluruh fungsi generator link mengunci nomor ke `ANNISA_WA_NUMBER = "6281242163116"`.
-  2. `BookingWidget` (`apps/web/src/features/home/components/booking-widget.tsx`): tombol pesan/tanya kamar di beranda merangkai URL manual ke `ANNISA_WA_NUMBER`.
-  3. `RoomDetailModal` (`apps/web/src/features/rooms/components/public/room-detail-modal.tsx`): tombol reservasi dan tanya ketersediaan memanggil helper tanpa mengoper nomor dinamis.
-  4. `CartDrawerModal` (`apps/web/src/features/souvenirs/components/public/cart-drawer-modal.tsx`): modal checkout oleh-oleh merangkai URL WhatsApp langsung ke `ANNISA_WA_NUMBER`.
-  5. `SouvenirOrderModal` (`apps/web/src/features/souvenirs/components/public/souvenir-order-modal.tsx`): modal pesan cepat produk oleh-oleh merangkai URL WhatsApp langsung ke `ANNISA_WA_NUMBER`.
-  6. `ContactInfo` (`apps/web/src/features/contact/components/contact-info.tsx`): teks tampilan nomor telepon, link `wa.me/`, link `tel:`, dan form pertanyaan cepat masih statis ke `ANNISA_WA_NUMBER`.
+### B. Temuan Masalah Cache & Reaktivitas (Telah Diperbaiki)
+* **Akar Masalah:**
+  Pada hook `use-settings.ts`, penggunaan opsi `initialData: DEFAULT_SYSTEM_SETTINGS` dengan `staleTime: 5 menit` membuat TanStack Query menganggap data cache selalu segar (*fresh*), sehingga query live ke API backend tidak pernah dipicu saat browser pertama kali memuat halaman.
+* **Perbaikan Cache:**
+  Opsi `initialData` telah diganti dengan `placeholderData: DEFAULT_SYSTEM_SETTINGS`, `staleTime` disetel ke 30 detik, dan `setQueryData` instan dipasang pada `useUpdateSettings` agar perubahan nomor langsung terupdate seketika (*instant reactive*).
+
+### C. Pembersihan Sisa String Mentah (Best Practice Architecture)
+Untuk mencegah *split-brain* dan redundansi, seluruh nomor WhatsApp harus bersumber dari tabel database `system_settings`:
+1. `receipt-modal.tsx`: Hubungkan ke `useSettings()` dan `formatDisplayPhoneNumber()`.
+2. `settings-general-form.tsx`: Ganti placeholder form menjadi format contoh netral (`placeholder="Contoh: 6281234567890"`).
+3. `json-ld.tsx`: Sambungkan ke nomor dinamis atau fallback aman.
+4. `whatsapp.ts`: Pastikan fallback aman jika query sedang loading.
 
 ---
 
 ## 2. Arsitektur Solusi & Prinsip Desain
 
-1. **Single Source of Truth:**
-   Semua data pengaturan bersumber dari hook `useSettings()` yang mengonsumsi endpoint `/api/v1/settings` dengan caching TanStack Query.
-2. **Graceful Fallback:**
-   Jika query pengaturan sedang loading atau koneksi jaringan offline, sistem otomatis memakai fallback ke `ANNISA_WA_NUMBER` bawaan agar tombol WhatsApp tidak pernah error atau kosong.
-3. **Backward Compatibility:**
-   Fungsi-fungsi helper di `apps/web/src/lib/whatsapp.ts` diperbarui dengan menambahkan parameter opsional `targetPhone?: string` dengan default value `ANNISA_WA_NUMBER`, sehingga pemanggilan yang ada tidak akan pecah (*break*).
+1. **100% Single Source of Truth:**
+   Tabel `system_settings` di Neon adalah satu-satunya rujukan utama untuk data operasional penginapan.
+2. **Decoupling dari Environment Variable:**
+   Menghapus ketergantungan operasional pada `NEXT_PUBLIC_WHATSAPP_NUMBER` di Vercel. Penggantian nomor cukup dilakukan oleh admin/pemilik dari dashboard `/admin/settings`.
+3. **Graceful Placeholder:**
+   Menggunakan `placeholderData` TanStack Query sehingga UI tidak pernah blank saat pertama kali render, lalu langsung tersinkronisasi otomatis dengan data database terbaru.
 
 ---
 
 ## 3. Langkah-Langkah Eksekusi (Phase Plan)
 
-### Fase 1: Pembuatan Git Branch
-* Buat dan checkout ke branch baru:
-  ```bash
-  git checkout -b feat/dynamic-public-whatsapp-settings
-  ```
+### Fase 1: Pembuatan Git Branch (Selesai)
+* Branch kerja aktif: `feat/dynamic-public-whatsapp-settings`.
 
-### Fase 2: Refactor Helper WhatsApp (`apps/web/src/lib/whatsapp.ts`)
-* Tambahkan parameter opsional `targetPhone?: string` dan fungsi normalisasi nomor:
-  * `getRoomBookingWhatsAppUrl(params: RoomBookingParams, targetPhone?: string)`
-  * `getRoomAvailabilityInquiryUrl(paramsOrRoomNumber: ..., legacyRoomName?: string, targetPhone?: string)`
-  * `getSouvenirOrderWhatsAppUrl(itemName: string, price: string, origin?: string, targetPhone?: string)`
-  * `getGeneralContactWhatsAppUrl(message?: string, targetPhone?: string)`
-  * `getContactFormWhatsAppUrl(params: ContactFormParams, targetPhone?: string)`
-* Tambahkan helper format tampilan nomor publik:
-  * `formatDisplayPhoneNumber(phone?: string): string` untuk mengubah `6281242163116` menjadi format rapi `0812-4216-3116`.
+### Fase 2: Refactor Helper WhatsApp (Selesai)
+* Helper `normalizeWaNumber()` dan `formatDisplayPhoneNumber()` telah diimplementasikan di `apps/web/src/lib/whatsapp.ts`.
+* Seluruh fungsi URL WhatsApp publik telah mendukung parameter `targetPhone?: string`.
 
-### Fase 3: Integrasi Hook `useSettings()` pada Komponen Publik
-1. **`BookingWidget` (`apps/web/src/features/home/components/booking-widget.tsx`):**
-   * Panggil `const { data: settings } = useSettings();`.
-   * Tentukan target nomor: `const waNumber = settings?.whatsapp_number || ANNISA_WA_NUMBER;`.
-   * Terapkan nomor dinamis tersebut saat membuka jendela WhatsApp.
-2. **`RoomDetailModal` (`apps/web/src/features/rooms/components/public/room-detail-modal.tsx`):**
-   * Panggil `useSettings()`.
-   * Operkan `settings?.whatsapp_number` ke `getRoomBookingWhatsAppUrl` dan `getRoomAvailabilityInquiryUrl`.
-3. **`CartDrawerModal` (`apps/web/src/features/souvenirs/components/public/cart-drawer-modal.tsx`):**
-   * Panggil `useSettings()`.
-   * Gunakan `settings?.whatsapp_number || ANNISA_WA_NUMBER` pada link pesanan oleh-oleh.
-4. **`SouvenirOrderModal` (`apps/web/src/features/souvenirs/components/public/souvenir-order-modal.tsx`):**
-   * Panggil `useSettings()`.
-   * Gunakan `settings?.whatsapp_number || ANNISA_WA_NUMBER` pada link pesanan cepat oleh-oleh.
-5. **`ContactInfo` (`apps/web/src/features/contact/components/contact-info.tsx`):**
-   * Panggil `useSettings()`.
-   * Buat teks nomor, link WhatsApp `wa.me/`, dan link telepon `tel:` mengambil nomor dinamis dari settings.
-   * Teruskan nomor dinamis ke `getContactFormWhatsAppUrl`.
+### Fase 3: Integrasi Dinamis Komponen Publik (Selesai)
+* `BookingWidget` (Beranda)
+* `RoomDetailModal` (Katalog Kamar)
+* `CartDrawerModal` (Keranjang Titip Ambil)
+* `SouvenirOrderModal` (Pesan Cepat Oleh-Oleh)
+* `ContactInfo` (Halaman Kontak)
+* `FloatingWhatsApp` & `Footer`
 
-### Fase 4: Validasi & Testing
-* Jalankan type-checking dan build Next.js:
-  ```bash
-  pnpm --filter @annisa/web build
-  ```
-* Pastikan seluruh 25 halaman statis berhasil di-generate tanpa error TypeScript atau linting.
+### Fase 4: Pembersihan Sisa Komponen Statis (Tahap Saat Ini)
+1. **`receipt-modal.tsx`:** Mengganti string WhatsApp kuitansi agar menggunakan `formatDisplayPhoneNumber(settings?.whatsapp_number)`.
+2. **`settings-general-form.tsx`:** Mengubah teks placeholder menjadi contoh generik `Contoh: 6281234567890`.
+3. **`json-ld.tsx`:** Menghilangkan hardcoded raw phone string.
 
-### Fase 5: Merge & Deployment
-* Commit seluruh perubahan ke branch `feat/dynamic-public-whatsapp-settings`.
-* Checkout kembali ke `main`.
-* Merge branch fitur dengan fast-forward / merge commit.
-* Push ke remote `origin main` untuk memicu deployment otomatis Vercel.
-* Hapus branch fitur lokal.
+### Fase 5: Validasi, Merge & Panduan Pasca-Deploy
+1. Jalankan type-checking:
+   ```bash
+   pnpm --filter @annisa/web exec tsc --noEmit
+   ```
+2. Jalankan build produksi:
+   ```bash
+   pnpm --filter @annisa/web build
+   ```
+3. Commit seluruh perubahan ke branch `feat/dynamic-public-whatsapp-settings`.
+4. Merge ke `main` dan push ke GitHub (memicu auto-deploy Vercel).
+5. **Aksi Pengguna di Dashboard Vercel:** Hapus environment variable `NEXT_PUBLIC_WHATSAPP_NUMBER` dari Vercel Settings -> Environment Variables.
 
 ---
 
 ## 4. Kriteria Keberhasilan (Acceptance Criteria)
-1. Perubahan nomor WhatsApp pada form `/admin/settings` langsung mengubah nomor tujuan WhatsApp di:
-   * Floating WhatsApp widget (seluruh halaman).
-   * Footer link WhatsApp (seluruh halaman).
-   * Booking Widget beranda (CTA Pesan & Tanya Kamar).
-   * Katalog Kamar: Modal detail kamar & tombol ketersediaan kamar penuh.
-   * Katalog Oleh-oleh: Modal keranjang belanja titip ambil & modal beli cepat.
-   * Halaman Kontak: Teks info kontak, link WhatsApp, link telpon seluler, dan form pertanyaan cepat.
-2. Tidak ada perubahan yang diperlukan pada VPS backend atau database Neon.
-3. Build frontend lolos 100% tanpa regresi.
+1. Perubahan nomor WhatsApp pada form `/admin/settings` langsung mengubah nomor tujuan WhatsApp di seluruh fitur website publik.
+2. Tidak ada string nomor telepon mentah yang tersebar di source code frontend.
+3. Database Neon dan backend VPS tetap berjalan normal tanpa perlu konfigurasi atau deploy ulang.
+4. Build Next.js 100% sukses tanpa error TypeScript.

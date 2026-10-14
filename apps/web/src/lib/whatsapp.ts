@@ -3,7 +3,18 @@
  * Single Source of Truth for all WhatsApp communications across the application.
  */
 
-export const ANNISA_WA_NUMBER = "6281242163116";
+export const ANNISA_WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "6281343438252";
+
+/**
+ * Extracts only numeric digits (0-9) using native array/string filtering (no RegEx).
+ */
+export function extractDigits(value?: string): string {
+  if (!value) return "";
+  return value
+    .split("")
+    .filter((ch) => ch >= "0" && ch <= "9")
+    .join("");
+}
 
 /**
  * Normalizes raw phone string to clean international WhatsApp format (e.g. 6281242163116).
@@ -11,7 +22,7 @@ export const ANNISA_WA_NUMBER = "6281242163116";
  */
 export function normalizeWaNumber(phone?: string): string {
   if (!phone) return ANNISA_WA_NUMBER;
-  const digits = phone.replace(/\D/g, "");
+  const digits = extractDigits(phone);
   if (!digits) return ANNISA_WA_NUMBER;
   if (digits.startsWith("0")) return `62${digits.slice(1)}`;
   if (digits.startsWith("62")) return digits;
@@ -23,7 +34,7 @@ export function normalizeWaNumber(phone?: string): string {
  */
 export function formatDisplayPhoneNumber(phone?: string): string {
   const raw = phone || ANNISA_WA_NUMBER;
-  const digits = raw.replace(/\D/g, "");
+  const digits = extractDigits(raw);
   let standard = digits;
   if (standard.startsWith("62")) {
     standard = `0${standard.slice(2)}`;
@@ -222,7 +233,7 @@ export function getContactFormWhatsAppUrl(
  * Generates WhatsApp Digital Receipt URL (used by staff/admin).
  */
 export function getDigitalReceiptWhatsAppUrl(guestPhone: string, receiptContent: string) {
-  const digits = guestPhone.replace(/\D/g, "");
+  const digits = extractDigits(guestPhone);
   const cleanPhone = digits.startsWith("0")
     ? `62${digits.slice(1)}`
     : digits.startsWith("62")
@@ -235,7 +246,7 @@ export function getDigitalReceiptWhatsAppUrl(guestPhone: string, receiptContent:
  * Normalizes phone number into international Indonesian WhatsApp link (e.g. https://wa.me/6281234567890)
  */
 export function getDirectWhatsAppUrl(rawPhone: string, message?: string): string {
-  const digits = rawPhone.replace(/\D/g, "");
+  const digits = extractDigits(rawPhone);
   if (!digits) return "#";
   let standardized = digits;
   if (standardized.startsWith("0")) {
@@ -251,7 +262,11 @@ export function getDirectWhatsAppUrl(rawPhone: string, message?: string): string
  * Format phone input value by inserting spaces every 4 digits (e.g. 0812 3456 7890)
  */
 export function formatPhoneWithSpaces(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 15);
-  const chunks = digits.match(/.{1,4}/g);
-  return chunks ? chunks.join(" ") : "";
+  const digits = extractDigits(value).slice(0, 15);
+  if (!digits) return "";
+  const chunks: string[] = [];
+  for (let i = 0; i < digits.length; i += 4) {
+    chunks.push(digits.slice(i, i + 4));
+  }
+  return chunks.join(" ");
 }

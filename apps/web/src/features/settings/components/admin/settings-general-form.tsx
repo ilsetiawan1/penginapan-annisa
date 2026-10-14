@@ -195,7 +195,7 @@ export function SettingsGeneralForm({
               disabled={!isEditing}
               value={waNumber}
               onChange={(e) => onWaNumberChange(e.target.value)}
-              placeholder="6281242163116"
+              placeholder="Contoh: 6281234567890"
               className={inputBaseWithIcon}
             />
           </div>
